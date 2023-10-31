@@ -23,42 +23,11 @@
 
 <!---------------- hotel-logo ---------------->
 
-      <div class="hotel-logo">
-        <div class="hotel-box">
-          <img src="/hotel-logo/1.jpg" alt="">
+      <div class="col">
+        <div class="row align-item-center">
+          <div class="col-2 col-md col-lg-1 justify-content-center" v-for="(item,index) in url" :key="index">
+          <img class="parner-logo" :src="item.url">
         </div>
-        <div class="hotel-box">
-          <img src="/hotel-logo/2.jpg" alt="">
-        </div>
-        <div class="hotel-box">
-          <img src="/hotel-logo/3.jpg" alt="">
-        </div>
-        <div class="hotel-box">
-          <img src="/hotel-logo/4.jpg" alt="">
-        </div>
-        <div class="hotel-box">
-          <img src="/hotel-logo/5.png" alt="">
-        </div>
-        <div class="hotel-box">
-          <img src="/hotel-logo/6.jpg" alt="">
-        </div>
-        <div class="hotel-box">
-          <img src="/hotel-logo/7.jpg" alt="">
-        </div>
-        <div class="hotel-box">
-          <img src="/hotel-logo/8.png" alt="">
-        </div>
-        <div class="hotel-box">
-          <img src="/hotel-logo/9.jpg" alt="">
-        </div>
-        <div class="hotel-box">
-          <img src="/hotel-logo/10.png" alt="">
-        </div>
-        <div class="hotel-box">
-          <img src="/hotel-logo/11.png" alt="">
-        </div>
-        <div class="hotel-box">
-          <img src="/hotel-logo/12.png" alt="">
         </div>
       </div>
       </div>
@@ -69,7 +38,62 @@
 
 <script>
   export default{
-    name:'app'
+    name:'app',
+    data() {
+        return {
+            url: [
+                {
+                    id: 2,
+                    url: '/hotel-logo/1.jpg'
+                },
+                {
+                    id: 3,
+                    url: '/hotel-logo/2.jpg'
+                },
+                {
+                    id: 4,
+                    url: '/hotel-logo/3.jpg'
+                },
+                {
+                    id: 5,
+                    url: '/hotel-logo/4.jpg'
+                },
+                {
+                    id: 6,
+                    url: '/hotel-logo/5.png'
+                },
+                {
+                    id: 7,
+                    url: '/hotel-logo/6.jpg'
+                },
+                {
+                    id: 8,
+                    url: '/hotel-logo/7.jpg'
+                },
+                {
+                    id: 9,
+                    url: '/hotel-logo/8.png'
+                },
+                {
+                    id: 10,
+                    url: '/hotel-logo/9.jpg'
+                },
+                {
+                    id: 11,
+                    url: '/hotel-logo/10.png'
+                },
+                {
+                    id: 12,
+                    url: '/hotel-logo/11.png'
+                },
+                {
+                    id: 13,
+                    url: '/hotel-logo/12.png'
+                },
+               
+            ]
+        }
+    }
   }
 </script>
 
@@ -140,7 +164,7 @@
 }
 .info{
   width: 100%;
-  max-width: 700px;
+  max-width: 750px;
   min-height: calc(100vh - 350px);
   display: flex;
   flex-direction: column;
@@ -172,27 +196,25 @@
   transition: 0.2s;
 }
 /*---------------- hotel ----------------*/
-.hotel-logo{
-  margin-top: 8rem;
-  color: #fff;
+.col{
+  margin-top:2rem ;
+  padding: 0.5rem 1.5rem 0 1.5rem;
   display: flex;
-  padding: 0 1%;
-  width: 100%;
-  height: 70px;
+  align-items:center;
 }
-.hotel-logo img{
-  background:#fff;
-  width: 100%;
+.col-2{
+  width: 3.4rem;
+  display: flex;
 }
-.hotel-box{
-  padding: 3px;
-  width: 90px;
+.row{
+  column-gap: 5px;
+  display: flex;
 }
-.hotel-box img{
-  object-fit: fill;
-  border-radius: 25px;
+.parner-logo{
+  border-radius: 15px;
+  background-color: #fff;
   width: 100%;
-  height: 100%;
+  margin: 1rem 0;
 }
 .regis-btn button:hover{
   background-color: #b5179e;
