@@ -1,19 +1,18 @@
 <template>
   <div id="app">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Landingpage/>
   </div>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Landingpage from './components/Landingpage/Landingpage.vue'
 export default {
-  components:{
-    HelloWorld
+  components: {
+    Landingpage
   }
 }
 </script>
 
+    Landingpage
 <style>
 *{
   margin: 0;

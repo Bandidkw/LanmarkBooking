@@ -6,7 +6,7 @@
 
       <div class="top-web">
         <nav class="navbar">
-      <a href="">NBA BOOKING</a>
+      <a href="#">NBA BOOKING</a>
       <button>Login</button>
     </nav>
       </div>
@@ -25,40 +25,40 @@
 
       <div class="hotel-logo">
         <div class="hotel-box">
-          <img src="./hotel-logo/1.jpg" alt="">
+          <img src="/hotel-logo/1.jpg" alt="">
         </div>
         <div class="hotel-box">
-          <img src="./hotel-logo/2.jpg" alt="">
+          <img src="/hotel-logo/2.jpg" alt="">
         </div>
         <div class="hotel-box">
-          <img src="./hotel-logo/3.jpg" alt="">
+          <img src="/hotel-logo/3.jpg" alt="">
         </div>
         <div class="hotel-box">
-          <img src="./hotel-logo/4.jpg" alt="">
+          <img src="/hotel-logo/4.jpg" alt="">
         </div>
         <div class="hotel-box">
-          <img src="./hotel-logo/5.png" alt="">
+          <img src="/hotel-logo/5.png" alt="">
         </div>
         <div class="hotel-box">
-          <img src="./hotel-logo/6.jpg" alt="">
+          <img src="/hotel-logo/6.jpg" alt="">
         </div>
         <div class="hotel-box">
-          <img src="./hotel-logo/7.jpg" alt="">
+          <img src="/hotel-logo/7.jpg" alt="">
         </div>
         <div class="hotel-box">
-          <img src="./hotel-logo/8.png" alt="">
+          <img src="/hotel-logo/8.png" alt="">
         </div>
         <div class="hotel-box">
-          <img src="./hotel-logo/9.jpg" alt="">
+          <img src="/hotel-logo/9.jpg" alt="">
         </div>
         <div class="hotel-box">
-          <img src="./hotel-logo/10.png" alt="">
+          <img src="/hotel-logo/10.png" alt="">
         </div>
         <div class="hotel-box">
-          <img src="./hotel-logo/11.png" alt="">
+          <img src="/hotel-logo/11.png" alt="">
         </div>
         <div class="hotel-box">
-          <img src="./hotel-logo/12.png" alt="">
+          <img src="/hotel-logo/12.png" alt="">
         </div>
       </div>
       </div>
@@ -68,7 +68,9 @@
 </template>
 
 <script>
-
+  export default{
+    name:'app'
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -171,10 +173,10 @@
 }
 /*---------------- hotel ----------------*/
 .hotel-logo{
-  margin-top: 5rem;
+  margin-top: 8rem;
   color: #fff;
   display: flex;
-  padding: 0 5%;
+  padding: 0 1%;
   width: 100%;
   height: 70px;
 }
@@ -187,7 +189,8 @@
   width: 90px;
 }
 .hotel-box img{
-  border-radius: 10px;
+  object-fit: fill;
+  border-radius: 25px;
   width: 100%;
   height: 100%;
 }
