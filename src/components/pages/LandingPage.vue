@@ -8,19 +8,19 @@
         </div>
        
         <div class="footer d-none d-md-block">
-            <LandingPageFooter/>
+            <Footer/>
         </div>
 
     </div>
 </template>
 <script>
-import Navbar from "@/components/LandingPage/Navbar";
-import LandingPageFooter from "@/components/LandingPage/LandingPageFooter";
+import NavbarMain from "@/components/LandingPage/NavbarMain";
+import Footer from "@/components/LandingPage/Footer";
 
 export default {
 
     components: {
-        LandingPageFooter,Navbar
+        Footer,NavbarMain
     },
     data(){
         return{
