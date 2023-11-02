@@ -1,25 +1,50 @@
-<template>
+<template class="white-content">
   <div id="app">
-    <Landingpage/>
+    <div class="content">
+      <notifications></notifications>
+      <router-view :key="$route.fullPath" ></router-view>
+    </div>
   </div>
 </template>
+
 <script>
-import Landingpage from './components/Landingpage/Landingpage.vue'
+
 export default {
-  components: {
-    Landingpage
+  methods: {
+    disableRTL() {
+      if (!this.$rtl.isRTL) {
+        this.$rtl.disableRTL();
+      }
+    },
+    toggleNavOpen() {
+      let root = document.getElementsByTagName("html")[0];
+      root.classList.toggle("nav-open");
+    },
+  },
+  mounted() {
+    this.$watch("$route", this.disableRTL, { immediate: true });
+    this.$watch("$sidebar.showSidebar", this.toggleNavOpen);
+
   }
-}
+};
 </script>
 
-    Landingpage
-<style>
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  text-decoration: none;
-  list-style-type: none;
-  font-family: Arial, Helvetica, sans-serif;
+<style lang="scss">
+#app {
+  // font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+#nav {
+  padding: 30px;
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 </style>
