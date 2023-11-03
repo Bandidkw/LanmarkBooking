@@ -26,6 +26,12 @@ export default {
     //         // this.count++;
     //     },
     //-------------------------------//
+    data(){
+      return{
+        landingCount:0,
+        loginCount:0
+    }
+  },
     login(route){
       this.$router.push(route);
       if(route === '/login'){
@@ -34,11 +40,6 @@ export default {
       else if (route === '/landing'){
         this.loginCount++;
       }
-    }
-  },
-  data(){
-    return{
-      LandingPage:0
     }
   },
 
