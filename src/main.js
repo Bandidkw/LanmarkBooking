@@ -1,23 +1,28 @@
 import Vue from 'vue'
 import App from './App.vue'
-// import Vuex from 'vuex';
-// import VueRouter from 'vue-router'
+import VueRouter from 'vue-router'
+import Landingpage from './components/LandingPage.vue'
+import LoginPage from './components/LoginPage.vue'
+import Registerpage from './components/RegisterPage.vue'
+// import Navbar from './components/Navbar/NavbarPage.vue'
 
 Vue.config.productionTip = false
 
-// router setup
-import routes from './router';
+Vue.use(VueRouter)
 
-  // configure router
-  const router = new VueRouter({
-    routes, // short for routes: routes
-    linkExactActiveClass: 'active'
-  })
+const routes = [
+  { path: '/landing', component: Landingpage},
+  { path: '/login', component: LoginPage},
+  { path: '/register', component: Registerpage},
+]
 
-  Vue.use(VueRouter)
-  Vue.use(Vuex)
-  new Vue({
-      router,
-      render: (h) => h(App)}).$mount('#app')
-   
-      
+const router = new VueRouter({
+  routes,
+  mode: 'history'
+})
+export default router;
+
+new Vue({
+  render: h => h(App),
+  router
+}).$mount('#app')
