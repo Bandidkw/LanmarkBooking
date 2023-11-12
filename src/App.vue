@@ -1,51 +1,28 @@
-<template class="white-content">
-  <div id="app">
-    <div class="content">
-      <notifications></notifications>
-      <router-view :key="$route.fullPath" ></router-view>
-    </div>
+<!-- App.vue -->
+<template>
+  <div class="container">
+    <navbar class="nav-bar"></navbar>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
+import Navbar from './components/NavbarMain.vue';
 
 export default {
-  methods: {
-    disableRTL() {
-      if (!this.$rtl.isRTL) {
-        this.$rtl.disableRTL();
-      }
-    },
-    toggleNavOpen() {
-      let root = document.getElementsByTagName("html")[0];
-      root.classList.toggle("nav-open");
-    },
+  components: {
+    Navbar,
   },
-  mounted() {
-    this.$watch("$route", this.disableRTL, { immediate: true });
-    this.$watch("$sidebar.showSidebar", this.toggleNavOpen);
-
-  }
 };
-
 </script>
 
-<style lang="scss">
-#app {
-  // font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<style scoped>
+.container{
+  position: relative;
+  z-index: 0;
 }
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.nav-bar{
+  position: relative;
+  z-index: 999;
 }
 </style>
