@@ -8,11 +8,11 @@
 
 <script>
 import Navbar from './components/NavbarMain.vue';
-
 export default {
   components: {
     Navbar,
   },
+
 };
 </script>
 
