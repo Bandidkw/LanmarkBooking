@@ -12,6 +12,7 @@ import "primevue/resources/primevue.min.css"; //core css
 import "primevue/resources/themes/lara-light-purple/theme.css"; //theme
 // //prime flex
 import  "primeflex/primeflex.css";
+import "./assets/style.css"
 const app = createApp(App); 
 
 ////
