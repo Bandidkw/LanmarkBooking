@@ -22,7 +22,7 @@ const router = createRouter({
       path: '/dahsboard',
       name: 'dahsboard',
       component:DashBoard,
-    },
+    },    
     {
       path: '/popular',
       name: 'popular',
