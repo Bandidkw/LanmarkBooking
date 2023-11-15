@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from './views/Homepage.vue';
 import About from './views/Aboutpage.vue';
 import DashBoard from './views/DashBoardPage.vue'
+import PopularSection from '@/views/section/PopularSection.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/dahsboard',
       name: 'dahsboard',
       component:DashBoard,
+    },
+    {
+      path: '/popular',
+      name: 'popular',
+      component:PopularSection,
     },
   ],
 });

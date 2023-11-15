@@ -17,6 +17,7 @@
         </div>
         </div>
       </div>
+
       <!------------------------------- choose-room ------------------------>
       <div class="choose-room">
             <div class="room">
@@ -88,38 +89,24 @@ general-room">ห้องพักทั่วไป</option>
     </div>
               <!-------------------------- popular-section --------------------------->
           <div class="poppular-box">
-            <h1>Popular</h1>
-            <img :src="currentImageSrc" alt="Gallery" />
-            <button @click="nextImage">Next Image</button>
-          <!-- <div class="content">
-            <div class="promo-grid">
-                <div class="img-promo">
-                    <div class="grid-img" v-for="(item,index) in url" :key="index">
-                        <img class="hotel-logo" width="100%" :src="item.url"/>
-                        <i class="bi bi-arrow-right-circle-fill hidden" id="icon-next" @click="nextImage"></i>
-                        <div class="promo-details">
-                        <h4>Hotel Name</h4>
-                        <p>Details</p>
-                        <p>Date</p>
-                        <p>Price฿</p>
-                    </div>
-                    </div>
-                </div>
+            <div>
+              <h3>POPULAR</h3>
             </div>
-       </div> -->
+            <PopularSection/>
         </div>
     </div>
   </template>
   
   <script>
 
+import PopularSection from '@/views/section/PopularSection.vue'
 // import 'vue-slider-component/theme/default.css';
 // import VueSlider from 'vue-slider-component';
 
   export default {
-    // components:{
-    //     VueSlider,
-    //   },
+    components:{
+      PopularSection,
+      },
     name: 'HomepageMain',
     data(){
         return{
