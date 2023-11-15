@@ -4,7 +4,7 @@ import Home from './views/Homepage.vue';
 import About from './views/Aboutpage.vue';
 import DashBoard from './views/DashBoardPage.vue'
 import PopularSection from '@/views/section/PopularSection.vue'
-
+// import  CreateAccount from '@/views/CreateAccount.vue'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -28,6 +28,11 @@ const router = createRouter({
       name: 'popular',
       component:PopularSection,
     },
+    // {
+    //   path: '/createaccount',
+    //   name: 'createaccount',
+    //   component:CreateAccount,
+    // }
   ],
 });
 

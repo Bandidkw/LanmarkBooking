@@ -2,23 +2,22 @@
 <template>
   <nav class="nav-bar">
     <router-link to="/" class="topweb-left">
-      <img src="/logo/lanmark-logo-navbar.png" alt="">
+      <img src="/logo/lanmark-logo-navbar.png" alt="" />
     </router-link>
     <div class="topweb-right">
       <p>ให้เช่าที่พักกับ Lanmark</p>
-    <!-- <router-link to="/">Home</router-link>
+      <!-- <router-link to="/">Home</router-link>
         <router-link to="/about">About</router-link>
           <router-link to="/contact">Contact</router-link> -->
       <div class="login-box" @click="showPopup">
         <i class="bi bi-list"></i>
-        
-        <button type="button" class="log-icon"><i class="bi bi-person-fill"></i></button>
+        <button type="button" class="log-icon">
+          <i class="bi bi-person-fill"></i>
+        </button>
 
         <div v-if="isPopupVisible" class="login-popup">
-
           <!-- popup ที่แสดง -->
           <div class="popup-content" @click.stop>
-
             <!-- ปุ่มปิด popup -->
             <div class="top-pop">
               <h1>เข้าสู่ระบบ</h1>
@@ -29,113 +28,140 @@
             <!-- เนื้อหาเข้าสู่ระบบ -->
             <!-- ในที่นี้คุณอาจใส่ฟอร์มเข้าสู่ระบบหรือเนื้อหาที่เกี่ยวข้อง -->
             <form @submit.prevent="login" class="form-control">
-
               <!-- Input เบอร์โทรศัพท์ -->
               <label for="telephone" class="text-form">เบอร์โทรศัพท์</label>
-              <input class="input-form" type="tel" id="telephone" v-model="telephone" required @input="validateInput">
+              <input
+                class="input-form"
+                type="tel"
+                id="telephone"
+                v-model="telephone"
+                required
+                @input="validateInput"
+              />
 
-              <p v-if="showValidationError" class="error-message">กรุณากรอกเลขโทรศัพท์ที่ถูกต้อง</p>
+              <p v-if="showValidationError" class="error-message">
+                กรุณากรอกเลขโทรศัพท์ที่ถูกต้อง
+              </p>
 
               <!-- Input รหัสผ่าน -->
               <label for="password" class="text-form">รหัสผ่าน</label>
-              <input class="input-form" :type="showPassword ? 'text' : 'password'" id="password" v-model="password"
-                required>
+              <input
+                class="input-form"
+                :type="showPassword ? 'text' : 'password'"
+                id="password"
+                v-model="password"
+                required
+              />
 
               <div class="button-con">
                 <div class="show-pass">
-
                   <!-- แสดง/ซ่อน รหัสผ่าน -->
-                  <input type="checkbox" id="showPassword" v-model="password">
+                  <input type="checkbox" id="showPassword" v-model="password" />
                   <label for="showPassword">แสดงรหัสผ่าน</label>
                 </div>
 
                 <!-- ปุ่มเข้าสู่ระบบ -->
-                <button type="submit" :disabled="showValidationError">เข้าสู่ระบบ</button>
+                <button type="submit" :disabled="showValidationError">
+                  เข้าสู่ระบบ
+                </button>
               </div>
+              <span
+                >ยังไม่มีบัญชี ผู้ใช้งาน
+                <a href="#" @click="showRegisterPopup">สร้างบัญชี</a></span
+              >
             </form>
             <!-- ... -->
           </div>
         </div>
+        <CreateAccount v-show="RegisterVisible" @close="hideRegisterPopup" />
       </div>
     </div>
   </nav>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
+import CreateAccount from "@/views/CreateAccount.vue";
 
 export default {
   data() {
     return {
       isPopupVisible: false,
-      telephone: '',
-      password: '',
+      telephone: "",
+      password: "",
       showPassword: false,
-      showValidationError: false
+      showValidationError: false,
+
+      RegisterVisible: false,
     };
   },
   methods: {
-
     showPopup() {
       this.isPopupVisible = true;
     },
     hidePopup() {
       this.isPopupVisible = false;
-      this.telephone = '';
-      this.password = '';
+      this.telephone = "";
+      this.password = "";
     },
-    async login() { 
-      if(this.telephone===null || this.telephone==='' || this.password===null || this.password===''){
-          console.log("fail")
-      }
-      else{
+    showRegisterPopup() {
+      this.isPopupVisible = false;
+      this.RegisterVisible = true;
+    },
+    hideRegisterPopup() {
+      this.isPopupVisible = false;
+      this.RegisterVisible = false;
+    },
+    async login() {
+      if (
+        this.telephone === null ||
+        this.telephone === "" ||
+        this.password === null ||
+        this.password === ""
+      ) {
+        console.log("fail");
+      } else {
         try {
-        const res = await axios.post(
-          `${process.env.VUE_APP_API}signin/`,
-          {
+          const res = await axios.post(`${process.env.VUE_APP_API}signin/`, {
             telephone: this.telephone,
             password: this.password,
-          }
-        );
-        if (res.data) {
-          // เมื่อเข้าสู่ระบบสำเร็จ
-          // console.log(res.data.token)
+          });
+          if (res.data) {
+            // เมื่อเข้าสู่ระบบสำเร็จ
+            // console.log(res.data.token)
 
-          //รอสักครู่แล้วค่อยเปลี่ยนหน้า
-          setTimeout(() => {
-            localStorage.setItem("token", res.data.token);
-            window.location.assign("/");
-            console.log(res.data);
-          }, 1500); // 1500 มิลลิวินาที (1.5 วินาที)
-        } else {
-          return  console.log("faill")
+            //รอสักครู่แล้วค่อยเปลี่ยนหน้า
+            setTimeout(() => {
+              localStorage.setItem("token", res.data.token);
+              window.location.assign("/");
+              console.log(res.data);
+            }, 1500); // 1500 มิลลิวินาที (1.5 วินาที)
+          } else {
+            return console.log("faill");
+          }
+        } catch (error) {
+          console.log(error);
         }
-        }catch(error){
-        console.log(error)
-      }
-      // this.$router.push('/views/DashboardPage')
-      // this.isPopupVisible = false;
+        // this.$router.push('/views/DashboardPage')
+        // this.isPopupVisible = false;
       }
     },
     validateInput() {
-      this.showValidationError = !/^[0-9]+$/.test(this.telephone)
-    }
-  
-  }
+      this.showValidationError = !/^[0-9]+$/.test(this.telephone);
+    },
+  },
+  components: {
+    CreateAccount,
+  },
 };
 </script>
-
-
-  
 
 <!---------------------------- style -------------------------------->
 
 <style lang="scss">
-
 // @import '@/assets/scss/custom/_navbar.scss';
 
 .nav-bar {
-
   width: 100%;
   height: 80px;
   display: flex;
@@ -274,5 +300,5 @@ export default {
 .show-pass input,
 label {
   cursor: pointer;
-}</style>
-  
+}
+</style>
