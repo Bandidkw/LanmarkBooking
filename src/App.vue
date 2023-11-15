@@ -1,8 +1,12 @@
 <!-- App.vue -->
 <template>
   <div class="container">
-    <navbar class="nav-bar"></navbar>
+    <navbar class="nav-bar" v-if="$store.getters.roles === ''"></navbar>
+    <NavbarMember v-if="$store.getters.roles === 'member'" />
+    <NavbarPartner v-if="$store.getters.roles === 'partner'" />
+    <NavbarAdmin v-if="$store.getters.roles === 'admin'" />
     <router-view></router-view>
+   
   </div>
 </template>
 
@@ -10,11 +14,15 @@
 import axios from "axios";
 import {jwtDecode} from "jwt-decode";
 import Navbar from './components/NavbarMain.vue';
-
+import NavbarAdmin from './components/NavbarAdmin.vue'
+import NavbarPartner from './components/NavbarPartner.vue'
+import NavbarMember from './components/NavbarMember.vue'
 export default {
   components: {
     Navbar,
-
+    NavbarMember,
+    NavbarPartner,
+    NavbarAdmin
   },
   async beforeCreate() {
 

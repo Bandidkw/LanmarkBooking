@@ -11,6 +11,7 @@
           <router-link to="/contact">Contact</router-link> -->
       <div class="login-box" @click="showPopup">
         <i class="bi bi-list"></i>
+        
         <button type="button" class="log-icon"><i class="bi bi-person-fill"></i></button>
 
         <div v-if="isPopupVisible" class="login-popup">
