@@ -1,5 +1,5 @@
 // main.js
-import jwtDecode from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
 import { createApp } from 'vue';
 import App from './App.vue';
@@ -43,18 +43,27 @@ app.use(PrimeVue);
 app.use(ToastService);
 app.use(ConfirmationService);
 ////
-app.use(store);
+app.use(store)
 try {
     const token = localStorage.getItem("token");
     const jwt_decode = jwtDecode(token);
-    if(jwt_decode.roles){
-        app.use(router);
+    if(jwt_decode.roles=="admin"){
+       console.log("admin")
+    }
+    else if (jwt_decode == "partner"){
+      console.log("partner")
+    }
+    else if (jwt_decode == "member"){
+      console.log("member")
+    }else{
+      console.log("ยังไม่ได้ล็อคอิน"
+      )
     }
     
   } catch (err) {
-    app.use(router);
+    console.log("test")
   }
-
+  app.use(router);
 
 ////
 app.component('AppButton', Button);

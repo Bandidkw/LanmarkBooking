@@ -90,7 +90,7 @@ export default {
       else{
         try {
         const res = await axios.post(
-          `http://localhost:4444/v2/nba-hotel/signin/`,
+          `${process.env.VUE_APP_API}signin/`,
           {
             telephone: this.telephone,
             password: this.password,
@@ -98,14 +98,14 @@ export default {
         );
         if (res.data) {
           // เมื่อเข้าสู่ระบบสำเร็จ
-          console.log(res)
+          // console.log(res.data.token)
 
-          // รอสักครู่แล้วค่อยเปลี่ยนหน้า
-          // setTimeout(() => {
-          //   localStorage.setItem("token", res.data.token);
-          //   window.location.assign("/");
-          //   console.log(res.data);
-          // }, 1500); // 1500 มิลลิวินาที (1.5 วินาที)
+          //รอสักครู่แล้วค่อยเปลี่ยนหน้า
+          setTimeout(() => {
+            localStorage.setItem("token", res.data.token);
+            window.location.assign("/");
+            console.log(res.data);
+          }, 1500); // 1500 มิลลิวินาที (1.5 วินาที)
         } else {
           return  console.log("faill")
         }
@@ -118,33 +118,7 @@ export default {
     },
     validateInput() {
       this.showValidationError = !/^[0-9]+$/.test(this.telephone)
-    },
-     async singin(){
-      try {
-        const res = await axios.post(
-          `http://localhost:4444/v2/nba-hotel/signin/`,
-          {
-            telephone: this.telephone,
-            password: this.password,
-          }
-        );
-        if (res.data) {
-          // เมื่อเข้าสู่ระบบสำเร็จ
-         
-
-          // รอสักครู่แล้วค่อยเปลี่ยนหน้า
-          setTimeout(() => {
-            localStorage.setItem("token", res.token);
-            window.location.assign("/");
-            console.log(res.data);
-          }, 1500); // 1500 มิลลิวินาที (1.5 วินาที)
-        } else {
-          return  console.log("faill")
-        }
-      }catch(error){
-        console.log(error)
-      }
-     }
+    }
   
   }
 };
