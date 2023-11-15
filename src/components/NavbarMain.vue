@@ -124,16 +124,13 @@ export default {
   
 
 <!---------------------------- style -------------------------------->
-<<<<<<< HEAD
+
 <style lang="scss">
 
 // @import '@/assets/scss/custom/_navbar.scss';
 
-.nav-bar{
-=======
-<style>
 .nav-bar {
->>>>>>> f1052dd6fd1db679f313d0e76e7c3781d5d82d52
+
   width: 100%;
   height: 80px;
   display: flex;

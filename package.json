@@ -15,10 +15,6 @@
     "primevue": "^3.40.1",
     "vue": "^3.2.13",
     "vue-router": "^4.2.5",
-<<<<<<< HEAD
-    "vue-slider-component": "^3.2.24",
-=======
->>>>>>> f1052dd6fd1db679f313d0e76e7c3781d5d82d52
     "vuex": "^4.1.0"
   },
   "devDependencies": {

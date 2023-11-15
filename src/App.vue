@@ -8,11 +8,7 @@
 
 <script>
 import Navbar from './components/NavbarMain.vue';
-<<<<<<< HEAD
-// import FilterPopup from './FilterPopup.vue';
 
-=======
->>>>>>> f1052dd6fd1db679f313d0e76e7c3781d5d82d52
 export default {
   components: {
     Navbar,
