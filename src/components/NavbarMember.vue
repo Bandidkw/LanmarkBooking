@@ -4,166 +4,112 @@
       <router-link to="/" class="topweb-left">
         <img src="/logo/lanmark-logo-navbar.png" alt="">
       </router-link>
+        
       <div class="topweb-right">
         <div>
-            member
+          <div class="dropdown">
+            <button class="dropbtn" ></button>
+            <div class="dropdown-content">
+              <a href="#">Link 1</a>
+              <a href="#">Link 2</a>
+              <a href="#">Link 3</a>
+            </div>
+
+          </div>
+            
+            <Menubar :model="menuModel" />
+            <a href="" @click="logout()"></a>
         </div>
       </div>
     </nav>
   </template>
   
-  <script>
+<script>
 
-  </script>
+import Menubar from 'primevue/menubar';
+
+export default {
+  components: {
+    Menubar,
+  },
+  data() {
+    return {
+      menuModel: [
+        {
+          label: `${this.$store.getters.name}`,
+          items: [
+            { label: 'แก้ไขข้อมูล'},
+            { label: 'ออกจากระบบ'},
+          ],
+        },
+      ],
+    };
+  },
+  methods : {
+    logout() {
+      this.$confirm.require({
+      message: "ต้องการออกจากระบบนี้?",
+      header: "ออกจากระบบ",
+      icon: "pi pi-exclamation-triangle",
+      acceptLabel: "ออกจากระบบ",
+      acceptClass: "p-button-danger",
+      acceptIcon: "pi pi-fw pi-power-off",
+      rejectLabel: "ยกเลิก",
+      accept: async () => {
+          localStorage.clear();
+          this.$store.commit("setLoginDefault");
+            // this.$router.push("/login");
+        },
+      });
+    },
+  }
+};
+
+</script>
   
   
     
   
   <!---------------------------- style -------------------------------->
   
-  <style lang="scss">
-  
-  // @import '@/assets/scss/custom/_navbar.scss';
-  
-  .nav-bar {
-  
-    width: 100%;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .topweb-left img {
-    width: 100%;
-    height: 3rem;
-  }
-  
-  .topweb-right {
-    display: flex;
-    align-items: center;
-    column-gap: 1rem;
-  }
-  
-  .login-box {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 0.5rem;
-    width: 5rem;
-    height: 3rem;
-    /* padding: 0.5rem; */
-    background-color: #c7c7c7;
-    border-radius: 25px;
-  }
-  
-  .login-box .log-icon:active {
-    background-color: #00bbf9;
-    box-shadow: 0 3px #666;
-    transform: translateY(1px);
-  }
-  
-  .login-box button {
-    cursor: pointer;
-    /* background-color: #000; */
-    width: 2.5rem;
-    height: 2.5rem;
+  <style>
+  .dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
     border: none;
-    border-radius: 50%;
-    padding: 0.2rem;
-  }
-  
-  .login-box i {
-    color: #000;
-    font-size: 1.5rem;
-  }
-  
-  /*------------------------------- LoginPopup ----------------------------*/
-  
-  .top-pop {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .top-pop h1 {
-    font-size: 2rem;
-  }
-  
-  .login-popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .popup-content {
-    cursor: default;
-    width: 30%;
-    height: 25rem;
-    background-color: #fff;
-    padding: 1rem 3rem;
-    border-radius: 8px;
-    z-index: 9999;
-  }
-  
-  .popup-content i {
-    display: flex;
-    justify-content: flex-end;
-  }
-  
-  .form-control {
-    cursor: default;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    padding-top: 1.5rem;
-    row-gap: 0.5rem;
-  }
-  
-  .text-form {
-    cursor: default;
-    font-size: 1.1rem;
-  }
-  
-  .input-form {
-    font-weight: 400;
-    width: 100%;
-    height: 2rem;
-    padding: 1rem;
-  }
-  
-  .button-con {
-    row-gap: 1rem;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .button-con input[type="checkbox"] {
-    margin-right: 5px;
-  }
-  
-  .button-con button {
-    border-radius: 1rem;
-    width: 5rem;
-  }
-  
-  .close-btn {
     cursor: pointer;
   }
   
-  .show-pass {
-    display: flex;
-    align-items: center;
+  .dropdown {
+    position: relative;
+    display: inline-block;
   }
   
-  .show-pass input,
-  label {
-    cursor: pointer;
-  }</style>
-    
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {background-color: #f1f1f1}
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+  }
+  </style>
