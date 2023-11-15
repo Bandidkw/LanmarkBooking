@@ -17,16 +17,86 @@
         </div>
         </div>
       </div>
+      <!------------------------------- choose-room ------------------------>
+      <div class="choose-room">
+            <div class="room">
+                <i class="bi bi-house-door"></i>
+                <a @click="createAccount">อพาร์ทเม้นท์</a>
+            </div>
+            <div class="room">
+                <i class="bi bi-house"></i>
+                <a @click="createAccount">ห้องพักทั่วไป</a>
+            </div>
+            <div class="room">
+                <i class="bi bi-building"></i>
+                <a @click="createAccount">คอนโด</a>
+            </div>
+            <div class="room">
+                <i class="bi bi-tsunami"></i>
+                <a @click="createAccount">ริมทะเล</a>
+            </div>
+            <div class="room">
+                <i class="bi bi-tree"></i>
+                <a @click="createAccount">ป่า-เขา</a>
+            </div>
+            <div class="room">
+                <i class="bi bi-brightness-alt-high"></i>
+                <a @click="createAccount">เกาะ</a>
+            </div>
+            <div class="room">
+                <i class="bi bi-houses"></i>
+                <a @click="createAccount">คฤหาสน์</a>
+            </div>
+<!----------------------------------------- Filter-box ------------------------------->
+            <div class="filter">
+              <div class="filter-btn" @click="showFilter">
+                <i class="bi bi-sliders"></i>
+                <span>ตัวกรอง</span>
+              </div>
+              <div class="filter-popup" v-if="isFilterVisible" @click.stop>
+                <div class="top-filter">
+                  <h2>ประเภทที่พัก</h2>
+                  <button class="btn btn-info" @click="closeFilter"><i class="bi bi-x"></i></button>
+                </div>
+                <label for="category">ประเภท</label>
+              <select class="form-select form-select-lg mb-3" id="category" v-model="selectedCategory">
+              <option value="apartment">อพาร์ทเม้นท์</option>
+              <option value="
+general-room">ห้องพักทั่วไป</option>
+              <option value="condo">คอนโด</option>
+              <option value="seaside">ริมทะเล</option>
+              <option value="mountain forest">ป่า-เขา</option>
+              <option value="island">เกาะ</option>
+              <option value="mansion">คฤหาสน์</option>
+              <!-- เพิ่มประเภทเพิ่มเติมตามที่คุณต้องการ -->
+              </select>
+
+          <!-- ช่องเลือกราคา -->
+          <label for="price">ช่วงราคา</label>
+          <select id="price" v-model="selectedPriceRange">
+          <option value="0-300">0 - 300 บาท</option>
+          <option value="300-500">300 - 500 บาท</option>
+          <option value="500-1000">500 - 1000 บาท</option>
+          <!-- เพิ่มช่วงราคาเพิ่มเติมตามที่คุณต้องการ -->
+          </select>
+
+          <!-- ช่องเลือกจำนวน -->
+          <label for="quantity">จำนวนเข้าพัก</label>
+          <input type="number" id="quantity" v-model="selectedQuantity" min="1">
+        </div>
+      </div>
+    </div>
               <!-------------------------- popular-section --------------------------->
           <div class="poppular-box">
             <h1>Popular</h1>
-          <div class="content">
+            <img :src="currentImageSrc" alt="Gallery" />
+            <button @click="nextImage">Next Image</button>
+          <!-- <div class="content">
             <div class="promo-grid">
                 <div class="img-promo">
                     <div class="grid-img" v-for="(item,index) in url" :key="index">
                         <img class="hotel-logo" width="100%" :src="item.url"/>
                         <i class="bi bi-arrow-right-circle-fill hidden" id="icon-next" @click="nextImage"></i>
-                        <!-- <i class="bi bi-arrow-left-circle-fill hidden" id="icon-next" @click="buttonClicked"></i> -->
                         <div class="promo-details">
                         <h4>Hotel Name</h4>
                         <p>Details</p>
@@ -36,57 +106,74 @@
                     </div>
                 </div>
             </div>
-       </div>
+       </div> -->
         </div>
-    </div>
-    <div>
-      <image-gallery :images="galleryImages" />
     </div>
   </template>
   
   <script>
+
+// import 'vue-slider-component/theme/default.css';
+// import VueSlider from 'vue-slider-component';
+
   export default {
+    // components:{
+    //     VueSlider,
+    //   },
     name: 'HomepageMain',
     data(){
         return{
+          isFilterVisible:false,
+          selectedCategory:'',
+          priceRange: [0, 100],
+          selectedQuantity: '',
             // images:[],
             // posts:[{id:1, hovered:0,images:['/images/hotel_room/room01.jpg','/images/hotel_room/room02.jpg','/images/hotel_room/room01.jpg']}]
-         url: [
-                {
-                    id: 2,
-                    url: '/images/hotel-room/room01.jpg'
-                },
-                {
-                    id: 3,
-                    url: '/images/hotel-room/room02.jpg'
-                },
-                {
-                    id: 4,
-                    url: '/images/hotel-room/room01.jpg'
-                },
-                {
-                    id: 5,
-                    url: '/images/hotel-room/room02.jpg'
-                },
-                {
-                    id: 6,
-                    url: '/images/hotel-room/room01.jpg'
-                },
-                {
-                    id: 7,
-                    url: '/images/hotel-room/room02.jpg'
-                }
-            ]
-        }
+        //  url: [
+        //         {
+        //             id: 2,
+        //             url: '/images/hotel-room/room01.jpg'
+        //         },
+        //         {
+        //             id: 3,
+        //             url: '/images/hotel-room/room02.jpg'
+        //         },
+        //         {
+        //             id: 4,
+        //             url: '/images/hotel-room/room01.jpg'
+        //         },
+        //         {
+        //             id: 5,
+        //             url: '/images/hotel-room/room02.jpg'
+        //         },
+        //         {
+        //             id: 6,
+        //             url: '/images/hotel-room/room01.jpg'
+        //         },
+        //         {
+        //             id: 7,
+        //             url: '/images/hotel-room/room02.jpg'
+        //         }
+        //     ]
+        };
       },
       methods:{
-        nextImage() {
-      // เลื่อนไปที่รูปถัดไป
-      if (this.currentIndex < this.images.length - 1) {
-        this.currentIndex++;
-        this.translateValue -= this.getImageWidth();
-      }
+        showFilter() {
+      this.isFilterVisible = true;
     },
+      closeFilter() {
+      this.isFilterVisible = false;
+      this.selectedCategory = '';
+      this.selectedPriceRange = '';
+      this.selectedQuantity = '';
+    },
+    //     nextImage() {
+    //   // เลื่อนไปที่รูปถัดไป
+    //   if (this.currentIndex < this.images.length - 1) {
+    //     this.currentIndex++;
+    //     this.translateValue -= this.getImageWidth();
+    //   }
+    // },
       }
   };
   </script>
@@ -153,6 +240,78 @@
     background-color: #7cd7f5;
   }
 
+
+  /*---------------------------- choose-style ------------------------*/
+  .choose-room{
+    margin-top: 1rem;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    column-gap: 2rem;
+    justify-content: center;
+}
+.room{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1rem;
+}
+.room i{
+    font-size: 1.2rem;
+}
+.room a,i{
+    color: #252525;
+    transition: 0.2s;
+}
+.room:hover{
+    text-shadow: 0px 0px 5px #5dd6ff;
+    color: #6b6b6b;
+}
+.filter{
+    cursor: default;
+    border: #707070 1px solid;
+    padding: 8px;
+    border-radius: 0.5rem;
+    column-gap: 5px;
+    color: #707070;
+    display:flex;
+    transition: all 0.2s ease-in-out;
+}
+.filter a,i{
+    font-size: 1rem;
+    color: #252525;
+}
+/* .filter:hover{
+    background-color: #5dd6ff;
+} */
+
+/*-------------------------------- filter-popup ----------------------*/
+
+
+.filter-btn{
+  cursor: pointer;
+}
+.filter-popup {
+  display: flex;
+  flex-direction: column;
+  z-index: 9999;
+  position: fixed;
+  width: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+.filter-popup button{
+  cursor: pointer;
+}
+.top-filter{
+  display: flex;
+  justify-content: space-between;
+}
   /*---------------------------- popular-style ----------------------*/
 .poppular-box{
   position: relative;
