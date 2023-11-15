@@ -49,7 +49,7 @@
                 </div>
 
                 <!-- ปุ่มเข้าสู่ระบบ -->
-                <button type="submit" @click="login" :disabled="showValidationError">เข้าสู่ระบบ</button>
+                <button type="submit" :disabled="showValidationError">เข้าสู่ระบบ</button>
               </div>
             </form>
             <!-- ... -->
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-//import axios from 'axios';
+import axios from 'axios';
 
 export default {
   data() {
@@ -88,33 +88,63 @@ export default {
           console.log("fail")
       }
       else{
-        await this.SignIn(this.telephone,this.password).then(async (result)=>{
-          console.log(result)
-        })
-    }
+        try {
+        const res = await axios.post(
+          `http://localhost:4444/v2/nba-hotel/signin/`,
+          {
+            telephone: this.telephone,
+            password: this.password,
+          }
+        );
+        if (res.data) {
+          // เมื่อเข้าสู่ระบบสำเร็จ
+          console.log(res)
+
+          // รอสักครู่แล้วค่อยเปลี่ยนหน้า
+          // setTimeout(() => {
+          //   localStorage.setItem("token", res.data.token);
+          //   window.location.assign("/");
+          //   console.log(res.data);
+          // }, 1500); // 1500 มิลลิวินาที (1.5 วินาที)
+        } else {
+          return  console.log("faill")
+        }
+        }catch(error){
+        console.log(error)
+      }
       // this.$router.push('/views/DashboardPage')
       // this.isPopupVisible = false;
+      }
     },
     validateInput() {
       this.showValidationError = !/^[0-9]+$/.test(this.telephone)
     },
-    async SignIn(telephone,password){
-        let user;
-        const initdata = {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          url:'http://localhost:4444/v2/nba-hotel/signin',
-          body: JSON.stringify({telephone,password}),
-          credentials: "include",
-        };
-        await fetch("http://localhost:4444/v2/nba-hotel/signin", initdata)
-          .then((response) => response.json())
-          .then((result) => user = result)
-          .catch((err) => user = err);
-          this.user = user;
-      
-          return user;
-    }
+     async singin(){
+      try {
+        const res = await axios.post(
+          `http://localhost:4444/v2/nba-hotel/signin/`,
+          {
+            telephone: this.telephone,
+            password: this.password,
+          }
+        );
+        if (res.data) {
+          // เมื่อเข้าสู่ระบบสำเร็จ
+         
+
+          // รอสักครู่แล้วค่อยเปลี่ยนหน้า
+          setTimeout(() => {
+            localStorage.setItem("token", res.token);
+            window.location.assign("/");
+            console.log(res.data);
+          }, 1500); // 1500 มิลลิวินาที (1.5 วินาที)
+        } else {
+          return  console.log("faill")
+        }
+      }catch(error){
+        console.log(error)
+      }
+     }
   
   }
 };
