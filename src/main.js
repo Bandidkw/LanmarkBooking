@@ -56,8 +56,7 @@ try {
     else if (jwt_decode == "member"){
       console.log("member")
     }else{
-      console.log("ยังไม่ได้ล็อคอิน"
-      )
+      console.log("ยังไม่ได้ล็อคอิน")
     }
     
   } catch (err) {
