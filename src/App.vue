@@ -1,6 +1,6 @@
 <!-- App.vue -->
 <template>
-  <div class="container">
+  <div class="body-container">
     <navbar class="nav-bar" v-if="$store.getters.roles === ''"></navbar>
     <NavbarMember v-if="$store.getters.roles === 'member'" />
     <NavbarPartner v-if="$store.getters.roles === 'partner'" />
@@ -46,7 +46,7 @@ if (localStorage.getItem("token") !== null) {
       this.$store.commit("setLogin", data_login)
       this.$store.commit("setLoading", false);
       if (this.$store.getters.roles === "admin") {
-        console.log("admin")
+        this.$router.push("/dashboardadmin");
       }
       if (this.$store.getters.roles === "partner") {
         console.log("partner")
@@ -67,13 +67,13 @@ if (localStorage.getItem("token") !== null) {
 </script>
 
 <style scoped>
-.container{
+/* .body-container{
   width: 100%;
   padding: 1rem 0;
   margin: 0;
   position: relative;
   z-index: 0;
-}
+} */
 .nav-bar{
   width: 100%;
   padding: 0 5rem;

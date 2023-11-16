@@ -7,11 +7,11 @@ import router from './router';
 
 import store from "./store";
 import PrimeVue from 'primevue/config';
-import "primeicons/primeicons.css";
+import "primeicons/primeicons.css"; //icons
 import "primevue/resources/primevue.min.css"; //core css
 import "primevue/resources/themes/lara-light-purple/theme.css"; //theme
-// //prime flex
-import  "primeflex/primeflex.css";
+//prime flex
+import "primeflex/primeflex.css";
 import "./assets/style.css"
 const app = createApp(App); 
 
@@ -38,7 +38,7 @@ import Row from 'primevue/row';
 import InputNumber from 'primevue/inputnumber';
 
 import Textarea from 'primevue/textarea';
-
+import menu from "primevue/menu"
 
 app.use(PrimeVue);
 app.use(ToastService);
@@ -66,22 +66,23 @@ try {
   app.use(router);
 
 ////
-app.component('AppButton', Button);
-app.component('AppInputText', InputText);
-app.component('AppCard', Card);
-app.component('AppDropdown', Dropdown);
-app.component('AppSteps', Steps);
-app.component('AppMenubar', Menubar);
-app.component('AppPanel', Panel);
-app.component('AppTextarea', Textarea);
-app.component('AppInputNumber', InputNumber);
-app.component('AppRow', Row);
-app.component('AppColumnGroup', ColumnGroup);
-app.component('AppColumn', Column);
-app.component('AppDataTable', DataTable);
-app.component("AppToast", Toast);
-app.component("AppConfirmDialog", ConfirmDialog);
-app.component("AppProgressSpinner", ProgressSpinner);
-app.component("AppDialog", Dialog);
+app.component('Button', Button);
+app.component('InputText', InputText);
+app.component('Card', Card);
+app.component('Dropdown', Dropdown);
+app.component('Steps', Steps);
+app.component('Menubar', Menubar);
+app.component('Panel', Panel);
+app.component('Textarea', Textarea);
+app.component('InputNumber', InputNumber);
+app.component('Row', Row);
+app.component('ColumnGroup', ColumnGroup);
+app.component('Column', Column);
+app.component('DataTable', DataTable);
+app.component("Toast", Toast);
+app.component("ConfirmDialog", ConfirmDialog);
+app.component("ProgressSpinner", ProgressSpinner);
+app.component("Dialog", Dialog);
+app.component("Menu", menu);
 app.mount('#app')
 

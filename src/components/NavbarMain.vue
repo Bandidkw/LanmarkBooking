@@ -158,8 +158,8 @@ export default {
 
 <!---------------------------- style -------------------------------->
 
-<style lang="scss">
-// @import '@/assets/scss/custom/_navbar.scss';
+<style lang="scss"> 
+//@import '@/assets/scss/custom/_navbar.scss';
 
 .nav-bar {
   width: 100%;

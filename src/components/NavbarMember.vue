@@ -1,115 +1,94 @@
 <!-- Navbar.vue -->
 <template>
-    <nav class="nav-bar">
-      <router-link to="/" class="topweb-left">
-        <img src="/logo/lanmark-logo-navbar.png" alt="">
-      </router-link>
-        
-      <div class="topweb-right">
+  <nav id="header" class="w-full z-30 top-10 py-1 bg-white border-b border-black-400">
+      <div class="w-full flex items-center justify-between mt-0 px-6 py-2">
         <div>
-          <div class="dropdown">
-            <button class="dropbtn" ></button>
-            <div class="dropdown-content">
-              <a href="#">Link 1</a>
-              <a href="#">Link 2</a>
-              <a href="#">Link 3</a>
+          <img src="/logo/lanmark-logo-navbar.png" :width="200" alt="" />
+        </div> 
+         <div class="order-2 md:order-3 flex flex-wrap items-center justify-end mr-0 md:mr-4" id="nav-content">
+            <div class="auth flex items-center w-full md:w-full">
+              <div v-for="(menu, menuKey) in dropdowns" :key="menuKey" class="relative lg:inline-block text-left">
+              <button @click="toggleMenu(menuKey)" type="button" class="mt-4 lg:inline-block lg:mt-0 hover:text-white px-2 py-2 rounded hover:bg-[#007bff] mr-2 ">
+              
+               <span class="bi bi-person-fill"></span> {{namestore}} <i class="bi bi-caret-down-fill"></i>
+              </button>
+          <transition name="fade">
+            <div v-if="isMenuOpen(menuKey)" @click.stop="closeDropdowns" class="menu-dropdown lg:inline-blockorigin-top-right absolute mt-2 w-40 bg-white border border-gray-300 py-2 rounded-lg shadow-lg z-10">
+              <router-link v-for="item in menu" :key="item.id" :to="item.route" class="block px-4 py-2 hover:text-white hover:bg-[#007bff]">
+                {{ item.label }}
+              </router-link>
+              <button  @click="logout" class="block px-4 py-2 hover:text-white hover:bg-[#dc3545]">
+                  ออกจากระบบ
+                </button>
             </div>
-
-          </div>
-            
-            <Menubar :model="menuModel" />
-            <a href="" @click="logout()"></a>
+          </transition>
         </div>
+            </div>
+         </div>
       </div>
-    </nav>
-  </template>
+   </nav>
+</template>
   
 <script>
 
-import Menubar from 'primevue/menubar';
+
+
 
 export default {
   components: {
-    Menubar,
+
   },
   data() {
     return {
-      menuModel: [
-        {
-          label: `${this.$store.getters.name}`,
-          items: [
-            { label: 'แก้ไขข้อมูล'},
-            { label: 'ออกจากระบบ'},
-          ],
-        },
-      ],
+      isMobileMenuOpen: false,
+      isMenuOpenState: {
+        items: false,
+      },
+      namestore:`${this.$store.getters.name}`,
+      dropdowns:{
+         items:[ 
+          { id: 1, label: "แก้ไขข้อมูล", route: "/" },
+        ],
+      },
     };
   },
   methods : {
     logout() {
-      this.$confirm.require({
-      message: "ต้องการออกจากระบบนี้?",
-      header: "ออกจากระบบ",
-      icon: "pi pi-exclamation-triangle",
-      acceptLabel: "ออกจากระบบ",
-      acceptClass: "p-button-danger",
-      acceptIcon: "pi pi-fw pi-power-off",
-      rejectLabel: "ยกเลิก",
-      accept: async () => {
-          localStorage.clear();
-          this.$store.commit("setLoginDefault");
-            // this.$router.push("/login");
-        },
-      });
+      localStorage.clear();
+      this.$store.commit("setLoginDefault");
+      this.$router.push("/");
+    },
+    toggleMobileMenu() {
+      this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    },
+    toggleMenu(menuKey) {
+      // console.log("menuKey:", menuKey);
+      this.isMenuOpenState = Object.fromEntries(
+        Object.keys(this.isMenuOpenState).map((key) => [
+          key,
+          key === menuKey ? !this.isMenuOpenState[key] : false,
+        ])
+      );
+      // console.log("isMenuOpenState:", this.isMenuOpenState);
+    },
+    isMenuOpen(key) {
+      return this.isMenuOpenState[key];
+    },
+    closeDropdowns() {
+      this.isMobileMenuOpen = false;
+
+      this.isMenuOpenState = Object.fromEntries(
+        Object.keys(this.isMenuOpenState).map((key) => [key, false])
+      );
     },
   }
 };
 
 </script>
   
-  
-    
-  
-  <!---------------------------- style -------------------------------->
-  
-  <style>
-  .dropbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-  
-  .dropdown-content a:hover {background-color: #f1f1f1}
-  
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  
-  .dropdown:hover .dropbtn {
-    background-color: #3e8e41;
-  }
-  </style>
+<style scoped>
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+</style>

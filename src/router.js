@@ -4,6 +4,8 @@ import Home from './views/Homepage.vue';
 import About from './views/Aboutpage.vue';
 import DashBoard from './views/DashBoardPage.vue'
 import PopularSection from '@/views/section/PopularSection.vue'
+import DashBoardAdmin from '@/views/admin/DashBoardAdmin'
+import ManageAdmin from '@/views/admin/manageadmin/ManageAdmin.vue'
 // import  CreateAccount from '@/views/CreateAccount.vue'
 const router = createRouter({
   history: createWebHistory(),
@@ -19,14 +21,24 @@ const router = createRouter({
       component: About,
     },
     {
-      path: '/dahsboard',
-      name: 'dahsboard',
+      path: '/dashboard',
+      name: 'dashboard',
       component:DashBoard,
     },    
     {
       path: '/popular',
       name: 'popular',
       component:PopularSection,
+    },
+    {
+      path:'/dashboardadmin',
+      name:'dashboardadmin',
+      component:DashBoardAdmin
+    },
+    {
+      path:'/manageadmin',
+      name:'manageadmin',
+      component:ManageAdmin
     },
     // {
     //   path: '/createaccount',
