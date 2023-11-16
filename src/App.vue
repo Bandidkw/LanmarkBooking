@@ -12,7 +12,7 @@
 
 <script>
 import axios from "axios";
-import {jwtDecode} from "jwt-decode";
+import jwtDecode from "jwt-decode";
 import Navbar from './components/NavbarMain.vue';
 import NavbarAdmin from './components/NavbarAdmin.vue'
 import NavbarPartner from './components/NavbarPartner.vue'

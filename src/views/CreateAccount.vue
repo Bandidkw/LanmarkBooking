@@ -1,193 +1,20 @@
 <template>
     <div class="login-popup">
-      <div class="popup-content">
-        <div class="top-pop">
-          <h1>Sign up</h1>
-          <i class="bi bi-x close-btn" @click="close"></i>
-        </div>
-        <form @submit.prevent="register" class="form-control">
-          <div class="input-content">
-            <div class="input-box">
-              <label for="username">Username :</label>
-              <input
-                class="input-form"
-                type="text"
-                v-model="value.username"
-                @input="validateField('username')"
-                placeholder="Username"
-              />
-              <span class="error-message">{{ errors.username }}</span>
-            </div>
-            <div class="input-box">
-              <label for="lastname">Lastname :</label>
-              <input
-                class="input-form"
-                type="text"
-                v-model="value.lastname"
-                @input="validateField('lastname')"
-                placeholder="Last name"
-              />
-              <span class="error-message">{{ errors.lastname }}</span>
-            </div>
-          </div>
-  
-          <label for="email">Email</label>
-          <input
-            class="input-form"
-            type="email"
-            v-model="value.email"
-            @input="validateField('email')"
-            placeholder="Email"
-          />
-          <span class="error-message">{{ errors.email }}</span>
-  
-          <label for="recommendedPhone"> Phone</label>
-          <input
-            class="input-form"
-            type="tel"
-            v-model="value.Phone"
-            @input="validateField('Phone')"
-            placeholder="Phone number"
-          />
-          <span class="error-message">{{ errors.Phone }}</span>
-  
-          <label for="recommendedPhone">Recommended Phone</label>
-          <input
-            class="input-form"
-            type="tel"
-            v-model="value.recommendedPhone"
-            @input="validateField('recommendedPhone')"
-            placeholder="Recommended Phone number"
-          />
-          <span class="error-message">{{ errors.recommendedPhone }}</span>
-  
-          <div class="input-content">
-            <div class="input-box">
-              <label for="registrationPassword">Password :</label>
-              <input
-                class="input-form"
-                type="password"
-                v-model="value.registrationPassword"
-                @input="validateField('registrationPassword')"
-                placeholder="Password"
-              />
-              <span class="error-message">{{ errors.registrationPassword }}</span>
-            </div>
-            <div class="input-box">
-              <label for="confirmPassword">Confirm-Password :</label>
-  
-              <input
-                class="input-form"
-                type="password"
-                v-model="value.confirmPassword"
-                @input="validateField('confirmPassword')"
-                placeholder="Confirm Password"
-              />
-              <span class="error-message">{{ errors.confirmPassword }}</span>
-            </div>
-          </div>
-  
-          <div class="button-con">
-            <button type="submit">Register</button>
-          </div>
-        </form>
-      </div>
+     
     </div>
   </template>
   
   <script>
-  import * as yup from "yup";
+
   
   export default {
     data() {
       return {
-        value: {
-          username: "",
-          lastname: "",
-          email: "",
-          phone: "",
-          recommendedPhone: "",
-          registrationPassword: "",
-          confirmPassword: "",
-        },
+        value: {},
         errors: {},
       };
     },
-    methods: {
-      async register() {
-        try {
-          await this.validateForm();
-          console.log("Form submitted successfully!");
-        } catch (error) {
-          console.error("Form validation failed:", error);
-        }
-      },
-      async validateField(fieldName) {
-        // Validate a specific field in real-time
-        const schema = yup.object({
-          [fieldName]: yup.string().required(`${fieldName} is required.`),
-        });
-  
-        try {
-          await schema.validateAt(fieldName, this.value);
-          this.errors[fieldName] = null;
-        } catch (error) {
-          if (error instanceof yup.ValidationError) {
-            this.errors[fieldName] = error.message;
-          }
-        }
-      },
-      async validateForm() {
-        const schema = yup.object({
-          username: yup.string().required("Username is required."),
-          lastname: yup.string().required("Last Name is required."),
-          email: yup
-            .string()
-            .email("Invalid email format.")
-            .required("Email is required."),
-          Phone: yup.string().required("Please Enter Phone Number"),
-          recommendedPhone: yup.string().required(),
-          registrationPassword: yup.string().required("Password is required."),
-          confirmPassword: yup
-            .string()
-            .oneOf(
-              [yup.ref("registrationPassword"), null],
-              "Passwords must match"
-            )
-            .required("Confirm Password is required."),
-        });
-  
-        try {
-          await schema.validate(this.value, { abortEarly: false });
-          this.errors = {};
-        } catch (error) {
-          if (error instanceof yup.ValidationError) {
-            const errors = {};
-            error.inner.forEach((e) => {
-              errors[e.path] = e.message;
-            });
-            this.errors = errors;
-          }
-          throw error;
-        }
-      },
-      resetForm() {
-        this.value = {
-          username: "",
-          lastname: "",
-          email: "",
-          phone: "",
-          recommendedPhone: "",
-          registrationPassword: "",
-          confirmPassword: "",
-        };
-        // Clear errors
-        this.errors = {};
-      },
-      close() {
-        this.resetForm();
-        this.$emit("close");
-      },
+    methods: {   
     },
   };
   </script>
