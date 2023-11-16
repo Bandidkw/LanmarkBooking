@@ -1,5 +1,5 @@
 <template>
-    <div class="grid px-10 mt-3">
+    <div class="grid px-10 mt-3 ml-5 mr-5" >
       <div class="col-12 lg:col-12 border">
         <DataTable
         :value="Array.isArray(item_product) ? item_product : []"
@@ -9,6 +9,7 @@
         :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
         currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด"
         responsiveLayout="stack"
+
       >
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
         <template #empty>
@@ -49,7 +50,7 @@
 <script>
  import axios from "axios";
  import { onMounted, ref } from "vue";
- 
+ import Swal from "sweetalert2";
 
 export default {
   components: {
@@ -96,7 +97,10 @@ export default {
           // หากการลบสำเร็จ อัปเดตข้อมูล
           getData()
           // แสดงข้อความสำเร็จ (ตัวเลือก)
-          console.log("ลบข้อมูลสำเร็จ")
+          Swal.fire({
+            icon: "success",
+            title: "ลบสินค้าสำเร็จ",
+          });
         } else {
           console.log("ลบข้อมูลไม่สำเร็จ");
         }

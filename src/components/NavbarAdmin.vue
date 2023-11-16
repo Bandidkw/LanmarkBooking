@@ -86,7 +86,7 @@ export default {
       },
       navbars: {
         admin: [
-          { id: 1, label: "เพิ่มข้อมูล admin", route: "/" },
+          { id: 1, label: "เพิ่มข้อมูล admin", route: "/addadmin" },
           { id: 2, label: "จัดการข้อมูล admin", route: "/manageadmin" }
         ],
       },
