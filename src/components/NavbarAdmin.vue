@@ -30,6 +30,8 @@
       </div>
     </div>
   </nav>
+
+  <!--eslint-disable-next-line vue/no-multiple-template-root--> 
   <nav id="header" class="w-full z-30 top-10  bg-white border-b border-black-400">
     <div class="w-full flex items-center justify-center mt-0 px-5">
         <!--- ใช้ปุ่มเดียว-->
@@ -41,7 +43,7 @@
        <!--- ใช้เป็น dropdown -->
        <div v-for="(menu, menuKey) in navbars" :key="menuKey" class="relative lg:inline-block text-left">
             <button @click="toggleMenu(menuKey)" type="button"
-              class="mt-4 lg:inline-block lg:mt-0 hover:text-white px-2 py-2 rounded hover:bg-[#007bff] mr-2 ">
+              class="mt-4 lg:inline-block lg:mt-0 hover:text-white px-2 py-3 rounded hover:bg-[#007bff] mr-2 ">
               {{ menuKey }} <i class="bi bi-caret-down-fill"></i>
             </button>
             <transition name="fade">
@@ -57,6 +59,7 @@
           </div>
     </div>
   </nav>
+
 </template>
   
 <script>
@@ -74,6 +77,10 @@ export default {
       isMenuOpenState: {
         items: false,
         admin:false,
+        partner:false,
+        member:false,
+        โรงแรม:false,
+        ห้อง :false
       },
       namestore: `${this.$store.getters.name}`,
       menubars:[
@@ -88,6 +95,32 @@ export default {
         admin: [
           { id: 1, label: "เพิ่มข้อมูล admin", route: "/addadmin" },
           { id: 2, label: "จัดการข้อมูล admin", route: "/manageadmin" }
+        ],
+        partner: [
+          { id: 3, label: "อนุมัติ partner", route: "/" },
+          { id: 4, label: "จัดการข้อมูล partner", route: "/" }
+        ],
+        member: [
+          { id: 5, label: "จัดการข้อมูล member ", route: "/" },
+        ],
+        โรงแรม: [
+          { id: 6, label: "ประเภทโรงแรม", route: "/" },
+          { id: 7, label: "สิ่งอำนวยความสะดวก", route: "/" },
+          { id: 8, label: "สิ่งที่หน้าสนใจ", route: "/" },
+          { id: 9, label: "การรับรอง", route: "/" },
+        ],
+        ห้อง: [
+          { id: 10, label: "แอร์", route: "/" },
+          { id: 11, label: "เตียง", route: "/" },
+          { id: 12, label: "ห้องอาบน้ำ", route: "/" },
+          { id: 13, label: "เฟอร์นิเจอร์", route: "/" },
+          { id: 14, label: "สิ่งอำนวยความสะดวก", route: "/" },
+          { id: 15, label: "สิ่งให้ความบันเทิง", route: "/" },
+          { id: 16, label: "บริการรูมเซอร์", route: "/" },
+          { id: 17, label: "ข้อมูลสถานะห้อง", route: "/" },
+          { id: 18, label: "วิวของห้อง", route: "/" },
+          { id: 19, label: "ประเภทห้อง", route: "/" },
+          { id: 20, label: "ข้อมูลความปลอดภัย", route: "/" },
         ],
       },
     };
@@ -112,7 +145,9 @@ export default {
       // console.log("isMenuOpenState:", this.isMenuOpenState);
     },
     isMenuOpen(key) {
+   
       return this.isMenuOpenState[key];
+      
     },
     closeDropdowns() {
       this.isMobileMenuOpen = false;

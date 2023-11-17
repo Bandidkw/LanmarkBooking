@@ -33,6 +33,8 @@ import ProgressSpinner from "primevue/progressspinner";
 import Row from 'primevue/row';
 import Toast from "primevue/toast";
 import ToastService from "primevue/toastservice";
+import Sidebar from 'primevue/sidebar';
+import Password from 'primevue/password';
 
 app.use(PrimeVue);
 app.use(ToastService);
@@ -73,5 +75,7 @@ app.component("Toast", Toast);
 app.component("ConfirmDialog", ConfirmDialog);
 app.component("ProgressSpinner", ProgressSpinner);
 app.component("Dialog", Dialog);
+app.component("Sidebar", Sidebar);
+app.component("Password", Password);
 
 app.mount('#app'); // นำแอปพลิเคชัน Vue ลงใน DOM

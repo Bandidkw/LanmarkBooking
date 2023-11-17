@@ -2,6 +2,14 @@
 <template>
     <div class="grid px-10 mt-3 ml-5 mr-5" >
       <div class="col-12 lg:col-12 border">
+        <div class="text-center font-bold text-4xl">จัดการข้อมูล admin</div>
+        <div class="text-right my-5">
+          <router-link to="/addadmin">
+            <Button  label="เพิ่มข้อมูลadmin" class="border-none bg-blue-500" />
+          </router-link>
+         
+        </div>
+        
         <DataTable
         :value="Array.isArray(item_product) ? item_product : []"
         :paginator="true"
@@ -30,8 +38,6 @@
 
           <template #body="item">
             <updateadmin title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/>
-            <Button class="border-none" style="background-color: #ff7315" >แก้ไข</Button>
-
            <Button
             @click="deleteProduct(item.data._id)"
               class="border-none ml-2"
@@ -42,7 +48,6 @@
           
         </Column>
       </DataTable>
-      
       </div>
     </div>
 </template>
@@ -103,11 +108,18 @@ export default {
             title: "ลบสินค้าสำเร็จ",
           });
         } else {
-          console.log("ลบข้อมูลไม่สำเร็จ");
+          await Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด",
+            text: "ไม่สามารถแก้ไขข้อมูลได้",
+          });
         }
       } catch (error) {
-        console.error(error);
-        // แสดงข้อความผิดพลาด (ตัวเลือก)
+        await Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด",
+            text: "ไม่สามารถลบข้อมูลได้",
+          });
       }
     };
     onMounted(() => {

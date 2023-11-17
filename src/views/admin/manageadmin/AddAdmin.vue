@@ -9,7 +9,7 @@
               เบอร์โทรศัพท์ :
             </label>
             <input
-              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full  text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name" type="text" placeholder="000-000-0000" v-model="telephone">
           </div>
           <div class="w-full px-3">
@@ -17,7 +17,7 @@
               Password :
             </label>
             <input
-              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-password" type="password" placeholder="******************" v-model="password">
           </div>
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -25,7 +25,7 @@
               ชื่อเล่น :
             </label>
             <input
-              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name" type="text" placeholder="Jane" v-model="name">
           </div>
         </div>
@@ -58,7 +58,11 @@ export default {
   methods: {
     async addadmin(){
       if (this.telephone === null || this.telephone === "" || this.password === null || this.password === ""||this.name ==="") {
-        console.log("fail");
+        await Swal.fire({
+            icon: "error",
+            title: "กรุณากรอกข้อมูลให้ครบ",
+            text: "กรุณากรอกข้อมูลให้ครบ",
+          });
       }else{
         try {
           const res = await axios.post(`${process.env.VUE_APP_API}signup/admin`, {
@@ -80,10 +84,18 @@ export default {
           });
           this.$router.push("/manageadmin");
           } else {
-            return console.log("faill");
+            await Swal.fire({
+              icon: "error",
+              title: "เกิดข้อผิดพลาด",
+              text: "ไม่สามารถลบข้อมูลได้",
+          });
           }
         }catch(error){
-          console.log(error);
+          await Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด",
+            text: "ไม่สามารถลบข้อมูลได้",
+          });
         }
       }
     }
