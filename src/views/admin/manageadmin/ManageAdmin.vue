@@ -27,21 +27,22 @@
           header="เพิ่มเติม"
           style="width: 10%"
         >
+
           <template #body="item">
-            <Button
-              class="border-none"
-              style="background-color: #ff7315"
-              >แก้ไข</Button
-            >
-            <Button
+            <updateadmin title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/>
+            <Button class="border-none" style="background-color: #ff7315" >แก้ไข</Button>
+
+           <Button
             @click="deleteProduct(item.data._id)"
               class="border-none ml-2"
               style="background-color: #C21010"
-              >ลบ</Button
-            >
+              >ลบ</Button>
+             
           </template>
+          
         </Column>
       </DataTable>
+      
       </div>
     </div>
 </template>
@@ -50,10 +51,11 @@
  import axios from "axios";
  import { onMounted, ref } from "vue";
  import Swal from "sweetalert2";
+ import updateadmin from '@/views/admin/manageadmin/EditAdmin.vue'
 
 export default {
   components: {
-
+    updateadmin
   },
   created() {
     document.title = "จัดการข้อมูล admin";

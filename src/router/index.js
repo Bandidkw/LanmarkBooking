@@ -48,7 +48,7 @@ const router = createRouter({
       component:AddAdmin
     },
     {
-      path:'/editadmin',
+      path:'/editadmin/:id',
       name:'editadmin',
       component:EditAdmin
     },
