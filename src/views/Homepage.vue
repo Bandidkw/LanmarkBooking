@@ -2,10 +2,7 @@
 <template>
   <div class="invitatain">
 
-    <div class="title-info">
-
-      <!-- ------------------------- search-box ------------------------- -->
-      
+    <!-- <div class="title-info">
       <div class="search-box-cus">
           <div class="input-group">
           <div class="search">
@@ -16,10 +13,10 @@
           </div>
       </div>
       </div>
-    </div>
+    </div> -->
 
     <!------------------------------- choose-room ------------------------>
-    <div class="choose-room">
+    <div class="choose-room justify-center">
           <div class="room">
               <i class="bi bi-house-door"></i>
               <a @click="createAccount">อพาร์ทเม้นท์</a>
@@ -87,11 +84,11 @@ general-room">ห้องพักทั่วไป</option>
       </div>
     </div>
   </div>
-            <!-------------------------- popular-section --------------------------->
+<!-------------------------- popular-section --------------------------->
         <div class="poppular-box">
           <div class="poppular-info">
             <h3>POPULAR</h3>
-            <i class="bi bi-award-fill text-warning p-0"></i>
+            <i class="bi bi-award-fill text-warning p-0 text-orange-400"></i>
           </div>
           <PopularSection/>
       </div>
@@ -201,7 +198,6 @@ export default {
   display: flex;
   align-items: center;
   column-gap: 2rem;
-  justify-content: center;
 }
 .room{
   cursor: pointer;

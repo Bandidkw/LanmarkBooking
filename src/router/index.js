@@ -7,7 +7,8 @@ import PopularSection from '@/views/section/PopularSection.vue'
 import DashBoardAdmin from '@/views/admin/DashBoardAdmin'
 import ManageAdmin from '@/views/admin/manageadmin/ManageAdmin.vue'
 import AddAdmin from '@/views/admin/manageadmin/AddAdmin.vue'
-// import  CreateAccount from '@/views/CreateAccount.vue'
+import EditAdmin from '@/views/admin/manageadmin/EditAdmin.vue'
+import  CreateAccount from '@/views/CreateAccount.vue'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -46,11 +47,16 @@ const router = createRouter({
       name:'addadmin',
       component:AddAdmin
     },
-    // {
-    //   path: '/createaccount',
-    //   name: 'createaccount',
-    //   component:CreateAccount,
-    // }
+    {
+      path:'/editadmin',
+      name:'editadmin',
+      component:EditAdmin
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component:CreateAccount,
+    }
   ],
 });
 

@@ -1,3 +1,4 @@
+
 <template>
     <div class="grid px-10 mt-3 ml-5 mr-5" >
       <div class="col-12 lg:col-12 border">
@@ -18,9 +19,8 @@
           </p>
         </template>
 
-        <Column field="telephone" header="เบอรืโทรศัพท์" style="width: 20%;"></Column>
-        <Column field="password" class="" header="password" style="width: 10%;"> </Column>
-       
+        <Column field="telephone" header="เบอร์โทรศัพท์" style="width: 20%;"></Column>
+        <Column field="name" class="" header="ชื่อ" style="width: 10%;"> </Column>
         <Column
           :exportable="false"
           class=""
@@ -29,7 +29,6 @@
         >
           <template #body="item">
             <Button
-              
               class="border-none"
               style="background-color: #ff7315"
               >แก้ไข</Button

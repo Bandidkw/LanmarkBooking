@@ -4,6 +4,14 @@
     <router-link to="/" class="topweb-left">
       <img src="/logo/lanmark-logo-navbar.png" alt="" />
     </router-link>
+    <div class="flex h-10 items-center input-group rounded-2xl px-4" style="box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);">
+          <div class="p-0 search">
+              <input type="text" placeholder="ค้นหาที่พักหรือโรงแรม" aria-label="Recipient's username">
+          </div>
+          <div class="input-group-append w-8">
+          <button class="btn-search btn-outline-secondary w-full" type="button"><i class="bi bi-search w-full"></i></button>
+          </div>
+      </div>
     <div class="topweb-right">
       <p>ให้เช่าที่พักกับ Lanmark</p>
       <!-- <router-link to="/">Home</router-link>
@@ -67,7 +75,7 @@
               </div>
               <span
                 >ยังไม่มีบัญชี ผู้ใช้งาน
-                <a href="#" @click="showRegisterPopup">สร้างบัญชี</a></span
+                <a href="#" @click="registerPage">สร้างบัญชี</a></span
               >
             </form>
             <!-- ... -->
@@ -148,6 +156,10 @@ export default {
     },
     validateInput() {
       this.showValidationError = !/^[0-9]+$/.test(this.telephone);
+    },
+    registerPage() {
+      this.isPopupVisible = false;
+      this.$router.push("/register");
     },
   },
   components: {
