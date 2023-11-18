@@ -5,7 +5,7 @@
         <div class="text-center font-bold text-4xl">จัดการข้อมูล admin</div>
         <div class="text-right my-5">
           <router-link to="/addadmin">
-            <Button  label="เพิ่มข้อมูลadmin" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
+            <Button  label="เพิ่มข้อมูลadmin" class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
           </router-link>
          
         </div>

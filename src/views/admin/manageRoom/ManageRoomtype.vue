@@ -5,7 +5,7 @@
         <div class="text-center font-bold text-4xl">จัดการข้อมูล ประเภทห้อง</div>
         <div class="text-right my-5">
           <router-link to="/addadmin">
-            <Button  label="เพิ่มข้อมูล ประเภทห้อง" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
+            <Button  label="เพิ่มข้อมูล ประเภทห้อง" class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
           </router-link>
          
         </div>
@@ -27,8 +27,10 @@
           </p>
         </template>
 
-        <Column field="telephone" header="เบอร์โทรศัพท์" style="width: 20%;"></Column>
-        <Column field="name" class="" header="ชื่อ" style="width: 10%;"> </Column>
+        <Column field="name_th" header="ชื่อ" style="width: 5%;"></Column>
+        <Column field="name_en" header="ชื่อ" style="width: 10%;"></Column>
+
+        <Column field="description" class="" header="คำอธิบาย" style="width: 15%;"> </Column>
         <Column
           :exportable="false"
           class=""
@@ -37,7 +39,7 @@
         >
 
           <template #body="item">
-            <updateadmin title="แก้ไข" :admin_id="item.data._id" :data="item.data"/>
+            <!-- <updateadmin title="แก้ไข" :admin_id="item.data._id" :data="item.data"/> -->
            <Button
             @click="deleteProduct(item.data._id)"
               class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
@@ -79,8 +81,8 @@ export default {
         );
 
         if (productResponse.data && productResponse.data) {
-          item_product.value = productResponse.data.data;
-          console.log(productResponse.data.data)
+          item_product.value = productResponse.data;
+          console.log(productResponse.data)
         } else {
           console.error("Data is missing in the API response.");
         }

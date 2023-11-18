@@ -1,4 +1,6 @@
 <template>
+  <div class="flex flex-col px-40">
+
   <div class="container px-20 py-4">
     <div class="px-40 flex justify-between">
       <h1 class="text-2xl">{{ hotel.name }}</h1>
@@ -113,6 +115,7 @@
 
     <DatePicker/>
   </div>
+</div>
 </template>
 
 <script>
