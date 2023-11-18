@@ -123,5 +123,9 @@ export default {
 </script>
 
 <style scoped>
+  @import "tailwindcss/base";
+  @import "tailwindcss/components";
+  @import "tailwindcss/utilities";
 
+  @import "@/../node_modules/primeflex/primeflex.css";
 </style>

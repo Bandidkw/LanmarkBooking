@@ -128,8 +128,11 @@ export default {
           { id: 2, label: "จัดการข้อมูล admin", route: "/manageadmin" },
         ],
         partner: [
-          { id: 3, label: "อนุมัติ partner", route: "/" },
-          { id: 4, label: "จัดการข้อมูล partner", route: "/" },
+          { id: 3, label: "อนุมัติ partner", route: "/approvepartner" },
+          { id: 4, label: "จัดการข้อมูล partner", route: "/managepartner" }
+        ],
+        member: [
+          { id: 5, label: "จัดการข้อมูล member ", route: "/managemember" },
         ],
         member: [{ id: 5, label: "จัดการข้อมูล member ", route: "/" }],
         โรงแรม: [

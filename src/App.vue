@@ -49,10 +49,10 @@ if (localStorage.getItem("token") !== null) {
         this.$router.push("/dashboardadmin");
       }
       if (this.$store.getters.roles === "partner") {
-        console.log("partner")
+        this.$router.push("/dashboardpartner");
       }
       if (this.$store.getters.roles === "member") {
-        console.log("member")
+        this.$router.push("/");
       }
     })
     .catch((error) => {

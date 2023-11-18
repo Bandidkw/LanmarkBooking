@@ -27,6 +27,8 @@ import HotelType from "@/views/admin/managehotel/HotelType.vue";
 import Interesting from "@/views/admin/managehotel/Interesting.vue";
 import Facility from "@/views/admin/managehotel/Facility.vue";
 import Certificate from "@/views/admin/managehotel/Certificate.vue";
+import DashBoardPartner from '@/views/partner/DashBoardPartner.vue'
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -165,6 +167,37 @@ const router = createRouter({
       name: "certificate",
       component: Certificate,
     },
+
+    {
+      path: "/dashboardpartner",
+      name: "dashboardpartner",
+      component: DashBoardPartner ,
+    },
+    {
+      path: "/managepartner",
+      name: "managepartner",
+      component:  () => import('@/views/partner/managepartner/ManagePartner.vue') ,
+    },
+    {
+      path: "/approvepartner",
+      name: "approvepartner",
+      component:  () => import('@/views/admin/ApprovePartner.vue') ,
+    },
+    {
+      path: "/managemember",
+      name: "managemember",
+      component:  () => import('@/views/member/managemember/ManageMember.vue') ,
+    },
+    {
+      path: "/managehotel",
+      name: "managehotel",
+      component:  () => import('@/views/partner/managehotel/ManageHotel.vue') ,
+    },
+    {
+      path: "/addhotel",
+      name: "addhotel",
+      component:  () => import('@/views/partner/managehotel/AddHotel.vue') ,
+    }
   ],
 });
 
