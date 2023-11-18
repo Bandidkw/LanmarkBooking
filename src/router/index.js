@@ -10,6 +10,7 @@ import AddAdmin from '@/views/admin/manageadmin/AddAdmin.vue'
 import EditAdmin from '@/views/admin/manageadmin/EditAdmin.vue'
 import  CreateAccount from '@/views/CreateAccount.vue'
 import PageOne from "@/views/singlepage/Page_One.vue";
+import DashBoardPartner from '@/views/partner/DashBoardPartner.vue'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -69,6 +70,36 @@ const router = createRouter({
       name: "register",
       component: CreateAccount,
     },
+    {
+      path: "/dashboardpartner",
+      name: "dashboardpartner",
+      component: DashBoardPartner ,
+    },
+    {
+      path: "/managepartner",
+      name: "managepartner",
+      component:  () => import('@/views/partner/managepartner/ManagePartner.vue') ,
+    },
+    {
+      path: "/approvepartner",
+      name: "approvepartner",
+      component:  () => import('@/views/admin/ApprovePartner.vue') ,
+    },
+    {
+      path: "/managemember",
+      name: "managemember",
+      component:  () => import('@/views/member/managemember/ManageMember.vue') ,
+    },
+    {
+      path: "/managehotel",
+      name: "managehotel",
+      component:  () => import('@/views/partner/managehotel/ManageHotel.vue') ,
+    },
+    {
+      path: "/addhotel",
+      name: "addhotel",
+      component:  () => import('@/views/partner/managehotel/AddHotel.vue') ,
+    }
   ],
 });
 
