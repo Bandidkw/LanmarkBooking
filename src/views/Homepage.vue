@@ -89,7 +89,6 @@ export default {
   components:{
     PopularSection,
     },
-  name: 'HomepageMain',
   data(){
       return{
         isFilterVisible:false,
@@ -112,7 +111,11 @@ export default {
 };
 </script>
 
+
 <style scoped>
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 .invitatain{
   width: 100%;
   padding: 2rem 5rem;

@@ -9,6 +9,7 @@ import ManageAdmin from '@/views/admin/manageadmin/ManageAdmin.vue'
 import AddAdmin from '@/views/admin/manageadmin/AddAdmin.vue'
 import EditAdmin from '@/views/admin/manageadmin/EditAdmin.vue'
 import  CreateAccount from '@/views/CreateAccount.vue'
+import PageOne from "@/views/singlepage/Page_One.vue";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -53,10 +54,21 @@ const router = createRouter({
       component:EditAdmin
     },
     {
-      path: '/register',
-      name: 'register',
-      component:CreateAccount,
-    }
+      path: "/popular",
+      name: "popular",
+      component: PopularSection,
+    },
+    {
+      path: "/hotel/:id",
+      name: "hotel", // เพิ่ม name เพื่อให้สามารถใช้ router-link ไปยังนั้นได้
+      component: PageOne,
+      props: true,
+    },
+    {
+      path: "/register",
+      name: "register",
+      component: CreateAccount,
+    },
   ],
 });
 

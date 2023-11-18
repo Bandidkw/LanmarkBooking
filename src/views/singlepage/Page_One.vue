@@ -23,6 +23,7 @@
 
     <!-- </div> -->
   </div>
+  <!-- eslint-disable-next-line vue/no-multiple-template-root -->
   <div class="flex pt-4 px-36 justify-between">
     <div class="w-3/6">
       <div class="details m-0 p-2 border-b-2 border-b-sky-400">
@@ -111,50 +112,23 @@
         </div>
       </div>
     </div>
-    <div
-      class="block w-80 p-4 h-72"
-      style="
-        border: 1px solid rgb(221, 221, 221);
-        border-radius: 12px;
-        box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
-      "
-    >
-      <div class="book-it"></div>
-      <div class="price m-0 p-2">
-        <h1>Price</h1>
-        <div class="flex justify-between px-4 py-2">
-          <div class="checkin-box">
-            <!-- ปุ่มเช็คอิน -->
-            <p>เช็คอิน</p>
-            <button @click="showCheckinCalendar">เพิ่มวันที่</button>
-          </div>
-          <div class="checkout-box">
-            <!-- ปุ่มเช็คเอาท์ -->
-            <p>เช็คเอาท์</p>
-            <button @click="showCheckoutCalendar">เพิ่มวันที่</button>
-          </div>
-        </div>
-      </div>
 
-      <DatePicker />
-    </div>
-    <!-- รายละเอียด -->
+    <DatePicker/>
   </div>
 </template>
 
 <script>
-import DatePicker from "./Modal_Date.vue";
+import DatePicker from "@/views/singlepage/Modal_Date.vue";
 export default {
   props: ["id"],
   components: {
-    DatePicker,
+    DatePicker
   },
   computed: {
     hotel() {
       const hotelId = this.$route.params.id;
-
       const hotels = [
-        {
+      {
           id: 0,
           name: "Hotel A Detail",
           details: "Luxurious hotel with amazing amenities.",
@@ -256,17 +230,19 @@ export default {
             ],
           },
         },
-      ];
-
+      ]
       const selectedHotel = hotels.find((hotel) => hotel.id == hotelId);
 
       return selectedHotel || null;
     },
-  },
+    },
 };
 </script>
 
 <style>
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 .detail-container {
   padding: 0 5rem;
   width: 100%;

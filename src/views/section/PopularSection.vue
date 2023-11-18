@@ -1,151 +1,169 @@
 <template>
-    <div class="content">
-            <div class="promo-grid">
-                <div class="img-promo">
-                    <div class="grid-img" v-for="(item,index) in url" :key="index">
-                        <img class="hotel-logo" width="100%" :src="item.url"/>
-                        <i class="bi bi-arrow-right-circle-fill hidden" id="icon-next" @click="buttonClicked"></i>
-                        <!-- <i class="bi bi-arrow-left-circle-fill hidden" id="icon-next" @click="buttonClicked"></i> -->
-                        <div class="promo-details">
-                        <h4>Hotel Name</h4>
-                        <p>Details</p>
-                        <p>Date</p>
-                        <p>Price฿</p>
-                    </div>
-                    </div>
-                </div>
-            </div>
-       </div>
+   <div class="grid-container">
+      <div v-for="(item, index) in gridData" :key="index" class="grid-item">
+        <router-link :to="{ name: 'hotel', params: { id: index } }">
+        <div class="image-container">
+        <img :src="item.image[currentImageIndex]" alt="Gallery Image" />
+        <i class="bi bi-arrow-right-circle-fill hidden"></i>
+        </div>
+        </router-link>
+        <div class="details-container">
+          <h2>{{ item.name }}</h2>
+          <p>{{ item.details }}</p>
+          <p>Date: {{ item.date }}</p>
+          <p>Price: {{ item.price }} ฿</p>
+        </div>
+      </div>
+    </div>
 </template>
+  
 <script>
-export default {
-    data(){
-        return{
-         url: [
-                {
-                    id: 2,
-                    url: '/images/hotel-room/room01.jpg'
-                },
-                {
-                    id: 3,
-                    url: '/images/hotel-room/room02.jpg'
-                },
-                {
-                    id: 4,
-                    url: '/images/hotel-room/room01.jpg'
-                },
-                {
-                    id: 5,
-                    url: '/images/hotel-room/room02.jpg'
-                },
-                {
-                    id: 6,
-                    url: '/images/hotel-room/room01.jpg'
-                },
-                {
-                    id: 7,
-                    url: '/images/hotel-room/room02.jpg'
-                }
-            ]
-        }
-    
-    // components: {
-    //     // Card
-//     mounted(){
-//     this.posts.forEach(p => this.images.push({img: p.images[0]}));
-        }
-}
-</script>
-<style lang="scss" scoped>
-.content{
-    width: 100%;
-    // height: 100vh;
-    // background-color: rgb(177, 176, 176);
-}
-p{
-    color:var(--gray-800);
-    font-weight: 400;
-}
-.grid-img{
-    position: relative;
-    width: 100%;
-    height: 70%;
-}
-.grid-img img{
-    position: relative;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
-.hotel-logo{
-    border-radius: 1rem;
-}
-.img-promo{
+  export default {
+    data() {
+      return {
+        gridData:[
+        {
+            name: 'Hotel A',
+            details: 'Luxurious hotel with amazing amenities.',
+            date: '2023-11-15',
+            price: 1500,
+            image: [
+                'images/hotel-room/room01.jpg',
+                'images/hotel-room/room02.jpg',
+                'images/hotel-room/room03.jpg',
+            ],
+          },
+          {
+            name: 'Hotel B',
+            details: 'Cozy boutique hotel in the heart of the city.',
+            date: '2023-11-15',
+            price: 2500,
+            image: [
+                'images/hotel-room/room02.jpg',
+                'images/hotel-room/room01.jpg',
+                'images/hotel-room/room03.jpg',
+            ],
+          },
+          {
+            name: 'Hotel C',
+            details: 'Experience the epitome of luxury at our 5-star hotel with breathtaking views and unparalleled service.',
+            date: '2023-11-16',
+            price: 5000,
+            image: [
+                'images/hotel-room/room03.jpg',
+                'images/hotel-room/room02.jpg',
+                'images/hotel-room/room01.jpg',
+            ],
+          },
+          {
+            name: 'Hotel D',
+            details: 'Charm meets comfort in our boutique hotel located in the heart of the city. Perfect for urban explorers.',
+            date: '2023-11-16',
+            price: 3000,
+            image: [
+                'images/hotel-room/room05.jpg',
+                'images/hotel-room/room02.jpg',
+                'images/hotel-room/room03.jpg',
+            ],
+          },
+          {
+            name: 'Hotel E',
+            details: 'Escape to our seaside resort and indulge in a serene atmosphere with stunning ocean views and pristine beaches.',
+            date: '2023-11-17',
+            price: 4500,
+            image: [
+                'images/hotel-room/room06.jpg',
+                'images/hotel-room/room02.jpg',
+                'images/hotel-room/room03.jpg',
+            ],
+          },
+          {
+            name: 'Hotel F',
+            details: 'Embrace nature at our mountain lodge retreat. Surrounded by lush greenery and majestic mountain views.',
+            date: '2023-11-18',
+            price: 3500,
+            image: [
+                'images/hotel-room/room04.jpg',
+                'images/hotel-room/room02.jpg',
+                'images/hotel-room/room03.jpg',
+            ],
+          },
+        ],
+        currentImageIndex: 0
+      };
+    },
+  };
+  </script>
+  
+  <style scoped>
+  .grid-container {
     display: grid;
-    grid-column-gap: 1rem;
     grid-template-columns: repeat(6,1fr);
-    grid-template-rows: repeat(1,300px);
+    grid-template-rows: repeat(1,400px);
+    gap: 1rem;
+  }
+  .grid-item {
+    padding: 16px;
+  }
+  .image-container {
+  position: relative;
+  height: 50%;
 }
-.img-promo .hidden{
-    cursor: pointer;
-    color: #cccccc;
-    position: absolute;
-    font-size: 1.5rem;
-    top: 35%;
-    right: 10%;
-    transform: translate(50%,50%);
-    transition: all 0.2s ease-in-out;
-}
-.img-promo i:hover{
-    color: #fff;
-}
-// .grid-img img:hover{
-//     box-shadow: 0px 0px 10px 3px #5dd6ff;
-//     // transform: translate(-0.5rem, -1ex);
-// }
-.img-promo img{
+.image-container img{
     width: 100%;
     height: 100%;
 }
-.promo-details h4,p{
-    color: #000;
-    margin: 0;
-    padding: 0;
+
+.button-container {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(-50%, -50%);
 }
-.hidden{
-    transition: .5s ease;
+.button-container i{
     opacity: 0;
-    position: absolute;
-    top: 50%;
-    left: 15%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    text-align: center;
+    font-size: 1.5rem;
+    color: #c7c7c7;
+    transition: all 0.2s ease-in-out;
 }
-.grid-img:hover .hidden{
+.image-container img{
+    border-radius: 1.5rem;
+}
+.image-container:hover .hidden{
     opacity: 1;
+    cursor: pointer;
+    color: #fff;
 }
-@media screen and (max-width:1200px) {
-    .content{
-        margin: 0;
-    }
-    .img-promo{
-    grid-template-columns: repeat(4,1fr);
-    grid-template-rows: repeat(2,300px);
-}
-    
-}
-@media screen and (max-width: 992px) {
-  .content {
-    margin: 0;
+  
+  .details-container {
+    margin-top: 1rem;
   }
-}
-@media screen and (max-width:450px) {
-    .content {
-    margin-left:2rem !important ;
-    margin-right:2rem !important;
-    border-radius: 2rem 2rem 0 0;
-    // border-top-right-radius: 2rem;
-    // border-top-left-radius: 2rem;
+  .details-container h2{
+    font-size: 1.2rem;
+  }
+  .details-container p{
+    font-size: 0.8rem;
+    font-weight: 300;
+  }
+
+@media screen and (max-width:1200px) {
+    .grid-container {
+    grid-template-columns: repeat(4,1fr);
+  }
+  }
+@media screen and (max-width:992px) {
+    .grid-container {
+    grid-template-columns: repeat(3,1fr);
     }
-}
-</style>
+  } 
+@media screen and (max-width:768) {
+    .grid-container {
+    grid-template-columns: repeat(2,1fr);
+    }
+  }
+@media screen and (max-width:576px) {
+    .grid-container {
+    grid-template-columns: repeat(1,1fr);
+    }
+  }
+  </style>
