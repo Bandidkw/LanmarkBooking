@@ -4,8 +4,6 @@
       <h1 class="text-2xl">{{ hotel.name }}</h1>
       <router-link to="/">กลับหน้าแรก</router-link>
     </div>
-    <h1 class="text-3xl font-bold">{{ hotel.name }}</h1>
-    <router-link to="/">กลับหน้าแรก</router-link>
   </div>
   <div class="img-grid px-36">
     <!-- รูปภาพใหญ่ -->

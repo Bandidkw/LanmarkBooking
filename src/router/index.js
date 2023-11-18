@@ -10,6 +10,19 @@ import AddAdmin from '@/views/admin/manageadmin/AddAdmin.vue'
 import EditAdmin from '@/views/admin/manageadmin/EditAdmin.vue'
 import  CreateAccount from '@/views/CreateAccount.vue'
 import PageOne from "@/views/singlepage/Page_One.vue";
+// --------------ManageRoom-------------------------
+import ManageAir from '@/views/admin/manageRoom/ManageAir.vue';
+import ManageBed from '@/views/admin/manageRoom/ManageBed.vue';
+import ManageShower from '@/views/admin/manageRoom/ManageShower.vue';
+import ManageFer from '@/views/admin/manageRoom/ManageFer.vue';
+import ManageFacilitie from '@/views/admin/manageRoom/ManageFacilitie.vue';
+import ManageEntertain from '@/views/admin/manageRoom/ManageEntertain.vue';
+import ManageRoomer from '@/views/admin/manageRoom/ManageRoomer.vue';
+import ManageRoomstatus from '@/views/admin/manageRoom/ManageRoomstatus.vue';
+import ManageRoomview from '@/views/admin/manageRoom/ManageRoomview.vue';
+import ManageRoomtype from '@/views/admin/manageRoom/ManageRoomtype.vue';
+import ManageSecurity from '@/views/admin/manageRoom/ManageSecurity.vue';
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -53,6 +66,63 @@ const router = createRouter({
       name:'editadmin',
       component:EditAdmin
     },
+    // -----------------------ManegeRoom---------------------------
+    {
+      path:'/manageair',
+      name:'manageair',
+      component:ManageAir
+    },
+    {
+      path:'/managebed',
+      name: 'managebed',
+      component:ManageBed
+    },
+    {
+      path:'/manageshower',
+      name:'manageshower',
+      component:ManageShower
+    },
+    {
+      path:'/managefer',
+      name:'manageferr',
+      component:ManageFer
+    },
+    {
+      path:'/managefacilitie',
+      name:'managefacilitie',
+      component:ManageFacilitie
+    },
+    {
+      path:'/manageentertain',
+      name:'manageentertain',
+      component:ManageEntertain
+    },
+    {
+      path:'/manageroomer',
+      name:'manageroomer',
+      component:ManageRoomer
+    },
+    {
+      path:'/manageroomstatus',
+      name:'manageroomstatus',
+      component:ManageRoomstatus
+    },
+    {
+      path:'/manageroomview',
+      name:'manageroomview',
+      component:ManageRoomview
+    },
+    {
+      path:'/manageroomtype',
+      name:'manageroomtype',
+      component:ManageRoomtype
+    },
+    {
+      path:'/managesecurity',
+      name:'managesecurity',
+      component:ManageSecurity
+    },
+    // ---------------------------end--------------------------------
     {
       path: "/popular",
       name: "popular",
