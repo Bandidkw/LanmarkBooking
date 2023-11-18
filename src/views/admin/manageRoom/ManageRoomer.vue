@@ -2,11 +2,10 @@
 <template>
     <div class="grid px-10 mt-3 ml-5 mr-5" >
       <div class="col-12 lg:col-12 border">
-        <div class="text-center font-bold text-4xl">จัดการข้อมูล admin</div>
+        <div class="text-center font-bold text-4xl">จัดการข้อมูล บริการรูมเซอร์</div>
         <div class="text-right my-5">
           <router-link to="/addadmin">
-
-            <Button  label="เพิ่มข้อมูลadmin" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
+            <Button  label="เพิ่มข้อมูล บริการรูมเซอร์" class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
           </router-link>
          
         </div>
@@ -28,8 +27,8 @@
           </p>
         </template>
 
-        <Column field="telephone" header="เบอร์โทรศัพท์" style="width: 20%;"></Column>
-        <Column field="name" class="" header="ชื่อ" style="width: 10%;"> </Column>
+        <Column field="name" header="ชื่อ" style="width: 20%;"></Column>
+        <Column field="description" class="" header="คำอธิบาย" style="width: 10%;"> </Column>
         <Column
           :exportable="false"
           class=""
@@ -38,21 +37,19 @@
         >
 
           <template #body="item">
-            <updateadmin title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/>
+            <!-- <updateadmin title="แก้ไข" :admin_id="item.data._id" :data="item.data"/> -->
            <Button
             @click="deleteProduct(item.data._id)"
               class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-
               style="background-color: #C21010"
               >ลบ</Button>
              
           </template>
+          
         </Column>
       </DataTable>
-      
       </div>
     </div>
-
 </template>
 
 <script>
@@ -73,7 +70,7 @@ export default {
     const getData = async () => {
       try {
         const productResponse = await axios.get(
-          `${process.env.VUE_APP_API}admin/`,
+          `${process.env.VUE_APP_API}room/service`,
           {
             headers: {
               token: localStorage.getItem("token"),
@@ -82,8 +79,8 @@ export default {
         );
 
         if (productResponse.data && productResponse.data) {
-          item_product.value = productResponse.data.data;
-          console.log(productResponse.data.data)
+          item_product.value = productResponse.data;
+          console.log(productResponse.data)
         } else {
           console.error("Data is missing in the API response.");
         }
@@ -136,12 +133,6 @@ export default {
     };
 
   },
-    name: 'ManageAdmin',
+    name: 'ManageRoomer',
   };
 </script>
-<style scoped>
-  @import "tailwindcss/base";
-  @import "tailwindcss/components";
-  @import "tailwindcss/utilities";
-  </style>
-
