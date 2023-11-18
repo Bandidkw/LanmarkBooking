@@ -1,35 +1,66 @@
 <!-- Navbar.vue -->
 <template>
-  <nav class="nav-bar">
+  <nav class="nav-bar" style="box-shadow: rgba(0, 0, 0, 0.08) 0 1px 1px">
     <router-link to="/" class="topweb-left">
       <img src="/logo/lanmark-logo-navbar.png" alt="" />
     </router-link>
-    <div class="flex h-10 items-center input-group rounded-2xl px-4" style="box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);">
-          <div class="p-0 search">
-              <input type="text" placeholder="ค้นหาที่พักหรือโรงแรม" aria-label="Recipient's username">
-          </div>
-          <div class="input-group-append w-8">
-          <button class="btn-search btn-outline-secondary w-full" type="button"><i class="bi bi-search w-full"></i></button>
-          </div>
+    <div
+      class="flex h-10 items-center input-group rounded-2xl px-4"
+      style="
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08),
+          0 4px 12px rgba(0, 0, 0, 0.05);
+      "
+    >
+      <div class="p-0 search">
+        <input
+          type="text"
+          placeholder="ค้นหาที่พักหรือโรงแรม"
+          aria-label="Recipient's username"
+        />
       </div>
+      <div class="input-group-append w-8">
+        <button class="btn-search btn-outline-secondary w-full" type="button">
+          <i class="bi bi-search w-full"></i>
+        </button>
+      </div>
+    </div>
     <div class="topweb-right">
       <p>ให้เช่าที่พักกับ Lanmark</p>
-      <!-- <router-link to="/">Home</router-link>
-        <router-link to="/about">About</router-link>
-          <router-link to="/contact">Contact</router-link> -->
       <div class="login-box" @click="showPopup">
         <i class="bi bi-list"></i>
         <button type="button" class="log-icon">
           <i class="bi bi-person-fill"></i>
         </button>
 
-        <div v-if="isPopupVisible" class="login-popup">
+        <div v-if="isPopupVisible" class="Modal-content">
           <!-- popup ที่แสดง -->
           <div class="popup-content" @click.stop>
             <!-- ปุ่มปิด popup -->
             <div class="top-pop">
               <h1>เข้าสู่ระบบ</h1>
-              <i class="bi bi-x close-btn" @click="hidePopup"></i>
+              <button
+                @click="hidePopup"
+                type="button"
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-2 h-4 inline-flex justify-center items-center"
+                data-modal-hide="default-modal"
+              >
+                <svg
+                  class="w-3 h-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
             </div>
             <!--  -->
 
@@ -69,13 +100,22 @@
                 </div>
 
                 <!-- ปุ่มเข้าสู่ระบบ -->
-                <button type="submit" :disabled="showValidationError">
+                <button
+                  type="submit"
+                  :disabled="showValidationError"
+                  class="text-white bg-blue-700 hover:bg-blue-800"
+                >
                   เข้าสู่ระบบ
                 </button>
               </div>
               <span
                 >ยังไม่มีบัญชี ผู้ใช้งาน
-                <a href="#" @click="registerPage">สร้างบัญชี</a></span
+                <a
+                  href="#"
+                  style="color: blue; text-decoration: underline"
+                  @click="registerPage"
+                  >สร้างบัญชี</a
+                ></span
               >
             </form>
             <!-- ... -->
@@ -170,7 +210,7 @@ export default {
 
 <!---------------------------- style -------------------------------->
 
-<style lang="scss"> 
+<style lang="scss">
 //@import '@/assets/scss/custom/_navbar.scss';
 
 .nav-bar {
@@ -190,6 +230,9 @@ export default {
   display: flex;
   align-items: center;
   column-gap: 1rem;
+}
+.topweb-right p {
+  margin: 0;
 }
 
 .login-box {
@@ -225,7 +268,11 @@ export default {
   color: #000;
   font-size: 1.5rem;
 }
+//-----------------------search----------------------------------------//
 
+.search input:focus {
+  outline: none;
+}
 /*------------------------------- LoginPopup ----------------------------*/
 
 .top-pop {
@@ -237,26 +284,23 @@ export default {
   font-size: 2rem;
 }
 
-.login-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.popup-content {
+.Modal-content {
   cursor: default;
-  width: 30%;
-  height: 25rem;
-  background-color: #fff;
-  padding: 1rem 3rem;
+  width: 25%;
+  max-width: 600px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
   border-radius: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  padding: 1rem 2rem;
   z-index: 9999;
+}
+.Modal-content input {
+  border: solid 1px purple;
+  border-radius: 8px;
 }
 
 .popup-content i {

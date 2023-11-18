@@ -2,7 +2,7 @@ import jwtDecode from "jwt-decode";
 import PrimeVue from 'primevue/config';
 import { createApp } from 'vue';
 import App from './App.vue';
-import './assets/main.css';
+
 //import routerAdmin from './router/admin.js'; // นำมาใช้ Router ที่เราสร้าง
 import router from './router/index.js'; // นำมาใช้ Router ที่เราสร้าง
 

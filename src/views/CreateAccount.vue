@@ -404,7 +404,7 @@ export default {
 
 <style scoped>
 .center-container {
-  background-image: url(https://img.freepik.com/free-photo/spa-salon-with-beach-view_53876-31335.jpg?w=1800&t=st=1700127284~exp=1700127884~hmac=37764ee2fd7237e11afa5bce60702248db20b78979b700e57617024594d3fe08);
+  background-image: url("/public/images/hotel-room/Register_Page.png");
   display: flex;
   width: 100%;
   background-size: cover;

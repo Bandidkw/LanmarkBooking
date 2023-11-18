@@ -1,20 +1,6 @@
 <!-- Content.vue -->
 <template>
   <div class="invitatain">
-
-    <!-- <div class="title-info">
-      <div class="search-box-cus">
-          <div class="input-group">
-          <div class="search">
-              <input type="text" class="form-control" placeholder="ค้นหาที่พักหรือโรงแรม" aria-label="Recipient's username">
-          </div>
-          <div class="input-group-append">
-          <button class="btn-search btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
-          </div>
-      </div>
-      </div>
-    </div> -->
-
     <!------------------------------- choose-room ------------------------>
     <div class="choose-room justify-center">
           <div class="room">
