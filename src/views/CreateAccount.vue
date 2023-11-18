@@ -258,7 +258,9 @@
 </template>
 
 <script>
+import axios from "axios";
 import * as yup from "yup";
+import Swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -297,9 +299,81 @@ export default {
     async register(userType) {
       try {
         if (userType === "member") {
+
           await this.validateMemberForm();
+          try{
+            const res = await axios.post(`${process.env.VUE_APP_API}signup/member`, {
+            telephone: this.member.phone,
+            password:this.member.password ,
+            name:this.member.name,
+            firstname:this.member.firstname,
+            lastname:this.member.lastname,
+            email:this.member.email,
+            telephone_inviter:this.member.recommendedPhone,
+            roles:"member"
+          },{
+            headers: {
+              token: localStorage.getItem("token"),
+            },
+          });
+          if (res.data) {
+            Swal.fire({
+            icon: "success",
+            title: "สมัครสมาชิกmemberสำเร็จ",
+            text: "สมัครสมาชิกmemberสำเร็จ",
+          });
+          this.$router.push("/");
+          } else {
+            await Swal.fire({
+              icon: "error",
+              title: "เกิดข้อผิดพลาด",
+              text: "ไม่สามารถลบข้อมูลได้",
+          });
+          }
+          }catch (error){
+            await Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด",
+            text: "ไม่สามารถลบข้อมูลได้8+",
+          });
+          }
+          
         } else if (userType === "partner") {
+
           await this.validatePartnerForm();
+          try{
+            const res = await axios.post(`${process.env.VUE_APP_API}signup/partner`, {
+            telephone: this.partner.phone,
+            password:this.partner.password ,
+            name:this.partner.name,
+            companyname:this.partner.companyName,
+            level:1
+          },{
+            headers: {
+              token: localStorage.getItem("token"),
+            },
+          });
+          if (res.data) {
+            Swal.fire({
+            icon: "success",
+            title: "สมัครสมาชิกpartnerสำเร็จ",
+            text: "สมัครสมาชิกpartnerสำเร็จ กรุณารอadmin อนุมัติไอดี partner",
+          });
+          this.$router.push("/");
+          } else {
+            await Swal.fire({
+              icon: "error",
+              title: "เกิดข้อผิดพลาด",
+              text: "ไม่สามารถลบข้อมูลได้",
+          });
+          }
+          }catch (error){
+            await Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด",
+            text: "ไม่สามารถลบข้อมูลได้8+",
+          });
+          }
         }
         console.log("Form submitted successfully!");
       } catch (error) {

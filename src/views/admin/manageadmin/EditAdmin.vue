@@ -1,5 +1,5 @@
 <template>
-  <Button @click="getdata" class="border-none" style="background-color: #ff7315" :label="title" :loading="loading" />
+  <Button @click="getdata" class="hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-2" style="background-color: #ff7315" :label="title" :loading="loading" />
 
   <!--eslint-disable-next-line vue/no-multiple-template-root -->
   <Dialog v-model:visible="sidebar" modal :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }" >

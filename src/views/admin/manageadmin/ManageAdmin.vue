@@ -5,7 +5,7 @@
         <div class="text-center font-bold text-4xl">จัดการข้อมูล admin</div>
         <div class="text-right my-5">
           <router-link to="/addadmin">
-            <Button  label="เพิ่มข้อมูลadmin" class="border-none bg-blue-500" />
+            <Button  label="เพิ่มข้อมูลadmin" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
           </router-link>
          
         </div>
@@ -40,16 +40,17 @@
             <updateadmin title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/>
            <Button
             @click="deleteProduct(item.data._id)"
-              class="border-none ml-2"
+              class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
               style="background-color: #C21010"
               >ลบ</Button>
              
           </template>
-          
         </Column>
       </DataTable>
+      
       </div>
     </div>
+
 </template>
 
 <script>
@@ -136,3 +137,4 @@ export default {
     name: 'ManageAdmin',
   };
 </script>
+
