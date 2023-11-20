@@ -95,7 +95,11 @@
               <div class="button-con">
                 <div class="show-pass">
                   <!-- แสดง/ซ่อน รหัสผ่าน -->
-                  <input type="checkbox" id="showPassword" v-model="password" />
+                  <input
+                    type="checkbox"
+                    id="showPassword"
+                    v-model="showPassword"
+                  />
                   <label for="showPassword">แสดงรหัสผ่าน</label>
                 </div>
 
