@@ -29,7 +29,7 @@
 
     <div v-if="showModalMember" class="Modal-content">
       <div class="top-pop">
-        <form @submit.prevent="register" class="form-control">
+        <form  class="form-control">
           <div class="top-pop">
             <h1>สมัครสมาชิก</h1>
             <button
@@ -155,7 +155,7 @@
 
     <div v-if="showModalPartner" class="Modal-content">
       <div class="top-pop"></div>
-      <form @submit.prevent="register('partner')" class="form-control">
+      <form  class="form-control">
         <div class="top-pop">
           <h1>สมัครพาร์ทเนอร์</h1>
           <button
@@ -302,9 +302,8 @@
         <div class="">
           <button
             @click="register('partner')"
-            type="button"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          >
+            type="submit"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
             Register
           </button>
         </div>
@@ -315,6 +314,7 @@
 
 <script>
 import * as yup from "yup";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -368,7 +368,25 @@ export default {
         } else if (userType === "partner") {
           await this.validatePartnerForm();
         }
-        console.log("Form submitted successfully!");
+        const productResponse = await axios.post(
+          `${process.env.VUE_APP_API}signup/partner`,{
+            telephone:this.partner.phone,
+            password:this.partner.password,
+            name : this.partner.name,
+            idcard:this.partner.idcard,
+            address:this.partner.address,
+            tambon:this.partner.tumbon,
+            amphure: this.partner.amphure,
+            province:this.partner.province,
+            level : "1"
+          }
+        );
+        if (productResponse.data && productResponse.data) {
+          item_product.value = productResponse.data;
+          console.log(productResponse.data)
+        } else {
+          console.error("Data is missing in the API response.");
+        }
       } catch (error) {
         console.error("Form validation failed:", error);
       }
