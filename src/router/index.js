@@ -29,6 +29,9 @@ import Facility from "@/views/admin/managehotel/Facility.vue";
 import Certificate from "@/views/admin/managehotel/Certificate.vue";
 import DashBoardPartner from '@/views/partner/DashBoardPartner.vue'
 
+//------------------------ partner ----------------//
+
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -197,6 +200,11 @@ const router = createRouter({
       path: "/addhotel",
       name: "addhotel",
       component:  () => import('@/views/partner/managehotel/AddHotel.vue') ,
+    },
+    {
+      path:"/reserveroom",
+      name:"reserveroom",
+      component: () => import('@/views/partner/managehotel/ReserveRoom.vue')
     }
   ],
 });

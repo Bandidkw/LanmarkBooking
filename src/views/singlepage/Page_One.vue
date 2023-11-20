@@ -7,7 +7,7 @@
       <router-link to="/">กลับหน้าแรก</router-link>
     </div>
   </div>
-  <div class="img-grid px-36">
+  <div v-if="large" class="img-grid px-36">
     <!-- รูปภาพใหญ่ -->
     <img class="w-full" :src="hotel.images.large" alt="Large Image" />
 

@@ -1,15 +1,9 @@
-
 <template>
     <div class="grid px-10 mt-3 ml-5 mr-5" >
       <div class="col-12 lg:col-12 border">
-        <div class="text-center font-bold text-4xl">จัดการข้อมูล แอร์</div>
+        <div class="text-center text-xl">ห้องที่จองแล้ว</div>
         <div class="text-right my-5">
-          <router-link to="/addadmin">
-            <Button  label="เพิ่มข้อมูล แอร์" class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
-          </router-link>
-
         </div>
-
         <DataTable
         :value="Array.isArray(item_product) ? item_product : []"
         :paginator="true"

@@ -72,7 +72,7 @@ export default {
       isMobileMenuOpen: false,
       isMenuOpenState: {
         items: false,
-        โรงแรม:false
+        ห้อง:false
       },
       namestore:`${this.$store.getters.name}`,
       dropdowns:{
@@ -81,9 +81,10 @@ export default {
         ],
       },
       navdropdowns:{
-        โรงแรม:[ 
-          { id: 1, label: "เพิ่มโรงแรม", route: "/addhotel" },
-          { id: 2, label: "จัดการข้อมูลโรงแรม", route: "/managehotel" },
+        ห้อง:[ 
+          { id: 1, label: "เพิ่มห้อง", route: "/addhotel" },
+          { id: 2, label: "จองห้อง", route: "/reserveroom" },
+          { id: 3, label: "จัดการข้อมูลห้อง", route: "/managehotel" },
         ],
       },
     };

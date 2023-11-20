@@ -1,12 +1,12 @@
 <template>
     <div class="grid px-10 mt-3">
-      <div class="col-12 lg:col-12 ">
-        <center class="text-xl">เพิ่มข้อมูล hotel</center>
+      <div class="col-12 lg:col-12">
+        <center class="text-xl">เพิ่มข้อมูล ห้อง</center>
         <form class="w-full ">
           <div class="flex flex-wrap -mx-3 mb-6 w-full">
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
-                ชื่อโรงแรม :
+                ชื่อห้อง :
               </label>
               <input
                 class="appearance-none block w-full  text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -60,7 +60,7 @@
                 class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                 id="grid-first-name" type="text">
             </div>
-            <div class="w-1/3">
+            <div class="w-1/3 pl-3">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                     สิ่งอำนวยความสะดวก :
                 </label>
@@ -74,6 +74,10 @@
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                     การรับรอง :
                 </label>
+            </div>
+            <div class="flex items-center pl-3">
+              <label class="flex uppercase w-3/12 tracking-wide text-gray-700 text-xs font-bold" for="grid-first-name">เพิ่มรูปภาพ</label>
+              <input class="appearance-none block w-9/12 text-gray-700 border border-bluegray-800 rounded py-3 px-3 leading-tight focus:outline-none focus:bg-white" type="file">
             </div>
           </div>
           <div class="md:flex md:items-center">
