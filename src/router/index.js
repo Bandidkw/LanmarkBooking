@@ -148,7 +148,6 @@ const router = createRouter({
       name: "register",
       component: CreateAccount,
     },
-
     ///////// MANAGE_HOTEL //////////
     {
       path: "/managehotel/type",

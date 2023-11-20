@@ -315,6 +315,7 @@
 <script>
 import * as yup from "yup";
 import axios from "axios";
+
 export default {
   data() {
     return {
@@ -384,6 +385,17 @@ export default {
         if (productResponse.data && productResponse.data) {
           item_product.value = productResponse.data;
           console.log(productResponse.data)
+        } else {
+          console.error("Data is missing in the API response.");
+        }
+        const upfilePick = await axios.post(
+          `${process.env.VUE_APP_API}partner/picture/:id`,{
+            filepic:this.partner.filepic,
+          }
+        );
+        if (upfilePick.data && upfilePick.data) {
+          item_product.value = upfilePick.data;
+          console.log(upfilePick.data)
         } else {
           console.error("Data is missing in the API response.");
         }
