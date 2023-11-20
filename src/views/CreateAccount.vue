@@ -35,7 +35,7 @@
             <button
               @click="close"
               type="button"
-              class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-1 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 hover:rounded-full text-sm w-1 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
               data-modal-hide="default-modal"
             >
               <svg
@@ -112,16 +112,6 @@
           />
           <span class="error-message">{{ errors.phone }}</span>
 
-          <label for="recommendedPhone">Recommended Phone</label>
-          <input
-            class="input-form"
-            type="tel"
-            v-model="member.recommendedPhone"
-            @input="validateField('recommendedPhone', 'member')"
-            placeholder="Recommended Phone number"
-          />
-          <span class="error-message">{{ errors.recommendedPhone }}</span>
-
           <div class="input-content">
             <div class="input-box">
               <label for="password">Password :</label>
@@ -171,7 +161,7 @@
           <button
             @click="close"
             type="button"
-            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-1 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 hover:rounded-full text-sm w-1 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
             data-modal-hide="default-modal"
           >
             <svg
@@ -213,36 +203,102 @@
         />
         <span class="error-message">{{ errors.phone }}</span>
 
-        <label for="companyName">Company-Name :</label>
+        <label for="idcard"> ID CARD :</label>
         <input
           class="input-form"
-          type="text"
-          v-model="partner.companyName"
-          @input="validateField('companyName', 'partner')"
-          placeholder="CompanyName"
+          type="tel"
+          v-model="partner.idcard"
+          @input="validateField('idcard', 'partner')"
+          placeholder="ID Card number"
         />
-        <span class="error-message">{{ errors.companyName }}</span>
+        <span class="error-message">{{ errors.idcard }}</span>
 
-        <label for="password">Password :</label>
+        <label for="filepic"> File Picture ID Card :</label>
         <input
-          class="input-form"
-          type="text"
-          v-model="partner.password"
-          @input="validateField('password', 'partner')"
-          placeholder="password"
+          class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+          id="fileinput"
+          type="file"
+          ref="fileinput"
+          @change="handleFileChange"
+          placeholder="File Picture number"
         />
-        <span class="error-message">{{ errors.password }}</span>
+        <span class="error-message">{{ errors.filepic }}</span>
 
-        <label for="confirmPassword">Confirm-Password :</label>
-        <input
-          class="input-form"
-          type="text"
-          v-model="partner.confirmPassword"
-          @input="validateField('confirmPassword', 'partner')"
-          placeholder="confirmPassword"
-        />
-        <span class="error-message">{{ errors.confirmPassword }}</span>
+        <div class="input-content">
+          <div class="input-box">
+            <label for="address"> Address :</label>
+            <input
+              class="input-form"
+              type="tel"
+              v-model="partner.address"
+              @input="validateField('address', 'partner')"
+              placeholder="Address"
+            />
+            <span class="error-message">{{ errors.address }}</span>
+          </div>
+          <div class="input-box">
+            <label for="tumbon"> Tumbon :</label>
+            <input
+              class="input-form"
+              type="tel"
+              v-model="partner.tumbon"
+              @input="validateField('tumbon', 'partner')"
+              placeholder="Tumbon"
+            />
+            <span class="error-message">{{ errors.tumbon }}</span>
+          </div>
+        </div>
+        <div class="input-content">
+          <div class="input-box">
+            <label for="amphure"> Amphure :</label>
+            <input
+              class="input-form"
+              type="tel"
+              v-model="partner.amphure"
+              @input="validateField('amphure', 'partner')"
+              placeholder="Amphure "
+            />
+            <span class="error-message">{{ errors.amphure }}</span>
+          </div>
 
+          <div class="input-box">
+            <label for="province"> Province :</label>
+            <input
+              class="input-form"
+              type="tel"
+              v-model="partner.province"
+              @input="validateField('province', 'partner')"
+              placeholder="Province"
+            />
+            <span class="error-message">{{ errors.province }}</span>
+          </div>
+        </div>
+
+        <div class="input-content">
+          <div class="input-box">
+            <label for="password">Password :</label>
+            <input
+              class="input-form"
+              type="text"
+              v-model="partner.password"
+              @input="validateField('password', 'partner')"
+              placeholder="password"
+            />
+            <span class="error-message">{{ errors.password }}</span>
+          </div>
+
+          <div class="input-box">
+            <label for="confirmPassword">Confirm-Password :</label>
+            <input
+              class="input-form"
+              type="text"
+              v-model="partner.confirmPassword"
+              @input="validateField('confirmPassword', 'partner')"
+              placeholder="confirmPassword"
+            />
+            <span class="error-message">{{ errors.confirmPassword }}</span>
+          </div>
+        </div>
         <div class="">
           <button
             @click="register('partner')"
@@ -258,9 +314,7 @@
 </template>
 
 <script>
-import axios from "axios";
 import * as yup from "yup";
-import Swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -270,16 +324,20 @@ export default {
         lname: "",
         email: "",
         phone: "",
-        recommendedPhone: "",
         password: "",
         confirmPassword: "",
       },
       partner: {
         name: "",
         phone: "",
+        idcard: "",
+        filepic: null,
+        address: "",
+        tumbon: "",
+        amphure: "",
+        province: "",
         password: "",
         confirmPassword: "",
-        companyName: "",
       },
       errors: {},
       showModalPartner: false,
@@ -287,6 +345,13 @@ export default {
     };
   },
   methods: {
+    handleFileChange(event) {
+      const input = this.$refs.fileinput;
+      if (input.files && input.files.length > 0) {
+        this.partner.filepic = input.files[0];
+        this.validateField("filepic", "partner");
+      }
+    },
     showModal(type) {
       if (type === "partner") {
         this.showModalPartner = true;
@@ -299,81 +364,9 @@ export default {
     async register(userType) {
       try {
         if (userType === "member") {
-
           await this.validateMemberForm();
-          try{
-            const res = await axios.post(`${process.env.VUE_APP_API}signup/member`, {
-            telephone: this.member.phone,
-            password:this.member.password ,
-            name:this.member.name,
-            firstname:this.member.firstname,
-            lastname:this.member.lastname,
-            email:this.member.email,
-            telephone_inviter:this.member.recommendedPhone,
-            roles:"member"
-          },{
-            headers: {
-              token: localStorage.getItem("token"),
-            },
-          });
-          if (res.data) {
-            Swal.fire({
-            icon: "success",
-            title: "สมัครสมาชิกmemberสำเร็จ",
-            text: "สมัครสมาชิกmemberสำเร็จ",
-          });
-          this.$router.push("/");
-          } else {
-            await Swal.fire({
-              icon: "error",
-              title: "เกิดข้อผิดพลาด",
-              text: "ไม่สามารถลบข้อมูลได้",
-          });
-          }
-          }catch (error){
-            await Swal.fire({
-            icon: "error",
-            title: "เกิดข้อผิดพลาด",
-            text: "ไม่สามารถลบข้อมูลได้8+",
-          });
-          }
-          
         } else if (userType === "partner") {
-
           await this.validatePartnerForm();
-          try{
-            const res = await axios.post(`${process.env.VUE_APP_API}signup/partner`, {
-            telephone: this.partner.phone,
-            password:this.partner.password ,
-            name:this.partner.name,
-            companyname:this.partner.companyName,
-            level:1
-          },{
-            headers: {
-              token: localStorage.getItem("token"),
-            },
-          });
-          if (res.data) {
-            Swal.fire({
-            icon: "success",
-            title: "สมัครสมาชิกpartnerสำเร็จ",
-            text: "สมัครสมาชิกpartnerสำเร็จ กรุณารอadmin อนุมัติไอดี partner",
-          });
-          this.$router.push("/");
-          } else {
-            await Swal.fire({
-              icon: "error",
-              title: "เกิดข้อผิดพลาด",
-              text: "ไม่สามารถลบข้อมูลได้",
-          });
-          }
-          }catch (error){
-            await Swal.fire({
-            icon: "error",
-            title: "เกิดข้อผิดพลาด",
-            text: "ไม่สามารถลบข้อมูลได้8+",
-          });
-          }
         }
         console.log("Form submitted successfully!");
       } catch (error) {
@@ -405,7 +398,6 @@ export default {
           .email("Invalid email format.")
           .required("Email is required."),
         phone: yup.string().required("Please Enter Phone Number"),
-        recommendedPhone: yup.string().required(),
         password: yup.string().required("Password is required."),
         confirmPassword: yup
           .string()
@@ -434,7 +426,17 @@ export default {
       const PartnerSchema = yup.object({
         name: yup.string().required("Name is required."),
         phone: yup.string().required("Please Enter Phone Number."),
-        companyName: yup.string().required("Company Name is required."),
+        idcard: yup.string().required("ID card  is required"),
+        filepic: yup
+          .mixed()
+          .required("Please upload a file")
+          .test("fileSize", "File size is too large", (value) => {
+            return value && value.size <= 1024000; // 1 MB
+          }),
+        address: yup.string().required("Address is required."),
+        tumbon: yup.string().required("Tumbon is required."),
+        amphure: yup.string().required("Amphure is required."),
+        province: yup.string().required("Province is required."),
         password: yup.string().required("Password is required."),
         confirmPassword: yup
           .string()
@@ -450,16 +452,20 @@ export default {
         lname: "",
         email: "",
         phone: "",
-        recommendedPhone: "",
         password: "",
         confirmPassword: "",
       };
       this.partner = {
         name: "",
         phone: "",
+        idcard: "",
+        filepic: null,
+        address: "",
+        tumbon: "",
+        amphure: "",
+        province: "",
         password: "",
         confirmPassword: "",
-        companyName: "",
       };
       // Clear errors
       this.errors = {};
@@ -506,7 +512,7 @@ export default {
 
 .Modal-content {
   cursor: default;
-  width: 60%;
+  width: 100%;
   max-width: 600px;
   background-color: rgb(255, 255, 255);
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
@@ -514,9 +520,9 @@ export default {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -45%);
   padding: 1rem 2rem;
-  z-index: 9999;
+  z-index: 99;
 }
 label {
   font-size: 12px;
@@ -540,6 +546,7 @@ input {
   color: #fff;
   font-size: 5rem;
 }
+
 @media (max-width: 768px) {
   label {
     font-size: 10px;

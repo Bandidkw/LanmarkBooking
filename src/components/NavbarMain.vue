@@ -41,7 +41,7 @@
               <button
                 @click="hidePopup"
                 type="button"
-                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-2 h-4 inline-flex justify-center items-center"
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 hover:rounded-full text-sm w-2 h-4 inline-flex justify-center items-center"
                 data-modal-hide="default-modal"
               >
                 <svg
@@ -351,6 +351,11 @@ export default {
 .show-pass {
   display: flex;
   align-items: center;
+}
+
+.error-message {
+  color: red;
+  font-size: 10px;
 }
 
 .show-pass input,
