@@ -238,51 +238,41 @@
             <span class="error-message">{{ errors.address }}</span>
           </div>
           <div class="input-box">
-            <label for="tambon"> tambon :</label>
-            <select
-              class="input-form"
-              type="tel"
-              v-model="partner.tambon"
-              @input="validateField('tambon', 'partner')"
-              placeholder="tambon"
-            />
+            <label for="tambon"> ตำบล :</label>
+            <Dropdown
+  v-model="partner.tambon"
+  :options="tambondropdown.value"
+  optionLabel="name_th"
+  optionValue="name_th" 
+  placeholder="เลือกตำบล"
+/>
             <span class="error-message">{{ errors.tambon }}</span>
           </div>
         </div>
         <div class="input-content">
           <div class="input-box">
-            <label for="amphure"> Amphure :</label>
-            <input
-              class="input-form"
-              type="text"
-              v-model="partner.amphure"
-              @input="validateField('amphure', 'partner')"
-              placeholder="Amphure "
-            />
+            <label for="amphure"> อำเภอ :</label>
+            <Dropdown
+  v-model="partner.amphure"
+  :options="amphuredropdown.value"
+  optionLabel="name_th"
+  optionValue="name_th" 
+  placeholder="เลือกอำเภอ"
+  @change="getamphure('tambon')"
+/>
             <span class="error-message">{{ errors.amphure }}</span>
           </div>
 
           <div class="input-box">
-            <label for="province"> Province :</label>
-            <input
-              class="input-form"
-              type="text"
-              v-model="partner.province"
-              @input="validateField('province', 'partner')"
-              placeholder="Province"
-            />
-            <!-- api dropdown province -->
-            <!-- <option
-                v-for="province in province"
-                :key="province.id"
-                :value="province"
-                @input="loadAmphures(selectedProvinceId)"
-              >
-                {{ province.name_th }}
-              </option>  -->
-            <!-- api dropdown province -->
-
-            <span class="error-message">{{ errors.province }}</span>
+            <label for="province"> จังหวัด :</label>
+            <Dropdown
+  v-model="partner.province"
+  :options="provincedropdown.value"
+  optionLabel="name_th"
+  optionValue="name_th" 
+  placeholder="เลือกจังหวัด"
+  @change="getamphure('amphure')"
+/>
           </div>
         </div>
 
@@ -328,10 +318,50 @@
 <script>
 import * as yup from "yup";
 import axios from "axios";
-
+import {onMounted,ref}  from "vue";
 export default {
   data() {
+    const provincedropdown =ref([])
+    const amphuredropdown =ref([null])
+    const tambondropdown =ref([null])
+    const getprovince = async () => {
+      try{
+        const province = await axios.get( `${process.env.VUE_APP_THAILAND}thailand/province`);
+        this.provincedropdown.value = province.data
+      }catch(error){
+        console.log(error)
+      }
+      
+    }
+
+    
+    // async kim() {
+     
+      
+
+    //   this.partner.amphure = await this.item_amphure.find(
+    //     (el) => el.name_th === this.partner.amphure
+    //   );
+
+    //   await axios
+    //     .get(
+    //       `${process.env.VUE_APP_THAILAND}thailand/tambon/by-amphure-id/${this.amphure.id}`)
+    //     .then((res) => {
+    //       this.item_tambon = res.data;
+    //     });
+
+    //   this.partner.tambon = await this.item_tambon.find(
+    //     (el) => el.name_th === this.partner.tambon
+    //   );
+    //   this.postcode = this.tambon.zip.code;
+    // },
+    onMounted(() => {
+      getprovince();
+    });
     return {
+      provincedropdown,
+      amphuredropdown,
+      tambondropdown,
       member: {
         name: "",
         fname: "",
@@ -359,9 +389,9 @@ export default {
       showModalMember: false,
     };
   },
-  created() {
-    this.loadProvinces();
-  },
+  // created() {
+  //   this.loadProvinces();
+  // },
   methods: {
     handleFileChange(event) {
       const input = this.$refs.fileinput;
@@ -369,6 +399,33 @@ export default {
         this.partner.filepic = input.files[0];
         this.validateField("filepic", "partner");
       }
+    },
+    async getamphure(type){
+      try{
+       
+        if(type ==="amphure")
+        {
+          const selectedProvinceObject = this.provincedropdown.value.find(province => province.name_th === this.partner.province);
+          const id = selectedProvinceObject.id
+          //
+          const amphure = await axios.get( `${process.env.VUE_APP_THAILAND}thailand/amphure/by-province-id/${id}`);
+          this.amphuredropdown.value = amphure.data
+        }
+        if(type ==="tambon"){
+         
+          const selectedAmphureObject = this.amphuredropdown.value.find(amphure => amphure.name_th === this.partner.amphure);
+          
+          const id = selectedAmphureObject.id
+          
+          //
+          const tambon = await axios.get( `${process.env.VUE_APP_THAILAND}thailand/tambon/by-amphure-id/${id}`);
+          this.tambondropdown.value = tambon.data
+        }
+        
+      }catch(error){
+        console.log(error)
+      }
+      
     },
     // api province
     // async loadProvinces() {
@@ -378,7 +435,7 @@ export default {
     //     );
     //     console.log(response.data);
     //     this.province = response.data;
-    //     this.selectedProvinceId =
+    //     this.provinceId =
     //       response.data.length > 0 ? response.data[0].id : null;
     //   } catch (error) {
     //     console.error("Error loading provinces:", error);
@@ -594,42 +651,6 @@ export default {
       }
     },
 
-    // async kim() {
-    //   await axios
-    //     .get(`${process.env.VUE_APP_THAILAND}thailand/province`, config)
-    //     .then((res) => {
-    //       this.item_province = res.data;
-    //     });
-    //   this.partner.province = await this.item_province.find(
-    //     (el) => el.name_th === this.partner.province
-    //   );
-    //   await axios
-    //     .get(
-    //       `${process.env.VUE_APP_THAILAND}thailand/amphure/by-province-id/${this.province.id}`,
-    //       config
-    //     )
-    //     .then((res) => {
-    //       this.item_amphure = res.data;
-    //     });
-
-    //   this.partner.amphure = await this.item_amphure.find(
-    //     (el) => el.name_th === this.partner.amphure
-    //   );
-
-    //   await axios
-    //     .get(
-    //       `${process.env.VUE_APP_THAILAND}thailand/tambon/by-amphure-id/${this.amphure.id}`,
-    //       config
-    //     )
-    //     .then((res) => {
-    //       this.item_tambon = res.data;
-    //     });
-
-    //   this.partner.tambon = await this.item_tambon.find(
-    //     (el) => el.name_th === this.partner.tambon
-    //   );
-    //   this.postcode = this.tambon.zip.code;
-    // },
   },
 };
 </script>
