@@ -239,7 +239,7 @@
           </div>
           <div class="input-box">
             <label for="tambon"> tambon :</label>
-            <select
+            <input
               class="input-form"
               type="tel"
               v-model="partner.tambon"
@@ -328,6 +328,7 @@
 <script>
 import * as yup from "yup";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -431,8 +432,19 @@ export default {
             }
           );
           if (productResponse.data && productResponse.data) {
+            Swal.fire({
+              icon: "success",
+              title: "บันทึกสำเร็จ",
+              text: "ข้อมูลถูกบันทึกเรียบร้อย",
+            });
+
             console.log(productResponse, "success");
           } else {
+            await Swal.fire({
+              icon: "error",
+              title: "เกิดข้อผิดพลาด",
+              text: "ไม่สามารถบันทึกข้อมูลได้",
+            });
             console.error("Data is missing in the API response.");
           }
         } else if (userType === "partner") {
@@ -454,11 +466,29 @@ export default {
           if (productResponse.data && productResponse.data) {
             console.log(productResponse, "success");
             await this.uploadPicture(productResponse.data.data._id);
+            Swal.fire({
+              icon: "success",
+              title: "บันทึกสำเร็จ",
+              text: "ข้อมูลถูกบันทึกเรียบร้อย",
+            });
           } else {
+            await Swal.fire({
+              icon: "error",
+              title: "เกิดข้อผิดพลาด",
+              text: error,
+            });
             console.error("Data is missing in the API response.");
           }
         }
+        this.$router.push("/");
+        this.showModalPartner = false;
+        this.showModalMember = false;
       } catch (error) {
+        await Swal.fire({
+          icon: "error",
+          title: "เกิดข้อผิดพลาด",
+          text: error,
+        });
         console.error("Form validation failed:", error);
       }
     },
