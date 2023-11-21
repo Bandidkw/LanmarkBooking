@@ -227,6 +227,45 @@
 
         <div class="input-content">
           <div class="input-box">
+            <label for="province"> จังหวัด :</label>
+            <Dropdown
+              v-model="partner.province"
+              :options="provincedropdown.value"
+              optionLabel="name_th"
+              optionValue="name_th"
+              placeholder="เลือกจังหวัด"
+              @change="getamphure('amphure')"
+            />
+            <span class="error-message">{{ errors.province }}</span>
+          </div>
+          <div class="input-box">
+            <label for="amphure"> อำเภอ :</label>
+            <Dropdown
+              v-model="partner.amphure"
+              :options="amphuredropdown.value"
+              optionLabel="name_th"
+              optionValue="name_th"
+              placeholder="เลือกอำเภอ"
+              @change="getamphure('tambon')"
+            />
+            <span class="error-message">{{ errors.amphure }}</span>
+          </div>
+        </div>
+
+        <div class="input-content">
+          <div class="input-box">
+            <label for="tambon"> ตำบล :</label>
+            <Dropdown
+              v-model="partner.tambon"
+              :options="tambondropdown.value"
+              optionLabel="name_th"
+              optionValue="name_th"
+              placeholder="เลือกตำบล"
+            />
+            <span class="error-message">{{ errors.tambon }}</span>
+          </div>
+
+          <div class="input-box">
             <label for="address"> Address :</label>
             <input
               class="input-form"
@@ -236,45 +275,6 @@
               placeholder="Address"
             />
             <span class="error-message">{{ errors.address }}</span>
-          </div>
-          <div class="input-box">
-
-            <label for="tambon"> ตำบล :</label>
-            <Dropdown
-  v-model="partner.tambon"
-  :options="tambondropdown.value"
-  optionLabel="name_th"
-  optionValue="name_th" 
-  placeholder="เลือกตำบล"
-/>
-
-            <span class="error-message">{{ errors.tambon }}</span>
-          </div>
-        </div>
-        <div class="input-content">
-          <div class="input-box">
-            <label for="amphure"> อำเภอ :</label>
-            <Dropdown
-  v-model="partner.amphure"
-  :options="amphuredropdown.value"
-  optionLabel="name_th"
-  optionValue="name_th" 
-  placeholder="เลือกอำเภอ"
-  @change="getamphure('tambon')"
-/>
-            <span class="error-message">{{ errors.amphure }}</span>
-          </div>
-
-          <div class="input-box">
-            <label for="province"> จังหวัด :</label>
-            <Dropdown
-  v-model="partner.province"
-  :options="provincedropdown.value"
-  optionLabel="name_th"
-  optionValue="name_th" 
-  placeholder="เลือกจังหวัด"
-  @change="getamphure('amphure')"
-/>
           </div>
         </div>
 
@@ -321,29 +321,26 @@
 import * as yup from "yup";
 import axios from "axios";
 
-import {onMounted,ref}  from "vue";
+import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
-
 
 export default {
   data() {
-    const provincedropdown =ref([])
-    const amphuredropdown =ref([null])
-    const tambondropdown =ref([null])
+    const provincedropdown = ref([]);
+    const amphuredropdown = ref([null]);
+    const tambondropdown = ref([null]);
     const getprovince = async () => {
-      try{
-        const province = await axios.get( `${process.env.VUE_APP_THAILAND}thailand/province`);
-        this.provincedropdown.value = province.data
-      }catch(error){
-        console.log(error)
+      try {
+        const province = await axios.get(
+          `${process.env.VUE_APP_THAILAND}thailand/province`
+        );
+        this.provincedropdown.value = province.data;
+      } catch (error) {
+        console.log(error);
       }
-      
-    }
+    };
 
-    
     // async kim() {
-     
-      
 
     //   this.partner.amphure = await this.item_amphure.find(
     //     (el) => el.name_th === this.partner.amphure
@@ -406,32 +403,35 @@ export default {
         this.validateField("filepic", "partner");
       }
     },
-    async getamphure(type){
-      try{
-       
-        if(type ==="amphure")
-        {
-          const selectedProvinceObject = this.provincedropdown.value.find(province => province.name_th === this.partner.province);
-          const id = selectedProvinceObject.id
+    async getamphure(type) {
+      try {
+        if (type === "amphure") {
+          const selectedProvinceObject = this.provincedropdown.value.find(
+            (province) => province.name_th === this.partner.province
+          );
+          const id = selectedProvinceObject.id;
           //
-          const amphure = await axios.get( `${process.env.VUE_APP_THAILAND}thailand/amphure/by-province-id/${id}`);
-          this.amphuredropdown.value = amphure.data
+          const amphure = await axios.get(
+            `${process.env.VUE_APP_THAILAND}thailand/amphure/by-province-id/${id}`
+          );
+          this.amphuredropdown.value = amphure.data;
         }
-        if(type ==="tambon"){
-         
-          const selectedAmphureObject = this.amphuredropdown.value.find(amphure => amphure.name_th === this.partner.amphure);
-          
-          const id = selectedAmphureObject.id
-          
+        if (type === "tambon") {
+          const selectedAmphureObject = this.amphuredropdown.value.find(
+            (amphure) => amphure.name_th === this.partner.amphure
+          );
+
+          const id = selectedAmphureObject.id;
+
           //
-          const tambon = await axios.get( `${process.env.VUE_APP_THAILAND}thailand/tambon/by-amphure-id/${id}`);
-          this.tambondropdown.value = tambon.data
+          const tambon = await axios.get(
+            `${process.env.VUE_APP_THAILAND}thailand/tambon/by-amphure-id/${id}`
+          );
+          this.tambondropdown.value = tambon.data;
         }
-        
-      }catch(error){
-        console.log(error)
+      } catch (error) {
+        console.log(error);
       }
-      
     },
     // api province
     // async loadProvinces() {
@@ -685,7 +685,6 @@ export default {
         this.showModalMember = false;
       }
     },
-
   },
 };
 </script>
