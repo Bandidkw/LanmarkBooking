@@ -20,11 +20,26 @@
           </p>
         </template>
 
-        <Column field="name" header="ชื่อพาร์ทเนอร์" style="width: 10%;"></Column>
-        <Column field="address" class="" header="ชื่อโรงแรม" style="width: 10%;"> </Column>
-        <Column field="address" class="" header="ที่อยู่" style="width: 10%;"> </Column>
-        <Column field="phone_number" class="" header="เบอร์โทรติดต่อ" style="width: 10%;"> </Column>
-        <Column field="price" class="" header="ประเภทที่พัก" style="width: 5%;"> </Column>
+        <Column field="name" header="รีสอร์ท" style="width: 20%;"></Column>
+        <Column field="description" class="" header="รีสอร์ท" style="width: 20%;"> </Column>
+        <Column
+          :exportable="false"
+          class=""
+          header="ลบ"
+          style="width: 10%"
+        >
+
+          <template #body="item">
+            <!-- <updateadmin title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/> -->
+            <Button
+            @click="deleteProduct(item.data._id)"
+              class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+
+              style="background-color: #C21010"
+              >ลบ</Button>
+             
+          </template>
+        </Column>
         
       </DataTable>
       </div>
@@ -48,8 +63,8 @@ export default {
     const item_product = ref([]);
     const getData = async () => {
       try {
-        const productResponse = await axios.post(
-          `${process.env.VUE_APP_API}partner`,
+        const productResponse = await axios.get(
+          `${process.env.VUE_APP_API}room/type/`,
           {
             headers: {
               token: localStorage.getItem("token"),
@@ -70,7 +85,7 @@ export default {
     const deleteProduct = async (_id) => {
       try {
         const response = await axios.delete(
-          `${process.env.VUE_APP_API}room/${_id}`,
+          `${process.env.VUE_APP_API}room/type/${_id}`,
           {
             headers: {
               token: localStorage.getItem("token"),
@@ -112,6 +127,6 @@ export default {
     };
 
   },
-    name: 'ManageAir',
+    name: 'RoomDetail',
   };
 </script>

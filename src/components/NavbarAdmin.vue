@@ -150,7 +150,7 @@ export default {
         //   { id: 9, label: "การรับรอง", route: "/managehotel/certification" },
         // ],
         ห้อง: [
-          { id: 10, label: "ประเภทห้อง", route: "/ManageAir" },
+          { id: 10, label: "ประเภทห้อง", route: "/RoomDetail" },
           { id: 11, label: "อนุมัติการเพิ่มห้อง", route: "/approveroom" },
           { id: 12, label: "ข้อมูลห้อง", route: "/roomadmin" }
           // { id: 11, label: "เตียง", route: "/ManageBed" },

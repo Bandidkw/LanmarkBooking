@@ -12,7 +12,7 @@ import ManagePartner from "@/views/partner/managepartner/ManagePartner.vue";
 import CreateAccount from "@/views/CreateAccount.vue";
 import PageOne from "@/views/singlepage/Page_One.vue";
 // --------------ManageRoom-------------------------
-import ManageAir from "@/views/admin/manageRoom/ManageAir.vue";
+import RoomDetail from "@/views/admin/manageRoom/RoomDetail.vue";
 
 import DashBoardPartner from '@/views/partner/DashBoardPartner.vue'
 
@@ -64,9 +64,9 @@ const router = createRouter({
     },
     // -----------------------ManegeRoom---------------------------
     {
-      path: "/manageair",
-      name: "manageair",
-      component: ManageAir,
+      path: "/roomdetail",
+      name: "roomdetail",
+      component: RoomDetail,
     },
     // ---------------------------end--------------------------------
     {
@@ -85,28 +85,6 @@ const router = createRouter({
       name: "register",
       component: CreateAccount,
     },
-    ///////// MANAGE_HOTEL //////////
-    // {
-    //   path: "/managehotel/type",
-    //   name: "hoteltype",
-    //   component: HotelType,
-    // },
-    // {
-    //   path: "/managehotel/facilities",
-    //   name: "facility",
-    //   component: Facility,
-    // },
-    // {
-    //   path: "/managehotel/interesting",
-    //   name: "interest",
-    //   component: Interesting,
-    // },
-    // {
-    //   path: "/managehotel/certification",
-    //   name: "certificate",
-    //   component: Certificate,
-    // },
-
     {
       path: "/dashboardpartner",
       name: "dashboardpartner",
@@ -138,12 +116,6 @@ const router = createRouter({
       component:  () => import('@/views/partner/managehotel/AddHotel.vue') ,
     },
     {
-
-      path:"/reserveroom",
-      name:"reserveroom",
-      component: () => import('@/views/partner/managehotel/ReserveRoom.vue')
-    },
-    {
       path:"/approveroom",
       name:"approveroom",
       component: () => import('@/views/admin/ApproveRoom.vue')
@@ -152,11 +124,12 @@ const router = createRouter({
       path:"/roomadmin",
       name:"roomadmin",
       component: () => import('@/views/admin/manageRoom/RoomAdmin.vue')
-
+    },
+    {
       path:"/manageroom",
       name:"manageroom",
       component: () => import('@/views/partner/managehotel/ManageRoom.vue')
-    }
+    },
     
   ],
 });
