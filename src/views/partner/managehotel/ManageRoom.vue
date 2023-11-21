@@ -66,7 +66,7 @@ export default {
     const getData = async () => {
       try {
         const productResponse = await axios.get(
-          `${process.env.VUE_APP_API}room`,
+          `${process.env.VUE_APP_API}room/partner/`,
           {
             headers: {
               token: localStorage.getItem("token"),
