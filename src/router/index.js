@@ -205,6 +205,16 @@ const router = createRouter({
       path:"/reserveroom",
       name:"reserveroom",
       component: () => import('@/views/partner/managehotel/ReserveRoom.vue')
+    },
+    {
+      path:"/approveroom",
+      name:"approveroom",
+      component: () => import('@/views/admin/ApproveRoom.vue')
+    },
+    {
+      path:"/roomadmin",
+      name:"roomadmin",
+      component: () => import('@/views/admin/manageRoom/RoomAdmin.vue')
     }
     
   ],

@@ -35,7 +35,7 @@
               style="max-width: 100%; height: auto"
             />
             
-            <div v-else>No Image Available</div>
+            <div v-else>ไม่มีรูปภาพ</div>
           </template>
         </Column>
         <Column field="name" class="" header="ชื่อ" style="width: 10%">

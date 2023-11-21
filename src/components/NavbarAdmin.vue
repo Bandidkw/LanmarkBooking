@@ -134,7 +134,6 @@ export default {
         member: [
           { id: 5, label: "จัดการข้อมูล member ", route: "/managemember" },
         ],
-        member: [{ id: 5, label: "จัดการข้อมูล member ", route: "/" }],
         // โรงแรม: [
         //   { id: 6, label: "ประเภทโรงแรม", route: "/managehotel/type" },
         //   {
@@ -151,6 +150,8 @@ export default {
         // ],
         ห้อง: [
           { id: 10, label: "ประเภทห้อง", route: "/ManageAir" },
+          { id: 11, label: "อนุมัติการเพิ่มห้อง", route: "/approveroom" },
+          { id: 12, label: "ข้อมูลห้อง", route: "/roomadmin" }
           // { id: 11, label: "เตียง", route: "/ManageBed" },
           // { id: 12, label: "ห้องอาบน้ำ", route: "/ManageShower" },
           // { id: 13, label: "เฟอร์นิเจอร์", route: "/ManageFer" },
