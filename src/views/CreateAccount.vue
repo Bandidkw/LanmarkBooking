@@ -238,15 +238,15 @@
             <span class="error-message">{{ errors.address }}</span>
           </div>
           <div class="input-box">
-            <label for="tumbon"> Tumbon :</label>
-            <input
+            <label for="tambon"> tambon :</label>
+            <select
               class="input-form"
               type="tel"
-              v-model="partner.tumbon"
-              @input="validateField('tumbon', 'partner')"
-              placeholder="Tumbon"
+              v-model="partner.tambon"
+              @input="validateField('tambon', 'partner')"
+              placeholder="tambon"
             />
-            <span class="error-message">{{ errors.tumbon }}</span>
+            <span class="error-message">{{ errors.tambon }}</span>
           </div>
         </div>
         <div class="input-content">
@@ -254,7 +254,7 @@
             <label for="amphure"> Amphure :</label>
             <input
               class="input-form"
-              type="tel"
+              type="text"
               v-model="partner.amphure"
               @input="validateField('amphure', 'partner')"
               placeholder="Amphure "
@@ -266,11 +266,22 @@
             <label for="province"> Province :</label>
             <input
               class="input-form"
-              type="tel"
+              type="text"
               v-model="partner.province"
               @input="validateField('province', 'partner')"
               placeholder="Province"
             />
+            <!-- api dropdown province -->
+            <!-- <option
+                v-for="province in province"
+                :key="province.id"
+                :value="province"
+                @input="loadAmphures(selectedProvinceId)"
+              >
+                {{ province.name_th }}
+              </option>  -->
+            <!-- api dropdown province -->
+
             <span class="error-message">{{ errors.province }}</span>
           </div>
         </div>
@@ -336,16 +347,20 @@ export default {
         idcard: "",
         filepic: null,
         address: "",
-        tumbon: "",
+        tambon: "",
         amphure: "",
         province: "",
         password: "",
         confirmPassword: "",
       },
       errors: {},
+      // province: [],
       showModalPartner: false,
       showModalMember: false,
     };
+  },
+  created() {
+    this.loadProvinces();
   },
   methods: {
     handleFileChange(event) {
@@ -355,6 +370,39 @@ export default {
         this.validateField("filepic", "partner");
       }
     },
+    // api province
+    // async loadProvinces() {
+    //   try {
+    //     const response = await axios.get(
+    //       `${process.env.VUE_APP_THAILAND}thailand/province`
+    //     );
+    //     console.log(response.data);
+    //     this.province = response.data;
+    //     this.selectedProvinceId =
+    //       response.data.length > 0 ? response.data[0].id : null;
+    //   } catch (error) {
+    //     console.error("Error loading provinces:", error);
+    //   }
+    // },
+    // async loadAmphures(_id) {
+    //   try {
+    //     const responseAmphure = await axios.get(
+    //       `${process.env.VUE_APP_THAILAND}thailand/amphure/by-province-id/${_id}`
+    //     );
+    //     console.log(responseAmphure.data);
+    //     this.amphure = responseAmphure.data;
+    //   } catch (error) {
+    //     console.log("Error loading provinces:", error);
+    //   }
+    // },
+    // async loadTambons() {
+    //   const amphureId = this.amphures.find(
+    //     (a) => a.name_th === this.selectedAmphure
+    //   ).id;
+    //   this.tambons = await this.provinceApi.GetTambon(amphureId);
+    // },
+
+    /// show modal
     showModal(type) {
       if (type === "partner") {
         this.showModalPartner = true;
@@ -364,10 +412,29 @@ export default {
         this.showModalMember = true;
       }
     },
+
+    //// register
     async register(userType) {
       try {
         if (userType === "member") {
           await this.validateMemberForm();
+          const productResponse = await axios.post(
+            `${process.env.VUE_APP_API}signup/member`,
+            {
+              telephone: this.member.phone,
+              password: this.member.password,
+              name: this.member.name,
+              firstname: this.member.fname,
+              lastname: this.member.lname,
+              email: this.member.email,
+              roles: "member",
+            }
+          );
+          if (productResponse.data && productResponse.data) {
+            console.log(productResponse, "success");
+          } else {
+            console.error("Data is missing in the API response.");
+          }
         } else if (userType === "partner") {
           await this.validatePartnerForm();
           const productResponse = await axios.post(
@@ -378,7 +445,7 @@ export default {
               name: this.partner.name,
               idcard: this.partner.idcard,
               address: this.partner.address,
-              tambon: this.partner.tumbon,
+              tambon: this.partner.tambon,
               amphure: this.partner.amphure,
               province: this.partner.province,
               level: "1",
@@ -395,21 +462,8 @@ export default {
         console.error("Form validation failed:", error);
       }
     },
-    async validateField(fieldName, userType) {
-      // Validate a specific field in real-time
-      const schema = yup.object({
-        [fieldName]: yup.string().required(`${fieldName} is required.`),
-      });
 
-      try {
-        await schema.validateAt(fieldName, this[userType]);
-        this.errors[fieldName] = null;
-      } catch (error) {
-        if (error instanceof yup.ValidationError) {
-          this.errors[fieldName] = error.message;
-        }
-      }
-    },
+    //// uploadfile picture
     async uploadPicture(_id) {
       const formData = new FormData();
       formData.append("imgCollection", this.partner.filepic);
@@ -429,6 +483,7 @@ export default {
       }
     },
 
+    ///// validation and yup form
     async validateMemberForm() {
       const MemberSchema = yup.object({
         name: yup.string().required(" Name is required."),
@@ -447,6 +502,29 @@ export default {
       });
       await this.validateForm(MemberSchema, this.member);
     },
+    async validatePartnerForm() {
+      const PartnerSchema = yup.object({
+        name: yup.string().required("Name is required."),
+        phone: yup.string().required("Please Enter Phone Number."),
+        idcard: yup.string().required("ID card  is required"),
+        filepic: yup
+          .mixed()
+          .required("Please upload a file")
+          .test("fileSize", "File size is too large", (value) => {
+            return value && value.size <= 1024000; // 1 MB
+          }),
+        address: yup.string().required("Address is required."),
+        tambon: yup.string().required("tambon is required."),
+        amphure: yup.string().required("Amphure is required."),
+        province: yup.string().required("Province is required."),
+        password: yup.string().required("Password is required."),
+        confirmPassword: yup
+          .string()
+          .oneOf([yup.ref("password"), null], "Passwords must match.")
+          .required("Confirm Password is required."),
+      });
+      await this.validateForm(PartnerSchema, this.partner);
+    },
 
     async validateForm(schema, data) {
       try {
@@ -463,29 +541,23 @@ export default {
         throw error;
       }
     },
-    async validatePartnerForm() {
-      const PartnerSchema = yup.object({
-        name: yup.string().required("Name is required."),
-        phone: yup.string().required("Please Enter Phone Number."),
-        idcard: yup.string().required("ID card  is required"),
-        filepic: yup
-          .mixed()
-          .required("Please upload a file")
-          .test("fileSize", "File size is too large", (value) => {
-            return value && value.size <= 1024000; // 1 MB
-          }),
-        address: yup.string().required("Address is required."),
-        tumbon: yup.string().required("Tumbon is required."),
-        amphure: yup.string().required("Amphure is required."),
-        province: yup.string().required("Province is required."),
-        password: yup.string().required("Password is required."),
-        confirmPassword: yup
-          .string()
-          .oneOf([yup.ref("password"), null], "Passwords must match.")
-          .required("Confirm Password is required."),
+    async validateField(fieldName, userType) {
+      // Validate a specific field in real-time
+      const schema = yup.object({
+        [fieldName]: yup.string().required(`${fieldName} is required.`),
       });
-      await this.validateForm(PartnerSchema, this.partner);
+
+      try {
+        await schema.validateAt(fieldName, this[userType]);
+        this.errors[fieldName] = null;
+      } catch (error) {
+        if (error instanceof yup.ValidationError) {
+          this.errors[fieldName] = error.message;
+        }
+      }
     },
+
+    //// resetform
     resetForm() {
       this.member = {
         name: "",
@@ -502,7 +574,7 @@ export default {
         idcard: "",
         filepic: null,
         address: "",
-        tumbon: "",
+        tambon: "",
         amphure: "",
         province: "",
         password: "",
@@ -511,6 +583,8 @@ export default {
       // Clear errors
       this.errors = {};
     },
+
+    /// closemodal
     close() {
       this.resetForm();
       if (this.showModalPartner) {
@@ -519,6 +593,43 @@ export default {
         this.showModalMember = false;
       }
     },
+
+    // async kim() {
+    //   await axios
+    //     .get(`${process.env.VUE_APP_THAILAND}thailand/province`, config)
+    //     .then((res) => {
+    //       this.item_province = res.data;
+    //     });
+    //   this.partner.province = await this.item_province.find(
+    //     (el) => el.name_th === this.partner.province
+    //   );
+    //   await axios
+    //     .get(
+    //       `${process.env.VUE_APP_THAILAND}thailand/amphure/by-province-id/${this.province.id}`,
+    //       config
+    //     )
+    //     .then((res) => {
+    //       this.item_amphure = res.data;
+    //     });
+
+    //   this.partner.amphure = await this.item_amphure.find(
+    //     (el) => el.name_th === this.partner.amphure
+    //   );
+
+    //   await axios
+    //     .get(
+    //       `${process.env.VUE_APP_THAILAND}thailand/tambon/by-amphure-id/${this.amphure.id}`,
+    //       config
+    //     )
+    //     .then((res) => {
+    //       this.item_tambon = res.data;
+    //     });
+
+    //   this.partner.tambon = await this.item_tambon.find(
+    //     (el) => el.name_th === this.partner.tambon
+    //   );
+    //   this.postcode = this.tambon.zip.code;
+    // },
   },
 };
 </script>
