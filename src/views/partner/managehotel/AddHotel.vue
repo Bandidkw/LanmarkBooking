@@ -205,32 +205,20 @@
               placeholder="จังหวัด"
             />
           </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label
-              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-first-name"
-            >
-              รหัสพาร์ทเนอร์ :
-            </label>
-            <input
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-first-name"
-              type="text"
-              v-model="partner_id"
-              placeholder="รหัสพาร์ทเนอร์"
-            />
-          </div>
-
           <div class="flex items-center pl-3">
             <label
               class="flex uppercase w-3/12 tracking-wide text-gray-700 text-xs font-bold"
               for="grid-first-name"
-              >เพิ่มรูปภาพ :</label
-            >
+              >เพิ่มรูปภาพ :
+            </label>
             <input
               class="appearance-none block w-9/12 text-gray-700 border border-bluegray-800 rounded py-3 px-3 leading-tight focus:outline-none focus:bg-white"
+              id="fileinput"
               type="file"
-            />
+              ref="fileinput"
+              @change="handleFileChange"
+              accept=".jpg, .jpeg, .png"
+              placeholder="File Picture number"/>
           </div>
         </div>
         <div class="md:flex md:items-center">
@@ -286,7 +274,7 @@ export default {
           });
       }
     };
-    onMounted(() => {
+      onMounted(() => {
       gettype();
     });
     return {
@@ -307,15 +295,24 @@ export default {
       tambon: "",
       amphure: "",
       province: "",
-      partner_id: "",
+      image:"",
       status: "false",
       approve: "[]",
       statusbooking: "false",
     };
   },
   methods: {
+    handleFileChange(event) {
+      const input = this.$refs.fileinput;
+      if (input.files && input.files.length > 0) {
+        this.image = input.files[0];
+        //this.validateField("filepic", "partner");
+      }
+    },
     async addRoom() {
       try {
+      
+        // await this.uploadPicture();
         const res = await axios.post(
           `${process.env.VUE_APP_API}room/hotel/`,
           {
@@ -323,7 +320,7 @@ export default {
             description: this.description,
             phone_number: this.phone_number,
             price: this.price,
-            type: '655af84f07fdcb301090fc33',
+            type: this.type,
             guests: this.guests,
             bedroom: this.bedroom,
             bed: this.bed,
@@ -341,14 +338,16 @@ export default {
             },
           }
         );
-          
         if (res.data.status=== true) {
+          console.log(res.data.data._id)
+          await this.uploadPicture(res.data.data._id);
           Swal.fire({
             icon: "success",
             title: "บันทึกสำเร็จ",
             text: "ข้อมูลถูกบันทึกเรียบร้อย",
           });
           this.resetForm;
+          this.$router.push('/manageroom')
         } else {
           await Swal.fire({
             icon: "error",
@@ -356,7 +355,6 @@ export default {
             text: "ไม่สามารถบันทึกข้อมูลได้",
           });
         }
-        
       } catch (error) {
         console.log(error, "error");
         await Swal.fire({
@@ -364,6 +362,28 @@ export default {
           title: "เกิดข้อผิดพลาด",
           text: error,
         });
+      }
+    },
+      //// uploadfile picture
+      async uploadPicture(_id) {
+      const formData = new FormData();
+      formData.append("imgCollection", this.image);
+      try {
+        const upimage = await axios.post(
+          `${process.env.VUE_APP_API}room/picture/${_id}`,
+          formData,{
+            headers: {
+              token: localStorage.getItem("token"),
+            },
+          }
+        );
+        if (upimage.data && upimage.data) {
+          console.log(upimage.data, "success_Image");
+        } else {
+          console.error("Data is missing in the API response.");
+        }
+      } catch (error) {
+        console.error("Error uploading picture:", error);
       }
     },
   },
@@ -381,7 +401,7 @@ export default {
     this.tambon = "";
     this.amphure = "";
     this.province = "";
-    this.partner_id = "";
+    this.image = "",
     // Clear errors
     this.errors = {};
   },
