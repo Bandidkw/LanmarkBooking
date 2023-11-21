@@ -206,6 +206,7 @@ const router = createRouter({
       name:"reserveroom",
       component: () => import('@/views/partner/managehotel/ReserveRoom.vue')
     }
+    
   ],
 });
 

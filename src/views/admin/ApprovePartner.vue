@@ -29,11 +29,12 @@
         <Column field="imge_idcard" header="Picture" style="width: 10%">
           <template #body="{ data }">
             <img
-              v-if="data.image_idcard"
-              :src="data.image_idcard"
+              v-if="Array.isArray(data.image_idcard) && data.image_idcard.length > 0"
+              :src="getImage(data.image_idcard)"
               alt="ID Card"
               style="max-width: 100%; height: auto"
             />
+            
             <div v-else>No Image Available</div>
           </template>
         </Column>
@@ -187,6 +188,7 @@ export default {
         });
       }
     };
+    
     onMounted(() => {
       getData();
     });
@@ -198,5 +200,17 @@ export default {
     };
   },
   name: "ApprovePartner",
+  methods:{
+    getImage(item){
+      if (typeof item === 'string') {
+        return `https://drive.google.com/uc?export=view&id=${item}`;
+      } else if (Array.isArray(item) && item.length > 0) {
+        const firstImageId = item[0];
+        return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
+      } else {
+        return "";
+      }
+    }
+  },
 };
 </script>
