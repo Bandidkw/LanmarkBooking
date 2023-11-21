@@ -359,9 +359,9 @@ export default {
       showModalMember: false,
     };
   },
-  created() {
-    this.loadProvinces();
-  },
+  // created() {
+  //   this.loadProvinces();
+  // },
   methods: {
     handleFileChange(event) {
       const input = this.$refs.fileinput;
