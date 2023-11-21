@@ -35,10 +35,11 @@
               <div v-else>ไม่มีรูปภาพ</div>
             </template>
         </Column>
-        <Column field="name" header="ชื่อ" style="width: 20%;"></Column>
-        <Column field="type.name" header="ประเภทโรงแรม" style="width: 20%;"></Column>
-        <Column field="price" header="ราคาต่อคืน" style="width: 20%;"></Column>
-      
+        <Column field="name" header="ชื่อ" style="width: 10%;"></Column>
+        <Column field="description" class="" header="คำอธิบาย" style="width: 10%;"> </Column>
+        <Column field="address" class="" header="ที่อยู่" style="width: 10%;"> </Column>
+        <Column field="phone_number" class="" header="เบอร์โทรติดต่อ" style="width: 10%;"> </Column>
+        <Column field="price" class="" header="ราคา" style="width: 5%;"> </Column>
       </DataTable>
       
       </div>
