@@ -33,6 +33,7 @@
           style="width: 10%">
 
           <template #body="item">
+            <updateadmin title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/>
            <Button
             @click="deleteProduct(item.data._id)"
               class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
@@ -55,7 +56,7 @@
 
 export default {
   components: {
-   
+    
   },
   created() {
     document.title = "ข้อมูล partner";
@@ -128,7 +129,7 @@ export default {
     };
 
   },
-    name: 'ManageAdmin',
+    name: 'ManagePartner',
   };
 </script>
 

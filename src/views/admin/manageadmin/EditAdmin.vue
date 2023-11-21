@@ -71,7 +71,7 @@ export default {
         this.sidebar = false;
         await Swal.fire({
             icon: "error",
-            title: "กรอบข้อมูลไม่ครบ",
+            title: "กรอกข้อมูลไม่ครบ",
             text: "กรุณากรอกข้อมูลให้ครบ",
           });
           this.sidebar = true;

@@ -2,14 +2,9 @@
 <template>
     <div class="grid px-10 mt-3 ml-5 mr-5" >
       <div class="col-12 lg:col-12 border">
-        <div class="text-center font-bold text-4xl">จัดการข้อมูล แอร์</div>
+        <div class="text-center text-2xl">รายละเอียดห้อง</div>
         <div class="text-right my-5">
-          <router-link to="/addadmin">
-            <Button  label="เพิ่มข้อมูล แอร์" class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
-          </router-link>
-
         </div>
-
         <DataTable
         :value="Array.isArray(item_product) ? item_product : []"
         :paginator="true"
@@ -21,30 +16,16 @@
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
         <template #empty>
           <p class="font-italic text-center text-5xl" style="color: #bd1616">
-            ไม่พบข้อมูลสินค้า
+            ไม่พบข้อมูล
           </p>
         </template>
 
-        <Column field="name" header="ชื่อ" style="width: 20%;"></Column>
-        <Column field="description" class="" header="คำอธิบาย" style="width: 10%;"> </Column>
-        <Column
-          :exportable="false"
-          class=""
-          header="เพิ่มเติม"
-          style="width: 10%"
-        >
-
-          <template #body="item">
-            <!-- <updateadmin title="แก้ไข" :admin_id="item.data._id" :data="item.data"/> -->
-           <Button
-            @click="deleteProduct(item.data._id)"
-              class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-              style="background-color: #C21010"
-              >ลบ</Button>
-             
-          </template>
-          
-        </Column>
+        <Column field="name" header="ชื่อพาร์ทเนอร์" style="width: 10%;"></Column>
+        <Column field="address" class="" header="ชื่อโรงแรม" style="width: 10%;"> </Column>
+        <Column field="address" class="" header="ที่อยู่" style="width: 10%;"> </Column>
+        <Column field="phone_number" class="" header="เบอร์โทรติดต่อ" style="width: 10%;"> </Column>
+        <Column field="price" class="" header="ประเภทที่พัก" style="width: 5%;"> </Column>
+        
       </DataTable>
       </div>
     </div>
@@ -67,8 +48,8 @@ export default {
     const item_product = ref([]);
     const getData = async () => {
       try {
-        const productResponse = await axios.get(
-          `${process.env.VUE_APP_API}room/aircondition`,
+        const productResponse = await axios.post(
+          `${process.env.VUE_APP_API}partner`,
           {
             headers: {
               token: localStorage.getItem("token"),
@@ -89,7 +70,7 @@ export default {
     const deleteProduct = async (_id) => {
       try {
         const response = await axios.delete(
-          `${process.env.VUE_APP_API}admin/${_id}`,
+          `${process.env.VUE_APP_API}room/${_id}`,
           {
             headers: {
               token: localStorage.getItem("token"),

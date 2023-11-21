@@ -8,7 +8,7 @@
          <div class="order-2 md:order-3 flex flex-wrap items-center justify-end mr-0 md:mr-4" id="nav-content">
             <div class="auth flex items-center w-full md:w-full">
               <div v-for="(menu, menuKey) in dropdowns" :key="menuKey" class="relative lg:inline-block text-left">
-              <button @click="toggleMenu(menuKey)" type="button" class="mt-4 lg:inline-block lg:mt-0 hover:text-white px-2 py-2 rounded hover:bg-[#007bff] mr-2 ">
+              <button @click="toggleMenu(menuKey)" type="button" class="mt-4 lg:inline-block lg:mt-0 hover:text-white px-2 py-2 rounded hover:bg-[#007bff]">
               
                <span class="bi bi-person-fill text-2xl"></span> {{namestore}} <i class="bi bi-caret-down-fill"></i>
               </button>
@@ -34,14 +34,14 @@
         <!--- ใช้ปุ่มเดียว-->
       <router-link to="/dashboardpartner" class="h-full">
 
-        <button type="button" class="text-xl h-full mt-4 lg:inline-block lg:mt-0 hover:text-white px-2 py-3 rounded hover:bg-[#007bff] mr-2">
+        <button type="button" class="text-xl h-full lg:inline-block lg:mt-0 hover:text-white px-2 py-3 rounded hover:bg-[#007bff] mr-2">
            DashBoard
         </button>
       </router-link>
       <!--- ใช้เป็น dropdown -->
       <div v-for="(menu, menuKey) in navdropdowns" :key="menuKey" class="relative lg:inline-block text-left">
             <button @click="toggleMenu(menuKey)" type="button"
-              class="text-xl mt-4 lg:inline-block lg:mt-0 hover:text-white px-2 py-3 rounded hover:bg-[#007bff] mr-2 ">
+              class="text-xl lg:inline-block lg:mt-0 hover:text-white px-2 py-3 rounded hover:bg-[#007bff] mr-2 ">
               {{ menuKey }} <i class="bi bi-caret-down-fill"></i>
             </button>
             <transition name="fade">
@@ -60,9 +60,6 @@
 </template>
   
 <script>
-
-
-
 
 export default {
   components: {
@@ -84,8 +81,7 @@ export default {
       navdropdowns:{
         ห้อง:[ 
           { id: 1, label: "เพิ่มห้อง", route: "/addhotel" },
-          { id: 2, label: "สถานะห้อง", route: "/reserveroom" },
-          { id: 3, label: "จัดการข้อมูลห้อง", route: "/managehotel" },
+          { id: 2, label: "จัดการห้อง", route: "/manageroom" },
         ],
       },
     };

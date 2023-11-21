@@ -8,25 +8,11 @@ import DashBoardAdmin from "@/views/admin/DashBoardAdmin";
 import ManageAdmin from "@/views/admin/manageadmin/ManageAdmin.vue";
 import AddAdmin from "@/views/admin/manageadmin/AddAdmin.vue";
 import EditAdmin from "@/views/admin/manageadmin/EditAdmin.vue";
+import ManagePartner from "@/views/partner/managepartner/ManagePartner.vue";
 import CreateAccount from "@/views/CreateAccount.vue";
 import PageOne from "@/views/singlepage/Page_One.vue";
 // --------------ManageRoom-------------------------
 import ManageAir from "@/views/admin/manageRoom/ManageAir.vue";
-import ManageBed from "@/views/admin/manageRoom/ManageBed.vue";
-import ManageShower from "@/views/admin/manageRoom/ManageShower.vue";
-import ManageFer from "@/views/admin/manageRoom/ManageFer.vue";
-import ManageFacilitie from "@/views/admin/manageRoom/ManageFacilitie.vue";
-import ManageEntertain from "@/views/admin/manageRoom/ManageEntertain.vue";
-import ManageRoomer from "@/views/admin/manageRoom/ManageRoomer.vue";
-import ManageRoomstatus from "@/views/admin/manageRoom/ManageRoomstatus.vue";
-import ManageRoomview from "@/views/admin/manageRoom/ManageRoomview.vue";
-import ManageRoomtype from "@/views/admin/manageRoom/ManageRoomtype.vue";
-import ManageSecurity from "@/views/admin/manageRoom/ManageSecurity.vue";
-
-// import HotelType from "@/views/admin/managehotel/HotelType.vue";
-// import Interesting from "@/views/admin/managehotel/Interesting.vue";
-// import Facility from "@/views/admin/managehotel/Facility.vue";
-// import Certificate from "@/views/admin/managehotel/Certificate.vue";
 
 import DashBoardPartner from '@/views/partner/DashBoardPartner.vue'
 
@@ -82,56 +68,6 @@ const router = createRouter({
       name: "manageair",
       component: ManageAir,
     },
-    {
-      path: "/managebed",
-      name: "managebed",
-      component: ManageBed,
-    },
-    {
-      path: "/manageshower",
-      name: "manageshower",
-      component: ManageShower,
-    },
-    {
-      path: "/managefer",
-      name: "manageferr",
-      component: ManageFer,
-    },
-    {
-      path: "/managefacilitie",
-      name: "managefacilitie",
-      component: ManageFacilitie,
-    },
-    {
-      path: "/manageentertain",
-      name: "manageentertain",
-      component: ManageEntertain,
-    },
-    {
-      path: "/manageroomer",
-      name: "manageroomer",
-      component: ManageRoomer,
-    },
-    {
-      path: "/manageroomstatus",
-      name: "manageroomstatus",
-      component: ManageRoomstatus,
-    },
-    {
-      path: "/manageroomview",
-      name: "manageroomview",
-      component: ManageRoomview,
-    },
-    {
-      path: "/manageroomtype",
-      name: "manageroomtype",
-      component: ManageRoomtype,
-    },
-    {
-      path: "/managesecurity",
-      name: "managesecurity",
-      component: ManageSecurity,
-    },
     // ---------------------------end--------------------------------
     {
       path: "/popular",
@@ -179,7 +115,7 @@ const router = createRouter({
     {
       path: "/managepartner",
       name: "managepartner",
-      component:  () => import('@/views/partner/managepartner/ManagePartner.vue') ,
+      component:  ManagePartner,
     },
     {
       path: "/approvepartner",
@@ -202,6 +138,7 @@ const router = createRouter({
       component:  () => import('@/views/partner/managehotel/AddHotel.vue') ,
     },
     {
+
       path:"/reserveroom",
       name:"reserveroom",
       component: () => import('@/views/partner/managehotel/ReserveRoom.vue')
@@ -215,6 +152,10 @@ const router = createRouter({
       path:"/roomadmin",
       name:"roomadmin",
       component: () => import('@/views/admin/manageRoom/RoomAdmin.vue')
+
+      path:"/manageroom",
+      name:"manageroom",
+      component: () => import('@/views/partner/managehotel/ManageRoom.vue')
     }
     
   ],

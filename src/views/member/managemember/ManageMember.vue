@@ -59,7 +59,7 @@ export default {
    
   },
   created() {
-    document.title = "ข้อมูล partner";
+    document.title = "ข้อมูล Member";
   },
   setup() {
     const item_product = ref([]);

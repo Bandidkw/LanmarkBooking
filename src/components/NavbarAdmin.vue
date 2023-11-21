@@ -86,7 +86,7 @@
           <div
             v-if="isMenuOpen(menuKey)"
             @click.stop="closeDropdowns"
-            class="menu-dropdown lg:inline-blockorigin-top-right absolute mt-2 w-40 bg-white border border-gray-300 py-2 rounded-lg shadow-lg z-10"
+            class="menu-dropdown lg:inline-blockorigin-top-right absolute mt-2 w-48 bg-white border border-gray-300 py-2 rounded-lg shadow-lg z-10"
           >
             <router-link
               v-for="item in menu"
@@ -129,6 +129,7 @@ export default {
         ],
         partner: [
           { id: 3, label: "อนุมัติ partner", route: "/approvepartner" },
+          { id: 3, label: "อนุมัติห้อง partner", route: "/approvepartner" },
           { id: 4, label: "จัดการข้อมูล partner", route: "/managepartner" }
         ],
         member: [

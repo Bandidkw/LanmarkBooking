@@ -71,13 +71,19 @@
             >
               ประเภทห้องพัก :
             </label>
-            <input
+            <Dropdown
+      v-model="type"
+      :options="cities"
+      optionLabel="name"
+      optionValue="_id" 
+      placeholder="เลือกประเภท"/>
+            <!-- <input
               class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name"
               type="text"
               v-model="type"
               placeholder="ประเภทห้องพัก"
-            />
+            /> -->
           </div>
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label
@@ -134,12 +140,12 @@
             <input
               class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name"
-              type="text"
+              type="number"
               v-model="bathroom"
               placeholder="จำนวนห้องน้ำ"
             />
           </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <!-- <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label
               class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
               for="grid-first-name"
@@ -153,8 +159,8 @@
               v-model="latitude"
               placeholder="latitude"
             />
-          </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          </div> -->
+          <!-- <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label
               class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
               for="grid-first-name"
@@ -168,7 +174,7 @@
               v-model="longitude"
               placeholder="longitude"
             />
-          </div>
+          </div> -->
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label
               class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -278,11 +284,44 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
-
+import { ref,onMounted } from "vue";
 export default {
   name: "AddHotelPartner",
   data() {
+    const cities = ref([]);
+    const selectedCity = ref(null);
+    const gettype = async (_id) => {
+      try {
+        const response = await axios.get(`${process.env.VUE_APP_API}room/type`,
+        {
+          headers: {
+          token: localStorage.getItem("token"),
+          },
+        });
+        console.log(response.data)
+        if (response.data) {
+          cities.value = response.data; 
+        } else {
+          await Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด",
+            text: "ไม่สามารถแก้ไขข้อมูลได้",
+          });
+        }
+      } catch (error) {
+        await Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด",
+            text: "ไม่สามารถลบข้อมูลได้",
+          });
+      }
+    };
+    onMounted(() => {
+      gettype();
+    });
     return {
+      cities,
+      selectedCity,
       name: "",
       description: "",
       phone_number: "",
@@ -314,21 +353,17 @@ export default {
             description: this.description,
             phone_number: this.phone_number,
             price: this.price,
-            type: this.type,
+            type: '655af84f07fdcb301090fc33',
             guests: this.guests,
             bedroom: this.bedroom,
             bed: this.bed,
             bathroom: this.bathroom,
-            latitude: this.latitude,
-            longitude: this.longitude,
+            latitude: "1",
+            longitude: "1",
             address: this.address,
             tambon: this.tambon,
             amphure: this.amphure,
             province: this.province,
-            partner_id: this.partner_id,
-            status: "false",
-            approve: "[]",
-            statusbooking: "false",
           },
           {
             headers: {
@@ -336,13 +371,14 @@ export default {
             },
           }
         );
-        if (res.data) {
+          
+        if (res.data.status=== true) {
           Swal.fire({
             icon: "success",
             title: "บันทึกสำเร็จ",
             text: "ข้อมูลถูกบันทึกเรียบร้อย",
           });
-          this.resetForm();
+          this.resetForm;
         } else {
           await Swal.fire({
             icon: "error",
@@ -350,12 +386,13 @@ export default {
             text: "ไม่สามารถบันทึกข้อมูลได้",
           });
         }
+        
       } catch (error) {
         console.log(error, "error");
         await Swal.fire({
           icon: "error",
           title: "เกิดข้อผิดพลาด",
-          text: "ไม่สามารถเพิ่มข้อมูลได้",
+          text: error,
         });
       }
     },
@@ -370,8 +407,6 @@ export default {
     this.bedroom = "";
     this.bed = "";
     this.bathroom = "";
-    this.latitude = "";
-    this.longitude = "";
     this.address = "";
     this.tambon = "";
     this.amphure = "";
