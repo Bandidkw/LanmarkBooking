@@ -23,10 +23,11 @@ import ManageRoomview from "@/views/admin/manageRoom/ManageRoomview.vue";
 import ManageRoomtype from "@/views/admin/manageRoom/ManageRoomtype.vue";
 import ManageSecurity from "@/views/admin/manageRoom/ManageSecurity.vue";
 
-import HotelType from "@/views/admin/managehotel/HotelType.vue";
-import Interesting from "@/views/admin/managehotel/Interesting.vue";
-import Facility from "@/views/admin/managehotel/Facility.vue";
-import Certificate from "@/views/admin/managehotel/Certificate.vue";
+// import HotelType from "@/views/admin/managehotel/HotelType.vue";
+// import Interesting from "@/views/admin/managehotel/Interesting.vue";
+// import Facility from "@/views/admin/managehotel/Facility.vue";
+// import Certificate from "@/views/admin/managehotel/Certificate.vue";
+
 import DashBoardPartner from '@/views/partner/DashBoardPartner.vue'
 
 //------------------------ partner ----------------//
@@ -149,26 +150,26 @@ const router = createRouter({
       component: CreateAccount,
     },
     ///////// MANAGE_HOTEL //////////
-    {
-      path: "/managehotel/type",
-      name: "hoteltype",
-      component: HotelType,
-    },
-    {
-      path: "/managehotel/facilities",
-      name: "facility",
-      component: Facility,
-    },
-    {
-      path: "/managehotel/interesting",
-      name: "interest",
-      component: Interesting,
-    },
-    {
-      path: "/managehotel/certification",
-      name: "certificate",
-      component: Certificate,
-    },
+    // {
+    //   path: "/managehotel/type",
+    //   name: "hoteltype",
+    //   component: HotelType,
+    // },
+    // {
+    //   path: "/managehotel/facilities",
+    //   name: "facility",
+    //   component: Facility,
+    // },
+    // {
+    //   path: "/managehotel/interesting",
+    //   name: "interest",
+    //   component: Interesting,
+    // },
+    // {
+    //   path: "/managehotel/certification",
+    //   name: "certificate",
+    //   component: Certificate,
+    // },
 
     {
       path: "/dashboardpartner",
