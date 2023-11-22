@@ -192,6 +192,7 @@ export default {
         console.log(error);
       }
     };
+
     onMounted(() => {
       gettype();
       getprovince();
@@ -239,11 +240,21 @@ export default {
           this.bedroom = response.data?.bedroom
           this.bed = response.data?.bed
           this.bathroom = response.data?.bathroom
-          this.address = response.data?.address
-          this.tambon = response.data?.tambon
-          this.amphure = response.data?.amphure
+          this.address = response.data?.address         
           this.province = response.data?.province
-
+          const getamphure = await this.getamphure("amphure")
+          if(getamphure == true)
+          {
+            console.log(this.amphuredropdown)
+            this.amphure = response.data?.amphure
+          }       
+          const gettambon = await this.getamphure("tambon")
+          if(gettambon == true)
+          {
+            this.tambon = response.data?.tambon
+          }
+          
+          
       } catch (error) {
         console.log(error);
       }
@@ -330,6 +341,7 @@ export default {
             `${process.env.VUE_APP_THAILAND}thailand/amphure/by-province-id/${id}`
           );
           this.amphuredropdown.value = amphure.data;
+          return true
         }
         if (type === "tambon") {
           const selectedAmphureObject = this.amphuredropdown.value.find(
@@ -343,6 +355,7 @@ export default {
             `${process.env.VUE_APP_THAILAND}thailand/tambon/by-amphure-id/${id}`
           );
           this.tambondropdown.value = tambon.data;
+          return true
         }
       } catch (error) {
         console.log(error);
