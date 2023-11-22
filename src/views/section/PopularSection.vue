@@ -1,96 +1,56 @@
 <template>
    <div class="grid-container">
+
       <div v-for="(item, index) in gridData" :key="index" class="grid-item">
-        <router-link :to="{ name: 'hotel', params: { id: index } }">
+        <router-link :to="{ name: 'hotel', params: { id: item._id } }">
         <div class="image-container">
-        <img :src="item.image[currentImageIndex]" alt="Gallery Image" />
+          <img  v-if="Array.isArray(item.image) && item.image.length > 0"
+                :src="getImage(item.image)"
+                alt="Gallery Image" />
+          <div v-else>ไม่มีรูปภาพ</div>
         <i class="bi bi-arrow-right-circle-fill hidden"></i>
         </div>
         </router-link>
         <div class="details-container">
           <h2>{{ item.name }}</h2>
-          <p>{{ item.details }}</p>
-          <p>Date: {{ item.date }}</p>
-          <p>Price: {{ item.price }} ฿</p>
+          <p>{{ item.description }}</p>
+          <p>Price: {{ item.price }} บาท</p>
         </div>
       </div>
     </div>
 </template>
   
 <script>
+import axios from "axios";
+import { onMounted,ref} from "vue";
   export default {
+    
     data() {
+      const gridData = ref([])
+      const getroom = async (_id) => {
+        const Response = await axios.get(`${process.env.VUE_APP_API}room/`);
+        const filteredstatus = Response.data.filter(item => item.statusbooking === true && item.status === true); 
+        this.gridData = filteredstatus
+      }
+      onMounted(() => {
+        getroom();
+      });
       return {
-        gridData:[
-        {
-            name: 'Hotel A',
-            details: 'Luxurious hotel with amazing amenities.',
-            date: '2023-11-15',
-            price: 1500,
-            image: [
-                'images/hotel-room/room01.jpg',
-                'images/hotel-room/room02.jpg',
-                'images/hotel-room/room03.jpg',
-            ],
-          },
-          {
-            name: 'Hotel B',
-            details: 'Cozy boutique hotel in the heart of the city.',
-            date: '2023-11-15',
-            price: 2500,
-            image: [
-                'images/hotel-room/room02.jpg',
-                'images/hotel-room/room01.jpg',
-                'images/hotel-room/room03.jpg',
-            ],
-          },
-          {
-            name: 'Hotel C',
-            details: 'Experience the epitome of luxury at our 5-star hotel with breathtaking views and unparalleled service.',
-            date: '2023-11-16',
-            price: 5000,
-            image: [
-                'images/hotel-room/room03.jpg',
-                'images/hotel-room/room02.jpg',
-                'images/hotel-room/room01.jpg',
-            ],
-          },
-          {
-            name: 'Hotel D',
-            details: 'Charm meets comfort in our boutique hotel located in the heart of the city. Perfect for urban explorers.',
-            date: '2023-11-16',
-            price: 3000,
-            image: [
-                'images/hotel-room/room05.jpg',
-                'images/hotel-room/room02.jpg',
-                'images/hotel-room/room03.jpg',
-            ],
-          },
-          {
-            name: 'Hotel E',
-            details: 'Escape to our seaside resort and indulge in a serene atmosphere with stunning ocean views and pristine beaches.',
-            date: '2023-11-17',
-            price: 4500,
-            image: [
-                'images/hotel-room/room06.jpg',
-                'images/hotel-room/room02.jpg',
-                'images/hotel-room/room03.jpg',
-            ],
-          },
-          {
-            name: 'Hotel F',
-            details: 'Embrace nature at our mountain lodge retreat. Surrounded by lush greenery and majestic mountain views.',
-            date: '2023-11-18',
-            price: 3500,
-            image: [
-                'images/hotel-room/room04.jpg',
-                'images/hotel-room/room02.jpg',
-                'images/hotel-room/room03.jpg',
-            ],
-          },
-        ],
+        gridData,
         currentImageIndex: 0
       };
+    },
+    methods:{
+      getImage(item){
+      if (typeof item === 'string') {
+        return `https://drive.google.com/uc?export=view&id=${item}`;
+      } else if (Array.isArray(item) && item.length > 0) {
+        const firstImageId = item[0];
+        return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
+      } else {
+        return "";
+      }
+    }
     },
   };
   </script>

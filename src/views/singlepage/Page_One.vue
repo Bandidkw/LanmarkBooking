@@ -1,97 +1,37 @@
 <template>
   <div class="flex flex-col px-40">
-
-  <div class="container px-20 py-4">
-    <div class="px-40 flex justify-between">
-      <h1 class="text-2xl">{{ hotel.name }}</h1>
-      <router-link to="/">กลับหน้าแรก</router-link>
+  <div class="container px-20 py-4 ">
+    <div class="px-40 text-center ">    
+      <h1 class="text-2xl">{{roomdata.name}}</h1>
     </div>
   </div>
-  <div v-if="large" class="img-grid px-36">
-    <!-- รูปภาพใหญ่ -->
-    <img class="w-full" :src="hotel.images.large" alt="Large Image" />
-
-    <!-- รูปภาพเล็ก -->
-    <div class="small-images">
-      <img
-        v-for="(image, index) in hotel.images.small"
-        :key="index"
-        :src="image"
-        alt="Small Image"
-      />
-    </div>
-
-    <!-- </div> -->
+  <div class="p-5"> 
+    <img class="w-full" :src="getImage(roomdata.image)" alt="Large Image" />
   </div>
+
   <!-- eslint-disable-next-line vue/no-multiple-template-root -->
-  <div class="flex pt-4 px-36 justify-between">
-    <div class="w-3/6">
+  <div class="flex pt-4 px-10 justify-between border">
+    <!-- รายละเอียด -->
+    <div class="w-1/2">
       <div class="details m-0 p-2 border-b-2 border-b-sky-400">
-        <h1 class="text-2xl font-bold">{{ hotel.name }}</h1>
-        <p>{{ hotel.desciption }}</p>
-        <p>{{ hotel.review }}</p>
+        <h1 class="text-2xl font-bold">{{ roomdata.name }}</h1>
+        <p>{{roomdata.guests}} คน || {{ roomdata.bedroom }} ห้องนอน || {{ roomdata.bed }} เตียง || {{ roomdata.bathroom }} ห้องน้ำ  </p>
         <!-- รายละเอียดเพิ่มเติม -->
       </div>
       <div
-        class="host-info flex h-24 gap-x-6 py-4 w-full border-b-2 border-b-sky-400"
-      >
+        class="host-info flex h-24 gap-x-6 py-4 w-full border-b-2 border-b-sky-400">
         <div class="host-img">
-          <img
-            class="w-full h-full rounded-full"
-            src="/images/host-img/person.jpg"
-            alt=""
-          />
+          <img class="w-full h-full rounded-full" src="/images/host-img/person.jpg" alt=""/>
         </div>
         <div class="host-detail flex flex-col justify-center">
-          <h3 class="font-bold">โฮสต์โดย ............</h3>
-          <p>เจ้าของที่พักดีเด่นให้เช่าที่พักมา ... ปี</p>
-        </div>
-      </div>
-      <div class="flex flex-col py-4 h-56 gap-y-4 border-b-2 border-b-sky-400">
-        <div class="flex gap-x-6 h-12">
-          <div class="icon-box">
-            <i class="bi bi-save text-2xl"></i>
-          </div>
-          <div>
-            <p class="text-base font-bold">เจ้าของที่พักดีเด่น</p>
-            <p class="text-base">เจ้าของที่พักที่มีประสบการณ์และได้คะแนนสูง</p>
-          </div>
-        </div>
-        <div class="flex gap-x-6">
-          <div class="icon-box">
-            <i class="bi bi-clock-history text-2xl"></i>
-          </div>
-          <div class="text-detail">
-            <p class="text-base font-bold">ประสบการณ์การเช็คอินดีเยี่ยม</p>
-            <p class="text-base">
-              ผู้เข้าพัก 92%
-              จากจำนวนผู้เข้าพักล่าสุดได้ให้คะแนนขั้นตอนการเช็คอินที่ระดับ 5 ดาว
-            </p>
-          </div>
-        </div>
-        <div class="flex gap-x-6">
-          <div class="icon-box">
-            <i class="bi bi-calendar-x text-2xl"></i>
-          </div>
-          <div>
-            <p class="text-base font-bold">ยกเลิกฟรีก่อนวันที่ ........</p>
-          </div>
+          <h3 class="font-bold">โฮสต์โดย {{ roomdata.partner_id?.name }}</h3>
         </div>
       </div>
       <div class="hotel-info h-64 border-b-2 border-b-sky-400 pt-5 pb-12">
         <div class="hotel-info-box">
           <p class="text-base text-justify p-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut,
-            architecto ut placeat temporibus natus doloremque commodi quo dolor
-            quia in delectus deleniti provident molestias cum amet consequatur
-            esse quos, dolore ab modi inventore! Earum, distinctio consectetur?
-            Beatae qui fugit, non aspernatur illo sit officiis obcaecati quo,
-            repellendus velit magnam aliquam?
+            {{ roomdata.description }}
           </p>
-        </div>
-        <div class="flex more-btn p-2 cursor-pointer">
-          <span>เพิ่มเติม</span>
-          <i class="bi bi-chevron-double-right"></i>
         </div>
       </div>
       <div class="sleep-place h-[253px] py-12">
@@ -107,134 +47,85 @@
             <p class="font-bold">ห้องนอน</p>
           </div>
           <div>
-            <p>1 เตียงนอน 1 ฟูก</p>
+            <p>{{ roomdata.bedroom }} เตียงนอน  {{ roomdata.bathroom }} ห้องน้ำ </p>
           </div>
         </div>
       </div>
     </div>
-
+    <div class="w-1/2 text-center mx-3 border-2">
+       <div class="rounded ">
+        
+          <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
+            <label
+              class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2" for="grid-first-name">
+              เลือกวันจอง - วันสิ้นสุดการจอง
+            </label>
+            <Calendar  v-model="selectedDate" selectionMode="range" :manualInput="false"  :numberOfMonths="2"  showIcon class="border p-2 rounded bg-white" />
+          </div>
+          <div class="mx-auto w-60  my-3 ">
+            <button
+              @click="addRoom"
+              class="px-4 py-2 bg-blue-500 text-white text-center hover:bg-purple-400 rounded w-full"
+              type="button"
+            >
+               จอง
+            </button>
+          </div>
+        </div>
+  </div>
   </div>
 </div>
 </template>
 
 <script>
+import axios from "axios";
 
+import { onMounted,ref} from "vue";
 export default {
   props: ["id"],
-  components: {
-
-  },
-  computed: {
-    hotel() {
-      const hotelId = this.$route.params.id;
-      const hotels = [
-      {
-          id: 0,
-          name: "Hotel A Detail",
-          details: "Luxurious hotel with amazing amenities.",
-          date: "2023-11-15",
-          desciption: "3 คน 1 เตียง 1 ห้องนอน 1 ห้องน้ำ",
-          price: 1500,
-          review: "รีวิว",
-          images: {
-            large: "/images/hotel-room/room01.jpg",
-            small: [
-              "/images/hotel-room/room02.jpg",
-              "/images/hotel-room/room03.jpg",
-              "/images/hotel-room/room04.jpg",
-              "/images/hotel-room/room05.jpg",
-            ],
-          },
-        },
-        {
-          id: 1,
-          name: "Hotel B",
-          details: "Cozy boutique hotel in the heart of the city.",
-          date: "2023-11-15",
-          price: 2500,
-          images: {
-            large: "/images/hotel-room/room02.jpg",
-            small: [
-              "/images/hotel-room/room05.jpg",
-              "/images/hotel-room/room04.jpg",
-              "/images/hotel-room/room03.jpg",
-              "/images/hotel-room/room02.jpg",
-            ],
-          },
-        },
-        {
-          id: 2,
-          name: "Hotel C",
-          details:
-            "Experience the epitome of luxury at our 5-star hotel with breathtaking views and unparalleled service.",
-          date: "2023-11-16",
-          price: 5000,
-          images: {
-            large: "/images/hotel-room/room03.jpg",
-            small: [
-              "/images/hotel-room/room02.jpg",
-              "/images/hotel-room/room03.jpg",
-              "/images/hotel-room/room06.jpg",
-              "/images/hotel-room/room04.jpg",
-            ],
-          },
-        },
-        {
-          id: 3,
-          name: "Hotel D",
-          details:
-            "Charm meets comfort in our boutique hotel located in the heart of the city. Perfect for urban explorers.",
-          date: "2023-11-16",
-          price: 3000,
-          images: {
-            large: "/images/hotel-room/room04.jpg",
-            small: [
-              "/images/hotel-room/room03.jpg",
-              "/images/hotel-room/room01.jpg",
-              "/images/hotel-room/room04.jpg",
-              "/images/hotel-room/room06.jpg",
-            ],
-          },
-        },
-        {
-          id: 4,
-          name: "Hotel E",
-          details:
-            "Escape to our seaside resort and indulge in a serene atmosphere with stunning ocean views and pristine beaches.",
-          date: "2023-11-17",
-          price: 4500,
-          images: {
-            large: "/images/hotel-room/room05.jpg",
-            small: [
-              "/images/hotel-room/room05.jpg",
-              "/images/hotel-room/room03.jpg",
-              "/images/hotel-room/room01.jpg",
-              "/images/hotel-room/room04.jpg",
-            ],
-          },
-        },
-        {
-          id: 5,
-          name: "Hotel F",
-          details:
-            "Embrace nature at our mountain lodge retreat. Surrounded by lush greenery and majestic mountain views.",
-          date: "2023-11-18",
-          price: 3500,
-          images: {
-            large: "/images/hotel-room/room06.jpg",
-            small: [
-              "/images/hotel-room/room03.jpg",
-              "/images/hotel-room/room04.jpg",
-              "/images/hotel-room/room01.jpg",
-              "/images/hotel-room/room05.jpg",
-            ],
-          },
-        },
-      ]
-      const selectedHotel = hotels.find((hotel) => hotel.id == hotelId);
-
-      return selectedHotel || null;
+  data() {
+      const roomdata = ref([])
+      const getroom = async (_id) => {
+        const id = this.$route.params.id;
+        const Response = await axios.get(`${process.env.VUE_APP_API}room/${id}`);
+        this.roomdata = Response.data   
+      }
+      onMounted(() => {
+        getroom();
+      });
+      return {
+        selectedDate:null,
+        date:"",
+        startdate:null,
+        enddate:null,
+        roomdata,
+      };
     },
+  
+    methods:{
+      handleDateClick(event) {
+    // ตรวจสอบว่ากำลังเลือกวันเริ่มต้นหรือวันสุดท้าย
+    if (!this.startDate) {
+      this.startDate = event.date;
+    } else {
+      this.endDate = event.date;
+      // นำ startDate และ endDate ไปใช้งานต่อไป, เช่นเรียก API สำหรับการจองห้อง
+      // ทำการ reset startDate และ endDate เพื่อให้ผู้ใช้สามารถทำการเลือกใหม่ได้
+      this.startDate = null;
+      this.endDate = null;
+    }
+  },
+
+      getImage(item){
+      if (typeof item === 'string') {
+        return `https://drive.google.com/uc?export=view&id=${item}`;
+      } else if (Array.isArray(item) && item.length > 0) {
+        const firstImageId = item[0];
+        return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
+      } else {
+        return "";
+      }
+    }
     },
 };
 </script>
@@ -278,5 +169,23 @@ export default {
   padding-left: 0.6rem;
   display: flex;
   justify-content: center;
+}
+/* ปฏิทิน */ 
+.custom-event-marker {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #e74c3c;
+  opacity: 0.5;
+}
+
+.booked {
+  background-color: #e74c3c;
+}
+
+.available {
+  background-color: #2ecc71;
 }
 </style>
