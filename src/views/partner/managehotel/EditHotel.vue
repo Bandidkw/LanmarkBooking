@@ -79,17 +79,42 @@
             <InputText v-model="address" name="address" class="w-full" />
           </div>
           <div class="col-12">
-            <p>ตำบล :</p>
-            <InputText v-model="tambon" name="tambon" class="w-full" />
+            <p>จังหวัด :</p>
+            <Dropdown
+              class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              v-model="province"
+              :options="provincedropdown.value"
+              optionLabel="name_th"
+              optionValue="name_th"
+              placeholder="เลือกจังหวัด"
+              @change="getamphure('amphure')"
+            />
           </div>
           <div class="col-12">
             <p>อำเภอ :</p>
-            <InputText v-model="amphure" name="amphure" class="w-full" />
+            <Dropdown
+              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              v-model="amphure"
+              :options="amphuredropdown.value"
+              optionLabel="name_th"
+              optionValue="name_th"
+              placeholder="เลือกอำเภอ"
+              @change="getamphure('tambon')"
+            />
           </div>
           <div class="col-12">
-            <p>จังหวัด :</p>
-            <InputText v-model="province" name="province" class="w-full" />
+            <p>ตำบล :</p>
+            <Dropdown
+            class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              v-model="tambon"
+              :options="tambondropdown.value"
+              optionLabel="name_th"
+              optionValue="name_th"
+              placeholder="เลือกตำบล"
+            />
           </div>
+         
+         
           <!-- <div class="col-12">
             <p>รหัสพาร์ทเนอร์ :</p>
             <InputText
@@ -154,11 +179,28 @@ export default {
         });
       }
     };
+    const provincedropdown = ref([]);
+    const amphuredropdown = ref([null]);
+    const tambondropdown = ref([null]);
+    const getprovince = async () => {
+      try {
+        const province = await axios.get(
+          `${process.env.VUE_APP_THAILAND}thailand/province`
+        );
+        this.provincedropdown.value = province.data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
     onMounted(() => {
       gettype();
+      getprovince();
     });
     return {
       cities,
+      provincedropdown,
+      amphuredropdown,
+      tambondropdown,
       loading: false,
       sidebar: false,
       name: "",
@@ -274,6 +316,36 @@ export default {
           });
           this.sidebar = true;
         }
+      }
+    },
+    async getamphure(type) {
+      try {
+        if (type === "amphure") {
+          const selectedProvinceObject = this.provincedropdown.value.find(
+            (province) => province.name_th === this.province
+          );
+          const id = selectedProvinceObject.id;
+          //
+          const amphure = await axios.get(
+            `${process.env.VUE_APP_THAILAND}thailand/amphure/by-province-id/${id}`
+          );
+          this.amphuredropdown.value = amphure.data;
+        }
+        if (type === "tambon") {
+          const selectedAmphureObject = this.amphuredropdown.value.find(
+            (amphure) => amphure.name_th === this.amphure
+          );
+
+          const id = selectedAmphureObject.id;
+
+          //
+          const tambon = await axios.get(
+            `${process.env.VUE_APP_THAILAND}thailand/tambon/by-amphure-id/${id}`
+          );
+          this.tambondropdown.value = tambon.data;
+        }
+      } catch (error) {
+        console.log(error);
       }
     },
   },

@@ -72,6 +72,7 @@
               ประเภทห้องพัก :
             </label>
             <Dropdown
+            class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
       v-model="type"
       :options="cities"
       optionLabel="name"
@@ -165,16 +166,20 @@
               class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
               for="grid-first-name"
             >
-              ตำบล :
+              จังหวัด :
             </label>
-            <input
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-first-name"
-              type="text"
-              v-model="tambon"
-              placeholder="ตำบล"
+            <Dropdown
+              class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              v-model="province"
+              :options="provincedropdown.value"
+              optionLabel="name_th"
+              optionValue="name_th"
+              placeholder="เลือกจังหวัด"
+              @change="getamphure('amphure')"
             />
+   
           </div>
+
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label
               class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -182,29 +187,35 @@
             >
               อำเภอ :
             </label>
-            <input
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-first-name"
-              type="text"
+            <Dropdown
+              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
               v-model="amphure"
-              placeholder="อำเภอ"
+              :options="amphuredropdown.value"
+              optionLabel="name_th"
+              optionValue="name_th"
+              placeholder="เลือกอำเภอ"
+              @change="getamphure('tambon')"
             />
           </div>
+
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label
               class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
               for="grid-first-name"
             >
-              จังหวัด :
+              ตำบล :
             </label>
-            <input
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-first-name"
-              type="text"
-              v-model="province"
-              placeholder="จังหวัด"
+            <Dropdown
+            class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              v-model="tambon"
+              :options="tambondropdown.value"
+              optionLabel="name_th"
+              optionValue="name_th"
+              placeholder="เลือกตำบล"
             />
           </div>
+          
+          
           <div class="flex items-center pl-3">
             <label
               class="flex uppercase w-3/12 tracking-wide text-gray-700 text-xs font-bold"
@@ -247,7 +258,6 @@ export default {
   name: "AddHotelPartner",
   data() {
     const cities = ref([]);
-    const selectedCity = ref(null);
     const gettype = async (_id) => {
       try {
         const response = await axios.get(`${process.env.VUE_APP_API}room/type`,
@@ -266,6 +276,7 @@ export default {
             text: "ไม่สามารถแก้ไขข้อมูลได้",
           });
         }
+
       } catch (error) {
         await Swal.fire({
             icon: "error",
@@ -274,12 +285,29 @@ export default {
           });
       }
     };
+
+    const provincedropdown = ref([]);
+    const amphuredropdown = ref([null]);
+    const tambondropdown = ref([null]);
+    const getprovince = async () => {
+      try {
+        const province = await axios.get(
+          `${process.env.VUE_APP_THAILAND}thailand/province`
+        );
+        this.provincedropdown.value = province.data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
       onMounted(() => {
       gettype();
+      getprovince();
     });
     return {
       cities,
-      selectedCity,
+      provincedropdown,
+      amphuredropdown,
+      tambondropdown,
       name: "",
       description: "",
       phone_number: "",
@@ -309,6 +337,7 @@ export default {
         //this.validateField("filepic", "partner");
       }
     },
+    
     async addRoom() {
       try {
       
@@ -386,6 +415,36 @@ export default {
         console.error("Error uploading picture:", error);
       }
     },
+    async getamphure(type) {
+      try {
+        if (type === "amphure") {
+          const selectedProvinceObject = this.provincedropdown.value.find(
+            (province) => province.name_th === this.province
+          );
+          const id = selectedProvinceObject.id;
+          //
+          const amphure = await axios.get(
+            `${process.env.VUE_APP_THAILAND}thailand/amphure/by-province-id/${id}`
+          );
+          this.amphuredropdown.value = amphure.data;
+        }
+        if (type === "tambon") {
+          const selectedAmphureObject = this.amphuredropdown.value.find(
+            (amphure) => amphure.name_th === this.amphure
+          );
+
+          const id = selectedAmphureObject.id;
+
+          //
+          const tambon = await axios.get(
+            `${process.env.VUE_APP_THAILAND}thailand/tambon/by-amphure-id/${id}`
+          );
+          this.tambondropdown.value = tambon.data;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   resetForm() {
     this.name = "";
@@ -405,5 +464,6 @@ export default {
     // Clear errors
     this.errors = {};
   },
+  
 };
 </script>
