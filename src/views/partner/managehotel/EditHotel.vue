@@ -124,7 +124,7 @@ export default {
     ////////  get dropdown list /////////
 
     const cities = ref([]);
-    const selectedCity = ref(null);
+
     const gettype = async (_id) => {
       try {
         const response = await axios.get(
@@ -159,7 +159,6 @@ export default {
     });
     return {
       cities,
-      selectedCity,
       loading: false,
       sidebar: false,
       name: "",
@@ -171,8 +170,6 @@ export default {
       bedroom: "",
       bed: "",
       bathroom: "",
-      latitude: "",
-      longitude: "",
       address: "",
       tambon: "",
       amphure: "",
@@ -191,21 +188,20 @@ export default {
           }
         );
         console.log(response.data, "data");
-        (this.name = response.data?.name),
-          (this.description = response.data?.description),
-          (this.phone_number = response.data?.phone_number),
-          (this.price = response.data?.price),
-          (this.type = response.data?.type),
-          (this.guests = response.data?.guests),
-          (this.bedroom = response.data?.bedroom),
-          (this.bed = response.data?.bed),
-          (this.bathroom = response.data?.bathroom),
-          (this.latitude = response.data?.latitude),
-          (this.longitude = response.data?.longitude),
-          (this.address = response.data?.address),
-          (this.tambon = response.data?.tambon),
-          (this.amphure = response.data?.amphure),
-          (this.province = response.data?.province);
+          this.name = response.data?.name
+          this.description = response.data?.description
+          this.phone_number = response.data?.phone_number
+          this.price = response.data?.price
+          this.type = response.data?.type._id
+          this.guests = response.data?.guests
+          this.bedroom = response.data?.bedroom
+          this.bed = response.data?.bed
+          this.bathroom = response.data?.bathroom
+          this.address = response.data?.address
+          this.tambon = response.data?.tambon
+          this.amphure = response.data?.amphure
+          this.province = response.data?.province
+
       } catch (error) {
         console.log(error);
       }
@@ -240,8 +236,8 @@ export default {
               bedroom: this.bedroom,
               bed: this.bed,
               bathroom: this.bathroom,
-              latitude: this.latitude,
-              longitude: this.loading,
+              latitude: '1',
+              longitude: '1',
               address: this.address,
               tambon: this.tambon,
               amphure: this.amphure,
@@ -265,7 +261,7 @@ export default {
             await Swal.fire({
               icon: "error",
               title: "เกิดข้อผิดพลาด",
-              text: error,
+              text: res.data.message,
             });
             this.sidebar = true;
           }
