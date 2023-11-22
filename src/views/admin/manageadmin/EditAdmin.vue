@@ -13,7 +13,7 @@
           <form class="">
             <div class="col-12">
                 <p>เบอร์โทรศัพท์ :  </p>
-                <InputText v-model="telephone" name="telephone" placeholder="000-0000-00000" class="w-full" />
+                <InputText v-model="telephone" name="telephone" placeholder="000-0000-00000" class="w-full " />
             </div>
             <div class="col-12">
                 <p>password :(ถ้าไม่ได้ต้องแก้ไม่ต้องใส่)</p>
@@ -121,11 +121,3 @@ export default {
 };
 
 </script>
-
-<style scoped>
-  @import "tailwindcss/base";
-  @import "tailwindcss/components";
-  @import "tailwindcss/utilities";
-
-  @import "@/../node_modules/primeflex/primeflex.css";
-</style>

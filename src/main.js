@@ -11,8 +11,7 @@ import store from "./store";
 import "primeicons/primeicons.css"; //icons
 import "primevue/resources/primevue.min.css"; //core css
 import "primevue/resources/themes/lara-light-purple/theme.css"; //theme
-//prime flex
-import "primeflex/primeflex.css";
+
 
 const app = createApp(App); // สร้างแอปพลิเคชัน Vue ที่เป็นที่ต้องการ
 
@@ -41,6 +40,7 @@ import Textarea from "primevue/textarea";
 //////---datepicker--//////
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
+import "@/assets/style.css"
 
 app.use(PrimeVue);
 app.use(ToastService);
@@ -66,6 +66,8 @@ try {
   console.log("test")
 }
 app.use(router);
+//prime flex
+import "primeflex/primeflex.css";
 app.component('Button', Button);
 app.component('InputText', InputText);
 app.component('Card', Card);
@@ -86,5 +88,6 @@ app.component("Password", Password);
 app.component("VueDatePicker", VueDatePicker);
 app.component("Textarea", Textarea);
 app.component("InputNumber", InputNumber);
+
 
 app.mount('#app'); // นำแอปพลิเคชัน Vue ลงใน DOM

@@ -138,7 +138,7 @@
             // แสดงข้อความสำเร็จ (ตัวเลือก)
             Swal.fire({
               icon: "success",
-              title: "อนุมัติผู้ใช้partner",
+              title: "อนุมัติห้องสำเร็จแล้ว",
             });
             getData();
           } else {
@@ -171,7 +171,7 @@
             // แสดงข้อความสำเร็จ (ตัวเลือก)
             Swal.fire({
               icon: "success",
-              title: "ไม่อนุมัติผู้ใช้partner",
+              title: "ไม่อนุมัติห้องสำเร็จแล้ว",
             });
             getData();
           } else {
