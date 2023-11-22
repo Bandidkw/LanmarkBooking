@@ -113,17 +113,16 @@
       </div>
     </div>
 
-    <DatePicker/>
   </div>
 </div>
 </template>
 
 <script>
-import DatePicker from "@/views/singlepage/Modal_Date.vue";
+
 export default {
   props: ["id"],
   components: {
-    DatePicker
+
   },
   computed: {
     hotel() {

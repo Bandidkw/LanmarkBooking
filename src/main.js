@@ -34,13 +34,10 @@ import Toast from "primevue/toast";
 import ToastService from "primevue/toastservice";
 import Sidebar from 'primevue/sidebar';
 import Password from 'primevue/password';
-
-import InputNumber from "primevue/inputnumber";
 import Textarea from "primevue/textarea";
 //////---datepicker--//////
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import "@/assets/style.css"
 
 app.use(PrimeVue);
 app.use(ToastService);
@@ -87,7 +84,7 @@ app.component("Sidebar", Sidebar);
 app.component("Password", Password);
 app.component("VueDatePicker", VueDatePicker);
 app.component("Textarea", Textarea);
-app.component("InputNumber", InputNumber);
+
 
 
 app.mount('#app'); // นำแอปพลิเคชัน Vue ลงใน DOM

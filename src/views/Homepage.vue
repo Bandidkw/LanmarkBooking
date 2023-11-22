@@ -1,8 +1,25 @@
 <!-- Content.vue -->
 <template>
   <div class="invitatain">
+
+    <div class="title-info">
+
+      <!-- ------------------------- search-box ------------------------- -->
+      
+      <div class="search-box-cus">
+          <div class="input-group">
+          <div class="search">
+              <input type="text" class="form-control" placeholder="ค้นหาที่พักหรือโรงแรม" aria-label="Recipient's username">
+          </div>
+          <div class="input-group-append">
+          <button class="btn-search btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
+          </div>
+      </div>
+      </div>
+    </div>
+
     <!------------------------------- choose-room ------------------------>
-    <div class="choose-room justify-center">
+    <div class="choose-room">
           <div class="room">
               <i class="bi bi-house-door"></i>
               <a @click="createAccount">อพาร์ทเม้นท์</a>
@@ -70,11 +87,11 @@ general-room">ห้องพักทั่วไป</option>
       </div>
     </div>
   </div>
-<!-------------------------- popular-section --------------------------->
+            <!-------------------------- popular-section --------------------------->
         <div class="poppular-box">
           <div class="poppular-info">
             <h3>POPULAR</h3>
-            <i class="bi bi-award-fill text-warning p-0 text-orange-400"></i>
+            <i class="bi bi-award-fill text-warning p-0"></i>
           </div>
           <PopularSection/>
       </div>
@@ -89,6 +106,7 @@ export default {
   components:{
     PopularSection,
     },
+  name: 'HomepageMain',
   data(){
       return{
         isFilterVisible:false,
@@ -111,11 +129,7 @@ export default {
 };
 </script>
 
-
 <style scoped>
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
 .invitatain{
   width: 100%;
   padding: 2rem 5rem;
@@ -187,6 +201,7 @@ export default {
   display: flex;
   align-items: center;
   column-gap: 2rem;
+  justify-content: center;
 }
 .room{
   cursor: pointer;

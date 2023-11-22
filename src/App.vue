@@ -1,7 +1,7 @@
 <!-- App.vue -->
 <template>
   <div class="body-container">
-    <navbar class="nav-bar sticky top-0 bg-white" v-if="$store.getters.roles === ''"></navbar>
+    <navbar class="nav-bar" v-if="$store.getters.roles === ''"></navbar>
     <NavbarMember v-if="$store.getters.roles === 'member'" />
     <NavbarPartner v-if="$store.getters.roles === 'partner'" />
     <NavbarAdmin v-if="$store.getters.roles === 'admin'" />
@@ -49,10 +49,10 @@ if (localStorage.getItem("token") !== null) {
         this.$router.push("/dashboardadmin");
       }
       if (this.$store.getters.roles === "partner") {
-        this.$router.push("/dashboardpartner");
+        console.log("partner")
       }
       if (this.$store.getters.roles === "member") {
-        this.$router.push("/");
+        console.log("member")
       }
     })
     .catch((error) => {

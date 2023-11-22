@@ -1,85 +1,80 @@
 // router.js
-import { createRouter, createWebHistory } from "vue-router";
-import Home from "@/views/Homepage.vue";
-import About from "@/views/Aboutpage.vue";
-import DashBoard from "@/views/DashBoardPage.vue";
-import PopularSection from "@/views/section/PopularSection.vue";
-import DashBoardAdmin from "@/views/admin/DashBoardAdmin";
-import ManageAdmin from "@/views/admin/manageadmin/ManageAdmin.vue";
-import AddAdmin from "@/views/admin/manageadmin/AddAdmin.vue";
-import EditAdmin from "@/views/admin/manageadmin/EditAdmin.vue";
-import ManagePartner from "@/views/partner/managepartner/ManagePartner.vue";
+import { createRouter, createWebHistory } from 'vue-router';
+import Home from '@/views/Homepage.vue';
+import About from '@/views/Aboutpage.vue';
+import DashBoard from '@/views/DashBoardPage.vue'
+import PopularSection from '@/views/section/PopularSection.vue'
+import DashBoardAdmin from '@/views/admin/DashBoardAdmin'
+import ManageAdmin from '@/views/admin/manageadmin/ManageAdmin.vue'
 import CreateAccount from "@/views/CreateAccount.vue";
-import PageOne from "@/views/singlepage/Page_One.vue";
-// --------------ManageRoom-------------------------
-import RoomDetail from "@/views/admin/manageRoom/RoomDetail.vue";
-
-import DashBoardPartner from '@/views/partner/DashBoardPartner.vue'
-
-//------------------------ partner ----------------//
-
-
+// import  CreateAccount from '@/views/CreateAccount.vue'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/",
-      name: "home",
+      path: '/',
+      name: 'home',
       component: Home,
     },
     {
-      path: "/about",
-      name: "about",
+      path: '/about',
+      name: 'about',
       component: About,
     },
     {
-      path: "/dashboard",
-      name: "dashboard",
-      component: DashBoard,
+      path: '/dashboard',
+      name: 'dashboard',
+      component:DashBoard,
+    },    
+    {
+      path: '/popular',
+      name: 'popular',
+      component:PopularSection,
     },
     {
-      path: "/popular",
-      name: "popular",
-      component: PopularSection,
+      path:'/dashboardadmin',
+      name:'dashboardadmin',
+      component:DashBoardAdmin
     },
     {
-      path: "/dashboardadmin",
-      name: "dashboardadmin",
-      component: DashBoardAdmin,
-    },
-    {
-      path: "/manageadmin",
-      name: "manageadmin",
-      component: ManageAdmin,
+      path:'/manageadmin',
+      name:'manageadmin',
+      component:ManageAdmin
     },
     {
       path: "/addadmin",
       name: "addadmin",
-      component: AddAdmin,
+      component: ()=> import("@/views/admin/manageadmin/AddAdmin.vue"),
     },
     {
       path: "/editadmin/:id",
       name: "editadmin",
-      component: EditAdmin,
+      component: ()=> import("@/views/admin/manageadmin/EditAdmin.vue"),
     },
-    // -----------------------ManegeRoom---------------------------
     {
       path: "/roomdetail",
       name: "roomdetail",
-      component: RoomDetail,
+      component: ()=> import("@/views/admin/manageRoom/RoomDetail.vue"),
+      
     },
-    // ---------------------------end--------------------------------
     {
       path: "/popular",
       name: "popular",
-      component: PopularSection,
+      component: ()=> import("@/views/section/PopularSection.vue"),
+      
+    },
+    {
+      path: '/createaccount',
+      name: 'createaccount',
+      component:CreateAccount,
     },
     {
       path: "/hotel/:id",
       name: "hotel", // เพิ่ม name เพื่อให้สามารถใช้ router-link ไปยังนั้นได้
-      component: PageOne,
+      component: ()=> import("@/views/singlepage/Page_One.vue"),
       props: true,
     },
+    ,
     {
       path: "/register",
       name: "register",
@@ -88,12 +83,14 @@ const router = createRouter({
     {
       path: "/dashboardpartner",
       name: "dashboardpartner",
-      component: DashBoardPartner ,
+      component: ()=> import("@/views/partner/DashBoardPartner.vue"),
+      
     },
     {
       path: "/managepartner",
       name: "managepartner",
-      component:  ManagePartner,
+      component: ()=> import("@/views/partner/managepartner/ManagePartner.vue"),
+      
     },
     {
       path: "/approvepartner",
@@ -130,7 +127,6 @@ const router = createRouter({
       name:"manageroom",
       component: () => import('@/views/partner/managehotel/ManageRoom.vue')
     },
-    
   ],
 });
 
