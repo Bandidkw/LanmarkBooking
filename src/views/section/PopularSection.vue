@@ -4,7 +4,7 @@
       <div v-for="(item, index) in gridData" :key="index" class="grid-item">
         <router-link :to="{ name: 'hotel', params: { id: item._id } }">
         <div class="image-container">
-          <img  v-if="Array.isArray(item.image) && item.image.length > 0"
+          <img class="w-full"  v-if="Array.isArray(item.image) && item.image.length > 0"
                 :src="getImage(item.image)"
                 alt="Gallery Image" />
           <div v-else>ไม่มีรูปภาพ</div>
