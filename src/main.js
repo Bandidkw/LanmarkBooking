@@ -40,6 +40,7 @@ import ToastService from "primevue/toastservice";
 import Sidebar from 'primevue/sidebar';
 import Password from 'primevue/password';
 import Textarea from "primevue/textarea";
+import FileUpload from 'primevue/fileupload';
 //////---datepicker--//////
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
@@ -52,18 +53,18 @@ app.use(store);
 try {
   const token = localStorage.getItem("token");
   const jwt_decode = jwtDecode(token);
-  if(jwt_decode.roles=="admin"){
-     console.log("admin")
+  if (jwt_decode.roles == "admin") {
+    console.log("admin")
   }
-  else if (jwt_decode == "partner"){
+  else if (jwt_decode == "partner") {
     console.log("partner")
   }
-  else if (jwt_decode == "member"){
+  else if (jwt_decode == "member") {
     console.log("member")
-  }else{
+  } else {
     console.log("ยังไม่ได้ล็อคอิน")
   }
-  
+
 } catch (err) {
 
 }
@@ -89,8 +90,10 @@ app.component("Sidebar", Sidebar);
 app.component("Password", Password);
 app.component("VueDatePicker", VueDatePicker);
 app.component("Textarea", Textarea);
-app.component("InputSwitch",InputSwitch);
-app.component("SelectButton",SelectButton);
+app.component("InputSwitch", InputSwitch);
+app.component("SelectButton", SelectButton);
+app.component("FileUpload", FileUpload)
+
 
 
 app.mount('#app'); // นำแอปพลิเคชัน Vue ลงใน DOM

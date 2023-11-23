@@ -4,26 +4,14 @@
     <router-link to="/" class="topweb-left">
       <img src="/logo/lanmark-logo-navbar.png" alt="" />
     </router-link>
-    <div
-      class="flex h-10 items-center input-group rounded-2xl px-4"
-      style="
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08),
-          0 4px 12px rgba(0, 0, 0, 0.05);
-      "
-    >
-      <div class="p-0 search">
-        <input
-          type="text"
-          placeholder="ค้นหาที่พักหรือโรงแรม"
-          aria-label="Recipient's username"
-        />
-      </div>
-      <div class="input-group-append w-8">
-        <button class="btn-search btn-outline-secondary w-full" type="button">
-          <i class="bi bi-search w-full"></i>
-        </button>
-      </div>
+
+    <div>
+      <span class="p-input-icon-right">
+        <i class="pi pi-search" />
+        <InputText placeholder="Search" class="search-box" />
+      </span>
     </div>
+
     <div class="topweb-right">
       <p>ให้เช่าที่พักกับ Lanmark</p>
       <div class="login-box" @click="showPopup">
@@ -38,29 +26,7 @@
             <!-- ปุ่มปิด popup -->
             <div class="top-pop">
               <h1>เข้าสู่ระบบ</h1>
-              <button
-                @click="hidePopup"
-                type="button"
-                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 hover:rounded-full text-sm w-2 h-4 inline-flex justify-center items-center"
-                data-modal-hide="default-modal"
-              >
-                <svg
-                  class="w-3 h-3"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-                <span class="sr-only">Close modal</span>
-              </button>
+              <Button @click="hidePopup" icon="pi pi-times" severity="secondary" text />
             </div>
             <!--  -->
 
@@ -69,14 +35,7 @@
             <form @submit.prevent="login" class="form-control">
               <!-- Input เบอร์โทรศัพท์ -->
               <label for="telephone" class="text-form">เบอร์โทรศัพท์</label>
-              <input
-                class="input-form"
-                type="tel"
-                id="telephone"
-                v-model="telephone"
-                required
-                @input="validateInput"
-              />
+              <input class="input-form" type="tel" id="telephone" v-model="telephone" required @input="validateInput" />
 
               <p v-if="showValidationError" class="error-message">
                 กรุณากรอกเลขโทรศัพท์ที่ถูกต้อง
@@ -84,43 +43,23 @@
 
               <!-- Input รหัสผ่าน -->
               <label for="password" class="text-form">รหัสผ่าน</label>
-              <input
-                class="input-form"
-                :type="showPassword ? 'text' : 'password'"
-                id="password"
-                v-model="password"
-                required
-              />
+              <input class="input-form" :type="showPassword ? 'text' : 'password'" id="password" v-model="password"
+                required />
 
               <div class="button-con">
                 <div class="show-pass">
                   <!-- แสดง/ซ่อน รหัสผ่าน -->
-                  <input
-                    type="checkbox"
-                    id="showPassword"
-                    v-model="showPassword"
-                  />
+                  <input type="checkbox" id="showPassword" v-model="showPassword" />
                   <label for="showPassword">แสดงรหัสผ่าน</label>
                 </div>
 
                 <!-- ปุ่มเข้าสู่ระบบ -->
-                <button
-                  type="submit"
-                  :disabled="showValidationError"
-                  class="text-white bg-blue-700 hover:bg-blue-800"
-                >
+                <button type="submit" :disabled="showValidationError" class="text-white bg-blue-700 hover:bg-blue-800">
                   เข้าสู่ระบบ
                 </button>
               </div>
-              <span
-                >ยังไม่มีบัญชี ผู้ใช้งาน
-                <a
-                  href="#"
-                  style="color: blue; text-decoration: underline"
-                  @click="registerPage"
-                  >สร้างบัญชี</a
-                ></span
-              >
+              <span>ยังไม่มีบัญชี ผู้ใช้งาน
+                <a href="#" style="color: blue; text-decoration: underline" @click="registerPage">สร้างบัญชี</a></span>
             </form>
             <!-- ... -->
           </div>
@@ -217,6 +156,10 @@ export default {
 <style lang="scss">
 //@import '@/assets/scss/custom/_navbar.scss';
 
+.search-box {
+  border-radius: 2rem;
+}
+
 .nav-bar {
   width: 100%;
   height: 80px;
@@ -235,6 +178,7 @@ export default {
   align-items: center;
   column-gap: 1rem;
 }
+
 .topweb-right p {
   margin: 0;
 }
@@ -260,7 +204,6 @@ export default {
 
 .login-box button {
   cursor: pointer;
-  /* background-color: #000; */
   width: 2.5rem;
   height: 2.5rem;
   border: none;
@@ -272,20 +215,20 @@ export default {
   color: #000;
   font-size: 1.5rem;
 }
-//-----------------------search----------------------------------------//
 
-.search input:focus {
-  outline: none;
-}
+
+
 /*------------------------------- LoginPopup ----------------------------*/
 
 .top-pop {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+
 }
 
 .top-pop h1 {
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .Modal-content {
@@ -302,6 +245,7 @@ export default {
   padding: 1rem 2rem;
   z-index: 9999;
 }
+
 .Modal-content input {
   border: solid 1px purple;
   border-radius: 8px;
@@ -317,7 +261,6 @@ export default {
   text-align: left;
   display: flex;
   flex-direction: column;
-  padding-top: 1.5rem;
   row-gap: 0.5rem;
 }
 
