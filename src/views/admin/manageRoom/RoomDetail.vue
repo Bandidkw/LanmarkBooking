@@ -29,17 +29,18 @@
           </p>
         </template>
 
-        <Column field="name" header="รีสอร์ท" style="width: 20%;"></Column>
-        <Column field="description" class="" header="รีสอร์ท" style="width: 20%;"> </Column>
+        <Column field="name" header="ชื่อ" style="width: 20%;"></Column>
+        <Column field="description" class="" header="รายละเอียด" style="width: 20%;"> </Column>
+
         <Column
           :exportable="false"
           class=""
-          header="ลบ"
-          style="width: 10%"
-        >
+          header="เพิ่มเติม"
+          style="width: 10%">
 
           <template #body="item">
             <!-- <updateadmin title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/> -->
+            <updatetype title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/>
             <Button
             @click="deleteProduct(item.data._id)"
               class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
@@ -55,12 +56,12 @@
  import axios from "axios";
  import { onMounted, ref } from "vue";
  import Swal from "sweetalert2";
- import updateadmin from '@/views/admin/manageadmin/EditAdmin.vue'
+ import updatetype from '@/views/admin/manageRoom/EditRoom.vue'
 
 export default {
   props: ['isAddTypeModalOpen'],
   components: {
-    updateadmin
+    updatetype
   },
   created() {
     document.title = "จัดการข้อมูล admin";
@@ -71,7 +72,7 @@ export default {
     const getData = async () => {
       try {
         const productResponse = await axios.get(
-          `${process.env.VUE_APP_API}room/type/`,
+          `${process.env.VUE_APP_API}room/type`,
           {
             headers: {
               token: localStorage.getItem("token"),

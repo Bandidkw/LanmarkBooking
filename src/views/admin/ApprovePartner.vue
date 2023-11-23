@@ -24,7 +24,7 @@
         <Column
           field="telephone"
           header="เบอร์โทรศัพท์"
-          style="width: 20%"
+          style="width: 10%"
         ></Column>
         <Column field="imge_idcard" header="Picture" style="width: 10%">
           <template #body="{ data }">

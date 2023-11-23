@@ -5,7 +5,7 @@
       <h1 class="text-2xl">{{roomdata.name}}</h1>
     </div>
   </div>
-  <div class="p-5"> 
+  <div class="p-5 w-2/4"> 
     <img class="w-full" :src="getImage(roomdata.image)" alt="Large Image" />
   </div>
 
