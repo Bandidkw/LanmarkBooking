@@ -123,23 +123,26 @@
           </div>
 
 
-          <div class="flex items-center pl-3">
-            <label class="flex uppercase w-3/12 tracking-wide text-gray-700 text-xs font-bold"
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label class="flex uppercase w-3/12 tracking-wide text-gray-700 text-xs font-bold mb-2"
               for="grid-first-name">เพิ่มรูปภาพ :
             </label>
-            <InputText
+            <FileUpload name="demo[]" url="/api/upload" id="fileinput" ref="fileinput" type="file"
+              class="custom-file-upload" @change="handleFileChange" accept="image/*">
+              <template #empty>
+                <p>Upload File Picture</p>
+              </template>
+            </FileUpload>
+            <!-- <InputText
               class="appearance-none block w-9/12 text-gray-700 border border-bluegray-800 rounded py-3 px-3 leading-tight focus:outline-none focus:bg-white"
               id="fileinput" type="file" ref="fileinput" @change="handleFileChange" accept=".jpg, .jpeg, .png"
-              placeholder="File Picture number" />
+              placeholder="File Picture number" /> -->
           </div>
         </div>
-        <div class="md:flex md:items-center">
+        <div class="md:flex md:items-center flex justify-content-center">
           <div class="md:w-1/3"></div>
           <div class="md:w-1/3">
-            <button @click="addRoom"
-              class="w-full px-4 py-2 bg-blue-500 text-white text-center hover:bg-purple-400 rounded" type="button">
-              เพิ่มข้อมูล
-            </button>
+            <Button @click="addRoom" label="เพิ่มข้อมูลห้อง" />
           </div>
           <div class="md:w-1/3"></div>
         </div>
