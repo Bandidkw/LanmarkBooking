@@ -492,7 +492,7 @@ export default {
 };
 </script>
 
-<style  scoped>
+<style>
 .center-container {
   background-image: url("/public/images/hotel-room/Register_Page.png");
   display: flex;
