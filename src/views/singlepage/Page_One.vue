@@ -40,8 +40,8 @@
           class="flex flex-col gap-y-1 sleep-box border-2 border-black rounded-2xl w-[207px] h-[143px] p-4"
         >
           <div class="gap-x-3 flex">
-            <i class="bi bi-usb-mini text-2xl"></i>
-            <i class="bi bi-usb-micro text-2xl"></i>
+            <i class="bi bi-image-alt text-2xl"></i>
+            <i class="bi-image-alt text-2xl"></i>
           </div>
           <div>
             <p class="font-bold">ห้องนอน</p>
