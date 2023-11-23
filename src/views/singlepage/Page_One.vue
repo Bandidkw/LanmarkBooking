@@ -74,16 +74,14 @@
               class="border p-2 rounded bg-white"
               :minDate="minSelectableDate"
               :disabled-dates="disabledDates"
-              >
-              <template #date="slotProps">
-                 <div @click="calprice(slotProps.date)">{{ slotProps.date.day }}</div>
-              </template>
-            </Calendar>
+              />
+            
+       
           </div>
           <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
             <label
               class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2" for="grid-first-name">
-              ราคา : {{ roomdata.price }} บาท
+              ราคา : {{ price }} บาท
             </label>
           </div>
           <div class="mx-auto w-60  my-3 ">
@@ -110,13 +108,14 @@ export default {
   props: ["id"],
   data() {
         const roomdata = ref([])
-        let dateprice = ref([])
+      
         const room_id = this.$route.params.id;
         const getroom = async (_id) => {
         const id = this.$route.params.id;
         const Response = await axios.get(`${process.env.VUE_APP_API}room/${id}`);
         this.roomdata = Response.data   
-        this.price = roomdata.price
+        this.price = this.roomdata.price
+        
       }
       onMounted(() => {
         getroom();
@@ -126,7 +125,6 @@ export default {
         selectedDate:"",
         roomdata,
         price:"0",
-        dateprice,
         minSelectableDate: new Date(),
         //โค้ดปิดวัน
         disabledDates: [
@@ -135,64 +133,87 @@ export default {
       ], 
       };
     },
-  
-    methods:{
-      calprice(date){
-           if(this.dateprice.length===0)
-           {
-            this.dateprice.push(date)
-            console.log(this.dateprice)
-           }
-           else if(this.dateprice.length===1)
-           {
-            this.dateprice.push(date)
-            console.log(this.dateprice)
-           }
-           else{
-            this.dateprice[0]= date
-            this.dateprice.splice(1, 1);
-
-           }
-          // if(this.dateprice===undefined)
-          // {
-          //   this.date[0] = date
-          //   console.log(this.date[0])
-          // }
-
-        // if(this.selectedDate[0]!=undefined){
-        //     console.log(this.selectedDate[0] .getDate().toString().padStart(2, '0'))
-        //     console.log(this.selectedDate[1] .getDate().toString().padStart(2, '0'))
-        // }
-      },
-      async addbooking(){
-        if(localStorage.getItem("token")!=null && this.selectedDate!=undefined)
-        {
+   watch:{
+      selectedDate:{
+        handler(date){
+          console.log("ใช้")
+          if(this.selectedDate[0]){
+             this.price = this.roomdata.price
+             
+          }
+          if(this.selectedDate[1])
+          {
            
-        }else{
-          await Swal.fire({
-            icon: "error",
-            title: "กรุณาล็อคอิน",
-            text: "ก่อนจะจองกรุณาล็อคอินก่อน",
-          });
+             let start =this.selectedDate[0].getDate().toString().padStart(2, '0')
+             let end = this.selectedDate[1].getDate().toString().padStart(2, '0')
+            let numdate =0
+            for(let i = start;i<=end;i++)
+            {
+                numdate++
+            }
+            this.price = this.roomdata.price * numdate
+          }
         }
-        //   const response  = await axios.post(`${process.env.VUE_APP_API}booking/`,
-        //   {
-        //     room_id:"",
-        //     date_from:"",
-        //     date_to:"",
-        //     price:"",
-        //   },
-        //   {
-        //     headers: {
-        //       token: localStorage.getItem("token"),
-        //     },
-        //   }
-        // );
-          console.log(localStorage.getItem("token"))
-          console.log(this.room_id)
-          console.log(this.selectedDate[0])
-          console.log(this.selectedDate[1])
-          console.log(this.roomdata.price)
+      }
+   },
+    methods:{
+      async addbooking(){
+        try{
+            console.log(this.selectedDate)
+            if(localStorage.getItem("token")!=null)
+            {
+              if(this.selectedDate!="")
+              {
+                  const response  = await axios.post(`${process.env.VUE_APP_API}booking/`,
+              {
+                room_id:this.room_id,
+                date_from:this.selectedDate[0],
+                date_to:this.selectedDate[1],
+                price:this.price,
+              },
+              {
+                headers: {
+                  token: localStorage.getItem("token"),
+                },
+              });
+              if(response.data.status ===true)
+              {
+                Swal.fire({
+                  icon: "success",
+                  title: "จองสำเร็จ",
+                  text: response.data.message,
+                });
+              }
+              else{
+                 await Swal.fire({
+                  icon: "error",
+                  title: "เกิดข้อผิดพลาด",
+                  text: response.data.message,
+                  });
+              }
+              }else{
+                await Swal.fire({
+              icon: "error",
+              title: "กรุณาเลือกวัน",
+              text: "กรุณาวันที่คุณต้องการจอง",
+              });
+              }
+              
+            }else{
+              await Swal.fire({
+              icon: "error",
+              title: "กรุณาล็อคอิน",
+              text: "ก่อนจะจองกรุณาล็อคอินก่อน",
+              });
+            }
+        }
+        catch(error){
+           await Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด",
+            text: error,
+          });
+        }       
       },
       getImage(item){
       if (typeof item === 'string') {

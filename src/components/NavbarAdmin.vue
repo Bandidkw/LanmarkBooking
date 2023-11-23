@@ -6,7 +6,10 @@
   >
     <div class="w-full flex items-center justify-between mt-0 px-6 py-2">
       <div>
-        <img src="/logo/lanmark-logo-navbar.png" :width="200" alt="" />
+          <router-link to="/">
+            <img src="/logo/lanmark-logo-navbar.png" :width="200" alt="" />
+          </router-link>
+        
       </div>
       <div
         class="order-2 md:order-3 flex flex-wrap items-center justify-end mr-0 md:mr-4"
