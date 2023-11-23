@@ -17,14 +17,6 @@
         </template>
 
         <Column field="telephone" header="เบอร์โทรศัพท์" style="width: 20%"></Column>
-        <!-- <Column field="imge_idcard" header="Picture" style="width: 10%">
-          <template #body="{ data }">
-            <img v-if="Array.isArray(data.image_idcard) && data.image_idcard.length > 0"
-              :src="getImage(data.image_idcard)" alt="ID Card" style="max-width: 100%; height: auto" />
-
-            <div v-else>ไม่มีรูปภาพ</div>
-          </template>
-        </Column> -->
         <Column field="name" class="" header="ชื่อ" style="width: 10%">
         </Column>
         <Column class="" header="สถานะอนุมัติ" style="width: 10%">
@@ -52,41 +44,9 @@
         </Column>
         <Column header="รายละเอียด" style="width: 10%;">
           <template #body="{ data }">
-            <Button @click="showPartnerDetail(data._id)"
+            <Button @click="showPartnerDetail(data)"
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">รายละเอียด</Button>
-            <Dialog v-model:visible="DetailPartner" modal :style="{ width: '50rem' }"
-              :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-              <div class="grid">
-                <div class="col-12 text-center">
-                  <h2>แก้ไขข้อมูล Partner</h2>
-                </div>
-              </div>
-              <div class="grid">
-                <div class="col-12 md:col-12">
-                  <form>
-                    <div class="col-12 flex justify-content-center">
-                      <img v-if="image" :src="getImage(image)" alt="ID Card" style="  max-width: 50%; height: 50%" />
-                      <div v-else>ไม่มีรูปภาพ</div>
-                    </div>
-                    <div class="col-12">
-                      <p> ID Card:</p>
-                      <InputText v-model="data.idcard" class="w-full" />
-                      {{ idcard }}
-                    </div>
-                    <div class="col-12">
-                      <p> First Name :</p>
-                      <InputText v-model="name" class="w-full" />
-                    </div>
-                    <div class="col-12">
-                      <p>Phone : </p>
-                      <InputText v-model="phone" class="w-full " />
-                    </div>
-
-
-                  </form>
-                </div>
-              </div>
-            </Dialog>
+            
           </template>
 
         </Column>
@@ -106,6 +66,39 @@
       </DataTable>
     </div>
   </div>
+  <Dialog v-model:visible="DetailPartner" modal :style="{ width: '50rem' }"
+              :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+              <div class="grid">
+                <div class="col-12 text-center">
+                  <h2>แก้ไขข้อมูล Partner</h2>
+                </div>
+              </div>
+              <div class="grid">
+                <div class="col-12 md:col-12">
+                  <form>
+                    <div class="col-12 flex justify-content-center">
+                      <img v-if="image" :src="getImage(image)" alt="ID Card" style="  max-width: 50%; height: 50%" />
+                      <div v-else>ไม่มีรูปภาพ</div>
+                    </div>
+                    <div class="col-12">
+                      <p> ID Card:</p>
+                      <InputText  v-model="idcard" class="w-full text-black-950 font-bold"  style="color:#000"  disabled/>
+                      
+                    </div>
+                    <div class="col-12">
+                      <p> First Name :</p>
+                      <InputText v-model="name" class="w-full text-black-950 font-bold"  style="color:#000" disabled/>
+                    </div>
+                    <div class="col-12">
+                      <p>Phone : </p>
+                      <InputText v-model="phone" class="w-full text-black-950 font-bold "  style="color:#000" disabled/>
+                    </div>
+
+
+                  </form>
+                </div>
+        </div>
+  </Dialog>
 </template>
 
 <script>
@@ -221,29 +214,19 @@ export default {
       }
     };
 
-    const showPartnerDetail = async (_id) => {
-      DetailPartner.value = true;
+    const showPartnerDetail = async (data) => {
+    
       try {
-        const response = await axios.get(
-          `${process.env.VUE_APP_API}partner/${_id}`,
-          {
-            headers: {
-              token: localStorage.getItem("token"),
-            },
-          }
-        );
-        console.log(response.data.data._id, "id");
-        console.log(response.data.data.idcard, "idcard");
-        console.log(response.data.data, "all");
-        if (response.data && response.data.data) {
-          image.value = response.data.data.image_idcard
-          name.value = response.data.data.name
-          phone.value = response.data.data.telephone
-          idcard.value = response.data?.data?.idcard
+  
+
           DetailPartner.value = true;
-        } else {
-          console.error("Data is missing in the API response.");
-        }
+          image.value = data.image_idcard
+          name.value = data.name
+          phone.value = data.telephone
+          console.log(data)
+          console.log(data.idcard)
+          idcard.value = data.idcard
+
         // partnerDetail.value = response.data;
         // this.selectedPartner = data;
 
@@ -271,7 +254,8 @@ export default {
       DetailPartner,
       name,
       image,
-      phone
+      phone,
+      idcard
 
     };
   },
