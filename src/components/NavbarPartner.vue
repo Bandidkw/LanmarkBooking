@@ -69,10 +69,11 @@ export default {
   },
   data() {
     return {
-      isMobileMenuOpen: false,
-      isMenuOpenState: {
-      items: false,
-      ห้อง:false
+        isMobileMenuOpen: false,
+        isMenuOpenState: {
+        items: false,
+        ห้อง:false,
+        จอง:false
       },
       editDataModal:false,
       roomModal: false,
@@ -86,6 +87,9 @@ export default {
         ห้อง:[ 
           { id: 1, label: "เพิ่มห้อง", route: "/addhotel" },
           { id: 2, label: "จัดการห้อง", route: "/manageroom" },
+        ],
+        จอง:[
+          {id:1,label:"อนุมัติการจองห้อง",route:"/managebooking"}
         ],
       },
     };

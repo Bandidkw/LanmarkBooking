@@ -133,6 +133,11 @@ const router = createRouter({
       name:"manageroom",
       component: () => import('@/views/partner/managehotel/ManageRoom.vue')
     },
+    {
+      path:"/managebooking",
+      name:"managebooking",
+      component:()=> import('@/views/partner/managebooking/ApproveBooking.vue')
+    }
   ],
 });
 
