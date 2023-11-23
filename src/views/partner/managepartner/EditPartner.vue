@@ -2,18 +2,15 @@
 <template>
     <div class="grid px-10 mt-3 ml-5 mr-5" >
       <div class="col-12 lg:col-12 border">
-        <div class="text-center text-2xl">รายละเอียดห้อง</div>
+        <div class="text-center font-bold text-4xl">จัดการข้อมูล admin</div>
         <div class="text-right my-5">
-          <router-link to="#" @click="isAddTypeModalOpen = true">
-            <Button  label="เพิ่มประเภทห้อง" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" />
+          <router-link to="/addadmin">
+
+            <Button  label="เพิ่มข้อมูลadmin" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
           </router-link>
+         
         </div>
-        <div v-if="isAddTypeModalOpen" class="modal-styles flex flex-col">
-            <h1>Modal</h1>
-    <input type="text">
-    <!-- โค้ดอื่น ๆ ของ Modal -->
-    <button @click="closeAddTypeModal">ปิด</button>
-  </div>
+        
         <DataTable
         :value="Array.isArray(item_product) ? item_product : []"
         :paginator="true"
@@ -21,57 +18,62 @@
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
         currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด"
-        responsiveLayout="stack">
+        responsiveLayout="stack"
+
+      >
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
         <template #empty>
           <p class="font-italic text-center text-5xl" style="color: #bd1616">
-            ไม่พบข้อมูล
+            ไม่พบข้อมูลสินค้า
           </p>
         </template>
 
-        <Column field="name" header="รีสอร์ท" style="width: 20%;"></Column>
-        <Column field="description" class="" header="รีสอร์ท" style="width: 20%;"> </Column>
+        <Column field="telephone" header="เบอร์โทรศัพท์" style="width: 20%;"></Column>
+        <Column field="name" class="" header="ชื่อ" style="width: 10%;"> </Column>
         <Column
           :exportable="false"
           class=""
-          header="ลบ"
+          header="เพิ่มเติม"
           style="width: 10%"
         >
 
           <template #body="item">
-            <!-- <updateadmin title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/> -->
-            <Button
+            <updatepartner title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/>
+           <Button
             @click="deleteProduct(item.data._id)"
               class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-              style="background-color: #C21010">ลบ</Button>
+
+              style="background-color: #C21010"
+              >ลบ</Button>
+             
           </template>
         </Column>
       </DataTable>
+      
       </div>
     </div>
+
 </template>
 
 <script>
  import axios from "axios";
  import { onMounted, ref } from "vue";
  import Swal from "sweetalert2";
- import updateadmin from '@/views/admin/manageadmin/EditAdmin.vue'
+ import updatepartner from '@/views/partner/managepartner/EditPartner.vue'
 
 export default {
-  props: ['isAddTypeModalOpen'],
   components: {
-    updateadmin
+    updatepartner
   },
   created() {
-    document.title = "จัดการข้อมูล admin";
+    document.title = "จัดการข้อมูล partner";
   },
   setup() {
     const item_product = ref([]);
-    const isAddTypeModalOpen = ref(false);
     const getData = async () => {
       try {
         const productResponse = await axios.get(
-          `${process.env.VUE_APP_API}room/type/`,
+          `${process.env.VUE_APP_API}admin/`,
           {
             headers: {
               token: localStorage.getItem("token"),
@@ -80,8 +82,8 @@ export default {
         );
 
         if (productResponse.data && productResponse.data) {
-          item_product.value = productResponse.data;
-          console.log(productResponse.data)
+          item_product.value = productResponse.data.data;
+          console.log(productResponse.data.data)
         } else {
           console.error("Data is missing in the API response.");
         }
@@ -92,7 +94,7 @@ export default {
     const deleteProduct = async (_id) => {
       try {
         const response = await axios.delete(
-          `${process.env.VUE_APP_API}room/type/${_id}`,
+          `${process.env.VUE_APP_API}admin/${_id}`,
           {
             headers: {
               token: localStorage.getItem("token"),
@@ -130,23 +132,16 @@ export default {
       item_product,
       getData,
       deleteProduct,
-      isAddTypeModalOpen,
 
     };
 
   },
-    name: 'RoomDetail',
-    methods:{
-      closeAddTypeModal() {
-        this.isAddTypeModalOpen, false;
-    },
-    }
+    name: 'EditPartner',
   };
 </script>
+<style scoped>
+  @import "tailwindcss/base";
+  @import "tailwindcss/components";
+  @import "tailwindcss/utilities";
+  </style>
 
-<style>
-.modal-styles{
-  flex-direction: column;
-  align-items: center;
-}
-</style>

@@ -8,6 +8,11 @@ import router from './router/index.js'; // นำมาใช้ Router ที�
 
 import store from "./store";
 
+import InputSwitch from 'primevue/inputswitch';
+
+import SelectButton from 'primevue/selectbutton';
+
+
 import "primeicons/primeicons.css"; //icons
 import "primevue/resources/primevue.min.css"; //core css
 import "primevue/resources/themes/lara-light-purple/theme.css"; //theme
@@ -84,7 +89,8 @@ app.component("Sidebar", Sidebar);
 app.component("Password", Password);
 app.component("VueDatePicker", VueDatePicker);
 app.component("Textarea", Textarea);
-
+app.component("InputSwitch",InputSwitch);
+app.component("SelectButton",SelectButton);
 
 
 app.mount('#app'); // นำแอปพลิเคชัน Vue ลงใน DOM

@@ -69,13 +69,15 @@ export default {
     return {
       isMobileMenuOpen: false,
       isMenuOpenState: {
-        items: false,
-        ห้อง:false
+      items: false,
+      ห้อง:false
       },
+      editDataModal:false,
+      roomModal: false,
       namestore:`${this.$store.getters.name}`,
       dropdowns:{
          items:[ 
-          { id: 1, label: "แก้ไขข้อมูล", route: "/" },
+          { id: 1, label: "แก้ไขข้อมูล", route: "/editpartner" },
         ],
       },
       navdropdowns:{
@@ -103,6 +105,11 @@ export default {
           key === menuKey ? !this.isMenuOpenState[key] : false,
         ])
       );
+      if (menuKey === "item" && this.isMenuOpenState.items){
+        this.editDataModal = true;
+      } else {
+        this.editDataModal = false;
+      }
       // console.log("isMenuOpenState:", this.isMenuOpenState);
     },
     isMenuOpen(key) {

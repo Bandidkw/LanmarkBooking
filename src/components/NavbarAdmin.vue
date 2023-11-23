@@ -129,11 +129,11 @@ export default {
         ],
         partner: [
           { id: 3, label: "อนุมัติ partner", route: "/approvepartner" },
-          { id: 3, label: "อนุมัติห้อง partner", route: "approveroom" },
-          { id: 4, label: "จัดการข้อมูล partner", route: "/managepartner" }
+          { id: 4, label: "อนุมัติห้อง partner", route: "approveroom" },
+          { id: 5, label: "จัดการข้อมูล partner", route: "/managepartner" }
         ],
         member: [
-          { id: 5, label: "จัดการข้อมูล member ", route: "/managemember" },
+          { id: 6, label: "จัดการข้อมูล member ", route: "/managemember" },
         ],
         // โรงแรม: [
         //   { id: 6, label: "ประเภทโรงแรม", route: "/managehotel/type" },

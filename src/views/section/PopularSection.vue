@@ -89,7 +89,11 @@ import { onMounted,ref} from "vue";
 .image-container img{
     border-radius: 1.5rem;
 }
-.image-container:hover .hidden{
+
+.hidden{
+  opacity: 1;
+}
+.image-container:hover i{
     opacity: 1;
     cursor: pointer;
     color: #fff;
@@ -106,7 +110,14 @@ import { onMounted,ref} from "vue";
     font-weight: 300;
   }
 
-@media screen and (max-width:1200px) {
+@media screen and (max-width:1440px) {
+  .grid-container {
+    grid-template-columns: repeat(4,1fr);
+  }
+}
+
+
+@media screen and (max-width:1280px) {
     .grid-container {
     grid-template-columns: repeat(4,1fr);
   }

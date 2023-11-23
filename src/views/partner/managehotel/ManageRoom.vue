@@ -1,143 +1,256 @@
 <template>
-  <div class="grid px-10 mt-3 ml-5 mr-5">
+  <div class="grid px-10 mt-3 ml-5 mr-5" >
     <div class="col-12 lg:col-12 border">
       <div class="text-center text-2xl">ข้อมูลห้อง</div>
-      <div class="text-right my-5"></div>
+      <div class="flex px-4 w-full item-center p-4" style="flex-direction: column; align-items: center;">
+        <div class="flex justify-center">
+        <p class="w-40 text-center text-2xl text-bold m-0">สถานะ: {{ reservationEnabled ? 'เปิด' : 'ปิด' }}</p>
+      </div>
+      <div class="card flex justify-center mt-2">
+      <InputSwitch v-model="reservationEnabled"/>
+      </div>
+      </div>
       <DataTable
-        :value="Array.isArray(item_product) ? item_product : []"
-        :paginator="true"
-        :rows="20"
-        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
-        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด"
-        responsiveLayout="stack"
-      >
-        <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
-        <template #empty>
-          <p class="font-italic text-center text-5xl" style="color: #bd1616">
-            ไม่พบข้อมูลสินค้า
-          </p>
-        </template>
+      :value="Array.isArray(item_product) ? item_product : []"
+      :paginator="true"
+      :rows="20"
+      paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+      :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
+      currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด"
+      responsiveLayout="stack">
+      <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
+      <template #empty>
+        <p class="font-italic text-center text-5xl" style="color: #bd1616">
+          ไม่พบข้อมูลสินค้า
+        </p>
+      </template>
 
-        <Column field="name" header="ชื่อ" style="width: 10%"></Column>
-        <Column
-          field="description"
-          class=""
-          header="คำอธิบาย"
-          style="width: 10%"
-        >
-        </Column>
-        <Column field="address" class="" header="ที่อยู่" style="width: 10%">
-        </Column>
-        <Column
-          field="phone_number"
-          class=""
-          header="เบอร์โทรติดต่อ"
-          style="width: 10%"
-        >
-        </Column>
-        <Column field="price" class="" header="ราคา" style="width: 5%">
-        </Column>
-        <Column :exportable="false" class="" header="ลบ" style="width: 10%">
-          <template #body="item">
-            <EditHotel
-              title="แก้ไขข้อมูล"
-              :partner_id="item.data._id"
-              :data="item.data"
+      <Column field="name" header="ชื่อ" style="width: 10%;"></Column>
+      <Column field="image" header="Picture" style="width: 10%">
+          <template #body="{ data }">
+            <img
+              v-if="Array.isArray(data.image) && data.image.length > 0"
+              :src="getImage(data.image)"
+              alt="ID Card"
+              width="200"
+              style="max-width: 100%; height: auto"
             />
-            <Button
-              @click="deleteProduct(item.data._id)"
-              class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-              style="background-color: #c21010"
-              >ลบ</Button
-            >
+            <div v-else>ไม่มีรูปภาพ</div>
           </template>
         </Column>
-      </DataTable>
+      <Column field="description" class="" header="คำอธิบาย" style="width: 15%;"> </Column>
+      <Column field="address" class="" header="ที่อยู่" style="width: 10%;"> </Column>
+      <Column field="phone_number" class="" header="เบอร์โทรติดต่อ" style="width: 10%;"> </Column>
+      <Column field="price" class="" header="ราคา" style="width: 5%;"> </Column>
+      <Column
+        :exportable="false"
+        class=""
+        header="ลบข้อมูล"
+        style="width: 5%"
+      >
+
+        <template #body="item">
+          <!-- <updateadmin title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/> -->
+          <Button
+          @click="deleteProduct(item.data._id)"
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+
+            style="background-color: #C21010"
+            >ลบ</Button>
+           
+        </template>
+      </Column>
+    </DataTable>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import { onMounted, ref } from "vue";
+import { onMounted,watch, ref } from "vue";
 import Swal from "sweetalert2";
-import EditHotel from "@/views/partner/managehotel/EditHotel.vue";
+import updateadmin from '@/views/admin/manageadmin/EditAdmin.vue';
 
 export default {
-  components: {
-    EditHotel,
-  },
-  created() {
-    document.title = "จัดการข้อมูล admin";
-  },
-  setup() {
-    const item_product = ref([]);
-    const getData = async () => {
-      try {
-        const productResponse = await axios.get(
-          `${process.env.VUE_APP_API}room/partner/`,
-          {
-            headers: {
-              token: localStorage.getItem("token"),
-            },
-          }
-        );
+components: {
+  updateadmin,
+},
 
-        if (productResponse.data && productResponse.data) {
-          item_product.value = productResponse.data;
-          console.log(productResponse.data);
-        } else {
-          console.error("Data is missing in the API response.");
+
+created() {
+  document.title = "จัดการข้อมูลห้อง";
+},
+
+
+setup() {
+  const item_product = ref([]);
+  const reservationEnabled = ref(false);
+  const getData = async () => {
+    try {
+      const productResponse = await axios.get(
+        `${process.env.VUE_APP_API}room/partner/`,
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
         }
-      } catch (error) {
-        console.error(error);
+      );
+      if (productResponse.data && productResponse.data) {
+        item_product.value = productResponse.data;
+        console.log(productResponse.data)
+      } else {
+        console.error("Data is missing in the API response.");
       }
-    };
-    const deleteProduct = async (_id) => {
-      try {
-        const response = await axios.delete(
-          `${process.env.VUE_APP_API}room/${_id}`,
-          {
-            headers: {
-              token: localStorage.getItem("token"),
-            },
-          }
-        );
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-        if (response.data) {
-          // หากการลบสำเร็จ อัปเดตข้อมูล
-          getData();
-          // แสดงข้อความสำเร็จ (ตัวเลือก)
-          Swal.fire({
-            icon: "success",
-            title: "ลบสินค้าสำเร็จ",
-          });
-        } else {
-          await Swal.fire({
-            icon: "error",
-            title: "เกิดข้อผิดพลาด",
-            text: "ไม่สามารถแก้ไขข้อมูลได้",
-          });
+
+  const deleteProduct = async (_id) => {
+    try {
+      const response = await axios.delete(
+        `${process.env.VUE_APP_API}room/${_id}`,
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
         }
-      } catch (error) {
+      );
+      if (response.data) {
+        // หากการลบสำเร็จ อัปเดตข้อมูล
+        getData()
+        // แสดงข้อความสำเร็จ (ตัวเลือก)
+        Swal.fire({
+          icon: "success",
+          title: "ลบสินค้าสำเร็จ",
+        });
+      } else {
         await Swal.fire({
+          icon: "error",
+          title: "เกิดข้อผิดพลาด",
+          text: "ไม่สามารถแก้ไขข้อมูลได้",
+        });
+      }
+    } catch (error) {
+      await Swal.fire({
           icon: "error",
           title: "เกิดข้อผิดพลาด",
           text: "ไม่สามารถลบข้อมูลได้",
         });
-      }
-    };
+    }
+  };
 
-    onMounted(() => {
-      getData();
-    });
-    return {
-      item_product,
-      getData,
-      deleteProduct,
-    };
-  },
-  name: "ManageRoom",
+
+  onMounted(() => {
+    getData();
+  });
+
+
+  watch(
+    ()=> reservationEnabled.value,
+    (newValue) => {
+      if (newValue){
+        console.log("Open");
+        fetchData(null);
+      }
+      else{
+        console.log("Off");
+        collectData(null);
+      }
+    }
+  );
+
+//---------------------------- สถานะ -------------------------//
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.VUE_APP_API}room`,
+        {},
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      );
+      item_product.value = response.data; // นำข้อมูลที่ได้มาเก็บไว้ในตัวแปร
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+
+  const collectData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.VUE_APP_API}room`,
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      );
+      item_product.value = response.data; // นำข้อมูลที่ได้มาเก็บไว้ในตัวแปร
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+
+  return {
+    reservationEnabled,
+    item_product,
+    getData,
+    deleteProduct,
+    fetchData,
+    collectData,
+    toggleReservationStatus: () =>{
+      console.log("Hello");
+      reservationEnabled.value = !reservationEnabled.value;
+      if (reservationEnabled.value){
+        console.log("Open");
+        fetchData();
+      }
+      else{
+        console.log("Off");
+        collectData();
+      }
+    }
+  };
+},
+
+
+methods: {
+
+  getImage(item){
+      if (typeof item === 'string') {
+        return `https://drive.google.com/uc?export=view&id=${item}`;
+      } else if (Array.isArray(item) && item.length > 0) {
+        const firstImageId = item[0];
+        return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
+      } else {
+        return "";
+      }
+},
+
+//------------------------ เปิด-ปิดการจองห้อง------------------//
+// toggleReservationStatus() {
+//   console.log("hello")
+// this.reservationEnabled = !this.reservationEnabled;
+// if (this.reservationEnabled) {
+//   console.log("Open");
+//   fetchData();
+
+// } else {
+//   console.log("Off");
+//   collectData();
+// }
+// },
+},
+
+
+name: 'ManageRoom',
 };
+
 </script>
+

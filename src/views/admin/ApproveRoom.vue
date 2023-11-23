@@ -43,25 +43,33 @@
           </Column>
           <Column class="" header="สถานะอนุมัติ" style="width: 10%">
             <template #body="{ data }">
-              <div v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'">
-                <div class="font-bold" style="color: #ff7315">
+              <div style="background-color: #dad7cd; width: 35%; border-radius: 1rem; padding: 0.5rem;" v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'">
+                <div class="font-bold" style="color: #ff7315;">
                   {{ data.approve.slice(-1)[0].statusapprove }}
                 </div>
               </div>
-              <div v-if="data.approve.slice(-1)[0].statusapprove === 'อนุมัติ'">
+              <div style="background-color: #dad7cd; width: 27%; border-radius: 1rem; padding: 0.5rem;" v-if="data.approve.slice(-1)[0].statusapprove === 'อนุมัติ'">
                 <div class="text-green-500 font-bold">
                   {{ data.approve.slice(-1)[0].statusapprove }}
                 </div>
               </div>
-              <div
-                v-if="data.approve.slice(-1)[0].statusapprove === 'ไม่อนุมัติ'"
-              >
+              <div style="background-color: #dad7cd; width: 35%; border-radius: 1rem; padding: 0.5rem;" v-if="data.approve.slice(-1)[0].statusapprove === 'ไม่อนุมัติ'">
                 <div class="text-red-500 font-bold">
                   {{ data.approve.slice(-1)[0].statusapprove }}
                 </div>
               </div>
               <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
             </template>
+          </Column>
+          <Column
+          header="รายละเอียด"
+          style="width: 10%;">
+          <template #body>
+            <Button
+                  @click="unapproveroom(data._id)"
+                  class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                  >รายละเอียด</Button>
+          </template>
           </Column>
   
           <Column class="" header="เพิ่มเติม" style="width: 10%">
@@ -71,14 +79,11 @@
                 <!-- กรณีรอการอนุมัติ -->
                 <Button
                   @click="approveroom(data._id)"
-                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2"
-                  style="background-color: #c21010"
-                  >อนุมัติ</Button
-                >
+                  class="bg-green-500 border-black hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2"
+                  >อนุมัติ</Button>
                 <Button
                   @click="unapproveroom(data._id)"
                   class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                  style="background-color: #c21010"
                   >ไม่อนุมัติ</Button
                 >
               </div>

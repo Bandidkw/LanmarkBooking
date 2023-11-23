@@ -42,18 +42,17 @@
         </Column>
         <Column class="" header="สถานะอนุมัติ" style="width: 10%">
           <template #body="{ data }">
-            <div v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'">
-              <div class="font-bold" style="color: #ff7315">
+            <div class="w-2/4" style="background-color: #dad7cd; width: 35%; border-radius: 1rem; padding: 0.5rem;" v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'">
+              <div class="font-bold" style="color: #ff7315;">
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
             </div>
-            <div v-if="data.approve.slice(-1)[0].statusapprove === 'อนุมัติ'">
+            <div class="w-2/4" style="background-color: #dad7cd; width: 27%; border-radius: 1rem; padding: 0.5rem;" v-if="data.approve.slice(-1)[0].statusapprove === 'อนุมัติ'">
               <div class="text-green-500 font-bold">
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
             </div>
-            <div
-              v-if="data.approve.slice(-1)[0].statusapprove === 'ไม่อนุมัติ'"
+            <div style="background-color: #dad7cd; width: 35%; border-radius: 1rem; padding: 0.5rem;" v-if="data.approve.slice(-1)[0].statusapprove === 'ไม่อนุมัติ'"
             >
               <div class="text-red-500 font-bold">
                 {{ data.approve.slice(-1)[0].statusapprove }}
@@ -61,6 +60,49 @@
             </div>
             <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
           </template>
+        </Column>
+        <Column header="รายละเอียด"
+        style="width: 10%;">
+        <template #body="{ data }">
+          <Button
+                @click="showPartnerDetail(data)"
+                class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mx-2">รายละเอียด</Button>
+                <div class="grid px-10 mt-3 ml-5 mr-5">
+    <!-- Modal -->
+    <div v-if="selectedPartner" class="fixed inset-0 overflow-y-auto">
+      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <!-- Background overlay, show/hide based on modal state. -->
+        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+          <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+        </div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <!-- Modal Panel -->
+        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+          <!-- Modal Header -->
+          <div class="bg-gray-200 px-4 py-2">
+            <h3 class="text-lg font-semibold leading-6 text-gray-900">Partner Details</h3>
+            <button @click="closeModal" class="text-gray-700 hover:text-gray-900 focus:outline-none focus:text-gray-900">
+              &times;
+            </button>
+          </div>
+  <!-- Modal Body -->
+  <div class="px-4 py-4">
+    <div v-if="selectedPartner">
+      <p>ชื่อ: {{ selectedPartner.name }}</p>
+      <p>เบอร์โทร: {{ selectedPartner.telephone }}</p>
+      <!-- เพิ่มข้อมูลเพิ่มเติมตามที่คุณต้องการแสดง -->
+
+      <div v-if="partnerDetail">
+        <p>ข้อมูลจาก API {{ partnerDetail.someProperty }}</p>
+      </div>
+    </div>
+  </div>
+        </div>
+      </div>
+    </div>
+  </div>
+        </template>
+        
         </Column>
 
         <Column class="" header="เพิ่มเติม" style="width: 10%">
@@ -70,14 +112,11 @@
               <!-- กรณีรอการอนุมัติ -->
               <Button
                 @click="approvepartner(data._id)"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2"
-                style="background-color: #c21010"
-                >อนุมัติ</Button
-              >
+                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2 boeder-none"
+                >อนุมัติ</Button>
               <Button
                 @click="unapprovepartner(data._id)"
                 class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                style="background-color: #c21010"
                 >ไม่อนุมัติ</Button
               >
             </div>
@@ -94,11 +133,15 @@ import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
 
 export default {
+
   components: {},
+
   created() {
     document.title = "ข้อมูล partner";
   },
+
   setup() {
+    const partnerDetail = ref(null);
     const item_product = ref([]);
     const getData = async () => {
       try {
@@ -188,18 +231,46 @@ export default {
         });
       }
     };
-    
+    const showPartnerDetail = async (_id) =>{
+      try {
+        const response = await axios.get(
+          `${process.env.VUE_APP_API}partner/${_id}`,
+          {
+            headers: {
+              token: localStorage.getItem("token"),
+            },
+          }
+        );
+        partnerDetail.value = response.data;
+        this.selectedPartner = data;
+      }
+      catch (error){
+        console.error("Error fetching partner details:",error);
+        Swal.fire({
+          icon:"error",
+          title:"เกิดข้อผิดพลาด",
+          text:"ไม่สามารถดึงข้อมูลได้",
+        });
+      }
+    };
+
     onMounted(() => {
       getData();
     });
+
     return {
       item_product,
       getData,
       approvepartner,
       unapprovepartner,
+      partnerDetail,
+      showPartnerDetail,
+      selectedPartner: null,
     };
   },
+
   name: "ApprovePartner",
+
   methods:{
     getImage(item){
       if (typeof item === 'string') {
@@ -210,7 +281,15 @@ export default {
       } else {
         return "";
       }
-    }
+    },
+  showUserDetails(partner) {
+      this.selectedPartner = partner;
+      console.log("hello")
+    },
+
+    closeModal() {
+      this.selectedPartner = null;
+    },
   },
 };
 </script>
