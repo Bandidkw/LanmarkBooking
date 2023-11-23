@@ -38,25 +38,38 @@
             <div v-else>ไม่มีรูปภาพ</div>
           </template>
         </Column>
-      <Column field="description" class="" header="คำอธิบาย" style="width: 15%;"> </Column>
+      <Column field="statusbooking" header="คำอธิบาย" style="width: 10%;">    
+         <template #body="{ data }"> 
+             <div v-if="data.statusbooking===true" class=" bg-green-500 text-white text-center" style="width: 40%; border-radius: 1rem; padding: 0.5rem;">เปิดการจอง</div>
+             <div v-else class=" bg-red-500 text-white text-center" style=" width: 40%; border-radius: 1rem; padding: 0.5rem;">ปิดการจอง</div>
+         </template>
+         
+      </Column>
       <Column field="address" class="" header="ที่อยู่" style="width: 10%;"> </Column>
       <Column field="phone_number" class="" header="เบอร์โทรติดต่อ" style="width: 10%;"> </Column>
-      <Column field="price" class="" header="ราคา" style="width: 5%;"> </Column>
+      <Column field="price" class="" header="ราคา" style="width: 5%;">
+          
+      </Column>
       <Column
         :exportable="false"
-        class=""
-        header="ลบข้อมูล"
-        style="width: 5%"
+        header="เพิ่มเติม"
+        style="width: 15%"
       >
 
         <template #body="item">
-          <!-- <updateadmin title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/> -->
-          <Button
-          @click="deleteProduct(item.data._id)"
-            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-
-            style="background-color: #C21010"
-            >ลบ</Button>
+        
+          <div v-if="item.data.status===true">
+               <updateadmin title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/>
+              <Button
+                @click="deleteProduct(item.data._id)"
+                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                style="background-color: #C21010"
+              >ลบ</Button>
+          </div>
+          <div v-else>
+             กรุณารออนุมัติจาก admin 
+          </div>
+         
            
         </template>
       </Column>
@@ -85,6 +98,7 @@ created() {
 setup() {
   const item_product = ref([]);
   const reservationEnabled = ref(false);
+
   const getData = async () => {
     try {
       const productResponse = await axios.get(
@@ -96,8 +110,10 @@ setup() {
         }
       );
       if (productResponse.data && productResponse.data) {
-        item_product.value = productResponse.data;
-        console.log(productResponse.data)
+          item_product.value = productResponse.data;
+          console.log(productResponse.data)  
+          reservationEnabled.value=productResponse.data[0].statusbooking
+
       } else {
         console.error("Data is missing in the API response.");
       }
@@ -148,53 +164,36 @@ setup() {
 
 
   watch(
-    ()=> reservationEnabled.value,
-    (newValue) => {
-      if (newValue){
-        console.log("Open");
-        fetchData(null);
+     ()=> reservationEnabled.value,
+    async (newValue) => {
+      try{
+        if(newValue==true)
+        {
+          await axios.put(`${process.env.VUE_APP_API}room/openstatus/`,{},
+          {
+            headers: {
+              token: localStorage.getItem("token"),
+            },})
+         
+            getData()
+        }else{
+          await axios.put(`${process.env.VUE_APP_API}room/closestatus/`,{},
+          {
+            headers: {
+              token: localStorage.getItem("token"),
+            },})
+            
+            getData()
+        }
       }
-      else{
-        console.log("Off");
-        collectData(null);
+      catch(error){
+
       }
+     
     }
   );
 
-//---------------------------- สถานะ -------------------------//
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.VUE_APP_API}room`,
-        {},
-        {
-          headers: {
-            token: localStorage.getItem("token"),
-          },
-        }
-      );
-      item_product.value = response.data; // นำข้อมูลที่ได้มาเก็บไว้ในตัวแปร
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
 
-
-  const collectData = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.VUE_APP_API}room`,
-        {
-          headers: {
-            token: localStorage.getItem("token"),
-          },
-        }
-      );
-      item_product.value = response.data; // นำข้อมูลที่ได้มาเก็บไว้ในตัวแปร
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
 
 
   return {
@@ -202,20 +201,6 @@ setup() {
     item_product,
     getData,
     deleteProduct,
-    fetchData,
-    collectData,
-    toggleReservationStatus: () =>{
-      console.log("Hello");
-      reservationEnabled.value = !reservationEnabled.value;
-      if (reservationEnabled.value){
-        console.log("Open");
-        fetchData();
-      }
-      else{
-        console.log("Off");
-        collectData();
-      }
-    }
   };
 },
 

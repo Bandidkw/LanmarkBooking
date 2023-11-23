@@ -83,7 +83,6 @@
                     <div class="col-12">
                       <p> ID Card:</p>
                       <InputText  v-model="idcard" class="w-full text-black-950 font-bold"  style="color:#000"  disabled/>
-                      
                     </div>
                     <div class="col-12">
                       <p> First Name :</p>
@@ -216,9 +215,6 @@ export default {
 
     const showPartnerDetail = async (data) => {
     
-      try {
-  
-
           DetailPartner.value = true;
           image.value = data.image_idcard
           name.value = data.name
@@ -226,20 +222,8 @@ export default {
           console.log(data)
           console.log(data.idcard)
           idcard.value = data.idcard
-
-        // partnerDetail.value = response.data;
-        // this.selectedPartner = data;
-
       }
-      catch (error) {
-        console.error("Error fetching partner details:", error);
-        // Swal.fire({
-        //   icon: "error",
-        //   title: "เกิดข้อผิดพลาด",
-        //   text: "ไม่สามารถดึงข้อมูลได้",
-        // });
-      }
-    };
+
     onMounted(() => {
       getData();
     });
