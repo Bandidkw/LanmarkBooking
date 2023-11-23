@@ -60,7 +60,7 @@ try {
   }
   
 } catch (err) {
-  console.log("test")
+
 }
 app.use(router);
 //prime flex

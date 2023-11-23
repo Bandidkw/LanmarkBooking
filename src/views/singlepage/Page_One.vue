@@ -10,7 +10,7 @@
   </div>
 
   <!-- eslint-disable-next-line vue/no-multiple-template-root -->
-  <div class="flex pt-4 px-10 justify-between border">
+  <div class="flex pt-4 px-5 justify-between border h-[850px]">
     <!-- รายละเอียด -->
     <div class="w-1/2">
       <div class="details m-0 p-2 border-b-2 border-b-sky-400">
@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="sleep-place h-[253px] py-12">
-        <h2 class="pb-6">สถานที่นอน</h2>
+        <h2 class="pb-3">สถานที่นอน</h2>
         <div
           class="flex flex-col gap-y-1 sleep-box border-2 border-black rounded-2xl w-[207px] h-[143px] p-4"
         >
@@ -50,6 +50,11 @@
             <p>{{ roomdata.bedroom }} เตียงนอน  {{ roomdata.bathroom }} ห้องน้ำ </p>
           </div>
         </div>
+        <div class="hotel-info border-t-2  border-t-sky-400 mt-4 py-5">
+           พิกัด :
+          <p>{{ roomdata.address }}  ตำบล: {{ roomdata.tambon }}  อำเภอ: {{ roomdata.amphure }} จังหวัด: {{  roomdata.province }}</p>
+        </div>
+         
       </div>
     </div>
     <div class="w-1/2 text-center mx-3 border-2">
@@ -60,11 +65,30 @@
               class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2" for="grid-first-name">
               เลือกวันจอง - วันสิ้นสุดการจอง
             </label>
-            <Calendar  v-model="selectedDate" selectionMode="range" :manualInput="false"  :numberOfMonths="2"  showIcon class="border p-2 rounded bg-white" />
+            <Calendar
+              v-model="selectedDate"
+              selectionMode="range"
+              :manualInput="false"
+              :numberOfMonths="2"
+              showIcon
+              class="border p-2 rounded bg-white"
+              :minDate="minSelectableDate"
+              :disabled-dates="disabledDates"
+              >
+              <template #date="slotProps">
+                 <div @click="calprice(slotProps.date)">{{ slotProps.date.day }}</div>
+              </template>
+            </Calendar>
+          </div>
+          <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
+            <label
+              class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2" for="grid-first-name">
+              ราคา : {{ roomdata.price }} บาท
+            </label>
           </div>
           <div class="mx-auto w-60  my-3 ">
             <button
-              @click="addRoom"
+              @click="addbooking"
               class="px-4 py-2 bg-blue-500 text-white text-center hover:bg-purple-400 rounded w-full"
               type="button"
             >
@@ -81,41 +105,95 @@
 import axios from "axios";
 
 import { onMounted,ref} from "vue";
+import Swal from "sweetalert2";
 export default {
   props: ["id"],
   data() {
-      const roomdata = ref([])
-      const getroom = async (_id) => {
+        const roomdata = ref([])
+        let dateprice = ref([])
+        const room_id = this.$route.params.id;
+        const getroom = async (_id) => {
         const id = this.$route.params.id;
         const Response = await axios.get(`${process.env.VUE_APP_API}room/${id}`);
         this.roomdata = Response.data   
+        this.price = roomdata.price
       }
       onMounted(() => {
         getroom();
       });
       return {
-        selectedDate:null,
-        date:"",
-        startdate:null,
-        enddate:null,
+        room_id,
+        selectedDate:"",
         roomdata,
+        price:"0",
+        dateprice,
+        minSelectableDate: new Date(),
+        //โค้ดปิดวัน
+        disabledDates: [
+        new Date(2023, 10, 29), 
+        new Date(2023,10,30)
+      ], 
       };
     },
   
     methods:{
-      handleDateClick(event) {
-    // ตรวจสอบว่ากำลังเลือกวันเริ่มต้นหรือวันสุดท้าย
-    if (!this.startDate) {
-      this.startDate = event.date;
-    } else {
-      this.endDate = event.date;
-      // นำ startDate และ endDate ไปใช้งานต่อไป, เช่นเรียก API สำหรับการจองห้อง
-      // ทำการ reset startDate และ endDate เพื่อให้ผู้ใช้สามารถทำการเลือกใหม่ได้
-      this.startDate = null;
-      this.endDate = null;
-    }
-  },
+      calprice(date){
+           if(this.dateprice.length===0)
+           {
+            this.dateprice.push(date)
+            console.log(this.dateprice)
+           }
+           else if(this.dateprice.length===1)
+           {
+            this.dateprice.push(date)
+            console.log(this.dateprice)
+           }
+           else{
+            this.dateprice[0]= date
+            this.dateprice.splice(1, 1);
 
+           }
+          // if(this.dateprice===undefined)
+          // {
+          //   this.date[0] = date
+          //   console.log(this.date[0])
+          // }
+
+        // if(this.selectedDate[0]!=undefined){
+        //     console.log(this.selectedDate[0] .getDate().toString().padStart(2, '0'))
+        //     console.log(this.selectedDate[1] .getDate().toString().padStart(2, '0'))
+        // }
+      },
+      async addbooking(){
+        if(localStorage.getItem("token")!=null && this.selectedDate!=undefined)
+        {
+           
+        }else{
+          await Swal.fire({
+            icon: "error",
+            title: "กรุณาล็อคอิน",
+            text: "ก่อนจะจองกรุณาล็อคอินก่อน",
+          });
+        }
+        //   const response  = await axios.post(`${process.env.VUE_APP_API}booking/`,
+        //   {
+        //     room_id:"",
+        //     date_from:"",
+        //     date_to:"",
+        //     price:"",
+        //   },
+        //   {
+        //     headers: {
+        //       token: localStorage.getItem("token"),
+        //     },
+        //   }
+        // );
+          console.log(localStorage.getItem("token"))
+          console.log(this.room_id)
+          console.log(this.selectedDate[0])
+          console.log(this.selectedDate[1])
+          console.log(this.roomdata.price)
+      },
       getImage(item){
       if (typeof item === 'string') {
         return `https://drive.google.com/uc?export=view&id=${item}`;
