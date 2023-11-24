@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <Dialog v-model:visible="LoginModal" @onHide="resetForm" maximizable modal header="เข้าสู่ระบบ"
+    <Dialog v-model:visible="LoginModal" @onHide="resetForm" maximizable modal header=" เข้าสู่ระบบ"
       :style="{ width: '20rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
       <form @submit.prevent="login" class="form-control">
 
@@ -38,6 +38,7 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -108,7 +109,7 @@ export default {
 
 }
 </script>
-<style scoped>
+<style >
 .topweb-right {
   display: flex;
   align-items: center;
@@ -173,5 +174,6 @@ export default {
 .show-pass input,
 label {
   cursor: pointer;
+
 }
 </style>
