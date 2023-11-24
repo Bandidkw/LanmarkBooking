@@ -16,8 +16,8 @@
           </p>
         </template>
 
-        <Column field="partner_id.name" header="ชื่อ partner" style="width: 20%"></Column>
-        <Column field="image" header="Picture" style="width: 10%">
+        <Column field="partner_id.name" header="ชื่อ partner" style="width: 10%"></Column>
+        <Column field="image" header="Picture" style="width: 15%">
           <template #body="{ data }">
             <img v-if="Array.isArray(data.image) && data.image.length > 0" :src="getImage(data.image)" alt="ID Card"
               width="200" style="max-width: 100%; height: auto" />
@@ -27,21 +27,23 @@
         </Column>
         <Column field="name" class="" header="ชื่อ" style="width: 10%">
         </Column>
-        <Column class="" header="สถานะอนุมัติ" style="width: 10%">
+        <Column class="" header="สถานะอนุมัติ" style="width: 15%">
           <template #body="{ data }">
-            <div class="w-2/4 bg-orange-500" style=" width: 35%; border-radius: 1rem; padding: 0.5rem;"
+            <div class="w-2/4 bg-orange-500 flex justify-content-center"
+              style=" width: 35%; border-radius: 1rem; padding: 0.5rem;"
               v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'">
               <div class="font-bold" style="color: #fff;">
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
             </div>
-            <div class="w-2/4 bg-green-500" style=" width: 27%; border-radius: 1rem; padding: 0.5rem;"
+            <div class="w-2/4 bg-green-500 flex justify-content-center"
+              style=" width: 35%; border-radius: 1rem; padding: 0.5rem;"
               v-if="data.approve.slice(-1)[0].statusapprove === 'อนุมัติ'">
               <div class="text-white font-bold">
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
             </div>
-            <div class="bg-red-500" style=" width: 35%; border-radius: 1rem; padding: 0.5rem;"
+            <div class="bg-red-500 flex justify-content-center" style=" width: 35%; border-radius: 1rem; padding: 0.5rem;"
               v-if="data.approve.slice(-1)[0].statusapprove === 'ไม่อนุมัติ'">
               <div class="text-white font-bold">
                 {{ data.approve.slice(-1)[0].statusapprove }}
@@ -57,10 +59,10 @@
           </template>
         </Column>
 
-        <Column class="" header="เพิ่มเติม" style="width: 10%">
+        <Column style="width: 10%">
           <template #body="{ data }">
             <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
-            <div v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'">
+            <div class="flex justify-content-center" v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'">
               <!-- กรณีรอการอนุมัติ -->
               <Button @click="approveroom(data._id)"
                 class="bg-green-500 border-black hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2">อนุมัติ</Button>

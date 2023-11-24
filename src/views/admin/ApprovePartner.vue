@@ -16,24 +16,26 @@
           </p>
         </template>
 
-        <Column field="telephone" header="เบอร์โทรศัพท์" style="width: 20%"></Column>
-        <Column field="name" class="" header="ชื่อ" style="width: 10%">
+        <Column field="telephone" header="เบอร์โทรศัพท์" style="width: 14%"></Column>
+        <Column field="name" class="" header="ชื่อ" style="width: 14%">
         </Column>
-        <Column class="" header="สถานะอนุมัติ" style="width: 10%">
+        <Column class="" header="สถานะอนุมัติ" style="width: 14%">
           <template #body="{ data }">
-            <div class="w-2/4 bg-orange-500" style=" width: 35%; border-radius: 1rem; padding: 0.5rem;"
+            <div class="w-2/4 bg-orange-500 flex justify-content-center"
+              style=" width: 35%; border-radius: 1rem; padding: 0.5rem;"
               v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'">
               <div class="font-bold" style="color: #fff;">
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
             </div>
-            <div class="w-2/4 bg-green-500" style=" width: 27%; border-radius: 1rem; padding: 0.5rem;"
+            <div class="w-2/4 bg-green-500 flex justify-content-center"
+              style=" width: 35%; border-radius: 1rem; padding: 0.5rem;"
               v-if="data.approve.slice(-1)[0].statusapprove === 'อนุมัติ'">
               <div class="text-white font-bold">
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
             </div>
-            <div class="bg-red-500" style=" width: 35%; border-radius: 1rem; padding: 0.5rem;"
+            <div class="bg-red-500 flex justify-content-center" style=" width: 35%; border-radius: 1rem; padding: 0.5rem;"
               v-if="data.approve.slice(-1)[0].statusapprove === 'ไม่อนุมัติ'">
               <div class="text-white font-bold">
                 {{ data.approve.slice(-1)[0].statusapprove }}
@@ -46,15 +48,15 @@
           <template #body="{ data }">
             <Button @click="showPartnerDetail(data)"
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">รายละเอียด</Button>
-            
+
           </template>
 
         </Column>
 
-        <Column class="" header="เพิ่มเติม" style="width: 10%">
+        <Column style="width: 10%">
           <template #body="{ data }">
             <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
-            <div v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'">
+            <div class="flex justify-content-center" v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'">
               <!-- กรณีรอการอนุมัติ -->
               <Button @click="approvepartner(data._id)"
                 class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2 boeder-none">อนุมัติ</Button>
@@ -67,36 +69,36 @@
     </div>
   </div>
   <Dialog v-model:visible="DetailPartner" modal :style="{ width: '50rem' }"
-              :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-              <div class="grid">
-                <div class="col-12 text-center">
-                  <h2>แก้ไขข้อมูล Partner</h2>
-                </div>
-              </div>
-              <div class="grid">
-                <div class="col-12 md:col-12">
-                  <form>
-                    <div class="col-12 flex justify-content-center">
-                      <img v-if="image" :src="getImage(image)" alt="ID Card" style="  max-width: 50%; height: 50%" />
-                      <div v-else>ไม่มีรูปภาพ</div>
-                    </div>
-                    <div class="col-12">
-                      <p> ID Card:</p>
-                      <InputText  v-model="idcard" class="w-full text-black-950 font-bold"  style="color:#000"  disabled/>
-                    </div>
-                    <div class="col-12">
-                      <p> First Name :</p>
-                      <InputText v-model="name" class="w-full text-black-950 font-bold"  style="color:#000" disabled/>
-                    </div>
-                    <div class="col-12">
-                      <p>Phone : </p>
-                      <InputText v-model="phone" class="w-full text-black-950 font-bold "  style="color:#000" disabled/>
-                    </div>
+    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+    <div class="grid">
+      <div class="col-12 text-center">
+        <h2>แก้ไขข้อมูล Partner</h2>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-12 md:col-12">
+        <form>
+          <div class="col-12 flex justify-content-center">
+            <img v-if="image" :src="getImage(image)" alt="ID Card" style="  max-width: 50%; height: 50%" />
+            <div v-else>ไม่มีรูปภาพ</div>
+          </div>
+          <div class="col-12">
+            <p> ID Card:</p>
+            <InputText v-model="idcard" class="w-full text-black-950 font-bold" style="color:#000" disabled />
+          </div>
+          <div class="col-12">
+            <p> First Name :</p>
+            <InputText v-model="name" class="w-full text-black-950 font-bold" style="color:#000" disabled />
+          </div>
+          <div class="col-12">
+            <p>Phone : </p>
+            <InputText v-model="phone" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+          </div>
 
 
-                  </form>
-                </div>
-        </div>
+        </form>
+      </div>
+    </div>
   </Dialog>
 </template>
 
@@ -214,15 +216,15 @@ export default {
     };
 
     const showPartnerDetail = async (data) => {
-    
-          DetailPartner.value = true;
-          image.value = data.image_idcard
-          name.value = data.name
-          phone.value = data.telephone
-          console.log(data)
-          console.log(data.idcard)
-          idcard.value = data.idcard
-      }
+
+      DetailPartner.value = true;
+      image.value = data.image_idcard
+      name.value = data.name
+      phone.value = data.telephone
+      console.log(data)
+      console.log(data.idcard)
+      idcard.value = data.idcard
+    }
 
     onMounted(() => {
       getData();
