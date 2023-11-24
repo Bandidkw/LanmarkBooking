@@ -1,7 +1,7 @@
 <template>
   <div class="grid px-10 mt-3 ml-5 mr-5">
     <div class="col-12 lg:col-12 border">
-      <div class="text-center font-bold text-4xl">ข้อมูลอนุมัติการจองห้อง</div>
+      <div class="text-center font-bold text-4xl">ข้อมูลการจองห้อง</div>
       <div class="text-right my-5"></div>
 
       <DataTable :value="Array.isArray(item_product) ? item_product : []" :paginator="true" :rows="20"
@@ -12,11 +12,10 @@
 
         <template #empty>
           <p class="font-italic text-center text-5xl" style="color: #bd1616">
-            ไม่มีข้อมูลการจอง
+            ไม่พบข้อมูลการจอง
           </p>
         </template>
 
-        <Column field="member_id.name" header="ชื่อผู้จอง" style="width: 20%"></Column>
         <Column field="room_id.name"  header="ห้องพัก" style="width: 10%">
         </Column>
         <Column  header="วันที่จะจอง" style="width: 10%">
@@ -31,6 +30,48 @@
           </template>
         </Column>
          <Column field="price"  header="ราคา" style="width: 10%"></Column>
+        <Column class="text-center" header="สถานะอนุมัติ" style="width: 20%">
+          <template #body="{ data }">
+
+            <div class="w-2/4 bg-orange-500" style=" width: 40%; border-radius: 1rem; padding: 0.5rem;"
+              v-if="data.status.slice(-1)[0].statusbooking === 'รออนุมัติห้อง'">
+              <div class="font-bold" style="color: #fff;">
+                {{ data.status.slice(-1)[0].statusbooking }}
+              </div>
+            </div>
+            <div class="w-2/4 bg-green-500" style=" width: 40%; border-radius: 1rem; padding: 0.5rem;"
+              v-if="data.status.slice(-1)[0].statusbooking === 'รอชำระเงิน'">
+              <div class="text-white font-bold">
+                {{ data.status.slice(-1)[0].statusbooking }}
+              </div>
+            </div>
+            <div class="w-2/4 bg-green-500" style=" width: 40%; border-radius: 1rem; padding: 0.5rem;"
+              v-if="data.status.slice(-1)[0].statusbooking === 'ยีนยันการชำระเงิน'">
+              <div class="text-white font-bold">
+                {{ data.status.slice(-1)[0].statusbooking }}
+              </div>
+            </div>
+            <div class="w-2/4 bg-green-500" style=" width: 40%; border-radius: 1rem; padding: 0.5rem;"
+              v-if="data.status.slice(-1)[0].statusbooking === 'จองห้องสำเร็จ'">
+              <div class="text-white font-bold">
+                {{ data.status.slice(-1)[0].statusbooking }}
+              </div>
+            </div>
+            <div class="bg-red-500" style=" width: 40%; border-radius: 1rem; padding: 0.5rem;"
+              v-if="data.status.slice(-1)[0].statusbooking === 'ไม่อนุมัติห้อง'">
+              <div class="text-white font-bold">
+                {{ data.status.slice(-1)[0].statusbooking }}
+              </div>
+            </div>
+            <div class="bg-red-500" style=" width: 40%; border-radius: 1rem; padding: 0.5rem;"
+              v-if="data.status.slice(-1)[0].statusbooking === 'ชำระเงินไม่สำเร็จ'">
+              <div class="text-white font-bold">
+                {{ data.status.slice(-1)[0].statusbooking }}
+              </div>
+            </div>
+            <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
+          </template>
+        </Column>
         <Column header="รายละเอียด" style="width: 10%;">
           <template #body="{ data }">
             <Button @click="showPartnerDetail(data)"
@@ -43,7 +84,7 @@
       </DataTable>
     </div>
   </div>
-  <Dialog v-model:visible="DetailPartner" modal :style="{ width: '50rem' }"
+  <Dialog v-model:visible="DetailPartner" modal :style="{ width: '50rem', 'z-index': 500 }"
               :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
               <div class="grid">
                 <div class="col-12 text-center">
@@ -68,15 +109,29 @@
                       <p>ราคา : </p>
                       <InputText v-model="price" class="w-full text-black-950 font-bold "  style="color:#000" disabled/>
                     </div>
+                    <div v-if="databooking.status[databooking.status.length-1].statusbooking==='รอชำระเงิน'" class="col-12">
+                      <p>ส่งหลักฐานการชำระเงิน</p>
+                      <div class="col-12 text-center">
+                <Image :src="imagePreview" width="200" v-if="imagePreview !== null" :preview="true" />
+                <FileUpload mode="basic" chooseLabel="เลือกรูปหลักฐานชำระเงิน" :auto="true" @uploader="chooseImg"
+                    :customUpload="true" accept="image/png, image/jpeg,image/jpg" :fileLimit="1" :maxFileSize="2097152"
+                    invalidFileSizeMessage="ขนาดรูปภาพจะต้องไม่เกิน 2 mb" :disabled="isDisabled" />
+                <p><em>(ขนาดจะต้องเป็น 1:1)</em></p>
+            </div>
+                    </div>
                 </div>
+
                 <div class="col-12 md:col-12 text-center">
-                    <Button @click="approvepartner(data_id)"
-                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2 boeder-none">อนุมัติ</Button>
-                    <Button @click="unapprovepartner(data_id)"
-                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">ไม่อนุมัติ</Button>
+                    <div v-if="databooking.status[databooking.status.length-1].statusbooking==='รอชำระเงิน'">
+                         <Button
+                            @click="addpayment(databooking._id)"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2"
+                          >ชำระเงิน</Button>
+                    </div>
                 </div>
         </div>
   </Dialog>
+
 </template>
 
 <script>
@@ -100,14 +155,15 @@ export default {
     let roomname= ref("");
     let datebooking= ref("");
     let price = ref("")
+    let databooking = ref("")
+    let imagePreview = ref(null)
 
     const item_product = ref([]);
     const getData = async () => {
-      console.log(DetailPartner, "status dialog before click button ");
-
+      
       try {
         const Response = await axios.get(
-          `${process.env.VUE_APP_API}booking/partner/`,
+          `${process.env.VUE_APP_API}booking/member/`,
           {
             headers: {
               token: localStorage.getItem("token"),
@@ -116,8 +172,7 @@ export default {
         );
 
         if (Response.data.status === true) {
-          const datafindstatus = Response.data.data.filter(item => item.status[item.status.length - 1].statusbooking === "รออนุมัติห้อง")
-          item_product.value = datafindstatus.reverse();
+          item_product.value = Response.data.data.reverse();
           console.log(Response.data.data);
         } else {
           console.error("Data is missing in the API response.");
@@ -206,6 +261,7 @@ export default {
           roomname.value = data.room_id.name
           datebooking.value = new Date(data.date_from).toLocaleDateString('th-TH',{ timeZone: 'Asia/Bangkok', day: 'numeric', month: 'numeric', year: 'numeric' }) +" - "+ new Date(data.date_to).toLocaleDateString('th-TH',{ timeZone: 'Asia/Bangkok', day: 'numeric', month: 'numeric', year: 'numeric' })
           price.value = data.price
+          databooking.value = data
       }
 
     onMounted(() => {
@@ -214,9 +270,9 @@ export default {
 
     return {
       item_product,
-      getData,
       approvepartner,
       unapprovepartner,
+      getData,
       // partnerDetail,
       showPartnerDetail,
       DetailPartner,
@@ -225,11 +281,11 @@ export default {
       roomname,
       datebooking,
       price,
-
+      databooking,
+      filepic:"",
+      imagePreview,
     };
   },
-
-  name: "ApprovePartner",
 
   methods: {
     calculateNightStay(dateFrom, dateTo) {
@@ -249,6 +305,62 @@ export default {
         return "";
       }
     },
+    chooseImg(event) {
+      this.imagePreview = event.files[0].objectURL;
+      this.filepic = event.files[0];
+    },
+    async addpayment(id){
+      if(this.filepic!="")
+      {
+        try{
+              const formData = new FormData();
+              formData.append("slip_image",this.filepic);
+              const response  = await axios.put(`${process.env.VUE_APP_API}booking/paymentBooking/${id}`,formData,
+              {
+                headers: {
+                  token: localStorage.getItem("token"),
+                },
+              });
+              if(response.data.status === true)
+              {
+                  this.DetailPartner = false
+                  Swal.fire({
+                  icon: "success",
+                  title: "ส่งหลักฐานชำระเงินสำเร็จ",
+                  text: response.data.message,
+                });
+                this.getData();
+              }
+              else{
+                this.DetailPartner = false
+                await Swal.fire({
+                  icon: "error",
+                  title: "เกิดข้อผิดพลาด",
+                  text: "ไม่สามารถเพิ่มข้อมูลได้",
+                });
+                this.DetailPartner = true
+              }
+        }catch(error){
+          this.DetailPartner = false
+          await Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด",
+            text: error,
+          });
+          this.DetailPartner = true
+        }
+      }
+      else{
+        this.DetailPartner = false
+        await Swal.fire({
+            icon: "error",
+            title: "เพิ่มหลักฐานการชำระเงิน",
+            text: "กรุณาเพิ่มหลักฐานการชำระเงิน",
+          });
+          this.DetailPartner = true
+      }
+    },
+
   },
 };
 </script>

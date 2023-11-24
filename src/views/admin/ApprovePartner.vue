@@ -217,6 +217,7 @@ export default {
 
     const showPartnerDetail = async (data) => {
 
+
       DetailPartner.value = true;
       image.value = data.image_idcard
       name.value = data.name
@@ -225,6 +226,7 @@ export default {
       console.log(data.idcard)
       idcard.value = data.idcard
     }
+
 
     onMounted(() => {
       getData();

@@ -89,7 +89,9 @@ export default {
           { id: 2, label: "จัดการห้อง", route: "/manageroom" },
         ],
         จอง:[
-          {id:1,label:"อนุมัติการจองห้อง",route:"/managebooking"}
+          {id:1,label:"อนุมัติการจองห้อง",route:"/managebooking"},
+          {id:2,label:"อนุมัติการชำระเงิน",route:"/approvepayment"}
+
         ],
       },
     };

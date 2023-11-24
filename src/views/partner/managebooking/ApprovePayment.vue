@@ -1,7 +1,7 @@
 <template>
   <div class="grid px-10 mt-3 ml-5 mr-5">
     <div class="col-12 lg:col-12 border">
-      <div class="text-center font-bold text-4xl">ข้อมูลอนุมัติการจองห้อง</div>
+      <div class="text-center font-bold text-4xl">ข้อมูลอนุมัติการชำระเงิน</div>
       <div class="text-right my-5"></div>
 
       <DataTable :value="Array.isArray(item_product) ? item_product : []" :paginator="true" :rows="20"
@@ -68,11 +68,15 @@
                       <p>ราคา : </p>
                       <InputText v-model="price" class="w-full text-black-950 font-bold "  style="color:#000" disabled/>
                     </div>
+                    <div class="col-12 text-center">
+                      <p>ภาพ : </p>
+                      <Image :src="getImage(slip_image)" width="200" :preview="true" />
+                    </div>
                 </div>
                 <div class="col-12 md:col-12 text-center">
-                    <Button @click="approvepartner(data_id)"
+                    <Button @click="approvepartner()"
                     class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2 boeder-none">อนุมัติ</Button>
-                    <Button @click="unapprovepartner(data_id)"
+                    <Button @click="unapprovepartner()"
                     class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">ไม่อนุมัติ</Button>
                 </div>
         </div>
@@ -100,14 +104,16 @@ export default {
     let roomname= ref("");
     let datebooking= ref("");
     let price = ref("")
-
+    let slip_image = ref("")
+    let payment_id = ref("")
     const item_product = ref([]);
+    const item_payment = ref([]);
     const getData = async () => {
       console.log(DetailPartner, "status dialog before click button ");
 
       try {
         const Response = await axios.get(
-          `${process.env.VUE_APP_API}booking/partner/`,
+          `${process.env.VUE_APP_API}booking/partner/payment/`,
           {
             headers: {
               token: localStorage.getItem("token"),
@@ -116,9 +122,12 @@ export default {
         );
 
         if (Response.data.status === true) {
-          const datafindstatus = Response.data.data.filter(item => item.status[item.status.length - 1].statusbooking === "รออนุมัติห้อง")
+          const datafindstatus = Response.data.data.filter(item => item.status[item.status.length - 1].statusbooking === "ยีนยันการชำระเงิน")
           item_product.value = datafindstatus.reverse();
-          console.log(Response.data.data);
+          item_payment.value= Response.data.payment
+          console.log(datafindstatus)
+          console.log(Response.data.payment)
+         
         } else {
           console.error("Data is missing in the API response.");
         }
@@ -126,10 +135,11 @@ export default {
         console.error(error);
       }
     };
-    const approvepartner = async (_id) => {
+    const approvepartner = async () => {
       try {
+         const pay_id =payment_id.value
         const response = await axios.put(
-          `${process.env.VUE_APP_API}booking/AcceptBooking/${_id}`,
+          `${process.env.VUE_APP_API}booking/confirmBookingPayment/${pay_id}`,
           {},
           {
             headers: {
@@ -142,7 +152,7 @@ export default {
           DetailPartner.value = false;
           Swal.fire({
             icon: "success",
-            title: "อนุมัติผู้ใช้partner",
+            title: "อนุมัติการชำระเงินแล้ว",
           });
 
           getData();
@@ -163,10 +173,11 @@ export default {
         });
       }
     };
-    const unapprovepartner = async (_id) => {
+    const unapprovepartner = async () => {
       try {
+        const pay_id =payment_id.value
         const response = await axios.put(
-          `${process.env.VUE_APP_API}booking/UnacceptBooking/${_id}`,
+          `${process.env.VUE_APP_API}booking/Unconfirmbookingpayment/${pay_id}`,
           {},
           {
             headers: {
@@ -179,7 +190,7 @@ export default {
           DetailPartner.value = false;
           Swal.fire({
             icon: "success",
-            title: "ไม่อนุมัติผู้ใช้partner",
+            title: "ไม่อนุมัติการชำระเงิน",
           });
           getData();
         } else {
@@ -199,13 +210,31 @@ export default {
         });
       }
     };
-       const showPartnerDetail = async (data) => {
-          DetailPartner.value = true;
-          data_id.value = data._id
-          membername.value = data.member_id.name
-          roomname.value = data.room_id.name
-          datebooking.value = new Date(data.date_from).toLocaleDateString('th-TH',{ timeZone: 'Asia/Bangkok', day: 'numeric', month: 'numeric', year: 'numeric' }) +" - "+ new Date(data.date_to).toLocaleDateString('th-TH',{ timeZone: 'Asia/Bangkok', day: 'numeric', month: 'numeric', year: 'numeric' })
-          price.value = data.price
+    const showPartnerDetail = async (data) => {            
+        DetailPartner.value = true;
+        data_id.value = data._id
+        membername.value = data.member_id.name
+        roomname.value = data.room_id.name
+        datebooking.value = new Date(data.date_from).toLocaleDateString('th-TH',{ timeZone: 'Asia/Bangkok', day: 'numeric', month: 'numeric', year: 'numeric' }) +" - "+ new Date(data.date_to).toLocaleDateString('th-TH',{ timeZone: 'Asia/Bangkok', day: 'numeric', month: 'numeric', year: 'numeric' })
+        price.value = data.price
+        ///แปลงเป็น array
+        const transformedData =item_payment.value.map(item => ({
+          _id: item._id,
+          booking_id: item.booking_id,
+          slip_image: item.slip_image,
+          total_amount: item.total_amount,
+          payment_status: item.payment_status,
+          createdAt: item.createdAt,
+          updatedAt: item.updatedAt,
+          v: item.__v
+        }));
+        const payment =transformedData.filter(item => item.booking_id === data._id)
+        slip_image.value=payment[payment.length-1].slip_image
+        payment_id.value=payment[payment.length-1]._id
+        //slip_image.value = transformedData.slip_image
+        //console.log(transformedData[0])
+    
+
       }
 
     onMounted(() => {
@@ -225,11 +254,12 @@ export default {
       roomname,
       datebooking,
       price,
-
+      slip_image,
+      item_payment,
+      payment_id
     };
   },
 
-  name: "ApprovePartner",
 
   methods: {
     calculateNightStay(dateFrom, dateTo) {

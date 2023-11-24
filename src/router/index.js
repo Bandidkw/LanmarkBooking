@@ -137,7 +137,18 @@ const router = createRouter({
       path:"/managebooking",
       name:"managebooking",
       component:()=> import('@/views/partner/managebooking/ApproveBooking.vue')
-    }
+    },
+    {
+      path:"/bookingmember",
+      name:"bookingmember",
+      component:()=> import('@/views/member/booking/BookingMember.vue')
+    },
+    {
+      path:"/approvepayment",
+      name:"approvepayment",
+      component:()=> import('@/views/partner/managebooking/ApprovePayment.vue')
+    },
+    
   ],
 });
 

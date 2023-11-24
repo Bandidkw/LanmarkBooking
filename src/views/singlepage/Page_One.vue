@@ -178,11 +178,13 @@ export default {
               });
               if(response.data.status ===true)
               {
+                
                 Swal.fire({
                   icon: "success",
                   title: "จองสำเร็จ",
                   text: response.data.message,
                 });
+                  window.location.assign("/bookingmember");
               }
               else{
                  await Swal.fire({

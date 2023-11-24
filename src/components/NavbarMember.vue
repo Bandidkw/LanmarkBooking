@@ -29,6 +29,23 @@
          </div>
       </div>
    </nav>
+   <!--eslint-disable-next-line vue/no-multiple-template-root-->
+  <nav
+    id="header"
+    class="w-full z-30 top-10 bg-white border-b border-black-400"
+  >
+    <div class="w-full flex items-center justify-center mt-0 px-5">
+      <!--- ใช้ปุ่มเดียว-->
+      <router-link v-for="(link, index) in menubars" :to="link.to" :key="index">
+        <button
+          type="button"
+          class="mt-4 lg:inline-block lg:mt-0 hover:text-white px-2 py-3 rounded hover:bg-[#007bff] mr-2"
+        >
+          {{ link.label }}
+        </button>
+      </router-link>
+    </div>
+  </nav>
 </template>
   
 <script>
@@ -52,6 +69,7 @@ export default {
           { id: 1, label: "แก้ไขข้อมูล", route: "/" },
         ],
       },
+      menubars: [{ label: "ข้อมูลการจอง", to: "/bookingmember" }],
     };
   },
   methods : {
