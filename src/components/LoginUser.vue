@@ -5,7 +5,7 @@
       <div class="login-box" @click="showPopup">
         <i class="bi bi-list"></i>
         <button type="button" class="log-icon">
-          <i class="bi bi-person-fill"></i>
+          <i class="bi bi-person-fill bg-white icon-log"></i>
         </button>
       </div>
     </div>
@@ -106,7 +106,6 @@ export default {
   },
   components: {
   },
-
 }
 </script>
 <style >
@@ -132,7 +131,9 @@ export default {
   background-color: #c7c7c7;
   border-radius: 25px;
 }
-
+.icon-log{
+  border-radius: 50%;
+}
 .login-box .log-icon:active {
   background-color: #00bbf9;
   box-shadow: 0 3px #666;

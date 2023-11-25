@@ -153,7 +153,14 @@ const router = createRouter({
       path:"/checkin-out",
       name:"checkin-out",
       component:()=> import('@/views/member/booking/Checkinout.vue')
-    }
+    },
+   {
+      path:"/addroomtype",
+      name:"addroomtype",
+      component:() => import('@/views/admin/manageRoom/AddRoomtype.vue')
+    },
+    
+
   ],
 });
 

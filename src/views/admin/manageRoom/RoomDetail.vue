@@ -2,18 +2,12 @@
 <template>
     <div class="grid px-10 mt-3 ml-5 mr-5" >
       <div class="col-12 lg:col-12 border">
-        <div class="text-center text-2xl">รายละเอียดห้อง</div>
+        <div class="text-center text-2xl">ประเภทห้อง</div>
         <div class="text-right my-5">
-          <router-link to="#" @click="isAddTypeModalOpen = true">
+          <router-link to="/addroomtype" @click="isAddTypeModalOpen = true">
             <Button  label="เพิ่มประเภทห้อง" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" />
           </router-link>
         </div>
-        <div v-if="isAddTypeModalOpen" class="modal-styles flex flex-col">
-            <h1>Modal</h1>
-    <input type="text">
-    <!-- โค้ดอื่น ๆ ของ Modal -->
-    <button @click="closeAddTypeModal">ปิด</button>
-  </div>
         <DataTable
         :value="Array.isArray(item_product) ? item_product : []"
         :paginator="true"
@@ -40,7 +34,7 @@
 
           <template #body="item">
             <!-- <updateadmin title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/> -->
-            <updatetype title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/>
+            <updatetype title="แก้ไขข้อมูล" :_id="item.data._id" :data="item.data"/>
             <Button
             @click="deleteProduct(item.data._id)"
               class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
@@ -64,7 +58,7 @@ export default {
     updatetype
   },
   created() {
-    document.title = "จัดการข้อมูล admin";
+    document.title = "จัดการประเภทห้อง";
   },
   setup() {
     const item_product = ref([]);

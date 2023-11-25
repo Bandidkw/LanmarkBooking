@@ -8,7 +8,8 @@
                 :src="getImage(item.image)"
                 alt="Gallery Image" />
           <div v-else>ไม่มีรูปภาพ</div>
-        <i class="bi bi-arrow-right-circle-fill hidden"></i>
+          <!-- <i class="bi bi-suit-heart favor"></i> -->
+          <i class="bi bi-arrow-right-circle-fill next hover:scale-110"></i>
         </div>
         </router-link>
         <div class="details-container">
@@ -21,6 +22,7 @@
 </template>
   
 <script>
+
 import axios from "axios";
 import { onMounted,ref} from "vue";
   export default {
@@ -56,10 +58,13 @@ import { onMounted,ref} from "vue";
   </script>
   
   <style scoped>
+
+
+
   .grid-container {
     display: grid;
     grid-template-columns: repeat(6,1fr);
-    grid-template-rows: repeat(1,400px);
+    grid-template-rows: repeat(3,350px);
     gap: 1rem;
   }
   .grid-item {
@@ -67,38 +72,33 @@ import { onMounted,ref} from "vue";
   }
   .image-container {
   position: relative;
-  height: 50%;
+  height: 70%;
+}
+.image-container .favor{
+  font-size: 1.3rem;
+  color: white;
+  position: absolute;
+  top: 10%;
+  right: 5%;
+}
+.image-container .next{
+  transition: all 0.2s ease-in-out;
+  opacity: 0;
+  position: absolute;
+  color: #fff;
+  font-size: 1.8rem;
+  right: 5%;
+  top: 42%;
+}
+
+.image-container:hover .next{
+  opacity: 1;
 }
 .image-container img{
     width: 100%;
     height: 100%;
-}
-
-.button-container {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translate(-50%, -50%);
-}
-.button-container i{
-    opacity: 0;
-    font-size: 1.5rem;
-    color: #c7c7c7;
-    transition: all 0.2s ease-in-out;
-}
-.image-container img{
     border-radius: 1.5rem;
 }
-
-.hidden{
-  opacity: 1;
-}
-.image-container:hover i{
-    opacity: 1;
-    cursor: pointer;
-    color: #fff;
-}
-  
   .details-container {
     margin-top: 1rem;
   }

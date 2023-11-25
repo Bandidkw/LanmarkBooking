@@ -24,7 +24,7 @@
       </div>
       <div class="grid">
               <div class="col-12 text-center mt-2">
-                  <Button label="แก้ไข" @click="editadmin" />
+                  <Button label="แก้ไข" @click="editroom" />
               </div>
           </div>
     </Dialog>
@@ -47,10 +47,10 @@
     }),
     methods: {
       async getdata() {
-        const type = this.data;
+        const id = this.data._id;
         this.sidebar = true;
         try{
-          const res = await axios.get(`${process.env.VUE_APP_API}room/type`,
+          const res = await axios.get(`${process.env.VUE_APP_API}room/type/${id}`,
             {headers: {token: localStorage.getItem("token"),},}
           );
           this.name =res?.data?.data?.name
@@ -61,8 +61,8 @@
         }
   
       },
-      async editadmin(){
-        if (this.description === null || this.description === "" || this.name ==="") {
+      async editroom(){
+        if (this.name ==="" || this.description === null || this.description === "") {
           this.sidebar = false;
           await Swal.fire({
               icon: "error",
@@ -73,7 +73,7 @@
         }else{
           try {
             const id = this.data;
-            const res = await axios.put(`${process.env.VUE_APP_API}room/type`, {
+            const res = await axios.put(`${process.env.VUE_APP_API}room/type/${id}`, {
               name: this.name,
               description: this.description,
               roles:"partner",

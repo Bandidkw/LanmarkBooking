@@ -73,10 +73,8 @@
               showIcon
               class="border p-2 rounded bg-white"
               :minDate="minSelectableDate"
-              :disabled-dates="disabledDates"
-              />
+              :disabled-dates="disabledDates"/>
             
-       
           </div>
           <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
             <label
@@ -139,11 +137,11 @@ export default {
           console.log("ใช้")
           if(this.selectedDate[0]){
              this.price = this.roomdata.price
-             
+          
           }
           if(this.selectedDate[1])
           {
-           
+          
              let start =this.selectedDate[0].getDate().toString().padStart(2, '0')
              let end = this.selectedDate[1].getDate().toString().padStart(2, '0')
             let numdate =0
