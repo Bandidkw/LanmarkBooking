@@ -148,6 +148,11 @@ const router = createRouter({
       name:"approvepayment",
       component:()=> import('@/views/partner/managebooking/ApprovePayment.vue')
     },
+    {
+      path:"/addroomtype",
+      name:"addroomtype",
+      component:() => import('@/views/admin/manageRoom/AddRoomtype.vue')
+    },
     
   ],
 });
