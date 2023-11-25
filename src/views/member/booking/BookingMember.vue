@@ -293,7 +293,7 @@ export default {
       const endDate = new Date(dateTo);
       const timeDiff = endDate.getTime() - startDate.getTime();
       const nights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-      return `${nights} คืน`;
+      return `${nights+1} คืน`;
     },
     getImage(item) {
       if (typeof item === 'string') {

@@ -141,15 +141,12 @@ export default {
           }
           if(this.selectedDate[1])
           {
-          
-             let start =this.selectedDate[0].getDate().toString().padStart(2, '0')
-             let end = this.selectedDate[1].getDate().toString().padStart(2, '0')
-            let numdate =0
-            for(let i = start;i<=end;i++)
-            {
-                numdate++
-            }
-            this.price = this.roomdata.price * numdate
+            const startDate = new Date(this.selectedDate[0]);
+            const endDate = new Date(this.selectedDate[1]);
+          // คำนวณจำนวนวัน
+            const timeDiff = endDate.getTime() - startDate.getTime();
+            const nights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+            this.price = this.roomdata.price * (nights+1)
           }
         }
       }
