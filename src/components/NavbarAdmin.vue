@@ -119,6 +119,7 @@ export default {
         member: false,
         โรงแรม: false,
         ห้อง: false,
+        จอง:false
       },
       namestore: `${this.$store.getters.name}`,
       menubars: [{ label: "Dashboard", to: "/dashboardadmin" }],
@@ -138,6 +139,7 @@ export default {
         member: [
           { id: 6, label: "จัดการข้อมูล member ", route: "/managemember" },
         ],
+       
         // โรงแรม: [
         //   { id: 6, label: "ประเภทโรงแรม", route: "/managehotel/type" },
         //   {
@@ -166,6 +168,9 @@ export default {
           // { id: 18, label: "วิวของห้อง", route: "/ManageRoomview" },
           // { id: 19, label: "ประเภทห้อง", route: "/ManageRoomtype" },
           // { id: 20, label: "ข้อมูลความปลอดภัย", route: "/ManageSecurity" },
+        ],
+        จอง:[
+          { id: 10, label: "ข้อมูลจอง", route: "/bookingall" },
         ],
       },
     };

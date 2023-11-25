@@ -159,6 +159,12 @@ const router = createRouter({
       name:"addroomtype",
       component:() => import('@/views/admin/manageRoom/AddRoomtype.vue')
     },
+    ,
+   {
+      path:"/bookingall",
+      name:"bookingall",
+      component:() => import('@/views/admin/booking/allbooking.vue')
+    },
     
 
   ],
