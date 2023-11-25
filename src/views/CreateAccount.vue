@@ -18,7 +18,7 @@
       <form class="form-control">
         <label for="fname">Name :</label>
 
-        <input class="input-form" type="text" v-model="member.name" @input="validateField('name', 'member')"
+        <InputText class="input-form" type="text" v-model="member.name" @input="validateField('name', 'member')"
           placeholder="name" />
         <span class="error-message">{{ errors.name }}</span>
         <div class="input-content">
