@@ -1,21 +1,24 @@
 
 <template>
-    <div class="grid px-10 mt-3 ml-5 mr-5" >
-      <div class="col-12 lg:col-12 border">
-        <div class="text-center text-2xl">ประเภทห้อง</div>
-        <div class="text-right my-5">
-          <router-link to="/addroomtype" @click="isAddTypeModalOpen = true">
+  <div class="grid px-10 mt-3 ml-5 mr-5">
+    <div class="col-12 lg:col-12 border">
+      <div class="text-center text-2xl">ประเภทห้อง</div>
+      <div class="text-right my-5">
+      <!-- <router-link to="/addroomtype" @click="isAddTypeModalOpen = true">
             <Button  label="เพิ่มประเภทห้อง" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" />
-          </router-link>
-        </div>
-        <DataTable
-        :value="Array.isArray(item_product) ? item_product : []"
-        :paginator="true"
-        :rows="20"
+                                                      </router-link> -->
+        <AddRoomtype />
+      </div>
+      <div v-if="isAddTypeModalOpen" class="modal-styles flex flex-col">
+        <h1>Modal</h1>
+        <input type="text">
+        <!-- โค้ดอื่น ๆ ของ Modal -->
+        <button @click="closeAddTypeModal">ปิด</button>
+      </div>
+      <DataTable :value="Array.isArray(item_product) ? item_product : []" :paginator="true" :rows="20"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
-        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด"
-        responsiveLayout="stack">
+        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด" responsiveLayout="stack">
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
         <template #empty>
           <p class="font-italic text-center text-5xl" style="color: #bd1616">
@@ -26,36 +29,32 @@
         <Column field="name" header="ชื่อ" style="width: 20%;"></Column>
         <Column field="description" class="" header="รายละเอียด" style="width: 20%;"> </Column>
 
-        <Column
-          :exportable="false"
-          class=""
-          header="เพิ่มเติม"
-          style="width: 10%">
+        <Column :exportable="false" class="" header="เพิ่มเติม" style="width: 10%">
 
           <template #body="item">
-            <!-- <updateadmin title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/> -->
-            <updatetype title="แก้ไขข้อมูล" :_id="item.data._id" :data="item.data"/>
-            <Button
-            @click="deleteProduct(item.data._id)"
+            <updatetype :data="item.data" title="แก้ไขประเภทที่พัก" />
+            <Button @click="deleteProduct(item.data._id)"
               class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
               style="background-color: #C21010">ลบ</Button>
           </template>
         </Column>
       </DataTable>
-      </div>
     </div>
+  </div>
 </template>
 
 <script>
- import axios from "axios";
- import { onMounted, ref } from "vue";
- import Swal from "sweetalert2";
- import updatetype from '@/views/admin/manageRoom/EditRoom.vue'
+import axios from "axios";
+import { onMounted, ref } from "vue";
+import Swal from "sweetalert2";
+import updatetype from '@/views/admin/manageRoom/EditRoom.vue'
+import AddRoomtype from "./AddRoomtype.vue";
 
 export default {
   props: ['isAddTypeModalOpen'],
   components: {
-    updatetype
+    updatetype,
+    AddRoomtype
   },
   created() {
     document.title = "จัดการประเภทห้อง";
@@ -112,10 +111,10 @@ export default {
         }
       } catch (error) {
         await Swal.fire({
-            icon: "error",
-            title: "เกิดข้อผิดพลาด",
-            text: "ไม่สามารถลบข้อมูลได้",
-          });
+          icon: "error",
+          title: "เกิดข้อผิดพลาด",
+          text: "ไม่สามารถลบข้อมูลได้",
+        });
       }
     };
     onMounted(() => {
@@ -130,17 +129,17 @@ export default {
     };
 
   },
-    name: 'RoomDetail',
-    methods:{
-      closeAddTypeModal() {
-        this.isAddTypeModalOpen, false;
+  name: 'RoomDetail',
+  methods: {
+    closeAddTypeModal() {
+      this.isAddTypeModalOpen, false;
     },
-    }
-  };
+  }
+};
 </script>
 
 <style>
-.modal-styles{
+.modal-styles {
   flex-direction: column;
   align-items: center;
 }

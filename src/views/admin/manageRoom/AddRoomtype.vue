@@ -1,7 +1,11 @@
 <template>
+  <Button @click="onclick = true" class="bg-green-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-2"
+    label="เพิ่มประเภทห้อง" />
+
+  <Dialog header="เพิ่มประเภทห้อง" v-model:visible="onclick" modal :style="{ width: '50rem' }"
+    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
     <div class="grid px-10 mt-3">
       <div class="col-12 lg:col-12 ">
-        <center class="text-xl">เพิ่มประเภทห้อง</center>
         <form class="w-full ">
           <div class="flex flex-wrap -mx-3 mb-6 w-full">
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -24,72 +28,75 @@
           <div class="md:flex md:items-center">
             <div class="md:w-1/3"></div>
             <div class="md:w-1/3">
-              <button @click="addroomtype" class="w-full px-4 py-2 bg-blue-500 text-white text-center hover:bg-purple-400 rounded" type="button">เพิ่มข้อมูล</button>
+              <Button @click="addroomtype" label="เพิ่มข้อมูล"
+                class="w-full px-4 py-2 bg-blue-500 text-white text-center hover:bg-purple-400 rounded" type="button" />
             </div>
             <div class="md:w-1/3"></div>
           </div>
         </form>
       </div>
     </div>
-  </template>
+  </Dialog>
+</template>
   
-  <script>
-  import axios from "axios";
-  import Swal from "sweetalert2";
-  
-  export default {
-    name: 'AddRoomtype',
-    data(){
-      return {
-        name:"",
-        description:"",
-      }
-    },
-    methods: {
-      async addroomtype(){
-        if (this.name === "" || this.description === null || this.description === "")  {
-          await Swal.fire({
-              icon: "error",
-              title: "กรุณากรอกข้อมูลให้ครบ",
-              text: "กรุณากรอกข้อมูลให้ครบ",
-            });
-        }else{
-          try {
-            const res = await axios.post(`${process.env.VUE_APP_API}room/type`, {
-              name:this.name,
-              description:this.description,
-              roles:"admin",
-              level:"1"
-            },{
-              headers: {
-                token: localStorage.getItem("token"),
-              },
-            });
-            if (res.data) {
-              Swal.fire({
+<script>
+import axios from "axios";
+import Swal from "sweetalert2";
+
+export default {
+  name: 'AddRoomtype',
+  data() {
+    return {
+      onclick: false,
+      name: "",
+      description: "",
+    }
+  },
+  methods: {
+    async addroomtype() {
+      if (this.name === "" || this.description === null || this.description === "") {
+        await Swal.fire({
+          icon: "error",
+          title: "กรุณากรอกข้อมูลให้ครบ",
+          text: "กรุณากรอกข้อมูลให้ครบ",
+        });
+      } else {
+        try {
+          const res = await axios.post(`${process.env.VUE_APP_API}room/type`, {
+            name: this.name,
+            description: this.description,
+            roles: "admin",
+            level: "1"
+          }, {
+            headers: {
+              token: localStorage.getItem("token"),
+            },
+          });
+          if (res.data) {
+            Swal.fire({
               icon: "success",
               title: "บันทึกสำเร็จ",
               text: "ข้อมูลถูกบันทึกเรียบร้อย",
             });
             this.$router.push("/roomdetail");
-            } else {
-              await Swal.fire({
-                icon: "error",
-                title: "เกิดข้อผิดพลาด",
-                text: "ไม่สามารถลบข้อมูลได้",
-            });
-            }
-          }catch(error){
+          } else {
             await Swal.fire({
               icon: "error",
               title: "เกิดข้อผิดพลาด",
               text: "ไม่สามารถลบข้อมูลได้",
             });
           }
+        } catch (error) {
+          await Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด",
+            text: "ไม่สามารถลบข้อมูลได้",
+          });
         }
       }
-    },
-  };
-  </script>
+    }
+  },
+};
+</script>
   
   
