@@ -1,19 +1,10 @@
 <template>
-  <Button
-    @click="getdata"
-    class="hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-2"
-    style="background-color: #ff7315"
-    :label="title"
-    :loading="loading"
-  />
+  <Button @click="getdata" class="hover:bg-orange-700 border-0 text-white font-bold py-2 px-4 rounded mx-2"
+    style="background-color: #ff7315" :label="title" :loading="loading" />
 
   <!--eslint-disable-next-line vue/no-multiple-template-root -->
-  <Dialog
-    v-model:visible="sidebar"
-    modal
-    :style="{ width: '50rem' }"
-    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
-  >
+  <Dialog v-model:visible="sidebar" modal :style="{ width: '50rem' }"
+    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
     <div class="grid">
       <div class="col-12 text-center">
         <h2>HOTEL PARTNER</h2>
@@ -28,19 +19,11 @@
           </div>
           <div class="col-12">
             <p>รายละเอียด :</p>
-            <InputText
-              v-model="description"
-              name="description"
-              class="w-full"
-            />
+            <InputText v-model="description" name="description" class="w-full" />
           </div>
           <div class="col-12">
             <p>เบอร์โทรศัพท์ :</p>
-            <InputText
-              v-model="phone_number"
-              name="phone_number"
-              class="w-full"
-            />
+            <InputText v-model="phone_number" name="phone_number" class="w-full" />
           </div>
           <div class="col-12">
             <p>ราคา :</p>
@@ -48,15 +31,8 @@
           </div>
           <div class="col-12">
             <p>ประเภทห้องพัก:</p>
-            <Dropdown
-              name="type"
-              v-model="type"
-              :options="cities"
-              optionLabel="name"
-              optionValue="_id"
-              placeholder="เลือกประเภทห้องพัก"
-              class="w-full"
-            />
+            <Dropdown name="type" v-model="type" :options="cities" optionLabel="name" optionValue="_id"
+              placeholder="เลือกประเภทห้องพัก" class="w-full" />
           </div>
           <div class="col-12">
             <p>จำนวนผู้เข้าพัก :</p>
@@ -82,39 +58,25 @@
             <p>จังหวัด :</p>
             <Dropdown
               class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
-              v-model="province"
-              :options="provincedropdown.value"
-              optionLabel="name_th"
-              optionValue="name_th"
-              placeholder="เลือกจังหวัด"
-              @change="getamphure('amphure')"
-            />
+              v-model="province" :options="provincedropdown.value" optionLabel="name_th" optionValue="name_th"
+              placeholder="เลือกจังหวัด" @change="getamphure('amphure')" />
           </div>
           <div class="col-12">
             <p>อำเภอ :</p>
             <Dropdown
               class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
-              v-model="amphure"
-              :options="amphuredropdown.value"
-              optionLabel="name_th"
-              optionValue="name_th"
-              placeholder="เลือกอำเภอ"
-              @change="getamphure('tambon')"
-            />
+              v-model="amphure" :options="amphuredropdown.value" optionLabel="name_th" optionValue="name_th"
+              placeholder="เลือกอำเภอ" @change="getamphure('tambon')" />
           </div>
           <div class="col-12">
             <p>ตำบล :</p>
             <Dropdown
-            class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
-              v-model="tambon"
-              :options="tambondropdown.value"
-              optionLabel="name_th"
-              optionValue="name_th"
-              placeholder="เลือกตำบล"
-            />
+              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              v-model="tambon" :options="tambondropdown.value" optionLabel="name_th" optionValue="name_th"
+              placeholder="เลือกตำบล" />
           </div>
-         
-         
+
+
           <!-- <div class="col-12">
             <p>รหัสพาร์ทเนอร์ :</p>
             <InputText
@@ -160,7 +122,6 @@ export default {
             },
           }
         );
-        console.log(response.data, "list ");
 
         if (response.data) {
           cities.value = response.data;
@@ -230,31 +191,27 @@ export default {
             headers: { token: localStorage.getItem("token") },
           }
         );
-        console.log(response.data, "data");
-          this.name = response.data?.name
-          this.description = response.data?.description
-          this.phone_number = response.data?.phone_number
-          this.price = response.data?.price
-          this.type = response.data?.type._id
-          this.guests = response.data?.guests
-          this.bedroom = response.data?.bedroom
-          this.bed = response.data?.bed
-          this.bathroom = response.data?.bathroom
-          this.address = response.data?.address         
-          this.province = response.data?.province
-          const getamphure = await this.getamphure("amphure")
-          if(getamphure == true)
-          {
-            console.log(this.amphuredropdown)
-            this.amphure = response.data?.amphure
-          }       
-          const gettambon = await this.getamphure("tambon")
-          if(gettambon == true)
-          {
-            this.tambon = response.data?.tambon
-          }
-          
-          
+        this.name = response.data?.name
+        this.description = response.data?.description
+        this.phone_number = response.data?.phone_number
+        this.price = response.data?.price
+        this.type = response.data?.type._id
+        this.guests = response.data?.guests
+        this.bedroom = response.data?.bedroom
+        this.bed = response.data?.bed
+        this.bathroom = response.data?.bathroom
+        this.address = response.data?.address
+        this.province = response.data?.province
+        const getamphure = await this.getamphure("amphure")
+        if (getamphure == true) {
+          this.amphure = response.data?.amphure
+        }
+        const gettambon = await this.getamphure("tambon")
+        if (gettambon == true) {
+          this.tambon = response.data?.tambon
+        }
+
+
       } catch (error) {
         console.log(error);
       }

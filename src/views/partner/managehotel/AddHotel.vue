@@ -128,7 +128,7 @@
               for="grid-first-name">เพิ่มรูปภาพ :
             </label>
             <FileUpload name="demo[]" url="/api/upload" id="fileinput" ref="fileinput" type="file"
-              class="custom-file-upload" @change="handleFileChange" accept="image/*">
+              class="custom-file-upload" @change="handleFileChange" accept="image/*" multiple>
               <template #empty>
                 <p>Upload File Picture</p>
               </template>
@@ -224,7 +224,7 @@ export default {
       tambon: "",
       amphure: "",
       province: "",
-      image: "",
+      image: [],
       status: "false",
       approve: "[]",
       statusbooking: "false",
@@ -234,8 +234,7 @@ export default {
     handleFileChange(event) {
       const input = this.$refs.fileinput;
       if (input.files && input.files.length > 0) {
-        this.image = input.files[0];
-        //this.validateField("filepic", "partner");
+        this.image = Array.from(input.files);
       }
     },
 
@@ -270,7 +269,9 @@ export default {
         );
         if (res.data.status === true) {
           console.log(res.data.data._id)
+          // for (const images of this.image) {
           await this.uploadPicture(res.data.data._id);
+          // }
           Swal.fire({
             icon: "success",
             title: "บันทึกสำเร็จ",
@@ -295,9 +296,11 @@ export default {
       }
     },
     //// uploadfile picture
-    async uploadPicture(_id) {
+    async uploadPicture(_id,) {
       const formData = new FormData();
-      formData.append("imgCollection", this.image);
+      for (const images of this.image) {
+        formData.append("imgCollection", images); // Fix this line
+      }
       try {
         const upimage = await axios.post(
           `${process.env.VUE_APP_API}room/picture/${_id}`,

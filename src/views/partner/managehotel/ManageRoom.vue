@@ -48,9 +48,9 @@
           <template #body="item">
 
             <div v-if="item.data.status === true">
-              <EditHotel title="แก้ไขข้อมูล" :partner_id="item.data._id" :data="item.data" />
+              <EditHotel title="แก้ไขข้อมูล" :data="item.data" />
               <Button @click="deleteProduct(item.data._id)"
-                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                class="bg-red-500 border-0 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                 style="background-color: #C21010">ลบ</Button>
             </div>
             <div v-else>
