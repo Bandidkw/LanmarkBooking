@@ -69,7 +69,7 @@ export default {
           { id: 1, label: "แก้ไขข้อมูล", route: "/" },
         ],
       },
-      menubars: [{ label: "ข้อมูลการจอง", to: "/bookingmember" }],
+      menubars: [{label:"เช็คอิน-เช็คเอาท์",to:"/checkin-out"},{ label: "ข้อมูลการจอง", to: "/bookingmember" }],
     };
   },
   methods : {
