@@ -5,7 +5,7 @@
       <div class="login-box" @click="showPopup">
         <i class="bi bi-list"></i>
         <button type="button" class="log-icon">
-          <i class="bi bi-person-fill bg-white icon-log"></i>
+          <i class="bi bi-person-fill icon-log"></i>
         </button>
       </div>
     </div>
