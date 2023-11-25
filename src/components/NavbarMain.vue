@@ -5,7 +5,7 @@
       <img src="/logo/lanmark-logo-navbar.png" alt="" />
     </router-link>
 
-    <div>
+    <div class="search-box">
       <span class="p-input-icon-right">
         <i class="pi pi-search" />
         <InputText placeholder="Search" class="search-box" />
@@ -63,5 +63,11 @@ export default {
 
 .topweb-right p {
   margin: 0;
+}
+
+@media screen and (max-width:768px) {
+  .search-box{
+    display: none;
+  }
 }
 </style>

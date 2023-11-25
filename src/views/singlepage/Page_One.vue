@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col px-40">
+  <div class="container flex flex-col px-40">
   <div class="container px-20 py-4 ">
     <div class="px-40 text-center ">    
       <h1 class="text-2xl">{{roomdata.name}}</h1>
@@ -8,6 +8,17 @@
   <div class="p-5 w-2/4"> 
     <img class="w-full" :src="getImage(roomdata.image)" alt="Large Image" />
   </div>
+  <!-- <div class="card">
+        <Galleria :value="roomdata.image" :responsiveOptions="responsiveOptions" :numVisible="5" :circular="true" containerStyle="max-width: 640px"
+            :showItemNavigators="true" :showThumbnails="false" :showItemNavigatorsOnHover="true" :showIndicators="true">
+            <template #item="slotProps">
+                <img :src="getImage(slotProps.item)" :alt="slotProps.item.alt" style="width: 100%; display: block;" />
+            </template>
+            <template #thumbnail="slotProps">
+                    <img :src="getImage(slotProps.item)" :alt="slotProps.item.alt" style="display: block;" />
+            </template>
+        </Galleria>
+    </div> -->
 
   <!-- eslint-disable-next-line vue/no-multiple-template-root -->
   <div class="flex pt-4 px-5 justify-between border h-[850px]">
@@ -281,5 +292,10 @@ export default {
 
 .available {
   background-color: #2ecc71;
+}
+
+@media screen and (max-width:768px) {
+  
+  
 }
 </style>

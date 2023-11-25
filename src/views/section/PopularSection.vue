@@ -15,7 +15,7 @@
         <div class="details-container">
           <h2 class="text-xl m-0 font-semibold">{{ item.name }}</h2>
           <p class="text-base my-1">{{ item.description }}</p>
-          <p class="text-base font-bold">Price: {{ item.price }} บาท</p>
+          <p class="text-base font-bold">ราคา: {{ item.price }} บาท/คืน</p>
         </div>
       </div>
     </div>
@@ -64,8 +64,8 @@ import { onMounted,ref} from "vue";
   .grid-container {
     display: grid;
     grid-template-columns: repeat(6,1fr);
-    grid-template-rows: repeat(3,350px);
-    gap: 1rem;
+    grid-template-rows: repeat(4,350px);
+    gap: 0.5rem;
   }
   .grid-item {
     padding: 16px;

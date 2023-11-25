@@ -116,7 +116,7 @@ export default {
 <style scoped>
 .invitatain {
   width: 100%;
-  padding: 0 5rem 1rem 5rem;
+  padding: 0 3rem 1rem 3rem;
   display: flex;
   flex-direction: column;
 }

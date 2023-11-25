@@ -177,4 +177,9 @@ label {
   cursor: pointer;
 
 }
+@media screen and (max-width:640px) {
+  .topweb-right p{
+    display: none;
+  }
+}
 </style>
