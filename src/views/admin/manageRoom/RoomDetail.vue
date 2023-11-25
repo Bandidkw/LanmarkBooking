@@ -8,12 +8,6 @@
             <Button  label="เพิ่มประเภทห้อง" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" />
           </router-link>
         </div>
-        <div v-if="isAddTypeModalOpen" class="modal-styles flex flex-col">
-            <h1>Modal</h1>
-    <input type="text">
-    <!-- โค้ดอื่น ๆ ของ Modal -->
-    <button @click="closeAddTypeModal">ปิด</button>
-  </div>
         <DataTable
         :value="Array.isArray(item_product) ? item_product : []"
         :paginator="true"

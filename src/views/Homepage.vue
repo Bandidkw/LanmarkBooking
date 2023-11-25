@@ -1,51 +1,35 @@
 <!-- Content.vue -->
 <template>
   <div class="invitatain">
-
-    <!-- ------------------------- search-box ------------------------- -->
-  <!-- <div class="search-box-cus">
-        <div class="input-group">
-          <div class="search">
-            <input type="text" class="form-control" placeholder="ค้นหาที่พักหรือโรงแรม"
-              aria-label="Recipient's username" />
-          </div>
-          <div class="input-group-append">
-            <button class="btn-search btn-outline-secondary" type="button">
-              <i class="bi bi-search"></i>
-            </button>
-          </div>
-        </div>
-                                              </div> -->
-
     <!------------------------------- choose-room ------------------------>
     <div class="choose-room">
       <div class="room">
         <i class="bi bi-house-door"></i>
-        <a @click="createAccount">อพาร์ทเม้นท์</a>
+        <a @click="createaccount">อพาร์ทเม้นท์</a>
       </div>
       <div class="room">
         <i class="bi bi-house"></i>
-        <a @click="createAccount">ห้องพักทั่วไป</a>
+        <a @click="createaccount">ห้องพักทั่วไป</a>
       </div>
       <div class="room">
         <i class="bi bi-building"></i>
-        <a @click="createAccount">คอนโด</a>
+        <a @click="createaccount">คอนโด</a>
       </div>
       <div class="room">
         <i class="bi bi-tsunami"></i>
-        <a @click="createAccount">ริมทะเล</a>
+        <a @click="createaccount">ริมทะเล</a>
       </div>
       <div class="room">
         <i class="bi bi-tree"></i>
-        <a @click="createAccount">ป่า-เขา</a>
+        <a @click="createaccount">ป่า-เขา</a>
       </div>
       <div class="room">
         <i class="bi bi-brightness-alt-high"></i>
-        <a @click="createAccount">เกาะ</a>
+        <a @click="createaccount">เกาะ</a>
       </div>
       <div class="room">
         <i class="bi bi-houses"></i>
-        <a @click="createAccount">คฤหาสน์</a>
+        <a @click="createaccount">คฤหาสน์</a>
       </div>
       <!----------------------------------------- Filter-box ------------------------------->
       <div class="filter">
@@ -90,10 +74,10 @@
     </div>
     <!-------------------------- popular-section --------------------------->
     <div class="poppular-box">
-      <div class="poppular-info">
+      <!-- <div class="poppular-info">
         <h3>POPULAR</h3>
-        <i class="bi bi-award-fill text-warning p-0"></i>
-      </div>
+        <i class="bi bi-award-fill p-0"></i>
+      </div> -->
       <PopularSection />
     </div>
   </div>
@@ -305,8 +289,9 @@ i {
 }
 
 .poppular-info i {
+  margin-bottom: 1.5rem;
   font-size: 1.5rem;
-  /* color: #ffb703; */
+  color: #ffb703;
 }
 
 .content {
