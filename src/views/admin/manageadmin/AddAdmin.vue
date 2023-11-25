@@ -1,5 +1,5 @@
 <template>
-  <div class="grid px-10 mt-3">
+  <div class="grid px-24 py-4 mt-3">
     <div class="col-12 lg:col-12 ">
       <center class="text-xl">เพิ่มข้อมูล admin</center>
       <form class="w-full ">
@@ -26,15 +26,15 @@
             </label>
             <input
               class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-first-name" type="text" placeholder="Jane" v-model="name">
+              id="grid-first-name" type="text" placeholder="Name" v-model="name">
           </div>
         </div>
         <div class="md:flex md:items-center">
-          <div class="md:w-1/3"></div>
+          <!-- <div class="md:w-1/3"></div> -->
           <div class="md:w-1/3">
-            <button @click="addadmin" class="w-full px-4 py-2 bg-blue-500 text-white text-center hover:bg-purple-400 rounded" type="button">เพิ่มข้อมูล</button>
+            <button @click="addadmin" class="addAdmin_btn w-full px-4 py-2 bg-blue-500 delay-1000 text-white text-center hover:bg-blue-700 border-none cursor-pointer" type="button">เพิ่มข้อมูล</button>
           </div>
-          <div class="md:w-1/3"></div>
+          <!-- <div class="md:w-1/3"></div> -->
         </div>
 
       </form>
@@ -103,3 +103,11 @@ export default {
 };
 </script>
 
+<style>
+
+.addAdmin_btn{
+  height: 2.5rem;
+  border-radius: 1rem;
+}
+
+</style>

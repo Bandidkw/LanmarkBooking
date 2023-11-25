@@ -13,9 +13,9 @@
         </div>
         </router-link>
         <div class="details-container">
-          <h2>{{ item.name }}</h2>
-          <p>{{ item.description }}</p>
-          <p>Price: {{ item.price }} บาท</p>
+          <h2 class="text-xl m-0 font-semibold">{{ item.name }}</h2>
+          <p class="text-base my-1">{{ item.description }}</p>
+          <p class="text-base font-bold">Price: {{ item.price }} บาท</p>
         </div>
       </div>
     </div>
@@ -101,13 +101,6 @@ import { onMounted,ref} from "vue";
 }
   .details-container {
     margin-top: 1rem;
-  }
-  .details-container h2{
-    font-size: 1.2rem;
-  }
-  .details-container p{
-    font-size: 0.8rem;
-    font-weight: 300;
   }
 
 @media screen and (max-width:1440px) {

@@ -86,12 +86,10 @@
             <button
               @click="addbooking"
               class="px-4 py-2 bg-blue-500 text-white text-center hover:bg-purple-400 rounded w-full"
-              type="button"
-            >
-               จอง
+              type="button">จอง
             </button>
           </div>
-        </div>
+      </div>
   </div>
   </div>
 </div>
@@ -229,7 +227,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
