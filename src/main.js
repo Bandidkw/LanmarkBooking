@@ -42,6 +42,8 @@ import Password from 'primevue/password';
 import Textarea from "primevue/textarea";
 import FileUpload from 'primevue/fileupload';
 import Image from 'primevue/image';
+import Galleria from 'primevue/galleria';
+
 //////---datepicker--//////
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
@@ -93,8 +95,9 @@ app.component("VueDatePicker", VueDatePicker);
 app.component("Textarea", Textarea);
 app.component("InputSwitch", InputSwitch);
 app.component("SelectButton", SelectButton);
-app.component("FileUpload", FileUpload)
-app.component("Image",Image)
+app.component("FileUpload", FileUpload);
+app.component("Image", Image);
+app.component("Galleria", Galleria);
 
 
 
