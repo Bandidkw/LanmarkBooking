@@ -19,7 +19,7 @@
         <Column field="partner_id.name" header="ชื่อ partner" style="width: 10%"></Column>
         <Column field="image" header="Picture" style="width: 15%">
           <template #body="{ data }">
-            <img v-if="Array.isArray(data.image) && data.image.length > 0" :src="getImage(data.image)" alt="ID Card"
+            <img v-if="Array.isArray(data.image) && data.image.length > 0" :src="getImage(data.image[0])" alt="ID Card"
               width="200" style="max-width: 100%; height: auto" />
 
             <div v-else>ไม่มีรูปภาพ</div>
@@ -85,9 +85,26 @@
       <div class="col-12 md:col-12">
         <form>
           <div class="col-12 flex justify-content-center">
+            <Galleria v-model:visible="displayBasic" :value="image" :responsiveOptions="responsiveOptions" :numVisible="9"
+              containerStyle="max-width: 50%" :circular="true" :showItemNavigators="true"
+              :showThumbnailNavigators="false">
+              <template v-slot:item="{ item }">
+                <img :src="getImage(item)" :alt="item.alt" style="width: 100%; display: block" />
+              </template>
+              <template v-slot:thumbnail="{ item }">
+                <img :src="getImage(item)" :alt="item.alt" style=" display: block ;width:50px ;height:50px " />
+              </template>
+            </Galleria>
+          </div>
+
+
+          <!-- <div class="col-12 flex justify-content-center">
             <img v-if="image" :src="getImage(image)" alt="ID Card" style="  max-width: 50%; height: 50%" />
             <div v-else>ไม่มีรูปภาพ</div>
-          </div>
+          </div> -->
+
+
+
           <div class="col-12">
             <p> ชื่อโรงแรม:</p>
             <InputText v-model="name" class="w-full text-black-950 font-bold" style="color:#000" disabled />
@@ -186,6 +203,7 @@ export default {
     const tambon = ref("");
     const amphure = ref("");
     const province = ref("");
+    const displayBasic = ref(true)
     ///////
 
     const item_product = ref([]);
@@ -303,6 +321,24 @@ export default {
 
       }
     };
+    const responsiveOptions = ref([
+      {
+        breakpoint: "1500px",
+        numVisible: 5,
+      },
+      {
+        breakpoint: "1024px",
+        numVisible: 3,
+      },
+      {
+        breakpoint: "768px",
+        numVisible: 2,
+      },
+      {
+        breakpoint: "560px",
+        numVisible: 1,
+      },
+    ]);
 
     onMounted(() => {
       getData();
@@ -330,20 +366,21 @@ export default {
       address,
       tambon,
       amphure,
-      province
+      province,
+      displayBasic,
+      responsiveOptions
     };
   },
   methods: {
     getImage(item) {
-      if (typeof item === 'string') {
+      if (typeof item === "string") {
         return `https://drive.google.com/uc?export=view&id=${item}`;
       } else if (Array.isArray(item) && item.length > 0) {
-        const firstImageId = item[0];
-        return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
+        return item.map((imageId) => `https://drive.google.com/uc?export=view&id=${imageId}`);
       } else {
         return "";
       }
-    }
+    },
   },
 };
 </script>

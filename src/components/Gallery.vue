@@ -1,7 +1,8 @@
 <template>
   <div class="card flex justify-content-center">
     <Galleria v-model:visible="displayBasic" :value="image" :responsiveOptions="responsiveOptions" :numVisible="9"
-      containerStyle="max-width: 50%" :circular="true" :fullScreen="true" :showItemNavigators="true">
+      containerStyle="max-width: 50%" :circular="true" :fullScreen="true" :showItemNavigators="true"
+      :showThumbnailNavigators="false">
       <template v-slot:item="{ item }">
         <img :src="getImage(item)" :alt="item.alt" style="width: 80%; display: block" />
       </template>
@@ -11,7 +12,7 @@
     </Galleria>
 
     <Button label="รูปภาพ" class="hover:bg-blue-700" style="background-color: #3bb2f6; border:none" icon="pi pi-eye
-    " @click="displayBasicFunc" />
+            " @click="displayBasicFunc" />
   </div>
 </template>
 
