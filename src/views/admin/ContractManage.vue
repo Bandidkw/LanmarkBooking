@@ -1,10 +1,63 @@
 <template>
-    <div class="grid px-10 mt-3">
-      <div class="col-12 lg:col-12 border">
-        <center><h1>DashBoard Partner</h1></center>
-      </div>
+  <div class="grid px-10 mt-3 ml-5 mr-5">
+    <div class="col-12 lg:col-12 border">
+      <div class="text-center font-bold text-4xl">สัญญาของpartner</div>
+      <div class="text-right my-5"></div>
+
+      <DataTable :value="Array.isArray(item_product) ? item_product : []" :paginator="true" :rows="20"
+        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+        :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
+        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด" responsiveLayout="stack">
+        <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
+
+        <template #empty>
+          <p class="font-italic text-center text-5xl" style="color: #bd1616">
+            ไม่พบข้อมูลสัญญา
+          </p>
+        </template>
+
+        <Column field="partner_id.name" header="ชื่อพาร์ทเนอร์" style="width: 14%"></Column>
+        <Column field="" class="" header="เวลาที่ยืนยัน" style="width: 14%">
+            <template #body="{data}">
+                <div v-if="data.time !=null">
+                     {{new Date(data.time).toLocaleString('th-TH',{ timeZone: 'Asia/Bangkok'})}} 
+                </div>
+                <div v-else>
+                    ยังไม่ได้ยืนยัน
+                </div>
+          </template>
+        </Column>
+        <Column class="" header="สถานะอนุมัติ" style="width: 25%">
+          <template #body="{ data }">
+            <div class="w-2/4 bg-red-500 flex justify-content-center"
+              style=" width: 35%; border-radius: 1rem; padding: 0.5rem;"
+              v-if="data.status === false">
+              <div class="font-bold" style="color: #fff;">
+                    ยังไม่ได้ยืนยันสัญญา
+              </div>
+            </div>
+            <div class="w-2/4 bg-green-500 flex justify-content-center"
+              style=" width: 35%; border-radius: 1rem; padding: 0.5rem;"
+              v-if="data.status === true">
+              <div class="text-white font-bold">
+                 ได้ยืนยันสัญญาแล้ว
+              </div>
+            </div>
+            <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
+          </template>
+        </Column>
+        <Column header="รายละเอียด" style="width: 10%;">
+          <template #body="{ data }">
+            <Button @click="showPartnerDetail(data)"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">รายละเอียด</Button>
+
+          </template>
+
+        </Column>
+      </DataTable>
     </div>
-  <Dialog v-model:visible="sidebar"  :closable="false" modal :style="{ width: '100rem' }"
+  </div>
+  <Dialog v-model:visible="DetailPartner" modal :style="{ width: '50rem' }"
     :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
     <template v-slot:header>
       <div style="text-align: center; font-size: 1.5rem; font-weight: bold;">
@@ -53,19 +106,27 @@
           </p>
           <!--- -->
           <h3  style="text-indent: 1em;">เอกสารที่ทางคู่ค้าต้องเตรียมให้กับทางlanmark.com</h3>
-          <ul>
+          <ul class="mb-5">
             <li>สำเนาบัตรประจำตัวประชาชนของผู้มีอำนาจลงนามพร้อมลงลายมือชื่อรับรองสำเนาถูกต้อง</li>
             <li>สำเนาบัญชีสมุดธนาคารที่จะให้ทางlanmark.com โอนเงินชำระค่าบริการ พร้อมลงลายมือชื่อรับรองสำเนาถูกต้อง</li>
           </ul>
-
-
-
+          
+        <div class="grid">
+            <div class="col-6 text-center " style="display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                ลงชื่อ ลายเซ็นของ lanmark<br>
+                (นาย ..... .......)<br>
+                lanmark.com
+            </div>
+            <div class="col-6 text-center" style="display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                ลงชื่อ {{Datacontract.signature}}<br>
+                ({{Datacontract.signature}})<br>
+                ผู้ลงนามสัญญา
+            </div>
         </div>
-      </div>
-      <div class="grid mt-5"> 
-        <div class="col-12 md:col-12 text-center">
-            <Button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2 boeder-none" @click="approve(datacontract._id)">คุณยินยอมสัญญา</Button>
-            <Button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" @click="unapprove()">ไม่ยืนยันสัญญา</Button>
+
+
+         
+           
         </div>
       </div>
   </Dialog>
@@ -73,99 +134,81 @@
 
 <script>
 import axios from "axios";
+import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
+
 export default {
-  name: 'DashboardPartner',
-  data(){
-    return {
-      sidebar: false,
-      datacontract:""
-      }
+
+  components: {},
+
+  created() {
+    document.title = "ข้อมูล partner";
   },
-   mounted() {
-    this.getcontract(); // เรียกใช้งาน getcontract เมื่อคอมโพเนนต์ถูกสร้างขึ้น
-  },
-  methods:{
-    async getcontract(){
+
+  setup() {
+    // const partnerDetail = ref(null);
+    const DetailPartner = ref(false);
+    const Datacontract = ref([])
+
+    const item_product = ref([]);
+    const getData = async () => {
+      console.log(DetailPartner, "status dialog before click button ");
+
       try {
-        const Response = await axios.get(`${process.env.VUE_APP_API}contract/partner/`,
+        const productResponse = await axios.get(
+          `${process.env.VUE_APP_API}contract/`,
           {
             headers: {
               token: localStorage.getItem("token"),
             },
-          });
-          console.log(Response.data.message)
-        if (Response.data.status === true) {
-          this.datacontract = Response.data.data;
-          if(Response.data.data.status===true)
-          {
-            this.sidebar= false
-          }else{
-            this.sidebar = true
           }
-          console.log(Response.data.data);
-        } 
-        else if(Response.data.message==="ไม่มีข้อมูล contract"){
-          console.log("ยังไม่สร้าง contract")
-          await this.addcontract();
-        }else {
-          console.error("Data is missing in the API response.");
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    async addcontract(){
-      try {
-        const Response = await axios.post(`${process.env.VUE_APP_API}contract/`,{},
-          {
-            headers: {
-              token: localStorage.getItem("token"),
-            },
-          });
+        );
 
-        if (Response.data.status === true) {
-          this.datacontract = Response.data.data;
-          console.log("สร้าง")
-          console.log(Response.data.data);
-          this.sidebar = true
+        if (productResponse.data && productResponse.data) {
+          item_product.value = productResponse.data.data.reverse();
+          console.log(productResponse.data.data);
         } else {
           console.error("Data is missing in the API response.");
         }
       } catch (error) {
         console.error(error);
       }
-    },
-     async approve(id){
-        try {
-        const Response = await axios.put(`${process.env.VUE_APP_API}contract/accept/${id}`,{},
-          {
-            headers: {
-              token: localStorage.getItem("token"),
-            },
-          });
+    };
+  
+    const showPartnerDetail = async (data) => {
 
-        if (Response.data.status === true) {
-            this.sidebar = false
-        } else {
-          console.error("Data is missing in the API response.");
-        }
-      } catch (error) {
-        console.error(error);
+
+      DetailPartner.value = true;
+      Datacontract.value = data
+      console.log(Datacontract.value)
+    }
+
+
+    onMounted(() => {
+      getData();
+    });
+
+    return {
+      item_product,
+      getData,
+      Datacontract,
+      showPartnerDetail,
+      DetailPartner,
+
+    };
+  },
+
+  methods: {
+    getImage(item) {
+      if (typeof item === 'string') {
+        return `https://drive.google.com/uc?export=view&id=${item}`;
+      } else if (Array.isArray(item) && item.length > 0) {
+        const firstImageId = item[0];
+        return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
+      } else {
+        return "";
       }
-     },
-     async unapprove (){
-        
-        localStorage.clear();
-        this.$store.commit("setLoginDefault");
-        Swal.fire({
-          icon: "error",
-          title: "กรุณายินยอมสัญญาก่อน",
-          text: "ถ้าคุณไม่ยินยอมสัญญาจะไม่สามารถเข้าใช้งานได้",
-        });
-        this.$router.push("/");
-
-     }
-  }
-  };
+    },
+  },
+};
 </script>

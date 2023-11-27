@@ -175,7 +175,12 @@ const router = createRouter({
       name: "editmember",
       component: () => import('@/views/member/managemember/EditMember.vue')
     },
-
+    {
+      path: "/contractmanage",
+      name: "contractmanage",
+      component: () => import('@/views/admin/ContractManage.vue')
+    },
+    
 
   ],
 });

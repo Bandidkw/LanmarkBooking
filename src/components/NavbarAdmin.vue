@@ -134,7 +134,9 @@ export default {
         partner: [
           { id: 3, label: "อนุมัติ partner", route: "/approvepartner" },
           { id: 4, label: "อนุมัติห้อง partner", route: "approveroom" },
-          { id: 5, label: "จัดการข้อมูล partner", route: "/managepartner" }
+          { id: 5, label: "จัดการข้อมูล partner", route: "/managepartner" },
+          { id: 7, label: "สัญญา partner", route: "/contractmanage" }
+          
         ],
         member: [
           { id: 6, label: "จัดการข้อมูล member ", route: "/managemember" },

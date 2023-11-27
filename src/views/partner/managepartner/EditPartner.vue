@@ -15,7 +15,6 @@
           <p> ID Card :</p>
           <InputText v-model="idcard" name="idcard" class="w-full" />
         </div>
-
         <div class="col-12">
           <p> ชื่อ :</p>
           <InputText v-model="name" name="name" placeholder="กรุณากรอกชื่อ" class="w-full" />
