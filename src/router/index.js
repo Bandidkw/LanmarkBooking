@@ -165,6 +165,11 @@ const router = createRouter({
       name: "bookingall",
       component: () => import('@/views/admin/booking/allbooking.vue')
     },
+    {
+      path: "/editadminuser",
+      name: "editadminuser",
+      component: () => import('@/views/admin/manageadmin/EditAdminuser.vue')
+    },
 
 
   ],

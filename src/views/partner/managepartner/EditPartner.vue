@@ -9,7 +9,8 @@
     <div class="col-12 text-center">
       <h2>Edit Partner Information</h2>
       <div class="col-12 flex justify-content-center">
-        <img v-if="image_card" :src="getImage(image_card)" alt="ID Card" style="  max-width: 50%; height: 50%" />
+        <img v-if="Array.isArray(image_card) && image_card.length > 0" :src="getImage(image_card)" alt="ID Card"
+              width="200" style="max-width: 100%; height: auto" />
         <div v-else>ไม่มีรูปภาพ</div>
       </div>
     </div>
@@ -56,15 +57,15 @@
             optionValue="name_th" placeholder="เลือกตำบล" />
         </div>
         <div class="col-12">
-          <p>password :</p>
-          <InputText type="password" class="w-full" v-model="password" name="password" placeholder="*****" />
+          <p>password :(ถ้าไม่ได้เปลี่ยนรหัสผ่านไม่ต้องกรอก)</p>
+          <InputText type="password" class="w-full" name="password" placeholder="*****" v-model="password"/>
         </div>
       </form>
     </div>
   </div>
   <div class="grid">
     <div class="col-12 text-center mt-2">
-      <Button label="แก้ไข" @click="editadmin" />
+      <Button label="แก้ไข" @click="editpartner" />
     </div>
   </div>
   <!-- </Dialog> -->
@@ -96,33 +97,10 @@ export default {
         console.log(error);
       }
     };
-
-    onMounted(() => {
-      getprovince();
-    });
-    return {
-      provincedropdown,
-      amphuredropdown,
-      tambondropdown,
-      // loading: false,
-      // sidebar: false,
-      telephone: '',
-      password: '',
-      name: '',
-      address: '',
-      province: '',
-      tambon: '',
-      amphure: '',
-      idcard: '',
-      image_card: '',
-    }
-  },
-  methods: {
-    async getdata() {
+    const getdata= async()=> {
       this.sidebar = true;
-
       try {
-        const res = await axios.post(`${process.env.VUE_APP_API}partner/findpartner`, {
+        const res = await axios.get(`${process.env.VUE_APP_API}partner/findpartner`, {
           headers: {
             token: localStorage.getItem("token"),
           },
@@ -132,13 +110,12 @@ export default {
 
         if (res.data && res.data.data) {
           const partnerData = res.data.data;
-
+          this._id = partnerData._id
           this.telephone = partnerData.telephone;
           this.name = partnerData.name;
           this.idcard = partnerData.idcard;
           this.address = partnerData.address;
-          this.image_card = partnerData.image_card;
-          this.password = partnerData.password;
+          this.image_card = partnerData.image_idcard;
           this.province = partnerData.province;
 
           const getamphure = await this.getamphure("amphure");
@@ -155,55 +132,74 @@ export default {
       } catch (error) {
         console.error(error);
       }
-    },
-    async editadmin() {
+    }
+    onMounted(() => {
+      getprovince();
+      getdata();
+    });
+    return {
+      provincedropdown,
+      amphuredropdown,
+      tambondropdown,
+      _id:"",
+      telephone: '',
+      password: '',
+      name: '',
+      address: '',
+      province: '',
+      tambon: '',
+      amphure: '',
+      idcard: '',
+      image_card: '',
+    }
+  },
+  methods: {
+    
+    async editpartner() {
       if (this.name === "" || this.name === null) {
-        this.sidebar = false;
         await Swal.fire({
           icon: "error",
           title: "กรอกข้อมูลไม่ครบ",
           text: "กรุณากรอกข้อมูลให้ครบ",
         });
-        this.sidebar = true;
       } else {
         try {
-          const id = this.data._id;
+          const id = this._id;
           const res = await axios.put(`${process.env.VUE_APP_API}partner/${id}`, {
-            telephone: this.telephone,
-            password: this.password,
-            name: this.name,
-            roles: "admin",
-            level: "1"
+            telephone:this.telephone,
+            password:this.password,
+            name : this.name,
+            idcard:this.idcard,
+            address:this.address,
+            tambon:this.tambon,
+            amphure:this.amphure,
+            province:this.province,
+            level : "1"
           }, {
             headers: {
               token: localStorage.getItem("token"),
             },
           });
-          if (res.data) {
-            this.sidebar = false;
+          if (res.data.status === true) {
             await Swal.fire({
               icon: "success",
               title: "แก้ไขข้อมูลสำเร็จ",
               text: "ข้อมูลแก้ไขข้อมูลเรียบร้อย",
             });
-
+           
           } else {
-            this.sidebar = false;
             await Swal.fire({
               icon: "error",
               title: "เกิดข้อผิดพลาด",
               text: "ไม่สามารถแก้ไขข้อมูลได้",
             });
-            this.sidebar = true;
           }
         } catch (error) {
-          this.sidebar = false;
           await Swal.fire({
             icon: "error",
             title: "เกิดข้อผิดพลาด",
             text: "ไม่สามารถแก้ไขข้อมูลได้",
           });
-          this.sidebar = true;
         }
       }
     },
@@ -252,9 +248,6 @@ export default {
       }
     }
   },
-  created() {
-    this.getdata()
-  }
 };
 
 </script>

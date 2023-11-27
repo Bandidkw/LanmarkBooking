@@ -124,7 +124,7 @@ export default {
       namestore: `${this.$store.getters.name}`,
       menubars: [{ label: "Dashboard", to: "/dashboardadmin" }],
       dropdowns: {
-        items: [{ id: 1, label: "แก้ไขข้อมูล", route: "/" }],
+        items: [{ id: 1, label: "แก้ไขข้อมูล", route: "/editadminuser" }],
       },
       navbars: {
         admin: [
