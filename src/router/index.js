@@ -170,6 +170,11 @@ const router = createRouter({
       name: "editadminuser",
       component: () => import('@/views/admin/manageadmin/EditAdminuser.vue')
     },
+    {
+      path: "/editmember",
+      name: "editmember",
+      component: () => import('@/views/member/managemember/EditMember.vue')
+    },
 
 
   ],

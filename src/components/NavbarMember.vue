@@ -66,7 +66,7 @@ export default {
       namestore:`${this.$store.getters.name}`,
       dropdowns:{
          items:[ 
-          { id: 1, label: "แก้ไขข้อมูล", route: "/" },
+          { id: 1, label: "แก้ไขข้อมูล", route: "/editmember" },
         ],
       },
       menubars: [{label:"เช็คอิน-เช็คเอาท์",to:"/checkin-out"},{ label: "ข้อมูลการจอง", to: "/bookingmember" }],

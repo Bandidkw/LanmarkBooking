@@ -19,12 +19,24 @@
             <p> ชื่อ :</p>
             <InputText v-model="name" name="name" placeholder="กรุณากรอกชื่อ" class="w-full" />
           </div>
+          <div class="col-12">
+            <p> ชื่อต้น :</p>
+            <InputText v-model="firstname" name="firstname" placeholder="กรุณากรอกชื่อต้น" class="w-full" />
+          </div>
+          <div class="col-12">
+            <p> นามสกุล :</p>
+            <InputText v-model="lastname" name="lastname" placeholder="กรุณากรอกนามสกุล" class="w-full" />
+          </div>
+          <div class="col-12">
+            <p> e-mail :</p>
+            <InputText v-model="email" name="email" placeholder="กรุณากรอกอีเมล" class="w-full" />
+          </div>
       </form>
     </div>
   </div>
   <div class="grid">
     <div class="col-12 text-center mt-2">
-      <Button label="แก้ไข" @click="editadmin" />
+      <Button label="แก้ไข" @click="editmember" />
     </div>
   </div>
   <!-- </Dialog> -->
@@ -42,9 +54,8 @@ export default {
   },
   data() {
     const getdata= async()=> {
-      this.sidebar = true;
       try {
-        const res = await axios.get(`${process.env.VUE_APP_API}admin/findadmin`, {
+        const res = await axios.get(`${process.env.VUE_APP_API}member/findmember`, {
           headers: {
             token: localStorage.getItem("token"),
           },
@@ -53,10 +64,13 @@ export default {
         console.log(res.data.data, "res data");
 
         if (res.data && res.data.data) {
-          const adminData = res.data.data;
-          this._id = adminData._id
-          this.telephone = adminData.telephone;
-          this.name = adminData.name;
+          const memberData = res.data.data;
+          this._id = memberData._id
+          this.telephone = memberData.telephone;
+          this.name = memberData.name;
+          this.firstname = memberData.firstname;
+          this.lastname = memberData.lastname;
+          this.email = memberData.email
         }
       } catch (error) {
         console.error(error);
@@ -70,11 +84,14 @@ export default {
       telephone: '',
       password: '',
       name: '',
+      firstname:'',
+      lastname:'',
+      email:''
     }
   },
   methods: {
     
-    async editadmin() {
+    async editmember() {
       if (this.name === "" || this.name === null) {
         await Swal.fire({
           icon: "error",
@@ -84,12 +101,13 @@ export default {
       } else {
         try {
           const id = this._id;
-          const res = await axios.put(`${process.env.VUE_APP_API}admin/${id}`, {
+          const res = await axios.put(`${process.env.VUE_APP_API}member/${id}`, {
             telephone:this.telephone,
             password:this.password,
             name : this.name,
-            roles:"admin",
-            level : "1"
+            firstname:this.firstname,
+            lastname:this.lastname,
+            email:this.email
           }, {
             headers: {
               token: localStorage.getItem("token"),

@@ -1,18 +1,7 @@
 <template>
-  <!-- <Button @click="getdata" class="hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-2"
-    style="background-color: #ff7315" :label="title" :loading="loading" /> -->
-
-  <!--eslint-disable-next-line vue/no-multiple-template-root -->
-  <!-- <Dialog v-model:visible="sidebar" modal :style="{ width: '50rem' }"
-    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"> -->
   <div class="grid">
     <div class="col-12 text-center">
-      <h2>Edit Partner Information</h2>
-      <div class="col-12 flex justify-content-center">
-        <img v-if="Array.isArray(image_card) && image_card.length > 0" :src="getImage(image_card)" alt="ID Card"
-              width="200" style="max-width: 100%; height: auto" />
-        <div v-else>ไม่มีรูปภาพ</div>
-      </div>
+      <h2>แก้ไขข้อมูลส่วนตัว</h2>
     </div>
   </div>
   <div class="grid">
