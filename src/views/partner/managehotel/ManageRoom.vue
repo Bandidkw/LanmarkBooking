@@ -36,22 +36,31 @@
             <div v-else class=" bg-red-500 text-white text-center"
               style=" width: 40%; border-radius: 1rem; padding: 0.5rem;">ปิดการจอง</div>
           </template>
+        </Column>
+        <Column field="address" class="" header="ที่อยู่" style="width: 10%;" />
+        <Column field="phone_number" class="" header="เบอร์โทรติดต่อ" style="width: 10%;" />
+        <Column field="price" class="" header="ราคา" style="width: 5%;" />
+
+
+
+        <Column header="ShowPicture" style="width: 5%">
+          <template #body="item">
+            <Gallery :data="item.data" />
+          </template>
 
         </Column>
-        <Column field="address" class="" header="ที่อยู่" style="width: 10%;"> </Column>
-        <Column field="phone_number" class="" header="เบอร์โทรติดต่อ" style="width: 10%;"> </Column>
-        <Column field="price" class="" header="ราคา" style="width: 5%;">
 
-        </Column>
+
+
         <Column :exportable="false" header="เพิ่มเติม" style="width: 15%">
 
           <template #body="item">
-
             <div v-if="item.data.status === true">
               <EditHotel title="แก้ไขข้อมูล" :data="item.data" />
               <Button @click="deleteProduct(item.data._id)"
                 class="bg-red-500 border-0 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                 style="background-color: #C21010">ลบ</Button>
+
             </div>
             <div v-else>
               กรุณารออนุมัติจาก admin
@@ -70,10 +79,11 @@ import axios from "axios";
 import { onMounted, watch, ref } from "vue";
 import Swal from "sweetalert2";
 import EditHotel from "./EditHotel.vue";
-
+import Gallery from "../../../components/Gallery.vue"
 export default {
   components: {
     EditHotel,
+    Gallery
   },
 
 
@@ -147,6 +157,7 @@ export default {
 
     onMounted(() => {
       getData();
+
     });
 
 
@@ -178,9 +189,8 @@ export default {
 
         }
 
-      }
+      },
     );
-
 
 
 
