@@ -533,7 +533,7 @@ label {
 }
 
 input {
-  border: solid 1px #0096c7;
+  border: solid 1px #3b82f6;
   border-radius: 8px;
 }
 
