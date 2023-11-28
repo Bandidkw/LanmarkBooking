@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-container">
+  <div class="grid-container gap-2 max-[576px]:grid-cols-2">
     <div v-for="(item, index) in gridData" :key="index" class="grid-item">
       <router-link :to="{ name: 'hotel', params: { id: item._id } }">
         <div class="image-container">
@@ -11,7 +11,6 @@
               <img :src="item" :alt="item.alt" />
             </template>
           </Galleria>
-          <!-- <i class="bi bi-arrow-right-circle-fill next hover:scale-110"></i> -->
         </div>
       </router-link>
       <div class="details-container">
@@ -67,6 +66,7 @@ export default {
 </script>
   
 <style scope>
+
 .p-galleria.p-galleria-indicator-onitem .p-galleria-indicators {
   background: none;
 }
@@ -117,7 +117,7 @@ export default {
 
 .image-container img {
   width: 250px;
-  height: 240px;
+  height: 250px;
   object-fit: cover;
   border-radius: 1.5rem;
 }
@@ -137,7 +137,13 @@ export default {
   .grid-container {
     grid-template-columns: repeat(4, 1fr);
   }
+  .image-container img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 1.5rem;
 }
+} 
 
 @media screen and (max-width:992px) {
   .grid-container {
@@ -151,9 +157,31 @@ export default {
   }
 }
 
-@media screen and (max-width:576px) {
+@media screen and (max-width:640px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .p-galleria-item{
+    justify-content: start;
+  }
+  .image-container{
+    margin-bottom: 1rem;
+  }
+}
+@media screen and (max-width:414px) {
   .grid-container {
     grid-template-columns: repeat(1, 1fr);
   }
+  .p-galleria-item{
+    width: 100%;
+    justify-content: center;
+  }
+  .image-container{
+    margin-bottom: 1rem;
+  }
+  .grid-item {
+    text-align: center;
+    padding: 0.5rem;
+}
 }
 </style>

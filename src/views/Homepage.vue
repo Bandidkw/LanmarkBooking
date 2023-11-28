@@ -1,6 +1,6 @@
 <!-- Content.vue -->
 <template>
-  <div class="invitatain">
+  <div class="invitatain lg:py-0 lg:px-2 sm:px-1">
     <!------------------------------- choose-room ------------------------>
     <div class="choose-room">
       <div class="room">
@@ -363,18 +363,23 @@ p {
   -ms-transform: translate(-50%, -50%);
   text-align: center;
 }
-
 .grid-img:hover .hidden {
   opacity: 1;
 }
-
 @media screen and (max-width: 768px) {
   .search-box-cus {
     display: none;
   }
-
   .room a {
     display: none;
+  }
+}
+@media screen and (max-width:414px) {
+  .invitatain{
+    padding: 0 2rem 1rem 2rem;
+  }
+  .choose-room{
+    padding: 0 1rem;
   }
 }
 </style>

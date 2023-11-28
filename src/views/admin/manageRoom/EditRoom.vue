@@ -1,5 +1,5 @@
 <template>
-  <Button @click="getdata" class="hover:bg-red-700 text-white border-none font-bold py-2 px-4 rounded mx-2"
+  <Button @click="getdata" class="hover:bg-orange-700 text-white font-bold py-2 px-4 rounded mx-2"
     style="background-color: #ff7315" :label="title" />
 
   <!--eslint-disable-next-line vue/no-multiple-template-root -->

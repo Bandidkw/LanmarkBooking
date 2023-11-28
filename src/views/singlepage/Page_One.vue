@@ -20,55 +20,55 @@
         <p class="text-xl font-semibold">ไม่มีรูปภาพ</p>
       </div>
 
-    </div>
-    <div class="flex pt-4 px-5 justify-between border h-[850px] rounded-2xl gap-x-8">
-      <!-- รายละเอียด -->
-      <div class="w-1/2">
-        <div class="details m-0 p-2 border-b-2 border-b-blue-400">
-          <h1 class="text-2xl font-bold">{{ roomdata.name }}</h1>
-          <p>{{ roomdata.guests }} คน || {{ roomdata.bedroom }} ห้องนอน || {{ roomdata.bed }} เตียง || {{ roomdata.bathroom
-          }} ห้องน้ำ </p>
-          <!-- รายละเอียดเพิ่มเติม -->
+  </div>
+  <div class="flex pt-4 px-5 justify-between border h-[850px] rounded-2xl gap-x-8">
+    <!-- รายละเอียด -->
+    <div class="w-1/2">
+      <div class="details m-0 p-2 border-b-2 border-b-blue-400">
+        <h1 class="text-2xl font-bold">{{ roomdata.name }}</h1>
+        <p>{{roomdata.guests}} คน || {{ roomdata.bedroom }} ห้องนอน || {{ roomdata.bed }} เตียง || {{ roomdata.bathroom }} ห้องน้ำ  </p>
+        <!-- รายละเอียดเพิ่มเติม -->
+      </div>
+      <div
+        class="host-info flex h-24 gap-x-6 py-4 w-full border-b-2 border-b-blue-400">
+        <div class="host-img">
+          <img class="w-full h-full rounded-full" src="/images/host-img/person.jpg" alt=""/>
         </div>
-        <div class="host-info flex h-24 gap-x-6 py-4 w-full border-b-2 border-b-blue-400">
-          <div class="host-img">
-            <img class="w-full h-full rounded-full" src="/images/host-img/person.jpg" alt="" />
-          </div>
-          <div class="host-detail flex flex-col justify-center">
-            <h3 class="font-bold">โฮสต์โดย {{ roomdata.partner_id?.name }}</h3>
-          </div>
-        </div>
-        <div class="hotel-info h-64 border-b-2 border-b-blue-400 pt-5 pb-12">
-          <div class="hotel-info-box">
-            <p class="text-base text-justify p-2">
-              {{ roomdata.description }}
-            </p>
-          </div>
-        </div>
-        <div class="sleep-place h-[253px] py-12">
-          <h2 class="pb-3">สถานที่นอน</h2>
-          <div class="flex flex-col gap-y-1 sleep-box border-2 border-black rounded-2xl w-[207px] h-[143px]">
-            <div class="gap-x-3 flex">
-              <i class="bi bi-image-alt text-2xl"></i>
-              <i class="bi-image-alt text-2xl"></i>
-            </div>
-            <div>
-              <p class="font-bold">ห้องนอน</p>
-            </div>
-            <div>
-              <p>{{ roomdata.bedroom }} เตียงนอน {{ roomdata.bathroom }} ห้องน้ำ </p>
-            </div>
-          </div>
-          <div class="hotel-info-b border-t-2  border-t-blue-400 mt-4">
-            พิกัด :
-            <p>{{ roomdata.address }} ตำบล: {{ roomdata.tambon }} อำเภอ: {{ roomdata.amphure }} จังหวัด: {{
-              roomdata.province }}</p>
-          </div>
-
+        <div class="host-detail flex flex-col justify-center">
+          <h3 class="font-bold">โฮสต์โดย {{ roomdata.partner_id?.name }}</h3>
         </div>
       </div>
-      <div class="w-1/2 text-center border-2 rounded-2xl h-[350px] shadow-lg shadow-blue-500/50">
-        <div class="rounded ">
+      <div class="hotel-info h-64 border-b-2 border-b-blue-400 pt-5 pb-12">
+        <div class="hotel-info-box">
+          <p class="text-base text-justify p-2">
+            {{ roomdata.description }}
+          </p>
+        </div>
+      </div>
+      <div class="sleep-place h-[253px] py-12">
+        <h2 class="pb-3">สถานที่นอน</h2>
+        <div
+          class="flex flex-col gap-y-1 sleep-box border-2 border-black rounded-2xl w-[207px] h-[143px]">
+          <div class="gap-x-3 flex">
+            <i class="bi bi-image-alt text-2xl"></i>
+            <i class="bi-image-alt text-2xl"></i>
+          </div>
+          <div>
+            <p class="font-bold">ห้องนอน</p>
+          </div>
+          <div>
+            <p>{{ roomdata.bedroom }} เตียงนอน  {{ roomdata.bathroom }} ห้องน้ำ </p>
+          </div>
+        </div>
+        <div class="hotel-info-b border-t-2  border-t-blue-400 mt-4">
+           พิกัด :
+          <p>{{ roomdata.address }}  ตำบล: {{ roomdata.tambon }}  อำเภอ: {{ roomdata.amphure }} จังหวัด: {{  roomdata.province }}</p>
+        </div>
+         
+      </div>
+    </div>
+    <div class="w-1/2 text-center border-2 rounded-2xl h-[350px] shadow-lg shadow-blue-500/50">
+       <div class="rounded "> 
           <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
             <label class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2" for="grid-first-name">
               เลือกวันจอง - วันสิ้นสุดการจอง
@@ -83,7 +83,8 @@
             </label>
           </div>
           <div class="mx-auto w-60 my-3 booking-box">
-            <button @click="addbooking"
+            <button
+              @click="addbooking"
               class="booking-btn px-4 py-2 bg-blue-500 text-white text-center hover:bg-blue-700 rounded w-full"
               type="button">จอง
             </button>
@@ -239,7 +240,7 @@ export default {
 .img-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(1, 500px);
+  /* grid-template-rows: repeat(1, 500px); */
 }
 
 .img-grid img {
@@ -313,9 +314,6 @@ export default {
     padding: 0 5rem;
   }
 }
-
-@media screen and (max-width:768px) {}
-
 @media screen and (max-width:414px) {
   .container {
     padding: 0 1rem;
@@ -351,7 +349,7 @@ export default {
     border-radius: 0;
   }
 
-  .booking-box {
+  .booking-box{
     margin: 0;
     width: auto;
   }
