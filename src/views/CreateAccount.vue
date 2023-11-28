@@ -327,15 +327,15 @@ export default {
         this.showModalPartner = false;
         this.showModalMember = false;
       } catch (error) {
-        await Swal.fire({
-          icon: "error",
-          title: "ลงทะเบียนไม่สำเร็จ",
-          text: error,
-          customClass: {
-            popup: 'swal-popup',
-            content: 'swal-content',
-          },
-        });
+        // await Swal.fire({
+        //   icon: "error",
+        //   title: "ลงทะเบียนไม่สำเร็จ",
+        //   text: error,
+        //   customClass: {
+        //     popup: 'swal-popup',
+        //     content: 'swal-content',
+        //   },
+        // });
         console.error("Form validation failed:", error);
       }
     },
@@ -370,7 +370,11 @@ export default {
           .string()
           .email("Invalid email format.")
           .required("Email is required."),
-        phone: yup.string().required("Please Enter Phone Number"),
+        phone: yup.string().required("Please Enter Phone Number")
+          .matches(
+            /^[0-9]{10}$/,
+            "Invalid phone number. Please enter a valid phone number."
+          ),
         password: yup.string().required("Password is required."),
         confirmPassword: yup
           .string()
@@ -382,8 +386,18 @@ export default {
     async validatePartnerForm() {
       const PartnerSchema = yup.object({
         name: yup.string().required("Name is required."),
-        phone: yup.string().required("Please Enter Phone Number."),
-        idcard: yup.string().required("ID card  is required"),
+        phone: yup
+          .string()
+          .required("Please Enter Phone Number.")
+          .matches(
+            /^[0-9]{10}$/,
+            "Invalid phone number. Please enter a valid phone number."
+          ),
+        idcard: yup.string().required("ID card  is required")
+          .matches(
+            /^[0-9]{13}$/,
+            "Invalid Id Card Number. Please enter a valid Id Card number."
+          ),
         filepic: yup
           .mixed()
           .required("Please upload a file")
@@ -426,6 +440,13 @@ export default {
 
       try {
         await schema.validateAt(fieldName, this[userType]);
+        // Format phone number with hyphen (e.g., 123-4567890)
+        if (fieldName === 'phone' && this[userType][fieldName]) {
+          this[userType][fieldName] = this[userType][fieldName].replace(/(\d{3})(\d{7})/, '$1-$2');
+        }
+        if (fieldName === 'idcard' && this[userType][fieldName]) {
+          this[userType][fieldName] = this[userType][fieldName].replace(/(\d{1})(\d{4})(\d{5})(\d{2})(\d{1})/, '$1-$2-$3-$4-$5');
+        }
         this.errors[fieldName] = null;
       } catch (error) {
         if (error instanceof yup.ValidationError) {
@@ -433,6 +454,7 @@ export default {
         }
       }
     },
+
 
     //// resetform
     resetForm() {
