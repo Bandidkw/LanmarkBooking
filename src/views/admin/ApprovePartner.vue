@@ -1,5 +1,5 @@
 <template>
-  <div class="grid px-10 mt-3 ml-5 mr-5">
+  <div class="grid px-10 mt-3 ml-5 mr-5 w-full">
     <div class="col-12 lg:col-12 border">
       <div class="text-center font-bold text-4xl">ข้อมูลอนุมัติpartner</div>
       <div class="text-right my-5"></div>
@@ -19,23 +19,23 @@
         <Column field="telephone" header="เบอร์โทรศัพท์" style="width: 14%"></Column>
         <Column field="name" class="" header="ชื่อ" style="width: 14%">
         </Column>
-        <Column class="" header="สถานะอนุมัติ" style="width: 14%">
+        <Column class="test-box" header="สถานะอนุมัติ" style="width: 14%">
           <template #body="{ data }">
-            <div class="w-2/4 bg-orange-500 flex justify-content-center"
-              style=" width: 35%; border-radius: 1rem; padding: 0.5rem;"
+            <div class="lg:w-10 xl:w-5 bg-orange-500 flex justify-content-center"
+              style=" border-radius: 1rem; padding: 0.5rem;"
               v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'">
               <div class="font-bold" style="color: #fff;">
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
             </div>
-            <div class="w-2/4 bg-green-500 flex justify-content-center"
-              style=" width: 35%; border-radius: 1rem; padding: 0.5rem;"
-              v-if="data.approve.slice(-1)[0].statusapprove === 'อนุมัติ'">
+            <div class="lg:w-10 xl:w-5 bg-green-500 flex justify-content-center"
+              style=" border-radius: 1rem; padding: 0.5rem;" v-if="data.approve.slice(-1)[0].statusapprove === 'อนุมัติ'">
               <div class="text-white font-bold">
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
             </div>
-            <div class="bg-red-500 flex justify-content-center" style=" width: 35%; border-radius: 1rem; padding: 0.5rem;"
+            <div class="lg:w-10 xl:w-5 bg-red-500 flex justify-content-center"
+              style=" border-radius: 1rem; padding: 0.5rem;"
               v-if="data.approve.slice(-1)[0].statusapprove === 'ไม่อนุมัติ'">
               <div class="text-white font-bold">
                 {{ data.approve.slice(-1)[0].statusapprove }}
@@ -47,7 +47,7 @@
         <Column header="รายละเอียด" style="width: 10%;">
           <template #body="{ data }">
             <Button @click="showPartnerDetail(data)"
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">รายละเอียด</Button>
+              class="bg-blue-500 hover:bg-blue-700 border-none text-white font-bold py-2 px-4 rounded mx-2">รายละเอียด</Button>
 
           </template>
 
@@ -59,22 +59,18 @@
             <div class="flex justify-content-center" v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'">
               <!-- กรณีรอการอนุมัติ -->
               <Button @click="approvepartner(data._id)"
-                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2 boeder-none">อนุมัติ</Button>
+                class="bg-green-500 hover:bg-green-700 border-none text-white font-bold py-2 px-4 rounded mx-2 boeder-none">อนุมัติ</Button>
               <Button @click="unapprovepartner(data._id)"
-                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">ไม่อนุมัติ</Button>
+                class="bg-red-500 hover:bg-red-700 text-white border-none font-bold py-2 px-4 rounded">ไม่อนุมัติ</Button>
             </div>
           </template>
         </Column>
       </DataTable>
     </div>
   </div>
-  <Dialog v-model:visible="DetailPartner" modal :style="{ width: '50rem' }"
+  <Dialog v-model:visible="DetailPartner" header="แก้ไขข้อมูล Partner" modal :style="{ width: '50rem' }"
     :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-    <div class="grid">
-      <div class="col-12 text-center">
-        <h2>แก้ไขข้อมูล Partner</h2>
-      </div>
-    </div>
+
     <div class="grid">
       <div class="col-12 md:col-12">
         <form>
@@ -264,3 +260,12 @@ export default {
   },
 };
 </script>
+<style scoped>
+@media (min-width: 1024px) {
+  .test-box {
+    width: 100%;
+    background-color: red;
+
+  }
+}
+</style>

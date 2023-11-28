@@ -1,5 +1,6 @@
 <template>
-  <Button @click="onclick = true" class="bg-green-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-2"
+  <Button @click="onclick = true"
+    class="bg-green-400 border-none hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-2"
     label="เพิ่มประเภทห้อง" />
 
   <Dialog header="เพิ่มประเภทห้อง" v-model:visible="onclick" modal :style="{ width: '50rem' }"
@@ -25,9 +26,9 @@
                 id="grid-password" type="text" placeholder="" v-model="description">
             </div>
           </div>
-          <div class="md:flex md:items-center">
+          <div class="md:flex md:items-center flex justify-content-end px-5">
             <div class="md:w-1/3"></div>
-            <div class="md:w-1/3">
+            <div class="md:w-1/3 ">
               <Button @click="addroomtype" label="เพิ่มข้อมูล"
                 class="w-full px-4 py-2 bg-blue-500 text-white text-center hover:bg-purple-400 rounded" type="button" />
             </div>

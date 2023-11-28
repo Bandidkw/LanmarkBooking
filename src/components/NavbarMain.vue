@@ -7,8 +7,8 @@
 
     <div class="search-box">
       <span class="p-input-icon-right">
-        <i class="pi pi-search pr-2 cursor-pointer"/>
-        <InputText placeholder="Search" class="search-box-input"/>
+        <i class="pi pi-search pr-2 cursor-pointer" />
+        <InputText placeholder="Search" class="search-box-input" />
       </span>
     </div>
 
@@ -34,15 +34,17 @@ export default {
 
 <!---------------------------- style -------------------------------->
 
-<style lang="scss" scoped>
+<style lang="scss" scope>
 //@import '@/assets/scss/custom/_navbar.scss';
 
-.search-box-input{
+.search-box-input {
   border-radius: 2rem;
 }
-.search-box-input:focus{
+
+.search-box-input:focus {
   border: #3b82f6 1px solid;
 }
+
 .nav-bar {
   width: 100%;
   height: 80px;
@@ -67,12 +69,13 @@ export default {
 }
 
 @media screen and (max-width:768px) {
-  .search-box{
+  .search-box {
     display: none;
   }
 }
+
 @media screen and (max-width:414px) {
-  .nav-bar{
+  .nav-bar {
     padding: 0 1rem;
   }
 }

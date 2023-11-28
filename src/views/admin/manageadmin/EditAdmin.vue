@@ -1,15 +1,10 @@
 <template>
-  <Button @click="getdata" class="hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-2"
+  <Button @click="getdata" class="hover:bg-red-700 border-none text-white font-bold py-2 px-4 rounded mx-2"
     style="background-color: #ff7315" :label="title" />
 
   <!--eslint-disable-next-line vue/no-multiple-template-root -->
-  <Dialog v-model:visible="sidebar" modal :style="{ width: '50rem' }"
+  <Dialog v-model:visible="sidebar" header="แก้ไขข้อมูล admin" modal :style="{ width: '50rem' }"
     :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-    <div class="grid">
-      <div class="col-12 text-center">
-        <h2>แก้ไขข้อมูล admin</h2>
-      </div>
-    </div>
     <div class="grid">
       <div class="col-12 md:col-12">
         <form class="">

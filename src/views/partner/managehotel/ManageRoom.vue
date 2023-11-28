@@ -1,5 +1,5 @@
 <template>
-  <div class="grid px-10 mt-3 ml-5 mr-5">
+  <div class="grid px-10 mt-3 ml-5 mr-5 w-full">
     <div class="col-12 lg:col-12 border">
       <div class="text-center text-2xl">ข้อมูลห้อง</div>
       <div class="flex px-4 w-full item-center p-4" style="flex-direction: column; align-items: center;">
@@ -21,44 +21,36 @@
           </p>
         </template>
 
-        <Column field="name" header="ชื่อ" style="width: 10%;"></Column>
-        <Column field="image" header="Picture" style="width: 10%">
+        <Column field="name" header="ชื่อ" style="width: 5% ; "></Column>
+        <Column field="image" header="Picture" style="width: 15%">
           <template #body="{ data }">
             <img v-if="Array.isArray(data.image) && data.image.length > 0" :src="getImage(data.image)" alt="ID Card"
               width="200" style="max-width: 100%; height: auto" />
             <div v-else>ไม่มีรูปภาพ</div>
           </template>
         </Column>
-        <Column field="statusbooking" header="คำอธิบาย" style="width: 10%;">
-          <template #body="{ data }">
-            <div v-if="data.statusbooking === true" class=" bg-green-500 text-white text-center"
-              style="width: 40%; border-radius: 1rem; padding: 0.5rem;">เปิดการจอง</div>
-            <div v-else class=" bg-red-500 text-white text-center"
-              style=" width: 40%; border-radius: 1rem; padding: 0.5rem;">ปิดการจอง</div>
+        <Column field="statusbooking" header="คำอธิบาย" style="width: 17%;">
+          <template class="flex justify-content-center" #body="{ data }">
+            <div v-if="data.statusbooking === true" class="lg:w-10 xl:w-5 bg-green-500 text-white text-center"
+              style="border-radius: 1rem; padding: 0.5rem;">เปิดการจอง</div>
+            <div v-else class="lg:w-10 xl:w-5 bg-red-500 text-white text-center"
+              style=" border-radius: 1rem; padding: 0.5rem;">ปิดการจอง</div>
           </template>
         </Column>
-        <Column field="address" class="" header="ที่อยู่" style="width: 10%;" />
+        <!-- <Column field="address" class="" header="ที่อยู่" style="width: 10%;" /> -->
         <Column field="phone_number" class="" header="เบอร์โทรติดต่อ" style="width: 10%;" />
-        <Column field="price" class="" header="ราคา" style="width: 5%;" />
-
-
-
-        <Column header="ShowPicture" style="width: 5%">
+        <Column field="price" class="" header="ราคา" style="width: 10%;" />
+        <Column header="รูปภาพ" style="width: 5%">
           <template #body="item">
             <Gallery :data="item.data" />
           </template>
-
         </Column>
-
-
-
-        <Column :exportable="false" header="เพิ่มเติม" style="width: 15%">
-
+        <Column :exportable="false" header="เพิ่มเติม" style="width: 16%;">
           <template #body="item">
-            <div v-if="item.data.status === true">
+            <div class="xl:flex mx-2" v-if="item.data.status === true">
               <EditHotel title="แก้ไขข้อมูล" :data="item.data" />
               <Button @click="deleteProduct(item.data._id)"
-                class="bg-red-500 border-0 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                class="delete-button bg-red-500 border-0 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                 style="background-color: #C21010">ลบ</Button>
 
             </div>
@@ -136,7 +128,7 @@ export default {
           // แสดงข้อความสำเร็จ (ตัวเลือก)
           Swal.fire({
             icon: "success",
-            title: "ลบสินค้าสำเร็จ",
+            title: "ลบรายการสำเร็จ",
           });
         } else {
           await Swal.fire({
@@ -236,4 +228,24 @@ export default {
 };
 
 </script>
+<style scoped>
+@media (min-width: 640px) {
+  .delete-button {
+    margin: 0;
+    width: 120px;
+    margin-top: .5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+}
+
+@media (min-width: 1280px) {
+  .delete-button {
+    margin: 0;
+    display: flex;
+  }
+
+}
+</style>
 

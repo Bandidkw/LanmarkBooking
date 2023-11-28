@@ -1,19 +1,15 @@
 
 <template>
-    <div class="grid px-10 mt-3 ml-5 mr-5" >
-      <div class="col-12 lg:col-12 border">
-        <div class="text-center font-bold text-4xl">ข้อมูลห้อง</div>
-        <div class="text-right my-5">
-        </div>
-        
-        <DataTable
-        :value="Array.isArray(item_product) ? item_product : []"
-        :paginator="true"
-        :rows="20"
+  <div class="grid px-10 mt-3 ml-5 mr-5 w-full">
+    <div class="col-12 lg:col-12 border">
+      <div class="text-center font-bold text-4xl">ข้อมูลห้อง</div>
+      <div class="text-right my-5">
+      </div>
+
+      <DataTable :value="Array.isArray(item_product) ? item_product : []" :paginator="true" :rows="20"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
-        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด"
-        responsiveLayout="stack">
+        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด" responsiveLayout="stack">
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
 
         <template #empty>
@@ -23,55 +19,41 @@
         </template>
 
         <Column field="image" header="Picture" style="width: 20%">
-            <template #body="{ data }">
-              <img
-                v-if="Array.isArray(data.image) && data.image.length > 0"
-                :src="getImage(data.image)"
-                alt="ID Card"
-                width="200"
-                style="max-width: 100%; height: auto"
-              />
-              
-              <div v-else>ไม่มีรูปภาพ</div>
-            </template>
+          <template #body="{ data }">
+            <img v-if="Array.isArray(data.image) && data.image.length > 0" :src="getImage(data.image)" alt="ID Card"
+              width="200" style="max-width: 100%; height: auto" />
+
+            <div v-else>ไม่มีรูปภาพ</div>
+          </template>
         </Column>
         <Column field="name" header="ชื่อ" style="width: 10%;"></Column>
-        <Column field="description" class="" header="คำอธิบาย" style="width: 10%;"> </Column>     
+        <Column field="description" class="" header="คำอธิบาย" style="width: 10%;"> </Column>
         <Column field="phone_number" class="" header="เบอร์โทรติดต่อ" style="width: 10%;"> </Column>
         <Column field="price" class="" header="ราคา" style="width: 5%;"> </Column>
-        <Column
-          :exportable="false"
-          class=""
-          header="ลบข้อมูล"
-          style="width: 5%"
-        >
+        <Column :exportable="false" class="" header="ลบข้อมูล" style="width: 5%">
 
           <template #body="item">
             <!-- <updateadmin title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/> -->
-            <Button
-            @click="deleteProduct(item.data._id)"
-              class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            <Button @click="deleteProduct(item.data._id)"
+              class="bg-red-500 border-none hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              style="background-color: #C21010">ลบ</Button>
 
-              style="background-color: #C21010"
-              >ลบ</Button>
-             
           </template>
         </Column>
       </DataTable>
-      
-      </div>
-    </div>
 
+    </div>
+  </div>
 </template>
 
 <script>
- import axios from "axios";
- import { onMounted, ref } from "vue";
- import Swal from "sweetalert2";
+import axios from "axios";
+import { onMounted, ref } from "vue";
+import Swal from "sweetalert2";
 
 export default {
   components: {
-   
+
   },
   created() {
     document.title = "ข้อมูลโรงแรม";
@@ -127,10 +109,10 @@ export default {
         }
       } catch (error) {
         await Swal.fire({
-            icon: "error",
-            title: "เกิดข้อผิดพลาด",
-            text: "ไม่สามารถลบข้อมูลได้",
-          });
+          icon: "error",
+          title: "เกิดข้อผิดพลาด",
+          text: "ไม่สามารถลบข้อมูลได้",
+        });
       }
     };
     onMounted(() => {
@@ -144,18 +126,18 @@ export default {
     };
 
   },
-  methods:{
-      getImage(item){
-        if (typeof item === 'string') {
-          return `https://drive.google.com/uc?export=view&id=${item}`;
-        } else if (Array.isArray(item) && item.length > 0) {
-          const firstImageId = item[0];
-          return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
-        } else {
-          return "";
-        }
+  methods: {
+    getImage(item) {
+      if (typeof item === 'string') {
+        return `https://drive.google.com/uc?export=view&id=${item}`;
+      } else if (Array.isArray(item) && item.length > 0) {
+        const firstImageId = item[0];
+        return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
+      } else {
+        return "";
       }
-    },
-  };
+    }
+  },
+};
 </script>
 

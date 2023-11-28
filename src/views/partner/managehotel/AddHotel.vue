@@ -1,47 +1,47 @@
 <template>
-  <div class="grid px-10 mt-3">
+  <div class="grid px-24 py-4 mt-3 ">
     <div class="col-12 lg:col-12">
       <center class="text-xl">เพิ่มข้อมูล ห้อง</center>
       <form class="w-full">
-        <div class="flex flex-wrap -mx-3 mb-6 w-full">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <div class=" flex  flex-wrap -mx-3 mb-0  w-full">
+          <div class="w-full md:w-1/2 px-4 mb-2">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
               ชื่อห้อง :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name" type="text" v-model="name" placeholder="ชื่อโรงแรม" />
           </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
               รายละเอียด :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 mb-2 px-4 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name" type="text" v-model="description" placeholder="รายละเอียด" />
           </div>
-          <div class="w-full px-3">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+          <div class="w-full px-4 mb-2">
+            <label class="block uppercase tracking-wide text-gray-700 mb-2 text-xs font-bold " for="grid-password">
               เบอร์โทรศัพท์ :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 mb-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-password" type="text" v-model="phone_number" placeholder="000-000-0000" />
           </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+          <div class="w-full md:w-1/2 px-4  mb-2 ">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs mb-2 font-bold mb-2" for="grid-first-name">
               ราคา :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 border border-bluegray-800 mb-2 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name" type="text" v-model="price" placeholder="ราคา" />
           </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+          <div class="w-full md:w-1/2 px-4 mb-2">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs mb-2 font-bold mb-2" for="grid-first-name">
               ประเภทห้องพัก :
             </label>
             <Dropdown
-              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2  mb-2 leading-tight focus:outline-none focus:bg-white"
               v-model="type" :options="cities" optionLabel="name" optionValue="_id" placeholder="เลือกประเภท" />
             <!-- <input
               class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -51,7 +51,7 @@
               placeholder="ประเภทห้องพัก"
             /> -->
           </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
               จำนวนผู้เข้าพัก :
             </label>
@@ -59,71 +59,71 @@
               class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name" type="text" v-model="guests" placeholder="จำนวนผู้เข้าพัก" />
           </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div class="w-full md:w-1/2 px-4 mb-2">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
               จำนวนห้องนอน :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name" type="text" v-model="bedroom" placeholder="จำนวนห้องนอน" />
           </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+          <div class="w-full md:w-1/2 px-4 mb-2 ">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs  font-bold mb-2" for="grid-first-name">
               จำนวนเตียง :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name" type="text" v-model="bed" placeholder="จำนวนเตียง" />
           </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
               จำนวนห้องน้ำ :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name" type="number" v-model="bathroom" placeholder="จำนวนห้องน้ำ" />
           </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
               ที่อยู่ :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name" type="text" v-model="address" placeholder="ที่อยู่" />
           </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
               จังหวัด :
             </label>
             <Dropdown
-              class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
               v-model="province" :options="provincedropdown.value" optionLabel="name_th" optionValue="name_th"
               placeholder="เลือกจังหวัด" @change="getamphure('amphure')" />
 
           </div>
 
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
               อำเภอ :
             </label>
             <Dropdown
-              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
               v-model="amphure" :options="amphuredropdown.value" optionLabel="name_th" optionValue="name_th"
               placeholder="เลือกอำเภอ" @change="getamphure('tambon')" />
           </div>
 
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
               ตำบล :
             </label>
             <Dropdown
-              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
               v-model="tambon" :options="tambondropdown.value" optionLabel="name_th" optionValue="name_th"
               placeholder="เลือกตำบล" />
           </div>
 
 
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="flex uppercase w-3/12 tracking-wide text-gray-700 text-xs font-bold mb-2"
               for="grid-first-name">เพิ่มรูปภาพ :
             </label>
@@ -134,12 +134,12 @@
               </template>
             </FileUpload>
             <!-- <InputText
-              class="appearance-none block w-9/12 text-gray-700 border border-bluegray-800 rounded py-3 px-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-9/12 text-gray-700 border border-bluegray-800 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
               id="fileinput" type="file" ref="fileinput" @change="handleFileChange" accept=".jpg, .jpeg, .png"
               placeholder="File Picture number" /> -->
           </div>
         </div>
-        <div class="md:flex md:items-center flex justify-content-center">
+        <div class="flex justify-content-end " style="margin-right: 40px;">
           <div class="md:w-1/3"></div>
           <div class="md:w-1/3">
             <Button @click="addRoom" label="เพิ่มข้อมูลห้อง" />
