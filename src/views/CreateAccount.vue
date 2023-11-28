@@ -98,11 +98,6 @@
           </FileUpload>
           <span class="error-message">{{ errors.filepic }}</span>
         </div>
-        <!-- <InputText
-          class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-          id="fileinput" type="file" ref="fileinput" @change="handleFileChange" accept=".jpg, .jpeg, .png"
-          placeholder="File Picture number" /> -->
-
         <div class="input-content">
           <div class="input-box">
             <label for="province"> จังหวัด :</label>
@@ -538,7 +533,7 @@ label {
 }
 
 input {
-  border: solid 1px purple;
+  border: solid 1px #0096c7;
   border-radius: 8px;
 }
 

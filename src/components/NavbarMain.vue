@@ -7,8 +7,8 @@
 
     <div class="search-box">
       <span class="p-input-icon-right">
-        <i class="pi pi-search" />
-        <InputText placeholder="Search" class="search-box" />
+        <i class="pi pi-search pr-2 cursor-pointer"/>
+        <InputText placeholder="Search" class="search-box-input"/>
       </span>
     </div>
 
@@ -22,7 +22,6 @@ import LoginUser from "./LoginUser.vue"
 export default {
   data() {
     return {
-
     };
   },
   methods: {
@@ -38,10 +37,12 @@ export default {
 <style lang="scss" scoped>
 //@import '@/assets/scss/custom/_navbar.scss';
 
-.search-box {
+.search-box-input{
   border-radius: 2rem;
 }
-
+.search-box-input:focus{
+  border: #00b4d8 1px solid;
+}
 .nav-bar {
   width: 100%;
   height: 80px;
@@ -68,6 +69,11 @@ export default {
 @media screen and (max-width:768px) {
   .search-box{
     display: none;
+  }
+}
+@media screen and (max-width:414px) {
+  .nav-bar{
+    padding: 0 1rem;
   }
 }
 </style>

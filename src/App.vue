@@ -67,17 +67,25 @@ if (localStorage.getItem("token") !== null) {
 </script>
 
 <style scoped>
-/* .body-container{
+.body-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   padding: 1rem 0;
   margin: 0;
   position: relative;
   z-index: 0;
-} */
+}
 .nav-bar{
   width: 100%;
   padding: 0 5rem;
   position: relative;
   z-index: 999;
+}
+@media screen and (max-width:414px) {
+  .nav-bar{
+    padding: 0 1rem;
+  }
 }
 </style>
