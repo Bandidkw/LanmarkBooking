@@ -379,7 +379,7 @@ p {
     padding: 0 2rem 1rem 2rem;
   }
   .choose-room{
-    padding: 0 1rem;
+    column-gap: 1rem;
   }
 }
 </style>

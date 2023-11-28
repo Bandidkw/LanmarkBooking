@@ -16,7 +16,7 @@
       <div class="details-container">
         <h2 class="text-xl m-0 font-semibold">{{ item.name }}</h2>
         <p class="text-base my-1">{{ item.description }}</p>
-        <p class="text-base font-bold">ราคา: {{ item.price.toLocaleString() }} บาท/คืน</p>
+        <p class="text-base font-bold max-[414px]:my-2">ราคา: {{ item.price.toLocaleString() }} บาท/คืน</p>
       </div>
     </div>
   </div>
