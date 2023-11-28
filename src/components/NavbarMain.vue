@@ -41,7 +41,7 @@ export default {
   border-radius: 2rem;
 }
 .search-box-input:focus{
-  border: #00b4d8 1px solid;
+  border: #3b82f6 1px solid;
 }
 .nav-bar {
   width: 100%;

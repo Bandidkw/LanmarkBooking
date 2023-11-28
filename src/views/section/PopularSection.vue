@@ -17,7 +17,7 @@
       <div class="details-container">
         <h2 class="text-xl m-0 font-semibold">{{ item.name }}</h2>
         <p class="text-base my-1">{{ item.description }}</p>
-        <p class="text-base font-bold">ราคา: {{ item.price }} บาท/คืน</p>
+        <p class="text-base font-bold">ราคา: {{ item.price.toLocaleString() }} บาท/คืน</p>
       </div>
     </div>
   </div>
@@ -69,22 +69,17 @@ export default {
 <style scope>
 .p-galleria.p-galleria-indicator-onitem .p-galleria-indicators {
   background: none;
-
-
 }
 
 .p-galleria.p-galleria-indicator-onitem .p-galleria-indicators button {
   width: 8px;
   height: 8px;
-
-
 }
 
-
 .grid-container {
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(4, 350px);
   gap: 0.5rem;
 }
 
@@ -121,7 +116,7 @@ export default {
 }
 
 .image-container img {
-  width: 300px;
+  width: 250px;
   height: 240px;
   object-fit: cover;
   border-radius: 1.5rem;

@@ -31,7 +31,7 @@
    </nav>
    
    <!-- eslint-disable-next-line vue/no-multiple-template-root -->
-   <nav id="header" class="h-20 w-full z-30 top-10  bg-white border-b border-black-400">
+   <nav id="header" class="h-20 w-1/2 z-30 top-10  bg-white border-b border-black-400">
     <div class="h-full w-full flex items-center justify-center mt-0 px-5">
         <!--- ใช้ปุ่มเดียว-->
       <router-link to="/dashboardpartner" class="h-full">

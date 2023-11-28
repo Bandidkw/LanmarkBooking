@@ -45,8 +45,6 @@ import Image from 'primevue/image';
 import Galleria from 'primevue/galleria';
 
 //////---datepicker--//////
-import VueDatePicker from "@vuepic/vue-datepicker";
-import "@vuepic/vue-datepicker/dist/main.css";
 
 app.use(PrimeVue);
 app.use(ToastService);
@@ -91,7 +89,6 @@ app.component("ProgressSpinner", ProgressSpinner);
 app.component("Dialog", Dialog);
 app.component("Sidebar", Sidebar);
 app.component("Password", Password);
-app.component("VueDatePicker", VueDatePicker);
 app.component("Textarea", Textarea);
 app.component("InputSwitch", InputSwitch);
 app.component("SelectButton", SelectButton);

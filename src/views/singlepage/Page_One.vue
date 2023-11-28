@@ -1,11 +1,11 @@
 <template>
-  <div class="container flex flex-col px-40">
-  <div class="container px-20 py-4 ">
+  <div class="container flex flex-col px-40 white-container">
+  <div class="container px-20 py-4">
     <div class="px-40 text-center head-info">    
       <h1 class="text-2xl">{{roomdata.name}}</h1>
     </div>
   </div>
-  <div class="image-box p-4 w-full h-[31.25rem] flex gap-x-2"> 
+  <div class="image-box py-2 w-full h-[31.25rem] flex gap-x-2"> 
     <div class="w-2/4 large-box">
       <img class="w-full h-full rounded-s-2xl" :src="getImage(roomdata.image)" alt="Large Image" />
     </div>
@@ -20,7 +20,7 @@
 </div>
 
   </div>
-  <div class="flex pt-4 px-5 justify-between border h-[850px]">
+  <div class="flex pt-4 px-5 justify-between border h-[850px] rounded-2xl gap-x-8">
     <!-- รายละเอียด -->
     <div class="w-1/2">
       <div class="details m-0 p-2 border-b-2 border-b-blue-400">
@@ -66,7 +66,7 @@
          
       </div>
     </div>
-    <div class="w-1/2 text-center mx-3 border-2 rounded-2xl h-[350px] shadow-lg shadow-blue-500/50">
+    <div class="w-1/2 text-center border-2 rounded-2xl h-[350px] shadow-lg shadow-blue-500/50">
        <div class="rounded "> 
           <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
             <label
@@ -227,7 +227,6 @@ export default {
       if (typeof item === 'string') {
         return `https://drive.google.com/uc?export=view&id=${item}`;
       } else if (Array.isArray(item) && item.length > 0) {
-        // return item.map((imageId) => `https://drive.google.com/uc?export=view&id=${imageId}`);
         const firstImageId = item[0];
         return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
       } else {
@@ -239,10 +238,12 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped>
+
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
 .detail-container {
   padding: 0 5rem;
   width: 100%;
@@ -265,7 +266,6 @@ export default {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 250px);
 }
-
 .small-images img {
   padding: 0.5rem;
   width: 100%;
@@ -273,13 +273,6 @@ export default {
 }
 .details {
   margin-top: 20px;
-}
-.p-calendar-w-btn .p-datepicker-trigger {
-  padding: 0.8rem;
-  color: #fff;
-    border-top-left-radius: 0;
-    background-color: #3b82f6;
-    border-bottom-left-radius: 0;
 }
 .icon-box {
   padding-left: 0.6rem;
@@ -309,8 +302,11 @@ export default {
 .hotel-info-b{
   padding: 1.25rem 0;
 }
-@media screen and (max-width:768px) {
-  
+
+@media screen and (max-width:1024px) {
+  .white-container{
+    padding: 0 5rem;
+  }
 }
 @media screen and (max-width:414px) {
   .container{
