@@ -21,16 +21,16 @@
       </div>
 
   </div>
-  <div class="flex pt-4 px-5 justify-between border h-[850px] rounded-2xl gap-x-8">
+  <div class="flex pt-4 px-5 justify-between border h-[850px] rounded-2xl gap-x-8 max-[414px]:flex-col max-[414px]:h-auto">
     <!-- รายละเอียด -->
-    <div class="w-1/2">
+    <div class="w-1/2 max-[414px]:w-full">
       <div class="details m-0 p-2 border-b-2 border-b-blue-400">
         <h1 class="text-2xl font-bold">{{ roomdata.name }}</h1>
         <p>{{roomdata.guests}} คน || {{ roomdata.bedroom }} ห้องนอน || {{ roomdata.bed }} เตียง || {{ roomdata.bathroom }} ห้องน้ำ  </p>
         <!-- รายละเอียดเพิ่มเติม -->
       </div>
       <div
-        class="host-info flex h-24 gap-x-6 py-4 w-full border-b-2 border-b-blue-400">
+        class="host-info flex h-24 gap-x-6 py-4 w-full border-b-2 border-b-blue-400 max-[414px]:py-2">
         <div class="host-img">
           <img class="w-full h-full rounded-full" src="/images/host-img/person.jpg" alt=""/>
         </div>
@@ -45,7 +45,7 @@
           </p>
         </div>
       </div>
-      <div class="sleep-place h-[253px] py-12">
+      <div class="sleep-place h-[253px] py-12 max-[414px]:py-4">
         <h2 class="pb-3">สถานที่นอน</h2>
         <div
           class="flex flex-col gap-y-1 sleep-box border-2 border-black rounded-2xl w-[207px] h-[143px]">
@@ -60,14 +60,14 @@
             <p>{{ roomdata.bedroom }} เตียงนอน  {{ roomdata.bathroom }} ห้องน้ำ </p>
           </div>
         </div>
-        <div class="hotel-info-b border-t-2  border-t-blue-400 mt-4">
+        <div class="hotel-info-b border-t-2  border-t-blue-400 mt-4 max-[414px]:mt-2">
            พิกัด :
           <p>{{ roomdata.address }}  ตำบล: {{ roomdata.tambon }}  อำเภอ: {{ roomdata.amphure }} จังหวัด: {{  roomdata.province }}</p>
         </div>
          
       </div>
     </div>
-    <div class="w-1/2 text-center border-2 rounded-2xl h-[350px] shadow-lg shadow-blue-500/50">
+    <div class="w-1/2 text-center border-2 rounded-2xl h-[350px] shadow-lg shadow-blue-500/50 max-[414px]:w-full max-[414px]:my-4">
        <div class="rounded "> 
           <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
             <label class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2" for="grid-first-name">
