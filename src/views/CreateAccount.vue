@@ -71,7 +71,7 @@
 
     <!-- Partner Modal -->
     <Dialog v-model:visible="showModalPartner" @onHide="close" maximizable modal header="สมัครพาร์ทเนอร์"
-      :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+      :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '640px': '90vw' }">
       <form class="form-control">
         <label for="name">Name :</label>
         <InputText class="input-form" type="text" v-model="partner.name" @input="validateField('name', 'partner')"
@@ -124,15 +124,15 @@
           placeholder="Address" />
         <span class="error-message">{{ errors.address }}</span>
 
-        <div class="input-content">
-          <div class="input-box">
+        <div class="input-content ">
+          <div class="input-box ">
             <label for="password">Password :</label>
             <InputText class="input-form" type="text" v-model="partner.password"
               @input="validateField('password', 'partner')" placeholder="password" />
             <span class="error-message">{{ errors.password }}</span>
           </div>
 
-          <div class="input-box">
+          <div class="input-box ">
             <label for="confirmPassword">Confirm-Password :</label>
             <InputText class="input-form" type="text" v-model="partner.confirmPassword"
               @input="validateField('confirmPassword', 'partner')" placeholder="confirmPassword" />
@@ -574,6 +574,17 @@ input {
 @media (max-width: 768px) {
   label {
     font-size: 10px;
+  }
+}
+
+@media (max-width: 640px) {
+  .input-content {
+    display: grid;
+  }
+
+  .input-box {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
   }
 }
 </style>
