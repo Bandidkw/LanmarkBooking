@@ -23,13 +23,13 @@
         <span class="error-message">{{ errors.name }}</span>
         <div class="input-content">
           <div class="input-box">
-            <label for="fname">First Name :</label>
+            <label for="fname">Firstname :&emsp;&emsp;&emsp;&emsp;</label>
             <InputText class="input-form" type="text" v-model="member.fname" @input="validateField('fname', 'member')"
               placeholder="First name" />
             <span class="error-message">{{ errors.fname }}</span>
           </div>
           <div class="input-box">
-            <label for="lname">Last Name :</label>
+            <label for="lname">Lastname &nbsp;:</label>
             <InputText class="input-form" type="text" v-model="member.lname" @input="validateField('lname', 'member')"
               placeholder="Last name" />
             <span class="error-message">{{ errors.lname }}</span>
@@ -55,7 +55,6 @@
           </div>
           <div class="input-box">
             <label for="confirmPassword">Confirm-Password :</label>
-
             <InputText class="input-form" type="password" v-model="member.confirmPassword"
               @input="validateField('confirmPassword', 'member')" placeholder="Confirm Password" />
             <span class="error-message">{{ errors.confirmPassword }}</span>
@@ -132,7 +131,7 @@
             <span class="error-message">{{ errors.password }}</span>
           </div>
 
-          <div class="input-box ">
+          <div class="input-box">
             <label for="confirmPassword">Confirm-Password :</label>
             <InputText class="input-form" type="text" v-model="partner.confirmPassword"
               @input="validateField('confirmPassword', 'partner')" placeholder="confirmPassword" />
@@ -557,6 +556,7 @@ label {
 input {
   border: solid 1px #3b82f6;
   border-radius: 8px;
+  width: 100%;
 }
 
 .register-text h1 {
@@ -567,6 +567,7 @@ input {
 .close-button {
   border-radius: 1.5rem;
 }
+
 
 
 
@@ -582,9 +583,15 @@ input {
     display: grid;
   }
 
+  .register-text h1 {
+    color: #fff;
+    font-size: 4rem;
+  }
+
   .input-box {
     display: grid;
     grid-template-columns: repeat(2, auto);
+    justify-content: space-between;
   }
 }
 </style>
