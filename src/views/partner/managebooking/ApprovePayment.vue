@@ -1,5 +1,5 @@
 <template>
-  <div class="grid px-10 mt-3 ml-5 mr-5">
+  <div class="grid px-10 mt-3 ml-5 mr-5 w-full">
     <div class="col-12 lg:col-12 border">
       <div class="text-center font-bold text-4xl">ข้อมูลอนุมัติการชำระเงิน</div>
       <div class="text-right my-5"></div>
@@ -17,69 +17,75 @@
         </template>
 
         <Column field="member_id.name" header="ชื่อผู้จอง" style="width: 20%"></Column>
-        <Column field="room_id.name"  header="ห้องพัก" style="width: 10%">
+        <Column field="room_id.name" header="ห้องพัก" style="width: 10%">
         </Column>
-        <Column  header="วันที่จะจอง" style="width: 10%">
-          <template #body="{data}">
-              {{new Date(data.date_from).toLocaleDateString('th-TH',{ timeZone: 'Asia/Bangkok', day: 'numeric', month: 'numeric', year: 'numeric' })}} - 
-              {{new Date(data.date_to).toLocaleDateString('th-TH',{ timeZone: 'Asia/Bangkok', day: 'numeric', month: 'numeric', year: 'numeric' })}}
+        <Column header="วันที่จะจอง" style="width: 10%">
+          <template #body="{ data }">
+            {{ new Date(data.date_from).toLocaleDateString('th-TH', {
+              timeZone: 'Asia/Bangkok', day: 'numeric', month:
+                'numeric', year: 'numeric'
+            }) }} -
+            {{ new Date(data.date_to).toLocaleDateString('th-TH', {
+              timeZone: 'Asia/Bangkok', day: 'numeric', month:
+                'numeric', year: 'numeric'
+            }) }}
           </template>
         </Column>
-         <Column  header="จำนวนคืน" style="width: 10%">
-          <template #body="{data}">
-           {{ calculateNightStay(data.date_from, data.date_to) }}
+        <Column header="จำนวนคืน" style="width: 10%">
+          <template #body="{ data }">
+            {{ calculateNightStay(data.date_from, data.date_to) }}
           </template>
         </Column>
-         <Column field="price"  header="ราคา" style="width: 10%"></Column>
+        <Column field="price" header="ราคา" style="width: 10%"></Column>
         <Column header="รายละเอียด" style="width: 10%;">
           <template #body="{ data }">
             <Button @click="showPartnerDetail(data)"
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">รายละเอียด</Button> 
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">รายละเอียด</Button>
           </template>
 
         </Column>
 
-       
+
       </DataTable>
     </div>
   </div>
   <Dialog v-model:visible="DetailPartner" modal :style="{ width: '50rem' }"
-              :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-              <div class="grid">
-                <div class="col-12 text-center">
-                  <h2>ข้อมูลรายละเอียด</h2>
-                </div>
-              </div>
-              <div class="grid">
-                <div class="col-12 md:col-12">
-                    <div class="col-12">
-                      <p> ชื่อผู้จอง:</p>
-                      <InputText  v-model="membername" class="w-full text-black-950 font-bold"  style="color:#000"  disabled/>
-                    </div>
-                    <div class="col-12">
-                      <p> ห้อง :</p>
-                      <InputText v-model="roomname" class="w-full text-black-950 font-bold"  style="color:#000" disabled/>
-                    </div>
-                    <div class="col-12">
-                      <p>วันที่จะจอง : </p>
-                      <InputText v-model="datebooking" class="w-full text-black-950 font-bold "  style="color:#000" disabled/>
-                    </div>
-                    <div class="col-12">
-                      <p>ราคา : </p>
-                      <InputText v-model="price" class="w-full text-black-950 font-bold "  style="color:#000" disabled/>
-                    </div>
-                    <div class="col-12 text-center">
-                      <p>ภาพ : </p>
-                      <Image :src="getImage(slip_image)" width="200" :preview="true" />
-                    </div>
-                </div>
-                <div class="col-12 md:col-12 text-center">
-                    <Button @click="approvepartner()"
-                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2 boeder-none">อนุมัติ</Button>
-                    <Button @click="unapprovepartner()"
-                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">ไม่อนุมัติ</Button>
-                </div>
+    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+    <div class="grid">
+      <div class="col-12 text-center">
+        <h2>ข้อมูลรายละเอียด</h2>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-12 md:col-12">
+        <div class="col-12">
+          <p> ชื่อผู้จอง:</p>
+          <InputText v-model="membername" class="w-full text-black-950 font-bold" style="color:#000" disabled />
         </div>
+        <div class="col-12">
+          <p> ห้อง :</p>
+          <InputText v-model="roomname" class="w-full text-black-950 font-bold" style="color:#000" disabled />
+        </div>
+        <div class="col-12">
+          <p>วันที่จะจอง : </p>
+          <InputText v-model="datebooking" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+        </div>
+        <div class="col-12">
+          <p>ราคา : </p>
+          <InputText v-model="price" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+        </div>
+        <div class="col-12 text-center">
+          <p>ภาพ : </p>
+          <Image :src="getImage(slip_image)" width="200" :preview="true" />
+        </div>
+      </div>
+      <div class="col-12 md:col-12 text-center">
+        <Button @click="approvepartner()"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2 boeder-none">อนุมัติ</Button>
+        <Button @click="unapprovepartner()"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">ไม่อนุมัติ</Button>
+      </div>
+    </div>
   </Dialog>
 </template>
 
@@ -101,8 +107,8 @@ export default {
     const DetailPartner = ref(false);
     let data_id = ref("");
     let membername = ref("");
-    let roomname= ref("");
-    let datebooking= ref("");
+    let roomname = ref("");
+    let datebooking = ref("");
     let price = ref("")
     let slip_image = ref("")
     let payment_id = ref("")
@@ -124,10 +130,10 @@ export default {
         if (Response.data.status === true) {
           const datafindstatus = Response.data.data.filter(item => item.status[item.status.length - 1].statusbooking === "ยีนยันการชำระเงิน")
           item_product.value = datafindstatus.reverse();
-          item_payment.value= Response.data.payment
+          item_payment.value = Response.data.payment
           console.log(datafindstatus)
           console.log(Response.data.payment)
-         
+
         } else {
           console.error("Data is missing in the API response.");
         }
@@ -137,7 +143,7 @@ export default {
     };
     const approvepartner = async () => {
       try {
-         const pay_id =payment_id.value
+        const pay_id = payment_id.value
         const response = await axios.put(
           `${process.env.VUE_APP_API}booking/confirmBookingPayment/${pay_id}`,
           {},
@@ -175,7 +181,7 @@ export default {
     };
     const unapprovepartner = async () => {
       try {
-        const pay_id =payment_id.value
+        const pay_id = payment_id.value
         const response = await axios.put(
           `${process.env.VUE_APP_API}booking/Unconfirmbookingpayment/${pay_id}`,
           {},
@@ -210,32 +216,32 @@ export default {
         });
       }
     };
-    const showPartnerDetail = async (data) => {            
-        DetailPartner.value = true;
-        data_id.value = data._id
-        membername.value = data.member_id.name
-        roomname.value = data.room_id.name
-        datebooking.value = new Date(data.date_from).toLocaleDateString('th-TH',{ timeZone: 'Asia/Bangkok', day: 'numeric', month: 'numeric', year: 'numeric' }) +" - "+ new Date(data.date_to).toLocaleDateString('th-TH',{ timeZone: 'Asia/Bangkok', day: 'numeric', month: 'numeric', year: 'numeric' })
-        price.value = data.price
-        ///แปลงเป็น array
-        const transformedData =item_payment.value.map(item => ({
-          _id: item._id,
-          booking_id: item.booking_id,
-          slip_image: item.slip_image,
-          total_amount: item.total_amount,
-          payment_status: item.payment_status,
-          createdAt: item.createdAt,
-          updatedAt: item.updatedAt,
-          v: item.__v
-        }));
-        const payment =transformedData.filter(item => item.booking_id === data._id)
-        slip_image.value=payment[payment.length-1].slip_image
-        payment_id.value=payment[payment.length-1]._id
-        //slip_image.value = transformedData.slip_image
-        //console.log(transformedData[0])
-    
+    const showPartnerDetail = async (data) => {
+      DetailPartner.value = true;
+      data_id.value = data._id
+      membername.value = data.member_id.name
+      roomname.value = data.room_id.name
+      datebooking.value = new Date(data.date_from).toLocaleDateString('th-TH', { timeZone: 'Asia/Bangkok', day: 'numeric', month: 'numeric', year: 'numeric' }) + " - " + new Date(data.date_to).toLocaleDateString('th-TH', { timeZone: 'Asia/Bangkok', day: 'numeric', month: 'numeric', year: 'numeric' })
+      price.value = data.price
+      ///แปลงเป็น array
+      const transformedData = item_payment.value.map(item => ({
+        _id: item._id,
+        booking_id: item.booking_id,
+        slip_image: item.slip_image,
+        total_amount: item.total_amount,
+        payment_status: item.payment_status,
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt,
+        v: item.__v
+      }));
+      const payment = transformedData.filter(item => item.booking_id === data._id)
+      slip_image.value = payment[payment.length - 1].slip_image
+      payment_id.value = payment[payment.length - 1]._id
+      //slip_image.value = transformedData.slip_image
+      //console.log(transformedData[0])
 
-      }
+
+    }
 
     onMounted(() => {
       getData();
@@ -267,7 +273,7 @@ export default {
       const endDate = new Date(dateTo);
       const timeDiff = endDate.getTime() - startDate.getTime();
       const nights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-      return `${nights+1} คืน`;
+      return `${nights + 1} คืน`;
     },
     getImage(item) {
       if (typeof item === 'string') {

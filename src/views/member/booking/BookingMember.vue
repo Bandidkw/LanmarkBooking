@@ -1,5 +1,5 @@
 <template>
-  <div class="grid px-10 mt-3 ml-5 mr-5">
+  <div class="grid px-10 mt-3 ml-5 mr-5 w-full">
     <div class="col-12 lg:col-12 border">
       <div class="text-center font-bold text-4xl">ข้อมูลการจองห้อง</div>
       <div class="text-right my-5"></div>

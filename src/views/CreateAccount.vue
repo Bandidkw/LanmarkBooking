@@ -359,11 +359,11 @@ export default {
           .email("Invalid email format.")
           .required("Email is required."),
         phone: yup.string()
-          .required("Please Enter Phone Number")
-          .matches(
-            /^[0-9-]+$/,
-            "Invalid phone number. Please enter a valid phone number."
-          ),
+          .required("Please Enter Phone Number"),
+        // .matches(
+        //   /^[0-9-]+$/,
+        //   "Invalid phone number. Please enter a valid phone number."
+        // ),
         password: yup.string().required("Password is required."),
         confirmPassword: yup
           .string()
@@ -376,16 +376,16 @@ export default {
       const PartnerSchema = yup.object({
         name: yup.string().required("Name is required."),
         phone: yup.string()
-          .required("Please Enter Phone Number")
-          .matches(
-            /^[0-9-]+$/,
-            "Invalid phone number. Please enter a valid phone number."
-          ),
-        idcard: yup.string().required("ID card is required")
-          .matches(
-            /^[0-9]{1}-[0-9]{4}-[0-9]{5}-[0-9]{2}-[0-9]{1}$/,
-            "Invalid Id Card Number. Please enter a valid Id Card number."
-          ),
+          .required("Please Enter Phone Number"),
+        // .matches(
+        //   /^[0-9-]+$/,
+        //   "Invalid phone number. Please enter a valid phone number."
+        // ),
+        idcard: yup.string().required("ID card is required"),
+        // .matches(
+        //   /^[0-9]{1}-[0-9]{4}-[0-9]{5}-[0-9]{2}-[0-9]{1}$/,
+        //   "Invalid Id Card Number. Please enter a valid Id Card number."
+        // )
         filepic: yup
           .mixed()
           .required("Please upload a file")
@@ -427,14 +427,14 @@ export default {
 
       try {
         await schema.validateAt(fieldName, this[userType]);
-        if (fieldName === 'phone' && this[userType][fieldName]) {
-          // this[userType][fieldName] = this[userType][fieldName].replace(/[^0-9]/g, ''); // Remove non-numeric characters
-          this[userType][fieldName] = this[userType][fieldName].replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
-        }
-        if (fieldName === 'idcard' && this[userType][fieldName]) {
-          // this[userType][fieldName] = this[userType][fieldName].replace(/[^0-9]/g, ''); // Remove non-numeric characters
-          this[userType][fieldName] = this[userType][fieldName].replace(/(\d{1})(\d{4})(\d{5})(\d{2})(\d{1})/, '$1-$2-$3-$4-$5');
-        }
+        // if (fieldName === 'phone' && this[userType][fieldName]) {
+        //   // this[userType][fieldName] = this[userType][fieldName].replace(/[^0-9]/g, ''); // Remove non-numeric characters
+        //   this[userType][fieldName] = this[userType][fieldName].replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+        // }
+        // if (fieldName === 'idcard' && this[userType][fieldName]) {
+        //   // this[userType][fieldName] = this[userType][fieldName].replace(/[^0-9]/g, ''); // Remove non-numeric characters
+        //   this[userType][fieldName] = this[userType][fieldName].replace(/(\d{1})(\d{4})(\d{5})(\d{2})(\d{1})/, '$1-$2-$3-$4-$5');
+        // }
         this.errors[fieldName] = null;
       } catch (error) {
         if (error instanceof yup.ValidationError) {
