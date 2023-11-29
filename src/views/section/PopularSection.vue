@@ -182,5 +182,9 @@ export default {
     text-align: center;
     padding: 0.5rem;
   }
+  .image-container img {
+  width: 250px;
+  height: 250px;
+}
 }
 </style>

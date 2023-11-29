@@ -21,16 +21,16 @@
       </div>
 
   </div>
-  <div class="flex pt-4 px-5 justify-between border h-[850px] rounded-2xl gap-x-8 max-[414px]:flex-col max-[414px]:h-auto">
+  <div class="flex pt-4 px-5 justify-between border h-[850px] rounded-2xl gap-x-8 max-[430px]:flex-col max-[430px]:h-auto max-[414px]:flex-col max-[414px]:h-auto">
     <!-- รายละเอียด -->
-    <div class="w-1/2 max-[414px]:w-full">
+    <div class="w-1/2 max-[414px]:w-full max-[430px]:w-full ">
       <div class="details m-0 p-2 border-b-2 border-[#3b82f6]">
         <h1 class="text-2xl font-bold">{{ roomdata.name }}</h1>
         <p>{{roomdata.guests}} คน || {{ roomdata.bedroom }} ห้องนอน || {{ roomdata.bed }} เตียง || {{ roomdata.bathroom }} ห้องน้ำ  </p>
         <!-- รายละเอียดเพิ่มเติม -->
       </div>
       <div
-        class="host-info flex h-24 gap-x-6 py-4 w-full border-b-2 border-[#3b82f6] max-[414px]:py-2 max-[414px]:px-4 max-[414px]:justify-between">
+        class="host-info flex h-24 gap-x-6 py-4 w-full border-b-2 border-[#3b82f6] max-[430px]:justify-between max-[414px]:py-2 max-[414px]:px-4 max-[414px]:justify-between">
         <div class="host-img">
           <img class="w-full h-full rounded-full" src="/images/host-img/person.jpg" alt=""/>
         </div>
@@ -45,7 +45,7 @@
           </p>
         </div>
       </div>
-      <div class="sleep-place h-[253px] py-12 max-[414px]:py-4">
+      <div class="sleep-place h-[253px] py-12 max-[414px]:py-4 max-[430px]:py-4">
         <h2 class="pb-3">สถานที่นอน</h2>
         <div
           class="flex flex-col gap-y-1 sleep-box border-2 border-black rounded-2xl w-[207px] h-[143px]">
@@ -67,7 +67,7 @@
          
       </div>
     </div>
-    <div class="reserve-box w-1/2 text-center border-2 rounded-2xl h-[350px] shadow-md max-[414px]:w-full max-[414px]:my-4">
+    <div class="reserve-box w-1/2 text-center border-2 rounded-2xl h-[350px] shadow-md max-[430px]:w-full max-[430px]:my-4 max-[414px]:w-full max-[414px]:my-4">
        <div class="rounded "> 
           <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
             <label class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2" for="grid-first-name">
@@ -317,6 +317,69 @@ export default {
     padding: 0 5rem;
   }
 }
+
+@media screen and (max-width:430px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .head-info {
+    padding: 0;
+  }
+
+  .image-box {
+    row-gap: 0.5rem;
+    height: auto;
+    flex-direction: column;
+  }
+
+  .large-box {
+    grid-gap: 0.5rem;
+    width: 100%;
+  }
+
+  .large-box img {
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .small-box {
+    width: 100%;
+    height: 100%;
+  }
+
+  .small-box img {
+    border-radius: 0;
+  }
+
+  .booking-box{
+    margin: 0;
+    width: auto;
+  }
+
+  .booking-btn {
+    margin: 0;
+    padding: 0;
+  }
+
+  .hotel-box {
+    height: auto;
+  }
+
+  .hotel-info {
+    height: fit-content;
+  }
+
+  .sleep-box {
+    padding: 0.5rem;
+    width: 100%;
+    height: auto;
+  }
+  .hotel-info-b{
+    margin-top: 1rem;
+  }
+}
 @media screen and (max-width:414px) {
   .container {
     padding: 0 1rem;
@@ -378,4 +441,5 @@ export default {
   .hotel-info-b{
     margin-top: 1rem;
   }
-}</style>
+}
+</style>

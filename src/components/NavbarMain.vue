@@ -66,6 +66,11 @@ export default {
   margin: 0;
 }
 
+@media screen and (max-width:820px) {
+  .search-box {
+    display: none;
+  }
+}
 @media screen and (max-width:768px) {
   .search-box {
     display: none;
