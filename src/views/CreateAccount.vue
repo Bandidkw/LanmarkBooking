@@ -61,7 +61,7 @@
           </div>
         </div>
 
-        <div class="">
+        <div class="flex justify-content-end">
           <Button label="Register" @click="register('member')" severity="help" rounded />
         </div>
       </form>
@@ -138,7 +138,7 @@
             <span class="error-message">{{ errors.confirmPassword }}</span>
           </div>
         </div>
-        <div class>
+        <div class="flex justify-content-end">
           <Button label="Register" @click="register('partner')" severity="help" rounded />
         </div>
       </form>
@@ -152,11 +152,11 @@
 import * as yup from "yup";
 import axios from "axios";
 import { onMounted, ref } from "vue";
-import Swal from "sweetalert2";
+import { useToast } from "primevue/usetoast";
 export default {
   data() {
 
-
+    const toast = useToast()
     const provincedropdown = ref([]);
     const amphuredropdown = ref([null]);
     const tambondropdown = ref([null]);
@@ -169,6 +169,14 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    };
+
+    const showSuccess = () => {
+      toast.add({ severity: 'success', summary: 'ลงทะเบียนสำเร็จ', detail: 'ยินดีต้อนรับ', life: 3000 });
+    }
+
+    const showError = () => {
+      toast.add({ severity: 'error', summary: 'ลงทะเบียนไม่สำเร็จ', detail: 'ข้อมูลไม่ถูกต้อง หรือ ครบถ้วน', life: 3000 });
     };
 
     onMounted(() => {
@@ -202,6 +210,8 @@ export default {
       errors: {},
       showModalPartner: false,
       showModalMember: false,
+      showSuccess,
+      showError
     };
   },
   // created() {
@@ -277,17 +287,10 @@ export default {
             }
           );
           if (productResponse.data && productResponse.data) {
-            await Swal.fire({
-              icon: "success",
-              title: "ลงทะเบียนเรียบร้อย",
-            });
-            this.$router.push("/");
+            this.showSuccess()
             console.log(productResponse, "success");
           } else {
-            await Swal.fire({
-              icon: "error",
-              title: "ลงทะเบียนไม่สำเร็จ",
-            });
+            this.showError()
             console.error("Data is missing in the API response.");
           }
         } else if (userType === "partner") {
@@ -309,16 +312,11 @@ export default {
           if (productResponse.data.status === true) {
             console.log(productResponse.data);
             await this.uploadPicture(productResponse.data.data._id);
-            Swal.fire({
-              icon: "success",
-              title: "ลงทะเบียนเรียบร้อย",
-            });
-            this.$router.push("/");
+
+            this.showSuccess()
+
           } else {
-            await Swal.fire({
-              icon: "error",
-              title: "ลงทะเบียนไม่สำเร็จ",
-            });
+            this.showError()
             console.error("Data is missing in the API response.");
           }
         }
@@ -326,14 +324,7 @@ export default {
         this.showModalPartner = false;
         this.showModalMember = false;
       } catch (error) {
-        await Swal.fire({
-          icon: "error",
-          title: "เกิดข้อผิดพลาด",
-          text: error,
-          customClass: {
-            popup: 'custom-swal2-modal',
-          },
-        });
+        this.showError()
         console.error("Form validation failed:", error);
       }
     },
@@ -507,7 +498,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .center-container {
   background-image: url("/public/images/hotel-room/Register_Page.png");
   display: flex;

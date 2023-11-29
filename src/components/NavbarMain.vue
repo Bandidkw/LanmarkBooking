@@ -1,19 +1,17 @@
 <!-- Navbar.vue -->
 <template>
-  <nav class="nav-bar" style="box-shadow: rgba(0, 0, 0, 0.08) 0 1px 1px">
+  <nav class="nav-bar" style="box-shadow: rgba(59, 131, 246, 0.712) 0 3px 0 0">
     <router-link to="/" class="topweb-left">
       <img src="/logo/lanmark-logo-navbar.png" alt="" />
     </router-link>
 
     <div class="search-box">
       <span class="p-input-icon-right">
-        <i class="pi pi-search pr-2 cursor-pointer" />
         <InputText placeholder="Search" class="search-box-input" />
+        <i class="pi pi-search pr-2 cursor-pointer pl-2 mb-4" />
       </span>
     </div>
-
     <LoginUser />
-
   </nav>
 </template>
 
@@ -73,10 +71,17 @@ export default {
     display: none;
   }
 }
+@media screen and (max-width:640px) {
+  .search-box {
+    display: none;
+  }
+}
 
 @media screen and (max-width:414px) {
   .nav-bar {
     padding: 0 1rem;
+    display: flex;
+    gap: 5rem;
   }
 }
 </style>

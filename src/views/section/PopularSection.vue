@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-container gap-2 max-[576px]:grid-cols-2">
+  <div class="grid-container gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3">
     <div v-for="(item, index) in gridData" :key="index" class="grid-item">
       <router-link :to="{ name: 'hotel', params: { id: item._id } }">
         <div class="image-container">
@@ -66,7 +66,6 @@ export default {
 </script>
   
 <style scope>
-
 .p-galleria.p-galleria-indicator-onitem .p-galleria-indicators {
   background: none;
 }
@@ -93,27 +92,6 @@ export default {
   margin-bottom: 2rem;
 }
 
-.image-container .favor {
-  font-size: 1.3rem;
-  color: white;
-  position: absolute;
-  top: 10%;
-  right: 5%;
-}
-
-.image-container .next {
-  transition: all 0.2s ease-in-out;
-  opacity: 0;
-  position: absolute;
-  color: #fff;
-  font-size: 1.8rem;
-  right: 5%;
-  top: 42%;
-}
-
-.image-container:hover .next {
-  opacity: 1;
-}
 
 .image-container img {
   width: 250px;
@@ -137,13 +115,14 @@ export default {
   .grid-container {
     grid-template-columns: repeat(4, 1fr);
   }
+
   .image-container img {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 1.5rem;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 1.5rem;
+  }
 }
-} 
 
 @media screen and (max-width:992px) {
   .grid-container {
@@ -151,37 +130,47 @@ export default {
   }
 }
 
-@media screen and (max-width:768) {
+@media screen and (max-width:768px) {
   .grid-container {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media screen and (max-width:640px) {
   .grid-container {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
-  .p-galleria-item{
+
+  .p-galleria-item {
     justify-content: start;
   }
-  .image-container{
+
+  .image-container {
     margin-bottom: 1rem;
   }
+  .image-container img {
+  width: 150px;
+  height: 150px;
 }
+}
+
 @media screen and (max-width:414px) {
   .grid-container {
     grid-template-columns: repeat(1, 1fr);
   }
-  .p-galleria-item{
+
+  .p-galleria-item {
     width: 100%;
     justify-content: center;
   }
-  .image-container{
+
+  .image-container {
     margin-bottom: 1rem;
   }
+
   .grid-item {
     text-align: center;
     padding: 0.5rem;
-}
+  }
 }
 </style>

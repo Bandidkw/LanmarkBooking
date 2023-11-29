@@ -1,5 +1,6 @@
 <template >
   <div>
+    <Toast />
     <div class="topweb-right">
       <p>ให้เช่าที่พักกับ Lanmark</p>
       <div class="login-box" @click="showPopup">
@@ -39,8 +40,17 @@
 </template>
 <script>
 import axios from 'axios';
+import { useToast } from "primevue/usetoast";
 export default {
+
   data() {
+    const toast = useToast();
+    const showSuccess = () => {
+      toast.add({ severity: 'success', summary: 'ล็อคอินสำเร็จ', detail: 'ยินดีต้อนรับ', life: 3000 });
+    }
+    const showError = () => {
+      toast.add({ severity: 'error', summary: 'ล็อคอินไม่สำเร็จ', detail: 'ข้อมูลผิดพลาด หรือ ยังไม่ได้ลงทะเบียน', life: 3000 });
+    };
     return {
       telephone: "",
       password: "",
@@ -48,7 +58,8 @@ export default {
       showValidationError: false,
       LoginModal: false,
       RegisterVisible: false,
-
+      showSuccess,
+      showError
     }
   }, methods: {
     showPopup() {
@@ -70,16 +81,19 @@ export default {
             password: this.password,
           });
           if (res.data) {
+            this.showSuccess()
             setTimeout(() => {
               localStorage.setItem("token", res.data.token);
               window.location.assign("/");
               console.log(res.data);
             }, 1500);
           } else {
+            this.showError()
             return console.log("faill");
           }
         } catch (error) {
           console.log(error);
+          this.showError()
         }
       }
     },
@@ -108,7 +122,7 @@ export default {
   },
 }
 </script>
-<style >
+<style scope >
 .topweb-right {
   display: flex;
   align-items: center;
@@ -131,11 +145,13 @@ export default {
   background-color: #c7c7c7;
   border-radius: 25px;
 }
-.icon-log{
+
+.icon-log {
   border-radius: 50%;
 }
+
 .login-box .log-icon:active {
-  background-color: #00bbf9;
+  background-color: #3b82f6;
   box-shadow: 0 3px #666;
   transform: translateY(1px);
 }
@@ -161,8 +177,14 @@ export default {
   flex-direction: column;
   row-gap: 0.5rem;
 }
-
-
+.log-icon{
+  transition: all 0.2s ease-in-out;
+}
+.log-icon:hover{
+  background: #fff;
+  box-shadow: 0px 2px 10px 5px #3b82f6;
+  color: #000;
+}
 .button-con input[type="checkbox"] {
   margin-right: 5px;
 }
@@ -177,13 +199,14 @@ label {
   cursor: pointer;
 
 }
+
 /* .p-button.p-button-help, .p-buttonset.p-button-help > .p-button, .p-splitbutton.p-button-help > .p-button {
     color: #ffffff;
     background: #3b82f6;
     border: 1px solid #3b82f6;
 } */
 @media screen and (max-width:640px) {
-  .topweb-right p{
+  .topweb-right p {
     display: none;
   }
 }

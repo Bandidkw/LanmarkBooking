@@ -1,5 +1,6 @@
 <template>
-  <Button @click="onclick = true" class="bg-green-400 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2"
+  <Button @click="onclick = true"
+    class="border-none bg-green-400 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2"
     label="เพิ่มประเภทห้อง" />
 
   <Dialog header="เพิ่มประเภทห้อง" v-model:visible="onclick" modal :style="{ width: '50rem' }"
