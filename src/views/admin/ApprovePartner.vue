@@ -173,7 +173,7 @@ export default {
         await Swal.fire({
           icon: "error",
           title: "เกิดข้อผิดพลาด",
-          text: "ไม่สามารถทำตามข้อมูลได้",
+          text: error,
         });
       }
     };

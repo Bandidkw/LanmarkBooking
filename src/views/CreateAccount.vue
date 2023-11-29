@@ -69,8 +69,8 @@
 
 
     <!-- Partner Modal -->
-    <Dialog v-model:visible="showModalPartner" @onHide="close" maximizable modal header="สมัครพาร์ทเนอร์"
-      :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '640px': '90vw' }">
+    <Dialog v-model:visible="showModalPartner" :baseZIndex="3000" @onHide="close" maximizable modal header="สมัครพาร์ทเนอร์"
+      :style="{ width: '50rem' , zIndex: '1'}" :breakpoints="{ '1199px': '75vw', '640px': '90vw' }">
       <form class="form-control">
         <label for="name">Name :</label>
         <InputText class="input-form" type="text" v-model="partner.name" @input="validateField('name', 'partner')"
@@ -89,7 +89,7 @@
 
         <label for="filepic"> File Picture ID Card :</label>
         <div class="card">
-          <FileUpload name="demo[]" url="/api/upload" id="fileinput" ref="fileinput" type="file"
+          <FileUpload name="demo[]"  id="fileinput" ref="fileinput" type="file"
             class="custom-file-upload" @change="handleFileChange" accept="image/*">
             <template #empty>
               <p>Upload File Picture</p>
@@ -153,7 +153,6 @@ import * as yup from "yup";
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
-
 export default {
   data() {
 
@@ -282,7 +281,7 @@ export default {
               icon: "success",
               title: "ลงทะเบียนเรียบร้อย",
             });
-
+            this.$router.push("/");
             console.log(productResponse, "success");
           } else {
             await Swal.fire({
@@ -307,13 +306,14 @@ export default {
               level: "1",
             }
           );
-          if (productResponse.data && productResponse.data) {
-            console.log(productResponse, "success");
+          if (productResponse.data.status === true) {
+            console.log(productResponse.data);
             await this.uploadPicture(productResponse.data.data._id);
             Swal.fire({
               icon: "success",
               title: "ลงทะเบียนเรียบร้อย",
             });
+            this.$router.push("/");
           } else {
             await Swal.fire({
               icon: "error",
@@ -322,19 +322,18 @@ export default {
             console.error("Data is missing in the API response.");
           }
         }
-        this.$router.push("/");
+        
         this.showModalPartner = false;
         this.showModalMember = false;
       } catch (error) {
-        // await Swal.fire({
-        //   icon: "error",
-        //   title: "ลงทะเบียนไม่สำเร็จ",
-        //   text: error,
-        //   customClass: {
-        //     popup: 'swal-popup',
-        //     content: 'swal-content',
-        //   },
-        // });
+        await Swal.fire({
+          icon: "error",
+          title: "เกิดข้อผิดพลาด",
+          text: error,
+          customClass: {
+            popup: 'custom-swal2-modal',
+          },
+        });
         console.error("Form validation failed:", error);
       }
     },
@@ -593,5 +592,9 @@ input {
     grid-template-columns: repeat(2, auto);
     justify-content: space-between;
   }
+}
+
+div:where(.swal2-container) {
+  z-index: 9000;
 }
 </style>
