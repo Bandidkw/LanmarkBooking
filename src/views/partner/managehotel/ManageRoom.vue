@@ -7,7 +7,7 @@
           <p class="w-40 text-center text-2xl text-bold m-0" >สถานะ: {{ reservationEnabled ? 'เปิด' : 'ปิด' }}</p>
         </div>
         <div class="card flex justify-center mt-2">
-          <InputSwitch v-model="reservationEnabled" />
+          <InputSwitch v-model="reservationEnabled" @click="changeallstatus()" />
         </div>
       </div>
       <DataTable :value="Array.isArray(item_product) ? item_product : []" :paginator="true" :rows="20"
@@ -160,37 +160,6 @@ export default {
     });
 
 
-    watch(
-      () => reservationEnabled.value,
-      async (newValue) => {
-        try {
-          if (newValue == true) {
-            await axios.put(`${process.env.VUE_APP_API}room/openstatus/`, {},
-              {
-                headers: {
-                  token: localStorage.getItem("token"),
-                },
-              })
-
-            getData()
-          } else {
-            await axios.put(`${process.env.VUE_APP_API}room/closestatus/`, {},
-              {
-                headers: {
-                  token: localStorage.getItem("token"),
-                },
-              })
-
-            getData()
-          }
-        }
-        catch (error) {
-
-        }
-
-      },
-    );
-
     const handleStatusChange = async (_id, newStatus) => {
       try {
         // Update the statusbooking for the corresponding item
@@ -259,7 +228,29 @@ export default {
 
 
   methods: {
+    async changeallstatus(){
+      const  status = !this.reservationEnabled
+      if(status===true)
+      {
+        await axios.put(`${process.env.VUE_APP_API}room/openstatus/`, {},
+              {
+                headers: {
+                  token: localStorage.getItem("token"),
+                },
+              })
+        this.getData()
+      }
+      else{
+        await axios.put(`${process.env.VUE_APP_API}room/closestatus/`, {},
+              {
+                headers: {
+                  token: localStorage.getItem("token"),
+                },
+              })
 
+        this.getData()
+      }
+    },
     getImage(item) {
       if (typeof item === 'string') {
         return `https://drive.google.com/uc?export=view&id=${item}`;
