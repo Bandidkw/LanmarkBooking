@@ -126,14 +126,14 @@
         <div class="input-content ">
           <div class="input-box ">
             <label for="password">Password :</label>
-            <InputText class="input-form" type="text" v-model="partner.password"
+            <InputText class="input-form" type="password" v-model="partner.password"
               @input="validateField('password', 'partner')" placeholder="password" />
             <span class="error-message">{{ errors.password }}</span>
           </div>
 
           <div class="input-box">
             <label for="confirmPassword">Confirm-Password :</label>
-            <InputText class="input-form" type="text" v-model="partner.confirmPassword"
+            <InputText class="input-form" type="password" v-model="partner.confirmPassword"
               @input="validateField('confirmPassword', 'partner')" placeholder="confirmPassword" />
             <span class="error-message">{{ errors.confirmPassword }}</span>
           </div>
@@ -287,7 +287,6 @@ export default {
             }
           );
           if (productResponse.data && productResponse.data) {
-            this.showSuccess()
             console.log(productResponse, "success");
           } else {
             this.showError()
@@ -312,17 +311,16 @@ export default {
           if (productResponse.data.status === true) {
             console.log(productResponse.data);
             await this.uploadPicture(productResponse.data.data._id);
-
-            this.showSuccess()
-
           } else {
             this.showError()
             console.error("Data is missing in the API response.");
           }
         }
-        
+        this.showSuccess()
         this.showModalPartner = false;
         this.showModalMember = false;
+
+        await this.$router.push("/");
       } catch (error) {
         this.showError()
         console.error("Form validation failed:", error);
@@ -359,9 +357,10 @@ export default {
           .string()
           .email("Invalid email format.")
           .required("Email is required."),
-        phone: yup.string().required("Please Enter Phone Number")
+        phone: yup.string()
+          .required("Please Enter Phone Number")
           .matches(
-            /^[0-9]{10}$/,
+            /^[0-9-]+$/,
             "Invalid phone number. Please enter a valid phone number."
           ),
         password: yup.string().required("Password is required."),
@@ -375,16 +374,15 @@ export default {
     async validatePartnerForm() {
       const PartnerSchema = yup.object({
         name: yup.string().required("Name is required."),
-        phone: yup
-          .string()
-          .required("Please Enter Phone Number.")
+        phone: yup.string()
+          .required("Please Enter Phone Number")
           .matches(
-            /^[0-9]{10}$/,
+            /^[0-9-]+$/,
             "Invalid phone number. Please enter a valid phone number."
           ),
-        idcard: yup.string().required("ID card  is required")
+        idcard: yup.string().required("ID card is required")
           .matches(
-            /^[0-9]{13}$/,
+            /^[0-9]{1}-[0-9]{4}-[0-9]{5}-[0-9]{2}-[0-9]{1}$/,
             "Invalid Id Card Number. Please enter a valid Id Card number."
           ),
         filepic: yup
@@ -422,18 +420,18 @@ export default {
       }
     },
     async validateField(fieldName, userType) {
-      // Validate a specific field in real-time
       const schema = yup.object({
         [fieldName]: yup.string().required(`${fieldName} is required.`),
       });
 
       try {
         await schema.validateAt(fieldName, this[userType]);
-        // Format phone number with hyphen (e.g., 123-4567890)
         if (fieldName === 'phone' && this[userType][fieldName]) {
-          this[userType][fieldName] = this[userType][fieldName].replace(/(\d{3})(\d{7})/, '$1-$2');
+          // this[userType][fieldName] = this[userType][fieldName].replace(/[^0-9]/g, ''); // Remove non-numeric characters
+          this[userType][fieldName] = this[userType][fieldName].replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
         }
         if (fieldName === 'idcard' && this[userType][fieldName]) {
+          // this[userType][fieldName] = this[userType][fieldName].replace(/[^0-9]/g, ''); // Remove non-numeric characters
           this[userType][fieldName] = this[userType][fieldName].replace(/(\d{1})(\d{4})(\d{5})(\d{2})(\d{1})/, '$1-$2-$3-$4-$5');
         }
         this.errors[fieldName] = null;
