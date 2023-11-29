@@ -69,8 +69,9 @@
 
 
     <!-- Partner Modal -->
-    <Dialog v-model:visible="showModalPartner" :baseZIndex="3000" @onHide="close" maximizable modal header="สมัครพาร์ทเนอร์"
-      :style="{ width: '50rem' , zIndex: '1'}" :breakpoints="{ '1199px': '75vw', '640px': '90vw' }">
+    <Dialog v-model:visible="showModalPartner" :baseZIndex="3000" @onHide="close" maximizable modal
+      header="สมัครพาร์ทเนอร์" :style="{ width: '50rem', zIndex: '1' }"
+      :breakpoints="{ '1199px': '75vw', '640px': '90vw' }">
       <form class="form-control">
         <label for="name">Name :</label>
         <InputText class="input-form" type="text" v-model="partner.name" @input="validateField('name', 'partner')"
@@ -89,8 +90,8 @@
 
         <label for="filepic"> File Picture ID Card :</label>
         <div class="card">
-          <FileUpload name="demo[]"  id="fileinput" ref="fileinput" type="file"
-            class="custom-file-upload" @change="handleFileChange" accept="image/*">
+          <FileUpload name="demo[]" id="fileinput" ref="fileinput" type="file" class="custom-file-upload"
+            @change="handleFileChange" accept="image/*">
             <template #empty>
               <p>Upload File Picture</p>
             </template>
@@ -542,7 +543,6 @@ label {
 }
 
 input {
-  border: solid 1px #3b82f6;
   border-radius: 8px;
   width: 100%;
 }
