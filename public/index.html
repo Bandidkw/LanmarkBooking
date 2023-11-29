@@ -20,13 +20,49 @@
     <title>lanmark-booking</title>
   </head>
   <body>
-    <div id="app"></div>
-    <noscript></noscript>
+    <div id="app">
+
+      <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
+        <button v-show="showScrollButton" @click="scrollToTop">Go to Top</button>
+      </div>
+
+    </div>
+    <script>
+
+new Vue({
+  el: '#app',
+  data: {
+    showScrollButton: false
+  },
+  methods: {
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    },
+    handleScroll() {
+      this.showScrollButton = window.scrollY > 20;
+    }
+  },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+});
+    </script>
     <!-- built files will be auto injected -->
   </body>
   <style>
     #app {
+      /* z-index: 0; */
       width: 100%;
     }
+    body, html {
+    min-height: 100%;
+    margin: 0;
+  }
   </style>
 </html>

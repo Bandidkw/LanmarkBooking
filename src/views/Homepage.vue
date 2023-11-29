@@ -367,6 +367,13 @@ p {
     display: none;
   }
 }
+
+@media screen and (max-width:430px) {
+  .invitatain{
+    padding: 0 1rem;
+  }
+  
+}
 @media screen and (max-width:414px) {
   .invitatain{
     padding: 0 2rem 1rem 2rem;

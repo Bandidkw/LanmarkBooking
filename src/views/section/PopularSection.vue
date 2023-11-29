@@ -19,6 +19,7 @@
         <p class="text-base font-bold max-[414px]:my-2">ราคา: {{ item.price.toLocaleString() }} บาท/คืน</p>
       </div>
     </div>
+    
   </div>
 </template>
 
@@ -147,6 +148,15 @@ export default {
 
   .image-container {
     margin-bottom: 1rem;
+  }
+  .image-container img {
+  width: 150px;
+  height: 150px;
+}
+}
+@media screen and (max-width:430px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
   }
   .image-container img {
   width: 150px;
