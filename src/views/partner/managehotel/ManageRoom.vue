@@ -21,6 +21,13 @@
           </p>
         </template>
 
+        <Column header="STATUS" style="width: 5% ; ">
+          <template #body='{ data }'>
+            <div class="card flex justify-center mt-2">
+              <InputSwitch v-model="data.statusbooking" @change="handleStatusChange(data._id, data.statusbooking)" />
+            </div>
+          </template>
+        </Column>
         <Column field="name" header="ชื่อ" style="width: 5% ; "></Column>
         <Column field="image" header="Picture" style="width: 15%">
           <template #body="{ data }">
@@ -184,6 +191,37 @@ export default {
       },
     );
 
+    const handleStatusChange = async (_id, newStatus) => {
+      try {
+        // Update the statusbooking for the corresponding item
+        const updatedItem = item_product.value.find(item => item._id === _id);
+        if (updatedItem) {
+          updatedItem.statusbooking = newStatus;
+
+          // Update the statusbooking on the server
+          const response = await axios.put(
+            `${process.env.VUE_APP_API}room/openstatusbyid/${_id}`,
+            { statusbooking: newStatus },
+            {
+              headers: {
+                token: localStorage.getItem("token"),
+              },
+            }
+          );
+
+          if (!response.data) {
+            // If the update fails, revert the local change
+            updatedItem.statusbooking = !newStatus;
+            throw new Error("Failed to update statusbooking on the server");
+          }
+        } else {
+          throw new Error("Item not found in the local data");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
 
 
     return {
@@ -191,6 +229,7 @@ export default {
       item_product,
       getData,
       deleteProduct,
+      handleStatusChange
     };
   },
 
