@@ -36,7 +36,7 @@ import Swal from "sweetalert2";
 import axios from 'axios';
 import { Admin } from "../../../router/admin"
 export default {
-
+  emits: ['typeAdded'],
   setup() {
     const admin = new Admin()
     return { admin }
@@ -98,7 +98,7 @@ export default {
               text: "ข้อมูลแก้ไขข้อมูลเรียบร้อย",
             },
             );
-
+            this.$emit('typeAdded');
           } else {
             this.sidebar = false;
             await Swal.fire({

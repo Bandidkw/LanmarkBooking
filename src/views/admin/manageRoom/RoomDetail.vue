@@ -2,12 +2,12 @@
 <template>
   <div class="grid px-10 mt-3 ml-5 mr-5 w-full">
     <div class="col-12 lg:col-12 border">
-      <div class="text-center text-2xl">ประเภทห้อง</div>
+      <h1 class="text-center">ประเภทห้อง</h1>
       <div class="text-right my-5">
       <!-- <router-link to="/addroomtype" @click="isAddTypeModalOpen = true">
             <Button  label="เพิ่มประเภทห้อง" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" />
                                                                                                               </router-link> -->
-        <AddRoomtype />
+        <AddRoomtype @typeAdded="getData"/>
       </div>
       <div v-if="isAddTypeModalOpen" class="modal-styles flex flex-col">
         <h1>Modal</h1>
@@ -32,7 +32,7 @@
         <Column :exportable="false" class="lg:w-4 xl:w-3 2xl:w-0 " header="เพิ่มเติม">
 
           <template #body="item">
-            <updatetype :data="item.data" title="แก้ไขประเภทที่พัก" />
+            <updatetype :data="item.data" title="แก้ไขประเภทที่พัก" @typeAdded="getData"/>
             <Button @click="deleteProduct(item.data._id)"
               class="bg-red-500 hover:bg-red-700 border-none text-white font-bold py-2 px-4 rounded"
               style="background-color: #C21010">ลบ</Button>

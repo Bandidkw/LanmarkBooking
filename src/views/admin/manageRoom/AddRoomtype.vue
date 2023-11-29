@@ -45,6 +45,7 @@ import Swal from "sweetalert2";
 
 export default {
   name: 'AddRoomtype',
+  emits: ['typeAdded'],
   data() {
     return {
       onclick: false,
@@ -73,25 +74,30 @@ export default {
             },
           });
           if (res.data) {
+            this.onclick = false
             Swal.fire({
               icon: "success",
               title: "บันทึกสำเร็จ",
               text: "ข้อมูลถูกบันทึกเรียบร้อย",
             });
-            this.$router.push("/roomdetail");
+            this.$emit('typeAdded');
           } else {
+            this.onclick = false
             await Swal.fire({
               icon: "error",
               title: "เกิดข้อผิดพลาด",
               text: "ไม่สามารถลบข้อมูลได้",
             });
+            this.onclick = true
           }
         } catch (error) {
+          this.onclick = false
           await Swal.fire({
             icon: "error",
             title: "เกิดข้อผิดพลาด",
-            text: "ไม่สามารถลบข้อมูลได้",
+            text: error,
           });
+          this.onclick = true
         }
       }
     }
