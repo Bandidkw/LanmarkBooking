@@ -4,7 +4,7 @@
       <div class="text-center text-2xl">ข้อมูลห้อง</div>
       <div class="flex px-4 w-full item-center p-4" style="flex-direction: column; align-items: center;">
         <div class="flex justify-center">
-          <p class="w-40 text-center text-2xl text-bold m-0">สถานะ: {{ reservationEnabled ? 'เปิด' : 'ปิด' }}</p>
+          <p class="w-40 text-center text-2xl text-bold m-0" >สถานะ: {{ reservationEnabled ? 'เปิด' : 'ปิด' }}</p>
         </div>
         <div class="card flex justify-center mt-2">
           <InputSwitch v-model="reservationEnabled" />
@@ -194,10 +194,10 @@ export default {
     const handleStatusChange = async (_id, newStatus) => {
       try {
         // Update the statusbooking for the corresponding item
-        const updatedItem = item_product.value.find(item => item._id === _id);
+        if (newStatus == true) {
+          const updatedItem = item_product.value.find(item => item._id === _id);
         if (updatedItem) {
           updatedItem.statusbooking = newStatus;
-
           // Update the statusbooking on the server
           const response = await axios.put(
             `${process.env.VUE_APP_API}room/openstatusbyid/${_id}`,
@@ -210,13 +210,37 @@ export default {
           );
 
           if (!response.data) {
-            // If the update fails, revert the local change
-            updatedItem.statusbooking = !newStatus;
+            getData()
             throw new Error("Failed to update statusbooking on the server");
           }
         } else {
           throw new Error("Item not found in the local data");
         }
+        }
+        else{
+          const updatedItem = item_product.value.find(item => item._id === _id);
+        if (updatedItem) {
+          updatedItem.statusbooking = newStatus;
+          // Update the statusbooking on the server
+          const response = await axios.put(
+            `${process.env.VUE_APP_API}room/closestatusbyid/${_id}`,
+            { statusbooking: newStatus },
+            {
+              headers: {
+                token: localStorage.getItem("token"),
+              },
+            }
+          );
+
+          if (!response.data) {
+            getData()
+            throw new Error("Failed to update statusbooking on the server");
+          }
+        } else {
+          throw new Error("Item not found in the local data");
+        }
+        }
+        
       } catch (error) {
         console.error(error);
       }

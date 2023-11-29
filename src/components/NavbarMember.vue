@@ -46,6 +46,7 @@
       </router-link>
     </div>
   </nav>
+
 </template>
   
 <script>
@@ -70,6 +71,7 @@ export default {
         ],
       },
       menubars: [{label:"เช็คอิน-เช็คเอาท์",to:"/checkin-out"},{ label: "ข้อมูลการจอง", to: "/bookingmember" }],
+      
     };
   },
   methods : {
