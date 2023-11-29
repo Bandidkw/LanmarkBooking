@@ -73,7 +73,7 @@
             <label class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2" for="grid-first-name">
               เลือกวันจอง - วันสิ้นสุดการจอง
             </label>
-            <Calendar v-model="selectedDate" selectionMode="range" :manualInput="false" :numberOfMonths="2" showIcon
+            <Calendar v-model="selectedDate" dateFormat="dd/mm/yy" selectionMode="range" :manualInput="false" :numberOfMonths="2" showIcon
               class="border p-2 rounded bg-white" :minDate="minSelectableDate" :disabled-dates="disabledDates" />
 
           </div>
@@ -178,7 +178,7 @@ export default {
                 title: "จองสำเร็จ",
                 text: response.data.message,
               });
-              window.location.assign("/bookingmember");
+              await this.$router.push("/bookingmember");
             }
             else {
               await Swal.fire({
