@@ -32,7 +32,7 @@
    <!--eslint-disable-next-line vue/no-multiple-template-root-->
   <nav
     id="header"
-    class="w-full z-30 top-10 bg-white border-b border-black-400"
+    class="w-full top-10  bg-white border-b border-black-400"
   >
     <div class="w-full flex items-center justify-center mt-0 px-5">
       <!--- ใช้ปุ่มเดียว-->
