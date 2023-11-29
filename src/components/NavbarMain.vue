@@ -80,6 +80,8 @@ export default {
 @media screen and (max-width:414px) {
   .nav-bar {
     padding: 0 1rem;
+    display: flex;
+    gap: 5rem;
   }
 }
 </style>

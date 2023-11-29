@@ -44,7 +44,6 @@ import FileUpload from 'primevue/fileupload';
 import Image from 'primevue/image';
 import Galleria from 'primevue/galleria';
 
-//////---datepicker--//////
 
 app.use(PrimeVue);
 app.use(ToastService);
