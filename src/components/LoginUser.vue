@@ -135,7 +135,7 @@ export default {
   border-radius: 50%;
 }
 .login-box .log-icon:active {
-  background-color: #00bbf9;
+  background-color: #3b82f6;
   box-shadow: 0 3px #666;
   transform: translateY(1px);
 }
@@ -161,8 +161,14 @@ export default {
   flex-direction: column;
   row-gap: 0.5rem;
 }
-
-
+.log-icon{
+  transition: all 0.2s ease-in-out;
+}
+.log-icon:hover{
+  background: #fff;
+  box-shadow: 0px 2px 10px 5px #3b82f6;
+  color: #000;
+}
 .button-con input[type="checkbox"] {
   margin-right: 5px;
 }
@@ -177,11 +183,6 @@ label {
   cursor: pointer;
 
 }
-/* .p-button.p-button-help, .p-buttonset.p-button-help > .p-button, .p-splitbutton.p-button-help > .p-button {
-    color: #ffffff;
-    background: #3b82f6;
-    border: 1px solid #3b82f6;
-} */
 @media screen and (max-width:640px) {
   .topweb-right p{
     display: none;

@@ -74,10 +74,6 @@
     </div>
     <!-------------------------- popular-section --------------------------->
     <div class="poppular-box">
-      <!-- <div class="poppular-info">
-        <h3>POPULAR</h3>
-        <i class="bi bi-award-fill p-0"></i>
-      </div> -->
       <PopularSection />
     </div>
   </div>
@@ -149,7 +145,7 @@ export default {
 }
 
 .input-group-append {
-  border: #00bbf9 1px solid;
+  border: #3b82f6 1px solid;
   border-radius: 0 25px 25px 0;
   width: 20%;
 }
@@ -168,7 +164,7 @@ export default {
 
 .search input {
   /* border: none; */
-  border: #00bbf9 1px solid;
+  border: #3b82f6 1px solid;
   width: 100%;
   height: 100%;
   padding: 1rem;
@@ -177,14 +173,14 @@ export default {
 
 /*---------------------------- hover % focus -------------------------------*/
 .input-group-append button:hover {
-  background-color: #00bbf9;
+  background-color: #3b82f6;
   border-radius: 0 25px 25px 0;
 }
 
 .search input[type="text"]:focus {
   border-radius: 25px 0 0 25px;
   outline: none;
-  background-color: #7cd7f5;
+  background-color: #3b82f6;
 }
 
 /*---------------------------- choose-style ------------------------*/
@@ -216,7 +212,7 @@ i {
 }
 
 .room:hover {
-  text-shadow: 0px 0px 5px #5dd6ff;
+  text-shadow: 0px 0px 5px #3b82f6;
   color: #6b6b6b;
   text-decoration: underline;
 }
@@ -238,9 +234,6 @@ i {
   color: #252525;
 }
 
-/* .filter:hover{
-  background-color: #5dd6ff;
-} */
 
 /*-------------------------------- filter-popup ----------------------*/
 

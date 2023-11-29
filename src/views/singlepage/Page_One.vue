@@ -24,13 +24,13 @@
   <div class="flex pt-4 px-5 justify-between border h-[850px] rounded-2xl gap-x-8 max-[414px]:flex-col max-[414px]:h-auto">
     <!-- รายละเอียด -->
     <div class="w-1/2 max-[414px]:w-full">
-      <div class="details m-0 p-2 border-b-2 border-b-blue-400">
+      <div class="details m-0 p-2 border-b-2 border-[#3b82f6]">
         <h1 class="text-2xl font-bold">{{ roomdata.name }}</h1>
         <p>{{roomdata.guests}} คน || {{ roomdata.bedroom }} ห้องนอน || {{ roomdata.bed }} เตียง || {{ roomdata.bathroom }} ห้องน้ำ  </p>
         <!-- รายละเอียดเพิ่มเติม -->
       </div>
       <div
-        class="host-info flex h-24 gap-x-6 py-4 w-full border-b-2 border-b-blue-400 max-[414px]:py-2">
+        class="host-info flex h-24 gap-x-6 py-4 w-full border-b-2 border-[#3b82f6] max-[414px]:py-2 max-[414px]:px-4 max-[414px]:justify-between">
         <div class="host-img">
           <img class="w-full h-full rounded-full" src="/images/host-img/person.jpg" alt=""/>
         </div>
@@ -38,7 +38,7 @@
           <h3 class="font-bold">โฮสต์โดย {{ roomdata.partner_id?.name }}</h3>
         </div>
       </div>
-      <div class="hotel-info h-64 border-b-2 border-b-blue-400 pt-5 pb-12">
+      <div class="hotel-info h-64 border-b-2 border-[#3b82f6] pt-5 pb-12">
         <div class="hotel-info-box">
           <p class="text-base text-justify p-2">
             {{ roomdata.description }}
@@ -60,14 +60,14 @@
             <p>{{ roomdata.bedroom }} เตียงนอน  {{ roomdata.bathroom }} ห้องน้ำ </p>
           </div>
         </div>
-        <div class="hotel-info-b border-t-2  border-t-blue-400 mt-4 max-[414px]:mt-2">
+        <div class="hotel-info-b border-t-2 mt-3 border-[#3b82f6]">
            พิกัด :
           <p>{{ roomdata.address }}  ตำบล: {{ roomdata.tambon }}  อำเภอ: {{ roomdata.amphure }} จังหวัด: {{  roomdata.province }}</p>
         </div>
          
       </div>
     </div>
-    <div class="w-1/2 text-center border-2 rounded-2xl h-[350px] shadow-lg shadow-blue-500/50 max-[414px]:w-full max-[414px]:my-4">
+    <div class="reserve-box w-1/2 text-center border-2 rounded-2xl h-[350px] shadow-md max-[414px]:w-full max-[414px]:my-4">
        <div class="rounded "> 
           <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
             <label class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2" for="grid-first-name">
@@ -308,6 +308,9 @@ export default {
 .hotel-info-b {
   padding: 1.25rem 0;
 }
+.reserve-box{
+  box-shadow: 0px 1px 10px 2px #3b82f6;
+}
 
 @media screen and (max-width:1024px) {
   .white-container {
@@ -371,5 +374,8 @@ export default {
     padding: 0.5rem;
     width: 100%;
     height: auto;
+  }
+  .hotel-info-b{
+    margin-top: 1rem;
   }
 }</style>

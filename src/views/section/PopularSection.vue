@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-container gap-2 max-[576px]:grid-cols-2">
+  <div class="grid-container gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3">
     <div v-for="(item, index) in gridData" :key="index" class="grid-item">
       <router-link :to="{ name: 'hotel', params: { id: item._id } }">
         <div class="image-container">
@@ -151,15 +151,15 @@ export default {
   }
 }
 
-@media screen and (max-width:768) {
+@media screen and (max-width:768px) {
   .grid-container {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media screen and (max-width:640px) {
   .grid-container {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
   .p-galleria-item{
     justify-content: start;
@@ -167,6 +167,10 @@ export default {
   .image-container{
     margin-bottom: 1rem;
   }
+  .image-container img {
+  width: 150px;
+  height: 150px;
+}
 }
 @media screen and (max-width:414px) {
   .grid-container {
@@ -182,6 +186,10 @@ export default {
   .grid-item {
     text-align: center;
     padding: 0.5rem;
+}
+.image-container img {
+  width: 250px;
+  height: 250px;
 }
 }
 </style>
