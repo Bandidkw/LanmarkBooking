@@ -83,6 +83,11 @@
           placeholder="Phone number" />
         <span class="error-message">{{ errors.phone }}</span>
 
+        <label for="email">E-mail</label>
+        <InputText class="input-form" type="email" v-model="member.email" @input="validateField('email', 'member')"
+          placeholder="Email" />
+        <span class="error-message">{{ errors.email }}</span>
+
         <label for="idcard"> ID CARD :</label>
         <InputText class="input-form" type="tel" v-model="partner.idcard" @input="validateField('idcard', 'partner')"
           placeholder="ID Card number" />
@@ -98,6 +103,12 @@
           </FileUpload>
           <span class="error-message">{{ errors.filepic }}</span>
         </div>
+
+        <label for="imgeback">Bank IMAGE</label>
+        <FileUpload mode="basic" name="demo[]" url="/api/upload" accept="image/*" customUpload
+          @uploader="customBase64Uploader" />
+        <span class="error-message">{{ errors.email }}</span>
+
         <div class="input-content">
           <div class="input-box">
             <label for="province"> จังหวัด :</label>
@@ -138,6 +149,10 @@
               @input="validateField('confirmPassword', 'partner')" placeholder="confirmPassword" />
             <span class="error-message">{{ errors.confirmPassword }}</span>
           </div>
+
+          <div>
+            <Contract />
+          </div>
         </div>
         <div class="flex justify-content-end">
           <Button label="Register" @click="register('partner')" severity="help" rounded />
@@ -154,6 +169,7 @@ import * as yup from "yup";
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import { useToast } from "primevue/usetoast";
+import Contract from "../components/Contract.vue";
 export default {
   data() {
 
@@ -183,6 +199,18 @@ export default {
     onMounted(() => {
       getprovince();
     });
+
+    const customBase64Uploader = async (event) => {
+      const file = event.files[0];
+      const reader = new FileReader();
+      let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
+
+      reader.readAsDataURL(blob);
+
+      reader.onloadend = function () {
+        const base64data = reader.result;
+      };
+    };
     return {
       provincedropdown,
       amphuredropdown,
@@ -201,6 +229,8 @@ export default {
         phone: "",
         idcard: "",
         filepic: null,
+        email: "",
+        // bankname:Object,
         address: "",
         tambon: "",
         amphure: "",
@@ -212,8 +242,12 @@ export default {
       showModalPartner: false,
       showModalMember: false,
       showSuccess,
-      showError
+      showError,
+      customBase64Uploader,
     };
+  },
+  components: {
+    Contract,
   },
   // created() {
   //   this.loadProvinces();
@@ -306,6 +340,8 @@ export default {
               tambon: this.partner.tambon,
               amphure: this.partner.amphure,
               province: this.partner.province,
+              email: this.partner.email,
+              // bankname:this.partner.bankname,
               level: "1",
             }
           );
@@ -392,6 +428,10 @@ export default {
           .test("fileSize", "File size is too large", (value) => {
             return value && value.size <= 1024000; // 1 MB
           }),
+        email: yup
+          .string()
+          .email("Invalid email format.")
+          .required("Email is required."),
         address: yup.string().required("Address is required."),
         tambon: yup.string().required("tambon is required."),
         amphure: yup.string().required("Amphure is required."),
@@ -532,6 +572,7 @@ label {
 
 .input-content {
   display: flex;
+  gap: .5rem;
   justify-content: space-between;
 }
 

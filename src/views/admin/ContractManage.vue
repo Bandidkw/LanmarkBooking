@@ -157,7 +157,6 @@
 <script>
 import axios from "axios";
 import { onMounted, ref } from "vue";
-import Swal from "sweetalert2";
 
 export default {
 
