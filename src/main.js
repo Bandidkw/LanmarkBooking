@@ -15,7 +15,7 @@ import SelectButton from 'primevue/selectbutton';
 
 import "primeicons/primeicons.css"; //icons
 import "primevue/resources/primevue.min.css"; //core css
-import "primevue/resources/themes/lara-light-purple/theme.css"; //theme
+import "primevue/resources/themes/lara-light-blue/theme.css"; //theme
 
 
 const app = createApp(App); // สร้างแอปพลิเคชัน Vue ที่เป็นที่ต้องการ

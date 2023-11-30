@@ -1,7 +1,7 @@
 <template>
   <div class="grid px-24 py-4 mt-3 ">
     <div class="col-12 lg:col-12">
-      <center class="text-xl">เพิ่มข้อมูล ห้อง</center>
+      <center class="text-xl">เพิ่มข้อมูลห้อง</center>
       <form class="w-full">
         <div class=" flex  flex-wrap -mx-3 mb-0  w-full">
           <div class="w-full md:w-1/2 px-4 mb-2">
@@ -43,13 +43,6 @@
             <Dropdown
               class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2  mb-2 leading-tight focus:outline-none focus:bg-white"
               v-model="type" :options="cities" optionLabel="name" optionValue="_id" placeholder="เลือกประเภท" />
-            <!-- <input
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-first-name"
-              type="text"
-              v-model="type"
-              placeholder="ประเภทห้องพัก"
-            /> -->
           </div>
           <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
@@ -66,6 +59,14 @@
             <InputText
               class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name" type="text" v-model="bedroom" placeholder="จำนวนห้องนอน" />
+          </div>
+          <div class="w-full card flex justify-content-start px-4 mb-2 gap-2" style="flex-direction: column;">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs  font-bold mb-2" for="grid-first-name">
+              ประเภทเตียง :
+            </label>
+          <Dropdown v-model="selectedBed" :options="bedtype" optionLabel="name" placeholder="เลือกประเภทเตียง" class="w-full md:w-14rem" style="border: #000 1px solid;" />
+          <InputText v-show="selectedBed === 'Custom'" type="text" v-model="bedcustom" placeholder="ประเภทเตียงเพิ่มเติม" />
+          <div>{{ selectedBed }}</div>
           </div>
           <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs  font-bold mb-2" for="grid-first-name">
@@ -133,10 +134,6 @@
                 <p>Upload File Picture</p>
               </template>
             </FileUpload>
-            <!-- <InputText
-              class="appearance-none block w-9/12 text-gray-700 border border-bluegray-800 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-              id="fileinput" type="file" ref="fileinput" @change="handleFileChange" accept=".jpg, .jpeg, .png"
-              placeholder="File Picture number" /> -->
           </div>
         </div>
         <div class="flex justify-content-end " style="margin-right: 40px;">
@@ -155,6 +152,7 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import { ref, onMounted } from "vue";
+
 export default {
   name: "AddHotelPartner",
   data() {
@@ -186,10 +184,27 @@ export default {
         });
       }
     };
-
     const provincedropdown = ref([]);
     const amphuredropdown = ref([null]);
     const tambondropdown = ref([null]);
+    const selectedBed = ref();
+    const bedtype = ref([
+    { name: 'Single Bed', code:'เตียงเดี่ยว ขนาด 3 ฟุต'},
+    { name: 'Twin Bed' , code:'เตียงเดี่ยว ขนาด 3.5 ฟุต'},
+    { name: 'Double Bed', code:'เตียงคู่ขนาดใหญ่ 1 เตียง'},
+    { name: 'Hollywood Twin', code:'เตียงเดี่ยว 2 เตียงติดกัน'},
+    { name: 'Queen Size', code:'เตียงเดี่ยว ขนาด 5 ฟุต'},
+    { name: 'King Size', code:'เตียงเดี่ยว ขนาด 6 ฟุต'},
+    { name: 'Triple Bed', code:'เตียงเดี่ยวจำนวน 3 เตียง'},
+    { name: 'Extra Bed', code:'เตียงเสริม'},
+    { name: 'Mattress', code:'ฟูกนอนพื้น'},
+    { name: 'Murphy Bed', code:'เตียงแบบพับเก็บได้'},
+    { name: 'Bunk Bed', code:'เตียง 2 ชั้น'},
+    // { name: 'Custom'},
+]);
+    if (this.selectedBed === 'Custom') {
+        this.bedcustom = 'เตียงแบบกำหนดเอง';
+    }
     const getprovince = async () => {
       try {
         const province = await axios.get(
@@ -205,6 +220,9 @@ export default {
       getprovince();
     });
     return {
+      bedcustom: "",
+      selectedBed,
+      bedtype,
       cities,
       provincedropdown,
       amphuredropdown,
@@ -228,6 +246,7 @@ export default {
       status: "false",
       approve: "[]",
       statusbooking: "false",
+      value: "",
     };
   },
   methods: {
@@ -240,7 +259,6 @@ export default {
 
     async addRoom() {
       try {
-
         // await this.uploadPicture();
         const res = await axios.post(
           `${process.env.VUE_APP_API}room/hotel/`,
@@ -277,7 +295,7 @@ export default {
             title: "บันทึกสำเร็จ",
             text: "ข้อมูลถูกบันทึกเรียบร้อย",
           });
-          this.resetForm;
+          this.resetForm();
           this.$router.push('/manageroom')
         } else {
           await Swal.fire({

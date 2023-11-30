@@ -105,6 +105,11 @@ export default {
   margin-top: 1rem;
 }
 
+@media screen and (max-width:1536px) {
+  .grid-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
 @media screen and (max-width:1440px) {
   .grid-container {
     grid-template-columns: repeat(4, 1fr);

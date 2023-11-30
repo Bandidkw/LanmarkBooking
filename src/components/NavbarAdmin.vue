@@ -117,7 +117,7 @@ export default {
         ห้อง: [
           { id: 10, label: "ประเภทห้อง", route: "/RoomDetail" },
           { id: 11, label: "อนุมัติการเพิ่มห้อง", route: "/approveroom" },
-          { id: 12, label: "ข้อมูลห้อง", route: "/roomadmin" }
+          { id: 12, label: "ข้อมูลห้อง", route: "/roomadmin" },
           // { id: 11, label: "เตียง", route: "/ManageBed" },
           // { id: 12, label: "ห้องอาบน้ำ", route: "/ManageShower" },
           // { id: 13, label: "เฟอร์นิเจอร์", route: "/ManageFer" },
