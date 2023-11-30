@@ -1,10 +1,10 @@
 <template >
   <div>
-    <div>
-      <Button label="Show" icon="pi pi-external-link" @click="sidebar = true" />
-    </div>
+    <!-- <div>
+      <Button label="Contract Electronic" icon="pi pi-external-link" @click="sidebar = true" />
+    </div> -->
 
-    <Dialog v-model:visible="sidebar" :closable="false" modal :style="{ width: '80%' }"
+    <Dialog v-model:visible="sidebar" modal :style="{ width: '80%' }"
       :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
       <template v-slot:header>
         <div style="text-align: center; font-size: 1.5rem; font-weight: bold;">
@@ -85,14 +85,14 @@
 
         </div>
       </div>
-      <div class="grid mt-5">
+      <!-- <div class="grid mt-5">
         <div class="col-12 md:col-12 text-center">
           <Button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2 boeder-none"
             @click="approve(datacontract._id)">คุณยินยอมสัญญา</Button>
           <Button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
             @click="unapprove()">ไม่ยืนยันสัญญา</Button>
         </div>
-      </div>
+      </div> -->
     </Dialog>
   </div>
 </template>
@@ -100,43 +100,57 @@
 export default {
   data() {
     return {
-      sidebar: false,
-      datacontract: ""
+      prop: {
+        // datacontract: '',
+        id: String,
+      },
+      sidebar: true,
+      // datacontract: ""
     }
   },
-  mounted() {
-    this.getcontract();
-  },
-  methods: {
-    async getcontract() {
-      try {
-        const Response = await axios.get(`${process.env.VUE_APP_API}contract/partner/`,
-          {
-            headers: {
-              token: localStorage.getItem("token"),
-            },
-          });
-        console.log(Response.data.message)
-        if (Response.data.status === true) {
-          this.datacontract = Response.data.data;
-          if (Response.data.data.status === true) {
-            this.sidebar = false
-          } else {
-            this.sidebar = true
-          }
-          console.log(Response.data.data);
-        }
-        else if (Response.data.message === "ไม่มีข้อมูล contract") {
-          console.log("ยังไม่สร้าง contract")
-          await this.addcontract();
-        } else {
-          console.error("Data is missing in the API response.");
-        }
-      } catch (error) {
-        console.error(error);
+  watch: {
+    prop: {
+      deep: true,
+      handler() {
+        // ทำให้ addcontract ทำงานทุกครั้งที่มีการเปลี่ยนแปลงใน prop
+        this.addcontract();
       }
-    },
+    }
+  },
+  // mounted() {
+  //   this.getcontract();
+  // },
+  methods: {
+    // async getcontract() {
+    //   try {
+    //     const Response = await axios.get(`${process.env.VUE_APP_API}contract/partner/`,
+    //       {
+    //         headers: {
+    //           token: localStorage.getItem("token"),
+    //         },
+    //       });
+    //     console.log(Response.data.message)
+    //     if (Response.data.status === true) {
+    //       this.datacontract = Response.data.data;
+    //       if (Response.data.data.status === true) {
+    //         this.sidebar = false
+    //       } else {
+    //         this.sidebar = true
+    //       }
+    //       console.log(Response.data.data);
+    //     }
+    //     else if (Response.data.message === "ไม่มีข้อมูล contract") {
+    //       console.log("ยังไม่สร้าง contract")
+    //       await this.addcontract();
+    //     } else {
+    //       console.error("Data is missing in the API response.");
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // },
     async addcontract() {
+
       try {
         const Response = await axios.post(`${process.env.VUE_APP_API}contract/`, {},
           {
@@ -147,9 +161,10 @@ export default {
 
         if (Response.data.status === true) {
           this.datacontract = Response.data.data;
+          await this.approve(id)
           console.log("สร้าง")
           console.log(Response.data.data);
-          this.sidebar = true
+          // this.sidebar = true
         } else {
           console.error("Data is missing in the API response.");
         }
@@ -167,7 +182,7 @@ export default {
           });
 
         if (Response.data.status === true) {
-          this.sidebar = false
+          // this.sidebar = false
         } else {
           console.error("Data is missing in the API response.");
         }
@@ -175,19 +190,19 @@ export default {
         console.error(error);
       }
     },
-    async unapprove() {
+    // async unapprove() {
 
-      localStorage.clear();
-      this.$store.commit("setLoginDefault");
-      this.sidebar = false
-      // Swal.fire({
-      //   icon: "error",
-      //   title: "กรุณายินยอมสัญญาก่อน",
-      //   text: "ถ้าคุณไม่ยินยอมสัญญาจะไม่สามารถเข้าใช้งานได้",
-      // });
-      // this.$router.push("/");
+    //   localStorage.clear();
+    //   this.$store.commit("setLoginDefault");
+    //   this.sidebar = false
+    //   // Swal.fire({
+    //   //   icon: "error",
+    //   //   title: "กรุณายินยอมสัญญาก่อน",
+    //   //   text: "ถ้าคุณไม่ยินยอมสัญญาจะไม่สามารถเข้าใช้งานได้",
+    //   // });
+    //   // this.$router.push("/");
 
-    }
+    // }
   }
 }
 </script>

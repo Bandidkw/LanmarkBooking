@@ -43,6 +43,7 @@ import Textarea from "primevue/textarea";
 import FileUpload from 'primevue/fileupload';
 import Image from 'primevue/image';
 import Galleria from 'primevue/galleria';
+import Checkbox from 'primevue/checkbox';
 
 
 app.use(PrimeVue);
@@ -94,6 +95,7 @@ app.component("SelectButton", SelectButton);
 app.component("FileUpload", FileUpload);
 app.component("Image", Image);
 app.component("Galleria", Galleria);
+app.component("Checkbox", Checkbox);
 
 
 

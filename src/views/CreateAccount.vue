@@ -16,47 +16,47 @@
     <Dialog v-model:visible="showModalMember" maximizable modal header="สมัครสมาชิก" :style="{ width: '50rem' }"
       :breakpoints="{ '1199px': '75vw', '575px': '90vw' }" @onHide="close('member')">
       <form class="form-control">
-        <label for="fname">Name :</label>
+        <label for="fname">ชื่อ :</label>
 
         <InputText class="input-form" type="text" v-model="member.name" @input="validateField('name', 'member')"
-          placeholder="name" />
+          placeholder="กรอกชื่อ" />
         <span class="error-message">{{ errors.name }}</span>
         <div class="input-content">
           <div class="input-box">
-            <label for="fname">Firstname :&emsp;&emsp;&emsp;&emsp;</label>
+            <label for="fname">ชื่อจริง :&emsp;&emsp;&emsp;&emsp;</label>
             <InputText class="input-form" type="text" v-model="member.fname" @input="validateField('fname', 'member')"
-              placeholder="First name" />
+              placeholder="กรอกชื่อจริง" />
             <span class="error-message">{{ errors.fname }}</span>
           </div>
           <div class="input-box">
-            <label for="lname">Lastname &nbsp;:</label>
+            <label for="lname">นามสกุล &nbsp;:</label>
             <InputText class="input-form" type="text" v-model="member.lname" @input="validateField('lname', 'member')"
-              placeholder="Last name" />
+              placeholder="กรอกนามสกุล" />
             <span class="error-message">{{ errors.lname }}</span>
           </div>
         </div>
 
-        <label for="email">E-mail</label>
+        <label for="email">อีเมล์</label>
         <InputText class="input-form" type="email" v-model="member.email" @input="validateField('email', 'member')"
-          placeholder="Email" />
+          placeholder="กรอกอีเมล์" />
         <span class="error-message">{{ errors.email }}</span>
 
-        <label for="phone"> Phone:</label>
+        <label for="phone"> เบอร์โทรศัพท์:</label>
         <InputText class="input-form" type="tel" v-model="member.phone" @input="validateField('phone', 'member')"
-          placeholder="Phone number" />
+          placeholder="กรอกเบอร์โทรศัพท์" />
         <span class="error-message">{{ errors.phone }}</span>
 
         <div class="input-content">
           <div class="input-box">
-            <label for="password">Password :</label>
+            <label for="password">รหัสผ่าน :</label>
             <InputText class="input-form" type="password" v-model="member.password"
-              @input="validateField('password', 'member')" placeholder="Password" />
+              @input="validateField('password', 'member')" placeholder="กรอกรหัสผ่าน" />
             <span class="error-message">{{ errors.password }}</span>
           </div>
           <div class="input-box">
-            <label for="confirmPassword">Confirm-Password :</label>
+            <label for="confirmPassword">ยืนยันรหัสผ่าน :</label>
             <InputText class="input-form" type="password" v-model="member.confirmPassword"
-              @input="validateField('confirmPassword', 'member')" placeholder="Confirm Password" />
+              @input="validateField('confirmPassword', 'member')" placeholder="ยืนยันรหัสผ่าน" />
             <span class="error-message">{{ errors.confirmPassword }}</span>
           </div>
         </div>
@@ -69,45 +69,60 @@
 
 
     <!-- Partner Modal -->
-    <Dialog v-model:visible="showModalPartner" :baseZIndex="3000" @onHide="close" maximizable modal
-      header="สมัครพาร์ทเนอร์" :style="{ width: '50rem', zIndex: '1' }"
-      :breakpoints="{ '1199px': '75vw', '640px': '90vw' }">
+    <Dialog v-model:visible="showModalPartner" :baseZIndex="3000" @onHide="close"
+      @register-success="handleRegisterSuccess" maximizable modal header="สมัครพาร์ทเนอร์"
+      :style="{ width: '50rem', zIndex: '1' }" :breakpoints="{ '1199px': '75vw', '640px': '90vw' }">
       <form class="form-control">
-        <label for="name">Name :</label>
+        <label for="name">ชื่อ :</label>
         <InputText class="input-form" type="text" v-model="partner.name" @input="validateField('name', 'partner')"
-          placeholder="name" />
+          placeholder="กรอกชื่อ" />
         <span class="error-message">{{ errors.name }}</span>
 
-        <label for="phone"> Phone :</label>
+        <label for="phone"> เบอร์โทรศัพท์ :</label>
         <InputText class="input-form" type="tel" v-model="partner.phone" @input="validateField('phone', 'partner')"
-          placeholder="Phone number" />
+          placeholder="กรอกเบอร์โทรศัพท์" />
         <span class="error-message">{{ errors.phone }}</span>
 
-        <label for="email">E-mail</label>
-        <InputText class="input-form" type="email" v-model="member.email" @input="validateField('email', 'member')"
-          placeholder="Email" />
+        <label for="email">อีเมล์</label>
+        <InputText class="input-form" type="email" v-model="partner.email" @input="validateField('partner', 'member')"
+          placeholder="กรอกอีเมล์" />
         <span class="error-message">{{ errors.email }}</span>
 
-        <label for="idcard"> ID CARD :</label>
+        <label for="idcard">รหัสบัตรประชาชน :</label>
         <InputText class="input-form" type="tel" v-model="partner.idcard" @input="validateField('idcard', 'partner')"
-          placeholder="ID Card number" />
+          placeholder="กรอกรหัสบัตรประชาชน" />
         <span class="error-message">{{ errors.idcard }}</span>
 
-        <label for="filepic"> File Picture ID Card :</label>
+        <label for="filepic">รูปบัตรประชาชน :</label>
         <div class="card">
           <FileUpload name="demo[]" id="fileinput" ref="fileinput" type="file" class="custom-file-upload"
-            @change="handleFileChange" accept="image/*">
+            @change="handleFileChange('filepic')" accept="image/*">
             <template #empty>
-              <p>Upload File Picture</p>
+              <p>อัพโหลดรูปบัตรประชาชน</p>
             </template>
           </FileUpload>
           <span class="error-message">{{ errors.filepic }}</span>
         </div>
 
-        <label for="imgeback">Bank IMAGE</label>
-        <FileUpload mode="basic" name="demo[]" url="/api/upload" accept="image/*" customUpload
-          @uploader="customBase64Uploader" />
-        <span class="error-message">{{ errors.email }}</span>
+        <label for="image_bank">รูปภาพสมุดบัญชี :</label>
+        <FileUpload mode="basic" name="demo[]" id="imagebankinput" ref="imagebankinput" type="file" accept="image/*"
+          customUpload @change="handleFileChange('image_bank')" />
+        <span class="error-message">{{ errors.image_bank }}</span>
+
+        <div class="input-content">
+          <div class="input-box">
+            <label for="bank">ธนาคาร :</label>
+            <InputText class="input-form" type="tel" v-model="partner.bank" @input="validateField('bank', 'partner')"
+              placeholder="กรอกธนาคารที่ใช้งาน" />
+            <span class="error-message">{{ errors.bank }}</span>
+          </div>
+          <div class="input-box">
+            <label for="numberbank">เลขบัญชี :</label>
+            <InputText class="input-form" type="tel" v-model="partner.numberbank"
+              @input="validateField('numberbank', 'partner')" placeholder="กรอกเลขบัญชีธนาคาร" />
+            <span class="error-message">{{ errors.numberbank }}</span>
+          </div>
+        </div>
 
         <div class="input-content">
           <div class="input-box">
@@ -130,37 +145,40 @@
           </div>
         </div>
 
-        <label for="address"> Address :</label>
+        <label for="address">ที่อยู่ :</label>
         <InputText class="input-form" type="tel" v-model="partner.address" @input="validateField('address', 'partner')"
-          placeholder="Address" />
+          placeholder="กรอกที่อยู่" />
         <span class="error-message">{{ errors.address }}</span>
 
         <div class="input-content ">
           <div class="input-box ">
-            <label for="password">Password :</label>
+            <label for="password">รหัสผ่าน :</label>
             <InputText class="input-form" type="password" v-model="partner.password"
-              @input="validateField('password', 'partner')" placeholder="password" />
+              @input="validateField('password', 'partner')" placeholder="กรอกรหัสผ่าน" />
             <span class="error-message">{{ errors.password }}</span>
           </div>
 
           <div class="input-box">
-            <label for="confirmPassword">Confirm-Password :</label>
+            <label for="confirmPassword">ยืนยันรหัสผ่าน :</label>
             <InputText class="input-form" type="password" v-model="partner.confirmPassword"
-              @input="validateField('confirmPassword', 'partner')" placeholder="confirmPassword" />
+              @input="validateField('confirmPassword', 'partner')" placeholder="ยืนยันรหัสผ่าน" />
             <span class="error-message">{{ errors.confirmPassword }}</span>
           </div>
-
-          <div>
-            <Contract />
-          </div>
         </div>
+
+        <div style="display: flex; align-items: center">
+          <Checkbox v-model=checked label="confirm contract " class="p-invalid" binary />
+          <label for="ingredient1" class="ml-2 "> ยืนยันสัญญาอิเล็กทรอนิกส์ </label>
+        </div>
+
         <div class="flex justify-content-end">
-          <Button label="Register" @click="register('partner')" severity="help" rounded />
+          <Button label="Register" @click="register('partner')" severity="help" rounded :disabled="!checked" />
+        </div>
+        <div>
+          <Contract :datacontract="datacontract" :id="id" />
         </div>
       </form>
     </Dialog>
-
-
   </div>
 </template>
 
@@ -177,6 +195,7 @@ export default {
     const provincedropdown = ref([]);
     const amphuredropdown = ref([null]);
     const tambondropdown = ref([null]);
+    const checked = ref(false);
     const getprovince = async () => {
       try {
         const province = await axios.get(
@@ -200,17 +219,6 @@ export default {
       getprovince();
     });
 
-    const customBase64Uploader = async (event) => {
-      const file = event.files[0];
-      const reader = new FileReader();
-      let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
-
-      reader.readAsDataURL(blob);
-
-      reader.onloadend = function () {
-        const base64data = reader.result;
-      };
-    };
     return {
       provincedropdown,
       amphuredropdown,
@@ -230,35 +238,39 @@ export default {
         idcard: "",
         filepic: null,
         email: "",
-        // bankname:Object,
         address: "",
         tambon: "",
         amphure: "",
         province: "",
         password: "",
         confirmPassword: "",
+        image_bank: null,
+        numberbank: "",
+        bank: ""
       },
       errors: {},
       showModalPartner: false,
       showModalMember: false,
       showSuccess,
       showError,
-      customBase64Uploader,
+      checked,
+      id: null,
     };
   },
   components: {
     Contract,
   },
-  // created() {
-  //   this.loadProvinces();
-  // },
   methods: {
+    handleRegisterSuccess(data) {
+      this.id = data.registerId;
+    },
 
-    handleFileChange(event) {
-      const input = this.$refs.fileinput;
+    handleFileChange(fieldName) {
+      const input = fieldName === 'filepic' ? this.$refs.fileinput : this.$refs.imagebankinput;
+
       if (input.files && input.files.length > 0) {
-        this.partner.filepic = input.files[0];
-        this.validateField("filepic", "partner");
+        this.partner[fieldName] = input.files[0];
+        this.validateField(fieldName, 'partner');
       }
     },
     async getamphure(type) {
@@ -341,10 +353,12 @@ export default {
               amphure: this.partner.amphure,
               province: this.partner.province,
               email: this.partner.email,
-              // bankname:this.partner.bankname,
+              bank: this.partner.bank,
+              numberbank: this.partner.numberbank,
               level: "1",
             }
           );
+          this.$emit("register-success", { registerId: productResponse.data.data._id });
           if (productResponse.data.status === true) {
             console.log(productResponse.data);
             await this.uploadPicture(productResponse.data.data._id);
@@ -366,23 +380,35 @@ export default {
 
     //// uploadfile picture
     async uploadPicture(_id) {
-      const formData = new FormData();
-      formData.append("imgCollection", this.partner.filepic);
       try {
-        const upfilePick = await axios.post(
-          `${process.env.VUE_APP_API}partner/picture/${_id}`,
-          formData
-        );
+        const formDataFilepic = new FormData();
+        formDataFilepic.append("imgCollection", this.partner.filepic);
+
+        const formDataImageBank = new FormData();
+        formDataImageBank.append("imgbank", this.partner.image_bank);
+
+        const [upfilePick, upImageBank] = await Promise.all([
+          axios.post(`${process.env.VUE_APP_API}partner/picture/${_id}`, formDataFilepic),
+          axios.post(`${process.env.VUE_APP_API}partner/picturebank/${_id}`, formDataImageBank),
+        ]);
 
         if (upfilePick.data && upfilePick.data) {
-          console.log(upfilePick.data, "success_Image");
+          console.log(upfilePick.data, "success_Image for upfilePick");
         } else {
-          console.error("Data is missing in the API response.");
+          console.error("Data is missing in the API response for upfilePick.");
+        }
+
+        if (upImageBank.data && upImageBank.data) {
+          console.log(upImageBank.data, "success_Image for upImageBank");
+        } else {
+          console.error("Data is missing in the API response for upImageBank.");
         }
       } catch (error) {
-        console.error("Error uploading picture:", error);
+        console.error("Error uploading pictures:", error);
       }
     },
+
+
 
     ///// validation and yup form
     async validateMemberForm() {
@@ -424,7 +450,7 @@ export default {
         // )
         filepic: yup
           .mixed()
-          .required("Please upload a file")
+          .required("Please upload a Image Id Card")
           .test("fileSize", "File size is too large", (value) => {
             return value && value.size <= 1024000; // 1 MB
           }),
@@ -436,6 +462,14 @@ export default {
         tambon: yup.string().required("tambon is required."),
         amphure: yup.string().required("Amphure is required."),
         province: yup.string().required("Province is required."),
+        numberbank: yup.string().required("Number Bank is required."),
+        bank: yup.string().required("Bank is required."),
+        image_bank: yup
+          .mixed()
+          .required("Please upload a Image Bank")
+          .test("fileSize", "File size is too large", (value) => {
+            return value && value.size <= 1024000; // 1 MB
+          }),
         password: yup.string().required("Password is required."),
         confirmPassword: yup
           .string()
@@ -467,14 +501,6 @@ export default {
 
       try {
         await schema.validateAt(fieldName, this[userType]);
-        // if (fieldName === 'phone' && this[userType][fieldName]) {
-        //   // this[userType][fieldName] = this[userType][fieldName].replace(/[^0-9]/g, ''); // Remove non-numeric characters
-        //   this[userType][fieldName] = this[userType][fieldName].replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
-        // }
-        // if (fieldName === 'idcard' && this[userType][fieldName]) {
-        //   // this[userType][fieldName] = this[userType][fieldName].replace(/[^0-9]/g, ''); // Remove non-numeric characters
-        //   this[userType][fieldName] = this[userType][fieldName].replace(/(\d{1})(\d{4})(\d{5})(\d{2})(\d{1})/, '$1-$2-$3-$4-$5');
-        // }
         this.errors[fieldName] = null;
       } catch (error) {
         if (error instanceof yup.ValidationError) {
@@ -506,6 +532,9 @@ export default {
         province: "",
         password: "",
         confirmPassword: "",
+        bank: '',
+        numberbank: "",
+        image_bank: '',
       };
       // Clear errors
       this.errors = {};
@@ -571,17 +600,17 @@ label {
 }
 
 .input-content {
-  display: flex;
+  display: grid;
   gap: .5rem;
-  justify-content: space-between;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .input-box {
   display: grid;
   align-items: center;
-  grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem;
 }
+
 
 input {
   border-radius: 8px;
