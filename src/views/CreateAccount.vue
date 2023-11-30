@@ -169,6 +169,7 @@ import * as yup from "yup";
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import { useToast } from "primevue/usetoast";
+import Contract from "../components/Contract_Modal.vue";
 export default {
   data() {
 
