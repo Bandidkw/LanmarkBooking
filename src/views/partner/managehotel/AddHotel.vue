@@ -2,8 +2,8 @@
   <div class="grid px-24 py-4 mt-3 ">
     <div class="col-12 lg:col-12">
       <center class="text-xl">เพิ่มข้อมูลห้อง</center>
-      <form class="w-full">
-        <div class=" flex  flex-wrap -mx-3 mb-0  w-full">
+      <form style="max-width: 750px;">
+        <div class=" flex  flex-wrap  mb-0   ">
           <div class="w-full md:w-1/2 px-4 mb-2">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
               ชื่อห้อง :
@@ -42,7 +42,15 @@
             </label>
             <Dropdown
               class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2  mb-2 leading-tight focus:outline-none focus:bg-white"
-              v-model="type" :options="cities" optionLabel="name" optionValue="_id" placeholder="เลือกประเภท" />
+              v-model="type" :options="cities" optionLabel="name" optionValue="name" placeholder="เลือกประเภท" />
+          </div>
+          <div v-show="type === 'โรงแรม'" class="w-full md:w-1/2 px-4 mb-2">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs mb-2 font-bold mb-2" for="grid-first-name">
+              ระดับห้อง :
+            </label>
+            <Dropdown
+              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2  mb-2 leading-tight focus:outline-none focus:bg-white"
+              v-model="type" :options="roomLevel" optionLabel="name" optionValue="value" placeholder="เลือกประเภท" />
           </div>
           <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
@@ -60,13 +68,20 @@
               class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name" type="text" v-model="bedroom" placeholder="จำนวนห้องนอน" />
           </div>
-          <div class="w-full card flex justify-content-start px-4 mb-2 gap-2" style="flex-direction: column;">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs  font-bold mb-2" for="grid-first-name">
-              ประเภทเตียง :
-            </label>
-          <Dropdown v-model="selectedBed" :options="bedtype" optionLabel="name" placeholder="เลือกประเภทเตียง" class="w-full md:w-14rem" style="border: #000 1px solid;" />
-          <InputText v-show="selectedBed === 'Custom'" type="text" v-model="bedcustom" placeholder="ประเภทเตียงเพิ่มเติม" />
-          <div>{{ selectedBed }}</div>
+          <div class="w-full  md:w-1/2  px-4 mb-2 flex flex-row gap-6">
+            <div>
+              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-first-name">ประเภทเตียง :</label>
+              <Dropdown v-model="bedtype" :options="selectbed" optionLabel="label" optionValue="value"
+                class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+                placeholder="เลือกประเภทเตียง" />
+            </div>
+            <div v-show="bedtype === 'Custom'">
+              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-first-name">กรอกประเภทเตียงเพิ่มเติม :</label>
+              <InputText type="text" v-model="inputbedtype" placeholder="กรอกประเภทเตียงเพิ่มเติม"
+                class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white" />
+            </div>
           </div>
           <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs  font-bold mb-2" for="grid-first-name">
@@ -187,24 +202,6 @@ export default {
     const provincedropdown = ref([]);
     const amphuredropdown = ref([null]);
     const tambondropdown = ref([null]);
-    const selectedBed = ref();
-    const bedtype = ref([
-    { name: 'Single Bed', code:'เตียงเดี่ยว ขนาด 3 ฟุต'},
-    { name: 'Twin Bed' , code:'เตียงเดี่ยว ขนาด 3.5 ฟุต'},
-    { name: 'Double Bed', code:'เตียงคู่ขนาดใหญ่ 1 เตียง'},
-    { name: 'Hollywood Twin', code:'เตียงเดี่ยว 2 เตียงติดกัน'},
-    { name: 'Queen Size', code:'เตียงเดี่ยว ขนาด 5 ฟุต'},
-    { name: 'King Size', code:'เตียงเดี่ยว ขนาด 6 ฟุต'},
-    { name: 'Triple Bed', code:'เตียงเดี่ยวจำนวน 3 เตียง'},
-    { name: 'Extra Bed', code:'เตียงเสริม'},
-    { name: 'Mattress', code:'ฟูกนอนพื้น'},
-    { name: 'Murphy Bed', code:'เตียงแบบพับเก็บได้'},
-    { name: 'Bunk Bed', code:'เตียง 2 ชั้น'},
-    { name: 'Custom'},
-]);
-    if (this.selectedBed === 'Custom') {
-        this.bedcustom = 'เตียงแบบกำหนดเอง';
-    }
     const getprovince = async () => {
       try {
         const province = await axios.get(
@@ -220,9 +217,6 @@ export default {
       getprovince();
     });
     return {
-      bedcustom: "",
-      selectedBed,
-      bedtype,
       cities,
       provincedropdown,
       amphuredropdown,
@@ -247,6 +241,37 @@ export default {
       approve: "[]",
       statusbooking: "false",
       value: "",
+      bedtype: null,
+      inputbedtype: "",
+      selectbed: [
+        { label: 'Single Bed', value: 'เตียงเดี่ยว ขนาด 3 ฟุต' },
+        { label: 'Twin Bed', value: 'เตียงเดี่ยว ขนาด 3.5 ฟุต' },
+        { label: 'Double Bed', value: 'เตียงคู่ขนาดใหญ่ 1 เตียง' },
+        { label: 'Hollywood Twin', value: 'เตียงเดี่ยว 2 เตียงติดกัน' },
+        { label: 'Queen Size', value: 'เตียงเดี่ยว ขนาด 5 ฟุต' },
+        { label: 'King Size', value: 'เตียงเดี่ยว ขนาด 6 ฟุต' },
+        { label: 'Triple Bed', value: 'เตียงเดี่ยวจำนวน 3 เตียง' },
+        { label: 'Extra Bed', value: 'เตียงเสริม' },
+        { label: 'Mattress', value: 'ฟูกนอนพื้น' },
+        { label: 'Murphy Bed', value: 'เตียงแบบพับเก็บได้' },
+        { label: 'Bunk Bed', value: 'เตียง 2 ชั้น' },
+        { label: 'Custom', value: "Custom" },
+      ],
+       roomLevel: [
+        { label: 'ห้องสแตนดาร์ด ', value: 'เตียงเดี่ยว ขนาด 3 ฟุต' },
+        { label: 'ห้องซูพีเรีย', value: 'เตียงเดี่ยว ขนาด 3.5 ฟุต' },
+        { label: 'ห้องดีลักซ์ ', value: 'เตียงคู่ขนาดใหญ่ 1 เตียง' },
+        { label: 'ห้องสวีท ', value: 'เตียงเดี่ยว 2 เตียงติดกัน' },
+        { label: 'Queen Size', value: 'เตียงเดี่ยว ขนาด 5 ฟุต' },
+        { label: 'King Size', value: 'เตียงเดี่ยว ขนาด 6 ฟุต' },
+        { label: 'Triple Bed', value: 'เตียงเดี่ยวจำนวน 3 เตียง' },
+        { label: 'Extra Bed', value: 'เตียงเสริม' },
+        { label: 'Mattress', value: 'ฟูกนอนพื้น' },
+        { label: 'Murphy Bed', value: 'เตียงแบบพับเก็บได้' },
+        { label: 'Bunk Bed', value: 'เตียง 2 ชั้น' },
+        { label: 'Custom', value: "Custom" },
+      ]
+      
     };
   },
   methods: {
@@ -259,7 +284,7 @@ export default {
 
     async addRoom() {
       try {
-        // await this.uploadPicture();
+        const typehotelbed = this.bedtype === 'Custom' ? this.inputbedtype : this.bedtype
         const res = await axios.post(
           `${process.env.VUE_APP_API}room/hotel/`,
           {
@@ -278,6 +303,7 @@ export default {
             tambon: this.tambon,
             amphure: this.amphure,
             province: this.province,
+            typehotelbed: typehotelbed
           },
           {
             headers: {
