@@ -4,7 +4,6 @@
     <router-link to="/" class="topweb-left">
       <img src="/logo/lanmark-logo-navbar.png" alt="" />
     </router-link>
-
     <div class="search-box">
       <span class="p-input-icon-right">
         <InputText placeholder="Search" class="search-box-input" />
@@ -33,7 +32,6 @@ export default {
 <!---------------------------- style -------------------------------->
 
 <style lang="scss" scope>
-//@import '@/assets/scss/custom/_navbar.scss';
 
 .search-box-input {
   border-radius: 2rem;

@@ -1,14 +1,14 @@
 <!-- Navbar.vue -->
 <template>
-  <nav id="header" class="w-full z-30 top-10 py-1 bg-white border-b border-black-400" style="box-shadow: rgba(59, 131, 246, 0.712) 0 1px 10px 1px">
-    <div class="w-full flex items-center justify-between mt-0 px-6 py-2">
+  <nav id="header" class="w-full z-30 top-10 py-1 bg-white border-b border-black-400" style="box-shadow: rgba(59, 131, 246, 0.377) 0 1px 10px 1px">
+    <div class="w-full flex items-center justify-between mt-0 px-6 py-2" >
       <div>
         <router-link to="/">
           <img src="/logo/lanmark-logo-navbar.png" :width="200" alt="" />
         </router-link>
       </div>
       <div class="order-2 md:order-3 flex flex-wrap items-center justify-end mr-0 md:mr-4" id="nav-content">
-        <div class="auth flex items-center w-full md:w-full">
+        <div class="auth flex items-center w-full md:w-full" >
           <div v-for="(menu, menuKey) in dropdowns" :key="menuKey" class="relative lg:inline-block text-left">
             <button @click="toggleMenu(menuKey)" type="button"
               class="mt-4 lg:inline-block lg:mt-0 hover:text-white px-2 py-2 rounded hover:bg-[#007bff]">
@@ -164,5 +164,6 @@ export default {
 }
 .center-nav[data-v-0dda9e98]{
   background-color: #fff;
+  box-shadow: rgba(113, 165, 248, 0.226)0 1px 10px 1px;
 }
 </style>

@@ -1,6 +1,6 @@
 <!-- Navbar.vue -->
 <template>
-  <nav id="header" class="w-full z-30 top-10 py-1 bg-white border-b border-black-400" style="box-shadow: rgba(59, 131, 246, 0.712) 0 1px 10px 1px">
+  <nav id="header" class="w-full z-30 top-10 py-1 bg-white border-b border-black-400" style="box-shadow: rgba(59, 131, 246, 0.377) 0 1px 10px 1px">
       <div class="w-full flex items-center justify-between mt-0 px-6 py-2">
         <div>
           <router-link to="/">
@@ -119,5 +119,6 @@ export default {
 }
 .center-nav[data-v-19ec65fa]{
   background-color: #fff;
+  box-shadow: rgba(113, 165, 248, 0.226)0 1px 10px 1px;
 }
 </style>
