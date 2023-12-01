@@ -14,7 +14,7 @@
 
       <DataTable :value="Array.isArray(item_product) ? item_product : []" :paginator="true" :rows="20"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
+        :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]" :loading="loading"
         currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด" responsiveLayout="stack">
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
         <template #empty>
@@ -56,6 +56,8 @@ export default {
   },
   setup() {
     const item_product = ref([]);
+
+    let loading = ref(true)
     const getData = async () => {
       try {
         const productResponse = await axios.get(
@@ -68,6 +70,7 @@ export default {
         );
 
         if (productResponse.data && productResponse.data) {
+          loading.value = false
           item_product.value = productResponse.data.data;
           console.log(productResponse.data.data)
         } else {
@@ -118,7 +121,7 @@ export default {
       item_product,
       getData,
       deleteProduct,
-
+      loading
     };
 
   },

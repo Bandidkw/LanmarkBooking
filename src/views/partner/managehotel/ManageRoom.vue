@@ -10,10 +10,10 @@
           <InputSwitch v-model="reservationEnabled" @click="changeallstatus()" />
         </div>
       </div>
-      <DataTable :value="Array.isArray(item_product) ? item_product : []" :paginator="true" :rows="20"
+      <DataTable :value="Array.isArray(item_product) ? item_product : []" :paginator="true" :rows="20" 
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
-        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด" responsiveLayout="stack">
+        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด" responsiveLayout="stack"  >
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
         <template #empty>
           <p class="font-italic text-center text-5xl" style="color: #bd1616">
@@ -107,6 +107,7 @@ export default {
         );
         if (productResponse.data && productResponse.data) {
           item_product.value = productResponse.data;
+          
           console.log(productResponse.data)
           reservationEnabled.value = productResponse.data[0].statusbooking
 
@@ -222,7 +223,7 @@ export default {
       item_product,
       getData,
       deleteProduct,
-      handleStatusChange
+      handleStatusChange,
     };
   },
 
