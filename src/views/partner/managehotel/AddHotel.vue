@@ -50,7 +50,8 @@
             </label>
             <Dropdown
               class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2  mb-2 leading-tight focus:outline-none focus:bg-white"
-              v-model="type" :options="roomLevel" optionLabel="name" optionValue="value" placeholder="เลือกประเภท" />
+              v-model="imputlevelroom" :options="roomLevel" optionLabel="name" optionValue="value"
+              placeholder="เลือกประเภท" />
           </div>
           <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
@@ -68,20 +69,18 @@
               class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name" type="text" v-model="bedroom" placeholder="จำนวนห้องนอน" />
           </div>
-          <div class="w-full  md:w-1/2  px-4 mb-2 flex flex-row gap-6">
-            <div>
-              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-first-name">ประเภทเตียง :</label>
-              <Dropdown v-model="bedtype" :options="selectbed" optionLabel="label" optionValue="value"
-                class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
-                placeholder="เลือกประเภทเตียง" />
-            </div>
-            <div v-show="bedtype === 'Custom'">
-              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-first-name">กรอกประเภทเตียงเพิ่มเติม :</label>
-              <InputText type="text" v-model="inputbedtype" placeholder="กรอกประเภทเตียงเพิ่มเติม"
-                class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white" />
-            </div>
+          <div class="w-full  md:w-1/2  px-4 mb-2 ">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              for="grid-first-name">ประเภทเตียง :</label>
+            <Dropdown v-model="bedtype" :options="selectbed" optionLabel="label" optionValue="value"
+              class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+              placeholder="เลือกประเภทเตียง" />
+          </div>
+          <div v-show="bedtype === 'Custom'" class="w-full md:w-1/2 px-4 mb-2">
+            <label class=" block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+              กรอกประเภทเตียงเพิ่มเติม :</label>
+            <InputText type="text" v-model="inputbedtype" placeholder="กรอกประเภทเตียงเพิ่มเติม"
+              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white" />
           </div>
           <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs  font-bold mb-2" for="grid-first-name">
@@ -257,21 +256,18 @@ export default {
         { label: 'Bunk Bed', value: 'เตียง 2 ชั้น' },
         { label: 'Custom', value: "Custom" },
       ],
-       roomLevel: [
-        { label: 'ห้องสแตนดาร์ด ', value: 'เตียงเดี่ยว ขนาด 3 ฟุต' },
-        { label: 'ห้องซูพีเรีย', value: 'เตียงเดี่ยว ขนาด 3.5 ฟุต' },
-        { label: 'ห้องดีลักซ์ ', value: 'เตียงคู่ขนาดใหญ่ 1 เตียง' },
-        { label: 'ห้องสวีท ', value: 'เตียงเดี่ยว 2 เตียงติดกัน' },
-        { label: 'Queen Size', value: 'เตียงเดี่ยว ขนาด 5 ฟุต' },
-        { label: 'King Size', value: 'เตียงเดี่ยว ขนาด 6 ฟุต' },
-        { label: 'Triple Bed', value: 'เตียงเดี่ยวจำนวน 3 เตียง' },
-        { label: 'Extra Bed', value: 'เตียงเสริม' },
-        { label: 'Mattress', value: 'ฟูกนอนพื้น' },
-        { label: 'Murphy Bed', value: 'เตียงแบบพับเก็บได้' },
-        { label: 'Bunk Bed', value: 'เตียง 2 ชั้น' },
-        { label: 'Custom', value: "Custom" },
+      roomLevel: [
+        { label: 'ห้องสแตนดาร์ด', value: 'ห้องสแตนดาร์ด' },
+        { label: 'ห้องซูพีเรีย', value: 'ห้องซูพีเรีย' },
+        { label: 'ห้องดีลักซ์', value: 'ห้องดีลักซ์' },
+        { label: 'ห้องสวีท', value: 'ห้องสวีท' },
+        { label: 'ห้องฮันนีมูน', value: 'ห้องฮันนีมูน' },
+        { label: 'ห้องสำหรับครอบครัว ', value: 'ห้องสำหรับครอบครัว' },
+        { label: 'ห้องดูเพล็กซ์', value: 'ห้องดูเพล็กซ์' },
+        { label: 'ห้องสตูดิโอ', value: 'ห้องสตูดิโอ' },
+        { label: 'ห้องคาบาน่า', value: 'ห้องคาบาน่า' },
       ]
-      
+
     };
   },
   methods: {
@@ -285,6 +281,7 @@ export default {
     async addRoom() {
       try {
         const typehotelbed = this.bedtype === 'Custom' ? this.inputbedtype : this.bedtype
+        const typehotelroom = this.type === 'โรงแรม' ? this.inputbedtype : this.type
         const res = await axios.post(
           `${process.env.VUE_APP_API}room/hotel/`,
           {
@@ -292,7 +289,7 @@ export default {
             description: this.description,
             phone_number: this.phone_number,
             price: this.price,
-            type: this.type,
+            type: typehotelroom,
             guests: this.guests,
             bedroom: this.bedroom,
             bed: this.bed,
