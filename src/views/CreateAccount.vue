@@ -266,6 +266,8 @@ export default {
       showError,
       checked,
       id: null,
+      // selectedBed,
+      bedtype,
     };
   },
   components: {
@@ -364,7 +366,7 @@ export default {
               amphure: this.partner.amphure,
               province: this.partner.province,
               email: this.partner.email,
-              bank: this.partner.bank,
+              bank: this.partner.bank.toString,
               numberbank: this.partner.numberbank,
               level: "1",
             }

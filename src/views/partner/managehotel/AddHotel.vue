@@ -200,7 +200,7 @@ export default {
     { name: 'Mattress', code:'ฟูกนอนพื้น'},
     { name: 'Murphy Bed', code:'เตียงแบบพับเก็บได้'},
     { name: 'Bunk Bed', code:'เตียง 2 ชั้น'},
-    // { name: 'Custom'},
+    { name: 'Custom'},
 ]);
     if (this.selectedBed === 'Custom') {
         this.bedcustom = 'เตียงแบบกำหนดเอง';
