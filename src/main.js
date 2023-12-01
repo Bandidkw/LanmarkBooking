@@ -8,7 +8,9 @@ import router from './router/index.js'; // นำมาใช้ Router ที�
 
 import store from "./store";
 
+import InputNumber from 'primevue/inputnumber';
 import InputSwitch from 'primevue/inputswitch';
+import Rating from 'primevue/rating';
 
 import SelectButton from 'primevue/selectbutton';
 
@@ -90,7 +92,9 @@ app.component("Dialog", Dialog);
 app.component("Sidebar", Sidebar);
 app.component("Password", Password);
 app.component("Textarea", Textarea);
+app.component("InputNumber", InputNumber);
 app.component("InputSwitch", InputSwitch);
+app.component("Rating", Rating);
 app.component("SelectButton", SelectButton);
 app.component("FileUpload", FileUpload);
 app.component("Image", Image);

@@ -25,7 +25,12 @@
     <!-- รายละเอียด -->
     <div class="w-1/2 max-[414px]:w-full max-[430px]:w-full ">
       <div class="details m-0 p-2 border-b-2 border-[#3b82f6]">
-        <h1 class="text-2xl font-bold">{{ roomdata.name }}</h1>
+        <div class="flex justify-between mb-4">
+          <h1 class="text-2xl font-bold">{{ roomdata.name }}</h1>
+          <div class="flex flex-col justify-content-start" style="align-items: center;">
+          <Rating v-model="value" :stars="10" />
+          </div>
+        </div>
         <p>{{roomdata.guests}} คน || {{ roomdata.bedroom }} ห้องนอน || {{ roomdata.bed }} เตียง || {{ roomdata.bathroom }} ห้องน้ำ  </p>
         <!-- รายละเอียดเพิ่มเติม -->
       </div>
@@ -109,6 +114,8 @@ export default {
   data() {
     const roomdata = ref([])
 
+    const value = ref(null);
+
     const room_id = this.$route.params.id;
     const getroom = async (_id) => {
       const id = this.$route.params.id;
@@ -121,6 +128,7 @@ export default {
       getroom();
     });
     return {
+      value,
       room_id,
       selectedDate: "",
       roomdata,

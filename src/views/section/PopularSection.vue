@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-container gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3">
+  <div class="grid-container pt-4 px-4 gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3">
     <div v-for="(item, index) in gridData" :key="index" class="grid-item">
       <router-link :to="{ name: 'hotel', params: { id: item._id } }">
         <div class="image-container">
@@ -13,10 +13,10 @@
           </Galleria>
         </div>
       </router-link>
-      <div class="details-container">
+      <div class="details-container px-2">
         <h2 class="text-xl m-0 font-semibold">{{ item.name }}</h2>
         <p class="text-base my-1">{{ item.description }}</p>
-        <p class="text-base font-bold max-[414px]:my-2">ราคา: {{ item.price.toLocaleString() }} บาท/คืน</p>
+        <p class="text-base font-bold m-0 max-[414px]:my-2">ราคา: {{ item.price.toLocaleString() }} บาท/คืน</p>
       </div>
     </div>
     
@@ -84,13 +84,12 @@ export default {
 }
 
 .grid-item {
-  padding: 16px;
+  padding: 0 1rem;
 }
 
 .image-container {
   position: relative;
   height: 70%;
-  margin-bottom: 2rem;
 }
 
 

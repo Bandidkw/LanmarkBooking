@@ -32,46 +32,46 @@
         <a @click="createaccount">คฤหาสน์</a>
       </div>
       <!----------------------------------------- Filter-box ------------------------------->
-      <div class="filter">
-        <div class="filter-btn" @click="showFilter">
+      <div class="filter cursor-pointer" @click="showFilter">
+        <div class="filter-btn">
           <i class="bi bi-sliders"></i>
           <span>ตัวกรอง</span>
         </div>
-        <div class="filter-popup" v-if="isFilterVisible" @click.stop>
+        <div class="filter-popup" v-if="isFilterVisible" :class="{ 'open': isFilterVisible }" @click.stop>
           <div class="top-filter">
-            <h2>ประเภทที่พัก</h2>
-            <button class="btn btn-info" @click="closeFilter">
-              <i class="bi bi-x"></i>
-            </button>
+            <div>
+              <h2>ประเภทที่พัก</h2>
+            </div>
+            <Button @click="closeFilter" icon="pi pi-times" severity="danger" text rounded aria-label="Cancel" />
           </div>
-          <label for="category">ประเภท</label>
-          <select class="form-select form-select-lg mb-3" id="category" v-model="selectedCategory">
-            <option value="apartment">อพาร์ทเม้นท์</option>
-            <option value="general-room">ห้องพักทั่วไป
-            </option>
-            <option value="condo">คอนโด</option>
-            <option value="seaside">ริมทะเล</option>
-            <option value="mountain forest">ป่า-เขา</option>
-            <option value="island">เกาะ</option>
-            <option value="mansion">คฤหาสน์</option>
-            <!-- เพิ่มประเภทเพิ่มเติมตามที่คุณต้องการ -->
-          </select>
+          <label class="py-2" for="category">ประเภท</label>
+          <div class="card flex justify-content-start">
+        <Dropdown v-model="selectedType" :options="roomtype" optionLabel="name" placeholder="เลือกประเภท" class="w-full" />
+    </div>
 
           <!-- ช่องเลือกราคา -->
-          <label for="price">ช่วงราคา</label>
-          <select id="price" v-model="selectedPriceRange">
-            <option value="0-300">0 - 300 บาท</option>
-            <option value="300-500">300 - 500 บาท</option>
-            <option value="500-1000">500 - 1000 บาท</option>
-            <!-- เพิ่มช่วงราคาเพิ่มเติมตามที่คุณต้องการ -->
-          </select>
+          <label class="py-2" for="price">ช่วงราคา</label>
+          <div class="card flex justify-content-start">
+        <Dropdown v-model="selectedPriceRange" :options="pricerange" optionLabel="name" placeholder="เลือกช่วงราคา" class="w-full" />
+    </div>
 
+          <label class="py-2" for="bed">ประเภทเตียง</label>
+          <div class="card flex justify-content-start">
+        <Dropdown v-model="selectedBed" :options="bedtype" optionLabel="name" placeholder="เลือกประเภทเตียง" class="w-full" />
+        <!-- <div>{{ selectedBed }}</div> -->
+    </div>
           <!-- ช่องเลือกจำนวน -->
-          <label for="quantity">จำนวนเข้าพัก</label>
-          <input type="number" id="quantity" v-model="selectedQuantity" min="1" />
+          <label class="py-2" for="quantity">จำนวนเข้าพัก</label>
+          <div class="card w-full flex justify-content-between">
+            <span class="p-float-label">
+              <InputNumber id="number-input" v-model="value" />
+        </span>
+        <Button label="ค้นหา" severity="secondary"  />
+    </div>
         </div>
       </div>
     </div>
+    
     <!-------------------------- popular-section --------------------------->
     <div class="poppular-box">
       <PopularSection />
@@ -80,6 +80,7 @@
 </template>
 
 <script>
+import { ref } from "vue";
 import PopularSection from "@/views/section/PopularSection.vue";
 
 export default {
@@ -88,22 +89,64 @@ export default {
   },
   name: "HomepageMain",
   data() {
+    const selectedType = ref();
+    const roomtype = ref([
+    { name: 'New York', code: 'NY' },
+    { name: 'Rome', code: 'RM' },
+    { name: 'London', code: 'LDN' },
+    { name: 'Istanbul', code: 'IST' },
+    { name: 'Paris', code: 'PRS' }
+]);
+    const selectedPriceRange = ref();
+    const pricerange = ref([
+    { name: '0-500', code: '' },
+    { name: '501-1,000', code: '' },
+    { name: '1,001-3,000', code: '' },
+    { name: '3,001-5,000', code: '' },
+    { name: 'มากกว่า 5,000', code: '' }
+]);
+const selectedBed = ref();
+    const bedtype = ref([
+    { name: 'Single Bed', code:'เตียงเดี่ยว ขนาด 3 ฟุต'},
+    { name: 'Twin Bed' , code:'เตียงเดี่ยว ขนาด 3.5 ฟุต'},
+    { name: 'Double Bed', code:'เตียงคู่ขนาดใหญ่ 1 เตียง'},
+    { name: 'Hollywood Twin', code:'เตียงเดี่ยว 2 เตียงติดกัน'},
+    { name: 'Queen Size', code:'เตียงเดี่ยว ขนาด 5 ฟุต'},
+    { name: 'King Size', code:'เตียงเดี่ยว ขนาด 6 ฟุต'},
+    { name: 'Triple Bed', code:'เตียงเดี่ยวจำนวน 3 เตียง'},
+    { name: 'Extra Bed', code:'เตียงเสริม'},
+    { name: 'Mattress', code:'ฟูกนอนพื้น'},
+    { name: 'Murphy Bed', code:'เตียงแบบพับเก็บได้'},
+    { name: 'Bunk Bed', code:'เตียง 2 ชั้น'},
+]);
+const value = ref();
     return {
       isFilterVisible: false,
-      selectedCategory: "",
-      priceRange: [0, 100],
-      selectedQuantity: "",
+      roomtype,
+      selectedType,
+      selectedPriceRange,
+      pricerange,
+      selectedBed,
+      bedtype,
+      value,
     };
   },
   methods: {
     showFilter() {
       this.isFilterVisible = true;
+
+      document.body.classList.add('filter-popup-open');
     },
     closeFilter() {
       this.isFilterVisible = false;
+
+      document.body.classList.remove('filter-popup-open');
+
+      this.selectedType = "";
       this.selectedCategory = "";
       this.selectedPriceRange = "";
       this.selectedQuantity = "";
+      this.selectedBedtype = "";
     },
   },
 };
@@ -246,13 +289,20 @@ i {
   flex-direction: column;
   z-index: 9999;
   position: fixed;
-  width: 50%;
+  width: 40%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.5s ease-in-out;
+  transform-origin: bottom;
+}
+
+.filter-popup.open {
+  transform: translate(-50%, -50%);
 }
 
 .filter-popup button {
@@ -260,7 +310,9 @@ i {
 }
 
 .top-filter {
+  height: 2rem;
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 
