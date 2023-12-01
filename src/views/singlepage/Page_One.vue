@@ -27,9 +27,9 @@
       <div class="details m-0 p-2 border-b-2 border-[#3b82f6]">
         <div class="flex justify-between mb-4">
           <h1 class="text-2xl font-bold">{{ roomdata.name }}</h1>
-          <div class="flex flex-col justify-content-start" style="align-items: center;">
-          <Rating v-model="value" :stars="10" />
-          </div>
+          <div class="flex flex-col justify-content-start">
+    <Rating v-model="value" :stars="10" />
+</div>
         </div>
         <p>{{roomdata.guests}} คน || {{ roomdata.bedroom }} ห้องนอน || {{ roomdata.bed }} เตียง || {{ roomdata.bathroom }} ห้องน้ำ  </p>
         <!-- รายละเอียดเพิ่มเติม -->
@@ -126,6 +126,7 @@ export default {
     }
     onMounted(() => {
       getroom();
+      // this.isLoggedIn = checkLoginStatus();
     });
     return {
       value,
@@ -139,6 +140,7 @@ export default {
         new Date(2023, 10, 29),
         new Date(2023, 10, 30)
       ],
+      // isLoggedIn: false,
     };
   },
 

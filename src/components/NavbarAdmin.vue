@@ -3,8 +3,8 @@
   <nav
     id="header"
     class="w-full z-30 top-10 py-1 bg-white border-b border-black-400"
-  >
-    <div class="w-full flex items-center justify-between mt-0 px-6 py-2">
+    style="box-shadow: rgba(59, 131, 246, 0.712) 0 1px 10px 1px">
+    <div class="w-full flex items-center justify-between mt-0 px-6 py-2" >
       <div>
         <router-link to="/">
           <img src="/logo/lanmark-logo-navbar.png" :width="200" alt="" />
@@ -14,7 +14,7 @@
         class="order-2 md:order-3 flex flex-wrap items-center justify-end mr-0 md:mr-4"
         id="nav-content"
       >
-        <div class="auth flex items-center w-full md:w-full">
+        <div class="auth flex items-center w-full md:w-full" >
           <div
             v-for="(menu, menuKey) in dropdowns"
             :key="menuKey"
@@ -23,7 +23,7 @@
             <button
               @click="toggleMenu(menuKey)"
               type="button"
-              class="mt-4 lg:inline-block lg:mt-0 hover:text-white px-2 py-2 rounded hover:bg-[#007bff] mr-2"
+              class="lg:inline-block lg:mt-0 hover:text-white px-2 py-2 rounded hover:bg-[#007bff] mr-2"
             >
               <span class="bi bi-person-fill"></span> {{ namestore }}
               <i class="bi bi-caret-down-fill"></i>
@@ -56,7 +56,6 @@
     </div>
   </nav>
 
-  <!--eslint-disable-next-line vue/no-multiple-template-root-->
   <div class="full-width-menubar">
     <Menubar :model="menu" class="center-nav"/>
   </div>
@@ -85,7 +84,7 @@ export default {
       },
       {
           label: "admin",
-          icon: "pi pi-palette",
+          icon: "pi pi-user",
           items: [
             {
               label: "เพิ่มข้อมูล admin",
@@ -99,7 +98,7 @@ export default {
         },
         {
           label: "partner",
-          icon: "pi pi-palette",
+          icon: "pi pi-users",
           items: [
             {
               label: "อนุมัติ partner",
@@ -121,7 +120,7 @@ export default {
         },
         {
           label: "member",
-          icon: "pi pi-palette",
+          icon: "pi pi-users",
           items: [
             {
               label: "จัดการข้อมูล member",
@@ -136,7 +135,7 @@ export default {
         },
         {
           label: "ห้อง",
-          icon: "pi pi-palette",
+          icon: "pi pi-folder",
           items: [
             {
               label: "ประเภทห้อง",
@@ -154,7 +153,7 @@ export default {
         },
         {
           label: "จอง",
-          icon: "pi pi-palette",
+          icon: "pi pi-send",
           items: [
             {
               label: "ข้อมูลจอง",
@@ -211,5 +210,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.center-nav[data-v-9bdad0c2]{
+  background-color: #fff;
 }
 </style>

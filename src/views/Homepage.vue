@@ -64,7 +64,7 @@
           <label class="py-2" for="quantity">จำนวนเข้าพัก</label>
           <div class="card w-full flex justify-content-between">
             <span class="p-float-label">
-              <InputNumber id="number-input" v-model="value" />
+              <InputNumber v-model="value" inputId="minmax-buttons" mode="decimal" showButtons :min="0" :max="100" />
         </span>
         <Button label="ค้นหา" severity="secondary"  />
     </div>
@@ -147,6 +147,7 @@ const value = ref();
       this.selectedPriceRange = "";
       this.selectedQuantity = "";
       this.selectedBedtype = "";
+      this.value = "";
     },
   },
 };

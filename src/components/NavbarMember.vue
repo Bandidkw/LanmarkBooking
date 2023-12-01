@@ -1,6 +1,6 @@
 <!-- Navbar.vue -->
 <template>
-  <nav id="header" class="w-full z-30 top-10 py-1 bg-white border-b border-black-400">
+  <nav id="header" class="w-full z-30 top-10 py-1 bg-white border-b border-black-400" style="box-shadow: rgba(59, 131, 246, 0.712) 0 1px 10px 1px">
       <div class="w-full flex items-center justify-between mt-0 px-6 py-2">
         <div>
           <router-link to="/">
@@ -10,7 +10,7 @@
          <div class="order-2 md:order-3 flex flex-wrap items-center justify-end mr-0 md:mr-4" id="nav-content">
             <div class="auth flex items-center w-full md:w-full">
               <div v-for="(menu, menuKey) in dropdowns" :key="menuKey" class="relative lg:inline-block text-left">
-              <button @click="toggleMenu(menuKey)" type="button" class="mt-4 lg:inline-block lg:mt-0 hover:text-white px-2 py-2 rounded hover:bg-[#007bff] mr-2 ">
+              <button @click="toggleMenu(menuKey)" type="button" class="lg:inline-block lg:mt-0 hover:text-white px-2 py-2 rounded hover:bg-[#007bff] mr-2 ">
               
                <span class="bi bi-person-fill"></span> {{namestore}} <i class="bi bi-caret-down-fill"></i>
               </button>
@@ -59,12 +59,12 @@ export default {
       menu: [
         {
           label: "เช็คอิน-เช็คเอาท์",
-          icon: "pi pi-link",
+          icon: "pi pi-id-card",
           to: "/checkin-out",
         },
         {
           label: "ข้อมูลการจอง",
-          icon: "pi pi-link",
+          icon: "pi pi-send",
           to: "/bookingmember",
         }
       ],
@@ -116,5 +116,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.center-nav[data-v-19ec65fa]{
+  background-color: #fff;
 }
 </style>

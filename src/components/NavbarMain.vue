@@ -1,6 +1,6 @@
 <!-- Navbar.vue -->
 <template>
-  <nav class="nav-bar" style="box-shadow: rgba(59, 131, 246, 0.712) 0 3px 0 0">
+  <nav class="nav-bar" style="box-shadow: rgba(59, 131, 246, 0.712) 0 1px 10px 1px">
     <router-link to="/" class="topweb-left">
       <img src="/logo/lanmark-logo-navbar.png" alt="" />
     </router-link>
