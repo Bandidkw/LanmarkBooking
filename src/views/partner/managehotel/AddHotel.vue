@@ -76,7 +76,7 @@
                 class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
                 placeholder="เลือกประเภทเตียง" />
             </div>
-            <div v-show="bedtype === 'Custom'">
+            <div v-show="bedtype === 'เพิ่มเติม'">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 for="grid-first-name">กรอกประเภทเตียงเพิ่มเติม :</label>
               <InputText type="text" v-model="inputbedtype" placeholder="กรอกประเภทเตียงเพิ่มเติม"
@@ -244,18 +244,18 @@ export default {
       bedtype: null,
       inputbedtype: "",
       selectbed: [
-        { label: 'Single Bed', value: 'เตียงเดี่ยว ขนาด 3 ฟุต' },
-        { label: 'Twin Bed', value: 'เตียงเดี่ยว ขนาด 3.5 ฟุต' },
-        { label: 'Double Bed', value: 'เตียงคู่ขนาดใหญ่ 1 เตียง' },
-        { label: 'Hollywood Twin', value: 'เตียงเดี่ยว 2 เตียงติดกัน' },
-        { label: 'Queen Size', value: 'เตียงเดี่ยว ขนาด 5 ฟุต' },
-        { label: 'King Size', value: 'เตียงเดี่ยว ขนาด 6 ฟุต' },
-        { label: 'Triple Bed', value: 'เตียงเดี่ยวจำนวน 3 เตียง' },
-        { label: 'Extra Bed', value: 'เตียงเสริม' },
-        { label: 'Mattress', value: 'ฟูกนอนพื้น' },
-        { label: 'Murphy Bed', value: 'เตียงแบบพับเก็บได้' },
-        { label: 'Bunk Bed', value: 'เตียง 2 ชั้น' },
-        { label: 'Custom', value: "Custom" },
+        { label: 'เตียงเดี่ยว ขนาด 3 ฟุต', value: 'เตียงเดี่ยว ขนาด 3 ฟุต' },
+        { label: 'เตียงเดี่ยว ขนาด 3.5 ฟุต', value: 'เตียงเดี่ยว ขนาด 3.5 ฟุต' },
+        { label: 'เตียงคู่ขนาดใหญ่ 1 เตียง', value: 'เตียงคู่ขนาดใหญ่ 1 เตียง' },
+        { label: 'เตียงเดี่ยว 2 เตียงติดกัน', value: 'เตียงเดี่ยว 2 เตียงติดกัน' },
+        { label: 'เตียงเดี่ยว ขนาด 5 ฟุต', value: 'เตียงเดี่ยว ขนาด 5 ฟุต' },
+        { label: 'เตียงเดี่ยว ขนาด 6 ฟุต', value: 'เตียงเดี่ยว ขนาด 6 ฟุต' },
+        { label: 'เตียงเดี่ยวจำนวน 3 เตียง', value: 'เตียงเดี่ยวจำนวน 3 เตียง' },
+        { label: 'เตียงเสริม', value: 'เตียงเสริม' },
+        { label: 'ฟูกนอนพื้น', value: 'ฟูกนอนพื้น' },
+        { label: 'เตียงแบบพับเก็บได้', value: 'เตียงแบบพับเก็บได้' },
+        { label: 'เตียง 2 ชั้น', value: 'เตียง 2 ชั้น' },
+        { label: 'เพิ่มเติม', value: "เพิ่มเติม" },
       ],
        roomLevel: [
         { label: 'ห้องสแตนดาร์ด ', value: 'เตียงเดี่ยว ขนาด 3 ฟุต' },
