@@ -90,8 +90,22 @@
             <p>Phone : </p>
             <InputText v-model="phone" class="w-full text-black-950 font-bold " style="color:#000" disabled />
           </div>
-
-
+          <div class="col-12">
+            <p>email : </p>
+            <InputText v-model="email" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+          </div>
+          <div class="col-12 flex justify-content-center">
+            <img v-if="image_bank" :src="getImage(image_bank)" alt="ID Card" style="  max-width: 50%; height: 50%" />
+            <div v-else>ไม่มีรูปภาพ</div>
+          </div>
+          <div class="col-12">
+            <p>ธนาคาร : </p>
+            <InputText v-model="bank" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+          </div>
+          <div class="col-12">
+            <p>เลขบัญชี : </p>
+            <InputText v-model="numberbank" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+          </div>
         </form>
       </div>
     </div>
@@ -118,6 +132,10 @@ export default {
     const name = ref("");
     const phone = ref("");
     const idcard = ref("");
+    const email = ref("");
+    const bank = ref("");
+    const numberbank = ref("");
+    const image_bank = ref("");
 
     const item_product = ref([]);
     const getData = async () => {
@@ -221,6 +239,10 @@ export default {
       console.log(data)
       console.log(data.idcard)
       idcard.value = data.idcard
+      email.value = data.email
+      bank.value = data.bank
+      numberbank.value = data.numberbank
+      image_bank.value = data.image_bank
     }
 
 
@@ -239,8 +261,11 @@ export default {
       name,
       image,
       phone,
-      idcard
-
+      idcard,
+      email,
+      bank,
+      numberbank,
+      image_bank
     };
   },
 

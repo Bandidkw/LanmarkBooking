@@ -180,8 +180,13 @@ const router = createRouter({
       name: "contractmanage",
       component: () => import('@/views/admin/ContractManage.vue')
     },
+    {
+      path: "/contractmembermanage",
+      name: "contractmembermanage",
+      component: () => import('@/views/member/ContractMemberManage.vue')
+    },
     
-
+    
   ],
 });
 

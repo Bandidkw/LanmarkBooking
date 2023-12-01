@@ -126,7 +126,12 @@ export default {
             {
               label: "จัดการข้อมูล member",
               to: "/managemember",
+            },
+            {
+              label: "สัญญา member",
+              to: "/contractmembermanage",
             }
+            
           ],
         },
         {

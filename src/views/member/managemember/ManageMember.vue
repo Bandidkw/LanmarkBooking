@@ -20,6 +20,9 @@
 
         <Column field="telephone" header="เบอร์โทรศัพท์" style="width: 20%;"></Column>
         <Column field="name" class="" header="ชื่อ" style="width: 10%;"> </Column>
+        <Column field="firstname" class="" header="ชื่อต้น" style="width: 10%;"> </Column>
+        <Column field="lastname" class="" header="นามสกุล" style="width: 10%;"> </Column>
+        <Column field="email" class="" header="อีเมล" style="width: 10%;"> </Column>
         <Column :exportable="false" class="" header="เพิ่มเติม" style="width: 10%">
 
           <template #body="item">

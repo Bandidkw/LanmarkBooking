@@ -20,6 +20,14 @@
 
         <Column field="telephone" header="เบอร์โทรศัพท์" style="width: 20%;"></Column>
         <Column field="name" class="" header="ชื่อ" style="width: 10%;"> </Column>
+        <Column header="รายละเอียด" style="width: 10%;">
+          <template #body="{ data }">
+            <Button @click="showPartnerDetail(data)"
+              class="bg-blue-500 hover:bg-blue-700 border-none text-white font-bold py-2 px-4 rounded mx-2">รายละเอียด</Button>
+
+          </template>
+
+        </Column>
         <Column :exportable="false" class="" header="เพิ่มเติม" style="width: 10%">
 
           <template #body="item">
@@ -34,6 +42,48 @@
 
     </div>
   </div>
+  <Dialog v-model:visible="DetailPartner" header="แก้ไขข้อมูล Partner" modal :style="{ width: '50rem' }"
+    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+
+    <div class="grid">
+      <div class="col-12 md:col-12">
+        <form>
+          <div class="col-12 flex justify-content-center">
+            <img v-if="image" :src="getImage(image)" alt="ID Card" style="  max-width: 50%; height: 50%" />
+            <div v-else>ไม่มีรูปภาพ</div>
+          </div>
+          <div class="col-12">
+            <p> ID Card:</p>
+            <InputText v-model="idcard" class="w-full text-black-950 font-bold" style="color:#000" disabled />
+          </div>
+          <div class="col-12">
+            <p> First Name :</p>
+            <InputText v-model="name" class="w-full text-black-950 font-bold" style="color:#000" disabled />
+          </div>
+          <div class="col-12">
+            <p>Phone : </p>
+            <InputText v-model="phone" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+          </div>
+          <div class="col-12">
+            <p>email : </p>
+            <InputText v-model="email" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+          </div>
+          <div class="col-12 flex justify-content-center">
+            <img v-if="image_bank" :src="getImage(image_bank)" alt="ID Card" style="  max-width: 50%; height: 50%" />
+            <div v-else>ไม่มีรูปภาพ</div>
+          </div>
+          <div class="col-12">
+            <p>ธนาคาร : </p>
+            <InputText v-model="bank" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+          </div>
+          <div class="col-12">
+            <p>เลขบัญชี : </p>
+            <InputText v-model="numberbank" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+          </div>
+        </form>
+      </div>
+    </div>
+  </Dialog>
 </template>
 
 <script>
@@ -49,6 +99,16 @@ export default {
     document.title = "ข้อมูล partner";
   },
   setup() {
+    const DetailPartner = ref(false);
+    const image = ref(null);
+    const name = ref("");
+    const phone = ref("");
+    const idcard = ref("");
+    const email = ref("");
+    const bank = ref("");
+    const numberbank = ref("");
+    const image_bank = ref("");
+
     const item_product = ref([]);
     const getData = async () => {
       try {
@@ -105,6 +165,21 @@ export default {
         });
       }
     };
+    const showPartnerDetail = async (data) => {
+
+
+      DetailPartner.value = true;
+      image.value = data.image_idcard
+      name.value = data.name
+      phone.value = data.telephone
+      console.log(data)
+      console.log(data.idcard)
+      idcard.value = data.idcard
+      email.value = data.email
+      bank.value = data.bank
+      numberbank.value = data.numberbank
+      image_bank.value = data.image_bank
+    }
     onMounted(() => {
       getData();
     });
@@ -112,10 +187,32 @@ export default {
       item_product,
       getData,
       deleteProduct,
-
+      showPartnerDetail,
+      DetailPartner,
+      name,
+      image,
+      phone,
+      idcard,
+      email,
+      bank,
+      numberbank,
+      image_bank
     };
 
   },
+  methods: {
+    getImage(item) {
+      if (typeof item === 'string') {
+        return `https://drive.google.com/uc?export=view&id=${item}`;
+      } else if (Array.isArray(item) && item.length > 0) {
+        const firstImageId = item[0];
+        return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
+      } else {
+        return "";
+      }
+    },
+  },
+  
   name: 'ManagePartner',
 };
 </script>
