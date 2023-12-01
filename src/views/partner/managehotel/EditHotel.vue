@@ -30,9 +30,14 @@
             <InputText v-model="price" name="price" class="w-full" />
           </div>
           <div class="col-12">
-            <p>ประเภทห้องพัก:</p>
-            <Dropdown name="type" v-model="type" :options="cities" optionLabel="name" optionValue="_id"
+            <p>ประเภทห้องพัก :</p>
+            <Dropdown name="type" v-model="type" :options="cities" optionLabel="name" optionValue="name"
               placeholder="เลือกประเภทห้องพัก" class="w-full" />
+          </div>
+          <div v-if="type === 'โรงแรม'" class="col-12">
+            <p>ระดับห้อง :</p>
+            <Dropdown class="w-full" v-model="inputlevelroom" :options="roomLevel" optionLabel="label" optionValue="value"
+              placeholder="เลือกประเภท" />
           </div>
           <div class="col-12">
             <p>จำนวนผู้เข้าพัก :</p>
@@ -41,6 +46,15 @@
           <div class="col-12">
             <p>จำนวนห้องนอน :</p>
             <InputText v-model="bedroom" name="bedroom" class="w-full" />
+          </div>
+          <div class="col-12">
+            <p>ประเภทเตียง :</p>
+            <Dropdown v-model="bedtype" :options="selectbed" optionLabel="label" optionValue="value" class="w-full"
+              placeholder="เลือกประเภทเตียง" />
+          </div>
+          <div class="col-12" v-if="bedtype === 'เพิ่มเติม'">
+            <p>กรอกประเภทเตียงเพิ่มเติม :</p>
+            <InputText type="text" v-model="inputbedtype" placeholder="กรอกประเภทเตียงเพิ่มเติม" class="w-full" />
           </div>
           <div class="col-12">
             <p>จำนวนเตียง :</p>
@@ -178,6 +192,34 @@ export default {
       tambon: "",
       amphure: "",
       province: "",
+      bedtype: "",
+      inputbedtype: "",
+      inputlevelroom: "",
+      selectbed: [
+        { label: 'เตียงเดี่ยว ขนาด 3 ฟุต', value: 'เตียงเดี่ยว ขนาด 3 ฟุต' },
+        { label: 'เตียงเดี่ยว ขนาด 3.5 ฟุต', value: 'เตียงเดี่ยว ขนาด 3.5 ฟุต' },
+        { label: 'เตียงคู่ขนาดใหญ่ 1 เตียง', value: 'เตียงคู่ขนาดใหญ่ 1 เตียง' },
+        { label: 'เตียงเดี่ยว 2 เตียงติดกัน', value: 'เตียงเดี่ยว 2 เตียงติดกัน' },
+        { label: 'เตียงเดี่ยว ขนาด 5 ฟุต', value: 'เตียงเดี่ยว ขนาด 5 ฟุต' },
+        { label: 'เตียงเดี่ยว ขนาด 6 ฟุต', value: 'เตียงเดี่ยว ขนาด 6 ฟุต' },
+        { label: 'เตียงเดี่ยวจำนวน 3 เตียง', value: 'เตียงเดี่ยวจำนวน 3 เตียง' },
+        { label: 'เตียงเสริม', value: 'เตียงเสริม' },
+        { label: 'ฟูกนอนพื้น', value: 'ฟูกนอนพื้น' },
+        { label: 'เตียงแบบพับเก็บได้', value: 'เตียงแบบพับเก็บได้' },
+        { label: 'เตียง 2 ชั้น', value: 'เตียง 2 ชั้น' },
+        { label: 'เพิ่มเติม', value: "เพิ่มเติม" },
+      ],
+      roomLevel: [
+        { label: 'ห้องสแตนดาร์ด ', value: 'ห้องสแตนดาร์ด' },
+        { label: 'ห้องซูพีเรีย', value: 'ห้องซูพีเรีย' },
+        { label: 'ห้องดีลักซ์ ', value: 'ห้องดีลักซ์' },
+        { label: 'ห้องสวีท ', value: 'ห้องสวีท' },
+        { label: 'ห้องฮันนีมูน', value: 'ห้องฮันนีมูน' },
+        { label: 'ห้องสำหรับครอบครัว', value: 'ห้องสำหรับครอบครัว' },
+        { label: 'ห้องคาบาน่า', value: 'ห้องคาบาน่า' },
+        { label: 'ห้องพักมีสองชั้น', value: 'ห้องพักมีสองชั้น' },
+        { label: 'ห้องสตูดิโอ', value: 'ห้องสตูดิโอ' },
+      ]
     };
   },
   methods: {
@@ -196,6 +238,8 @@ export default {
         this.phone_number = response.data?.phone_number
         this.price = response.data?.price
         this.type = response.data?.type._id
+        this.bedtype = response.data?.typehotelbed
+        this.inputlevelroom = response.data?.typehotelroom
         this.guests = response.data?.guests
         this.bedroom = response.data?.bedroom
         this.bed = response.data?.bed
@@ -233,6 +277,7 @@ export default {
         this.sidebar = true;
       } else {
         try {
+          const typehotelbed = this.bedtype === 'เพิ่มเติม' ? this.inputbedtype : this.bedtype
           const id = this.data._id;
           const res = await axios.patch(
             `${process.env.VUE_APP_API}room/${id}`,
@@ -252,6 +297,9 @@ export default {
               tambon: this.tambon,
               amphure: this.amphure,
               province: this.province,
+              typehotelbed: typehotelbed,
+              typehotelroom: this.inputlevelroom
+
             },
             {
               headers: {

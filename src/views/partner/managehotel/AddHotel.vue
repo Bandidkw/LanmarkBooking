@@ -42,15 +42,16 @@
             </label>
             <Dropdown
               class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2  mb-2 leading-tight focus:outline-none focus:bg-white"
-              v-model="type" :options="cities" optionLabel="name" optionValue="name" placeholder="เลือกประเภท" />
+              v-model="type" :options="cities" optionLabel="name" optionValue="_id" placeholder="เลือกประเภท" />{{ type
+              }}
           </div>
-          <div v-show="type === 'โรงแรม'" class="w-full md:w-1/2 px-4 mb-2">
+          <div v-show="type.name === '65680f013a464f61e3de1a5c'" class="w-full md:w-1/2 px-4 mb-2">
             <label class="block uppercase tracking-wide text-gray-700 text-xs mb-2 font-bold mb-2" for="grid-first-name">
               ระดับห้อง :
             </label>
             <Dropdown
               class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2  mb-2 leading-tight focus:outline-none focus:bg-white"
-              v-model="inputlevelroom" :options="roomLevel" optionLabel="name" optionValue="value"
+              v-model="inputlevelroom" :options="roomLevel" optionLabel="label" optionValue="value"
               placeholder="เลือกประเภท" />
           </div>
           <div class="w-full md:w-1/2 px-4 mb-2 ">
@@ -99,6 +100,56 @@
               class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name" type="number" v-model="bathroom" placeholder="จำนวนห้องน้ำ" />
           </div>
+          <div class="w-full  md:w-1/2  px-4 mb-2 ">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              for="grid-first-name">ประเภทผู้เช่า :</label>
+            <Dropdown v-model="partnertype" :options="selectpartnertype" optionLabel="label" optionValue="value"
+              class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+              placeholder="เลือกประเภทผู้เช่า" />
+          </div>
+          <div v-show="partnertype === 'ผู้เช่าปล่อยเช่า'" class="w-full  md:w-1/2  px-4 mb-2 ">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              for="grid-first-name">เลือกระยะเวลา :</label>
+            <Calendar v-model="selectedDate" dateFormat="dd/mm/yy" selectionMode="range" :manualInput="false"
+              :numberOfMonths="2" showIcon class="border p-2 rounded bg-white" :minDate="minSelectableDate"
+              :disabled-dates="disabledDates" />
+          </div>
+
+
+          <div class="w-full md:w-1/2 px-4 mb-2 ">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="near-location">
+              สถานที่ใกล้เคียง:
+            </label>
+            <div class="flex gap-2">
+              <InputText
+                class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
+                id="near-location" type="text" v-model="nearlocation" placeholder="สถานที่ใกล้เคียง" />
+              <InputText
+                class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
+                id="distance-location" type="text" v-model="distancelocation" placeholder="ระยะทาง" />
+            </div>
+          </div>
+
+
+
+          <!-- เป็น array -->
+          <!-- <div class="w-full md:w-1/2 px-4 mb-2 ">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              for="grid-first-name">สถานที่ใกล้เคียง :</label>
+            <div class="mb-4">
+              <InputText v-model="newTask.location" placeholder="สถานที่ใกล้เคียง" class="border p-2" />
+              <InputText v-model="newTask.distance" placeholder="ระยะทาง" class="border p-2" />
+              <Button @click="addTask" icon="pi pi-plus" class="bg-blue-500 text-white p-2 ml-2" />
+            </div>
+            <ul>
+              <li v-for="(task, index) in tasks" :key="index" class="border-b py-2 flex " style="align-items: center;">
+                สถานที่ :{{ task.location }} || ระยะทาง :{{ task.distance }}
+                <Button @click="removeTask(index)" icon="pi pi-trash" class="p-button-danger p-button-outlined ml-2" />
+              </li>
+            </ul>
+          </div> -->
+
+
           <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
               ที่อยู่ :
@@ -241,8 +292,18 @@ export default {
       approve: "[]",
       statusbooking: "false",
       value: "",
-      bedtype: null,
+      bedtype: "",
       inputbedtype: "",
+      inputlevelroom: "",
+      partnertype: "",
+      timebookingstart: "",
+      timebookingend: "",
+      nearlocation: "",
+      distancelocation: "",
+      selectpartnertype: [
+        { label: 'เจ้าของปล่อยเช่า', value: 'เจ้าของปล่อยเช่า' },
+        { label: 'ผู้เช่าปล่อยเช่า', value: 'ผู้เช่าปล่อยเช่า' },
+      ],
       selectbed: [
         { label: 'เตียงเดี่ยว ขนาด 3 ฟุต', value: 'เตียงเดี่ยว ขนาด 3 ฟุต' },
         { label: 'เตียงเดี่ยว ขนาด 3.5 ฟุต', value: 'เตียงเดี่ยว ขนาด 3.5 ฟุต' },
@@ -267,11 +328,32 @@ export default {
         { label: 'ห้องคาบาน่า', value: 'ห้องคาบาน่า' },
         { label: 'ห้องพักมีสองชั้น', value: 'ห้องพักมีสองชั้น' },
         { label: 'ห้องสตูดิโอ', value: 'ห้องสตูดิโอ' },
-      ]
+      ],
 
+
+      // newTask: { location: '', distance: '' },
+      // tasks: [],
+      selectedDate: "",
+      minSelectableDate: new Date(),
+      disabledDates: [
+        new Date(2023, 10, 29),
+        new Date(2023, 10, 30)
+      ],
     };
   },
   methods: {
+    // addTask() {
+    //   if (this.newTask.location && this.newTask.distance) {
+    //     this.tasks.push({ location: this.newTask.location, distance: this.newTask.distance });
+    //     this.newTask.location = '';
+    //     this.newTask.distance = '';
+    //   }
+    // },
+    // removeTask(index) {
+    //   this.tasks.splice(index, 1);
+    // },
+
+
     handleFileChange(event) {
       const input = this.$refs.fileinput;
       if (input.files && input.files.length > 0) {
@@ -282,7 +364,6 @@ export default {
     async addRoom() {
       try {
         const typehotelbed = this.bedtype === 'เพิ่มเติม' ? this.inputbedtype : this.bedtype
-        const typehotelroom = this.type === 'โรงแรม' ? this.inputlevelroom : this.type
         const res = await axios.post(
           `${process.env.VUE_APP_API}room/hotel/`,
           {
@@ -290,7 +371,7 @@ export default {
             description: this.description,
             phone_number: this.phone_number,
             price: this.price,
-            type: typehotelroom,
+            type: this.type,
             guests: this.guests,
             bedroom: this.bedroom,
             bed: this.bed,
@@ -301,7 +382,13 @@ export default {
             tambon: this.tambon,
             amphure: this.amphure,
             province: this.province,
-            typehotelbed: typehotelbed
+            typehotelbed: typehotelbed,
+            typehotelroom: this.inputlevelroom,
+            nearlocation: this.nearlocation,
+            distancelocation: this.distancelocation,
+            timebookingstart: this.selectedDate[0],
+            timebookingend: this.selectedDate[1],
+            partnertype: this.partnertype,
           },
           {
             headers: {
@@ -407,6 +494,10 @@ export default {
     this.amphure = "";
     this.province = "";
     this.image = "",
+      this.inputlevelroom = "",
+      this.nearlocation = "",
+      this.distancelocation = "",
+      this.partnertype = "",
       // Clear errors
       this.errors = {};
   },
