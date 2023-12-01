@@ -266,8 +266,6 @@ export default {
       showError,
       checked,
       id: null,
-      // selectedBed,
-      bedtype,
     };
   },
   components: {

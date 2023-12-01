@@ -30,23 +30,9 @@
       </div>
    </nav>
    <!--eslint-disable-next-line vue/no-multiple-template-root-->
-  <nav
-    id="header"
-    class="w-full top-10  bg-white border-b border-black-400"
-  >
-    <div class="w-full flex items-center justify-center mt-0 px-5">
-      <!--- ใช้ปุ่มเดียว-->
-      <router-link v-for="(link, index) in menubars" :to="link.to" :key="index">
-        <button
-          type="button"
-          class="mt-4 lg:inline-block lg:mt-0 hover:text-white px-2 py-3 rounded hover:bg-[#007bff] mr-2"
-        >
-          {{ link.label }}
-        </button>
-      </router-link>
-    </div>
-  </nav>
-
+  <div class="full-width-menubar">
+    <Menubar :model="menu" class="center-nav"/>
+  </div>
 </template>
   
 <script>
@@ -70,8 +56,18 @@ export default {
           { id: 1, label: "แก้ไขข้อมูล", route: "/editmember" },
         ],
       },
-      menubars: [{label:"เช็คอิน-เช็คเอาท์",to:"/checkin-out"},{ label: "ข้อมูลการจอง", to: "/bookingmember" }],
-      
+      menu: [
+        {
+          label: "เช็คอิน-เช็คเอาท์",
+          icon: "pi pi-link",
+          to: "/checkin-out",
+        },
+        {
+          label: "ข้อมูลการจอง",
+          icon: "pi pi-link",
+          to: "/bookingmember",
+        }
+      ],
     };
   },
   methods : {
@@ -112,5 +108,13 @@ export default {
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-
+.full-width-menubar {
+  /* แนวตั้งกลางด้วย */
+  width: 100%; /* ให้กว้างเต็มหน้าจอ */
+}
+.center-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

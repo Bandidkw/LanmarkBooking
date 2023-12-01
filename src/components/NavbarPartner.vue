@@ -34,35 +34,9 @@
   </nav>
 
   <!-- eslint-disable-next-line vue/no-multiple-template-root -->
-  <nav id="header" class="h-20 w-50 z-30 top-10  bg-white border-b border-black-400">
-    <div class="h-full w-full flex items-center justify-center mt-0 px-5">
-      <!--- ใช้ปุ่มเดียว-->
-      <router-link to="/dashboardpartner" class="h-full">
-
-        <button type="button"
-          class="text-xl h-full lg:inline-block lg:mt-0 hover:text-white px-2 py-3 rounded hover:bg-[#007bff] mr-2">
-          DashBoard
-        </button>
-      </router-link>
-      <!--- ใช้เป็น dropdown -->
-      <div v-for="(menu, menuKey) in navdropdowns" :key="menuKey" class="relative lg:inline-block text-left">
-        <button @click="toggleMenu(menuKey)" type="button"
-          class="text-xl lg:inline-block lg:mt-0 hover:text-white px-2 py-3 rounded hover:bg-[#007bff] mr-2 ">
-          {{ menuKey }} <i class="bi bi-caret-down-fill"></i>
-        </button>
-        <transition name="fade">
-          <div v-if="isMenuOpen(menuKey)" @click.stop="closeDropdowns"
-            class="menu-dropdown lg:inline-blockorigin-top-right absolute mt-2 w-40 bg-white border border-gray-300 py-2 rounded-lg shadow-lg z-10">
-            <router-link v-for="item in menu" :key="item.id" :to="item.route"
-              class="block px-4 py-2 hover:text-white hover:bg-[#007bff]">
-              {{ item.label }}
-            </router-link>
-
-          </div>
-        </transition>
-      </div>
-    </div>
-  </nav>
+  <div class="full-width-menubar">
+    <Menubar :model="menu" class="center-nav"/>
+  </div>
 </template>
   
 <script>
@@ -98,6 +72,41 @@ export default {
 
         ],
       },
+      menu: [
+        {
+          label: "dashboard",
+          icon: "pi pi-link",
+          to: "/dashboardpartner",
+        },
+        {
+          label: "ห้อง",
+          icon: "pi pi-palette",
+          items: [
+            {
+              label: "เพิ่มห้อง",
+              to: "/addhotel",
+            },
+            {
+              label: "จัดการห้อง",
+              to: "/manageroom",
+            }
+          ],
+        },
+        {
+          label: "จอง",
+          icon: "pi pi-palette",
+          items: [
+            {
+              label: "อนุมัติการจองห้อง",
+              to: "/managebooking",
+            },
+            {
+              label: "อนุมัติการชำระเงิน",
+              to: "/approvepayment",
+            }
+          ],
+        },
+      ],
     };
   },
   methods: {
@@ -143,4 +152,14 @@ export default {
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+.full-width-menubar {
+  /* แนวตั้งกลางด้วย */
+  width: 100%; /* ให้กว้างเต็มหน้าจอ */
+}
+.center-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
