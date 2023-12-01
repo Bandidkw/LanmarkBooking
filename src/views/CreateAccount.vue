@@ -112,8 +112,8 @@
         <div class="input-content">
           <div class="input-box">
             <label for="bank">ธนาคาร :</label>
-            <InputText class="input-form" type="tel" v-model="partner.bank" @input="validateField('bank', 'partner')"
-              placeholder="กรอกธนาคารที่ใช้งาน" />
+            <Dropdown v-model="partner.bank" :options="banks" optionLabel="label" optionValue="value"
+              placeholder="เลือกธนาคารที่ใช้งาน" />
             <span class="error-message">{{ errors.bank }}</span>
           </div>
           <div class="input-box">
@@ -167,7 +167,7 @@
         </div>
 
         <div style="display: flex; align-items: center">
-          <Checkbox v-model=checked label="confirm contract " class="p-invalid" binary />
+          <Checkbox v-model=checked :binary="true" />
           <label for="ingredient1" class="ml-2 "> ยืนยันสัญญาอิเล็กทรอนิกส์ </label>
         </div>
 
@@ -246,8 +246,19 @@ export default {
         confirmPassword: "",
         image_bank: null,
         numberbank: "",
-        bank: ""
+        bank: null
       },
+      banks: [
+        { label: 'BBL', value: 'กรุงเทพ' },
+        { label: 'K-Bank', value: 'กสิกร' },
+        { label: 'KTB', value: 'กรุงไทย' },
+        { label: 'TTB', value: 'ทหารไทย' },
+        { label: 'SCB', value: 'ไทยพาณิชย์' },
+        { label: 'BAY', value: 'กรุงศรีอยุธยา' },
+        { label: 'UBO', value: 'ยูบีโอ' },
+        { label: 'GSB', value: 'ออมสิน' },
+        { label: 'BAAC', value: 'ธกส' },
+      ],
       errors: {},
       showModalPartner: false,
       showModalMember: false,
@@ -413,68 +424,68 @@ export default {
     ///// validation and yup form
     async validateMemberForm() {
       const MemberSchema = yup.object({
-        name: yup.string().required(" Name is required."),
-        fname: yup.string().required("First name is required."),
-        lname: yup.string().required("Last Name is required."),
+        name: yup.string().required(" * กรุณากรอกชื่อ"),
+        fname: yup.string().required("* กรุณากรอกชื่อจริง"),
+        lname: yup.string().required("* กรุณากรอกนามสกุล"),
         email: yup
           .string()
-          .email("Invalid email format.")
-          .required("Email is required."),
+          .email("* กรุณากรอกอีเมล์ให้ถูกต้อง")
+          .required("* กรุณากรอกอีเมล์"),
         phone: yup.string()
-          .required("Please Enter Phone Number"),
+          .required("* กรุณากรอกเบอร์โทรศัพท์"),
         // .matches(
         //   /^[0-9-]+$/,
         //   "Invalid phone number. Please enter a valid phone number."
         // ),
-        password: yup.string().required("Password is required."),
+        password: yup.string().required("* กรุณากรอกรหัสผ่าน"),
         confirmPassword: yup
           .string()
-          .oneOf([yup.ref("password"), null], "Passwords must match.")
-          .required("Confirm Password is required."),
+          .oneOf([yup.ref("password"), null], "* รหัสผ่านไม่ตรงกัน")
+          .required("* กรุณายืนยันรหัสผ่าน"),
       });
       await this.validateForm(MemberSchema, this.member);
     },
     async validatePartnerForm() {
       const PartnerSchema = yup.object({
-        name: yup.string().required("Name is required."),
+        name: yup.string().required("* กรุณากรอกชื่อ"),
         phone: yup.string()
-          .required("Please Enter Phone Number"),
+          .required("* กรุณากรอกเบอร์โทรศัพท์"),
         // .matches(
         //   /^[0-9-]+$/,
         //   "Invalid phone number. Please enter a valid phone number."
         // ),
-        idcard: yup.string().required("ID card is required"),
+        idcard: yup.string().required("* กรุณากรอกเลขบัตรประชาชน"),
         // .matches(
         //   /^[0-9]{1}-[0-9]{4}-[0-9]{5}-[0-9]{2}-[0-9]{1}$/,
         //   "Invalid Id Card Number. Please enter a valid Id Card number."
         // )
         filepic: yup
           .mixed()
-          .required("Please upload a Image Id Card")
-          .test("fileSize", "File size is too large", (value) => {
+          .required("* กรุณากรอกอัพโหลดรูปบัตรประชาชน")
+          .test("fileSize", "ไฟล์มีขนาดใหญ่เกินไป", (value) => {
             return value && value.size <= 1024000; // 1 MB
           }),
         email: yup
           .string()
-          .email("Invalid email format.")
-          .required("Email is required."),
-        address: yup.string().required("Address is required."),
-        tambon: yup.string().required("tambon is required."),
-        amphure: yup.string().required("Amphure is required."),
-        province: yup.string().required("Province is required."),
-        numberbank: yup.string().required("Number Bank is required."),
-        bank: yup.string().required("Bank is required."),
+          .email("* กรุณากรอกอีเมล์ให้ถูกต้อง")
+          .required("* กรุณากรอกอีเมล์"),
+        address: yup.string().required("* กรุณากรอกที่อยู่"),
+        tambon: yup.string().required("* กรุณาเลือกตำบล"),
+        amphure: yup.string().required("* กรุณากรอกอำเภอ"),
+        province: yup.string().required("* กรุณากรอกจังหวัด"),
+        numberbank: yup.string().required("* กรุณากรอกเลขบัญชี"),
+        bank: yup.string().required("* กรุณาเลือกบัญชีธนาคาร"),
         image_bank: yup
           .mixed()
-          .required("Please upload a Image Bank")
+          .required("* กรุณาอัพโหลดภาพบัญชี")
           .test("fileSize", "File size is too large", (value) => {
             return value && value.size <= 1024000; // 1 MB
           }),
-        password: yup.string().required("Password is required."),
+        password: yup.string().required("* กรุณากรอกรหัสผ่าน"),
         confirmPassword: yup
           .string()
-          .oneOf([yup.ref("password"), null], "Passwords must match.")
-          .required("Confirm Password is required."),
+          .oneOf([yup.ref("password"), null], "* รหัสผ่านให้ตรงกัน")
+          .required("* กรุณายืนยันรหัสผ่าน"),
       });
       await this.validateForm(PartnerSchema, this.partner);
     },
@@ -532,7 +543,7 @@ export default {
         province: "",
         password: "",
         confirmPassword: "",
-        bank: '',
+        bank: null,
         numberbank: "",
         image_bank: '',
       };
@@ -625,10 +636,6 @@ input {
 .close-button {
   border-radius: 1.5rem;
 }
-
-
-
-
 
 @media (max-width: 768px) {
   label {
