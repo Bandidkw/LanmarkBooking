@@ -45,6 +45,19 @@
             optionValue="name_th" placeholder="เลือกตำบล" />
         </div>
         <div class="col-12">
+          <p> email :</p>
+          <InputText v-model="email" name="email" class="w-full" />
+        </div>
+        <div class="col-12">
+          <p> ธนาคาร :</p>
+           <Dropdown v-model="bank" :options="banks" optionLabel="label" optionValue="value"
+            placeholder="เลือกธนาคารที่ใช้งาน" class="w-full" />
+        </div>
+        <div class="col-12">
+          <p> เลขบัญชี :</p>
+          <InputText v-model="numberbank" name="numberbank" class="w-full" />
+        </div>
+        <div class="col-12">
           <p>password :(ถ้าไม่ได้เปลี่ยนรหัสผ่านไม่ต้องกรอก)</p>
           <InputText type="password" class="w-full" name="password" placeholder="*****" v-model="password"/>
         </div>
@@ -105,7 +118,9 @@ export default {
           this.address = partnerData.address;
           this.image_card = partnerData.image_idcard;
           this.province = partnerData.province;
-
+          this.email = partnerData.email;
+          this.bank = partnerData.bank
+          this.numberbank = partnerData.numberbank
           const getamphure = await this.getamphure("amphure");
           if (getamphure === true) {
             console.log(this.amphuredropdown);
@@ -139,6 +154,20 @@ export default {
       amphure: '',
       idcard: '',
       image_card: '',
+      email:'',
+      bank:'',
+      numberbank:'',
+      banks: [
+        { value: 'กรุงเทพ', label: 'กรุงเทพ' },
+        { value: 'กสิกร', label: 'กสิกร' },
+        { value: 'กรุงไทย', label: 'กรุงไทย' },
+        { value: 'ทหารไทย', label: 'ทหารไทย' },
+        { value: 'ไทยพาณิชย์', label: 'ไทยพาณิชย์' },
+        { value: 'กรุงศรีอยุธยา', label: 'กรุงศรีอยุธยา' },
+        { value: 'ยูบีโอ', label: 'ยูบีโอ' },
+        { value: 'ออมสิน', label: 'ออมสิน' },
+        { value: 'ธกส', label: 'ธกส' },
+      ],
     }
   },
   methods: {
@@ -162,6 +191,9 @@ export default {
             tambon:this.tambon,
             amphure:this.amphure,
             province:this.province,
+            email:this.email,
+            bank:this.bank,
+            numberbank:this.numberbank,
             level : "1"
           }, {
             headers: {

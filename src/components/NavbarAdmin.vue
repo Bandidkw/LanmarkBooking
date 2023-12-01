@@ -74,7 +74,7 @@ export default {
       namestore: `${this.$store.getters.name}`,
       dropdowns:{
          items:[ 
-          { id: 1, label: "แก้ไขข้อมูล", route: "/editmember" },
+          { id: 1, label: "แก้ไขข้อมูล", route: "/editadminuser" },
         ],
       },
       menu: [
