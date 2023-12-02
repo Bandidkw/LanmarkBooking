@@ -14,7 +14,6 @@ import Rating from 'primevue/rating';
 
 import SelectButton from 'primevue/selectbutton';
 
-
 import "primeicons/primeicons.css"; //icons
 import "primevue/resources/primevue.min.css"; //core css
 import "primevue/resources/themes/lara-light-blue/theme.css"; //theme

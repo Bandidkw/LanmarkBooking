@@ -42,10 +42,9 @@
             </label>
             <Dropdown
               class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2  mb-2 leading-tight focus:outline-none focus:bg-white"
-              v-model="type" :options="cities" optionLabel="name" optionValue="_id" placeholder="เลือกประเภท" />{{ type
-              }}
+              v-model="type" :options="cities" optionLabel="name" optionValue="_id" placeholder="เลือกประเภท" />
           </div>
-          <div v-show="type.name === '65680f013a464f61e3de1a5c'" class="w-full md:w-1/2 px-4 mb-2">
+          <div v-show="type === '65680f013a464f61e3de1a5c'" class="w-full md:w-1/2 px-4 mb-2">
             <label class="block uppercase tracking-wide text-gray-700 text-xs mb-2 font-bold mb-2" for="grid-first-name">
               ระดับห้อง :
             </label>
@@ -100,24 +99,26 @@
               class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name" type="number" v-model="bathroom" placeholder="จำนวนห้องน้ำ" />
           </div>
-          <div class="w-full  md:w-1/2  px-4 mb-2 ">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-first-name">ประเภทผู้เช่า :</label>
-            <Dropdown v-model="partnertype" :options="selectpartnertype" optionLabel="label" optionValue="value"
-              class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
-              placeholder="เลือกประเภทผู้เช่า" />
-          </div>
-          <div v-show="partnertype === 'ผู้เช่าปล่อยเช่า'" class="w-full  md:w-1/2  px-4 mb-2 ">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-first-name">เลือกระยะเวลา :</label>
-            <Calendar v-model="selectedDate" dateFormat="dd/mm/yy" selectionMode="range" :manualInput="false"
-              :numberOfMonths="2" showIcon class="border p-2 rounded bg-white" :minDate="minSelectableDate"
-              :disabled-dates="disabledDates" />
+
+          <div class="w-full md:w-1/2 px-4 mb-2 flex gap-2">
+            <div class="w-full">
+              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-first-name">ประเภทผู้เช่า :</label>
+              <Dropdown v-model="partnertype" :options="selectpartnertype" optionLabel="label" optionValue="value"
+                class="appearance-none   w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+                placeholder="เลือกประเภทผู้เช่า" />
+            </div>
+            <div class="w-full">
+              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-first-name">เลือกระยะเวลา :</label>
+              <Calendar class="w-full " style="height: 56px;" v-model="selectedDate" showIcon iconDisplay="input" dateFormat="dd/mm/yy"
+                selectionMode="range" :manualInput="false" :numberOfMonths="2" :minDate="minSelectableDate"
+                :disabled-dates="disabledDates" :disabled="partnertype !== 'ผู้เช่าปล่อยเช่า'" />
+            </div>
           </div>
 
-
-          <div class="w-full md:w-1/2 px-4 mb-2 ">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="near-location">
+          <div class=" w-full md:w-1/2 px-4 mb-2 ">
+            <label class=" block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="near-location">
               สถานที่ใกล้เคียง:
             </label>
             <div class="flex gap-2">
@@ -197,7 +198,7 @@
             <FileUpload name="demo[]" url="/api/upload" id="fileinput" ref="fileinput" type="file"
               class="custom-file-upload" @change="handleFileChange" accept="image/*" multiple>
               <template #empty>
-                <p>Upload File Picture</p>
+                <p>อัพโหลดรูปภาพห้อง</p>
               </template>
             </FileUpload>
           </div>
@@ -352,8 +353,6 @@ export default {
     // removeTask(index) {
     //   this.tasks.splice(index, 1);
     // },
-
-
     handleFileChange(event) {
       const input = this.$refs.fileinput;
       if (input.files && input.files.length > 0) {
@@ -406,7 +405,7 @@ export default {
             title: "บันทึกสำเร็จ",
             text: "ข้อมูลถูกบันทึกเรียบร้อย",
           });
-          this.resetForm();
+          // this.resetForm();
           this.$router.push('/manageroom')
         } else {
           await Swal.fire({
@@ -415,6 +414,7 @@ export default {
             text: "ไม่สามารถบันทึกข้อมูลได้",
           });
         }
+        await this.resetForm();
       } catch (error) {
         console.log(error, "error");
         await Swal.fire({
@@ -493,13 +493,13 @@ export default {
     this.tambon = "";
     this.amphure = "";
     this.province = "";
-    this.image = "",
-      this.inputlevelroom = "",
-      this.nearlocation = "",
-      this.distancelocation = "",
-      this.partnertype = "",
-      // Clear errors
-      this.errors = {};
+    this.image = [];
+    this.inputlevelroom = "";
+    this.nearlocation = "";
+    this.distancelocation = "";
+    this.partnertype = "";
+    // Clear errors
+    this.errors = {};
   },
 
 };

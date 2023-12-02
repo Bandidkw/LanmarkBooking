@@ -2,12 +2,12 @@
   <div class="center-container">
     <div class="grid-cols-1">
       <div class="register-text">
-        <h1>WELCOME</h1>
+        <h1>ยินดีต้อนรับ</h1>
       </div>
       <div class="button_selection">
         <Button @click="showModal('partner')" class="hover:bg-blue-700 hover:text-white " style="color: #fff;"
-          label=" For Partner" severity="secondary" outlined />
-        <Button @click="showModal('member')" class="hover:bg-orange-900" label=" For Member" severity="warning"
+          label=" สมัครเป็นพาร์ทเนอร์" severity="secondary" outlined />
+        <Button @click="showModal('member')" class="hover:bg-orange-900" label=" สมัครเป็นสมาชิก" severity="warning"
           outlined />
 
       </div>
@@ -36,9 +36,9 @@
           </div>
         </div>
 
-        <label for="email">อีเมล์</label>
+        <label for="email">อีเมล</label>
         <InputText class="input-form" type="email" v-model="member.email" @input="validateField('email', 'member')"
-          placeholder="กรอกอีเมล์" />
+          placeholder="กรอกอีเมล" />
         <span class="error-message">{{ errors.email }}</span>
 
         <label for="phone"> เบอร์โทรศัพท์:</label>
@@ -62,7 +62,7 @@
         </div>
 
         <div class="flex justify-content-end">
-          <Button label="Register" @click="register('member')" severity="help" rounded />
+          <Button label="ลงทะเบียน" @click="register('member')" severity="help" rounded />
         </div>
       </form>
     </Dialog>
@@ -83,9 +83,9 @@
           placeholder="กรอกเบอร์โทรศัพท์" />
         <span class="error-message">{{ errors.phone }}</span>
 
-        <label for="email">อีเมล์</label>
+        <label for="email">อีเมล</label>
         <InputText class="input-form" type="email" v-model="partner.email" @input="validateField('partner', 'member')"
-          placeholder="กรอกอีเมล์" />
+          placeholder="กรอกอีเมล" />
         <span class="error-message">{{ errors.email }}</span>
 
         <label for="idcard">รหัสบัตรประชาชน :</label>
@@ -172,7 +172,7 @@
         </div>
 
         <div class="flex justify-content-end">
-          <Button label="Register" @click="register('partner')" severity="help" rounded :disabled="!checked" />
+          <Button label="ลงทะเบียน" @click="register('partner')" severity="help" rounded :disabled="!checked" />
         </div>
         <div>
           <Contract :datacontract="datacontract" :id="id" />
@@ -429,8 +429,8 @@ export default {
         lname: yup.string().required("* กรุณากรอกนามสกุล"),
         email: yup
           .string()
-          .email("* กรุณากรอกอีเมล์ให้ถูกต้อง")
-          .required("* กรุณากรอกอีเมล์"),
+          .email("* กรุณากรอกอีเมลให้ถูกต้อง")
+          .required("* กรุณากรอกอีเมล"),
         phone: yup.string()
           .required("* กรุณากรอกเบอร์โทรศัพท์"),
         // .matches(
@@ -467,8 +467,8 @@ export default {
           }),
         email: yup
           .string()
-          .email("* กรุณากรอกอีเมล์ให้ถูกต้อง")
-          .required("* กรุณากรอกอีเมล์"),
+          .email("* กรุณากรอกอีเมลให้ถูกต้อง")
+          .required("* กรุณากรอกอีเมล"),
         address: yup.string().required("* กรุณากรอกที่อยู่"),
         tambon: yup.string().required("* กรุณาเลือกตำบล"),
         amphure: yup.string().required("* กรุณากรอกอำเภอ"),

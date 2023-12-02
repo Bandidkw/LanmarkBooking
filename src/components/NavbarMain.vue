@@ -6,7 +6,7 @@
     </router-link>
     <div class="search-box">
       <span class="p-input-icon-right">
-        <InputText placeholder="Search" class="search-box-input" />
+        <InputText placeholder="ค้นหา" class="search-box-input" />
         <i class="pi pi-search pr-2 cursor-pointer pl-2 mb-4" />
       </span>
     </div>

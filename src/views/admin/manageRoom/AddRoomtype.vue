@@ -13,17 +13,17 @@
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                 ชื่อ :
               </label>
-              <input
+              <InputText
                 class="appearance-none block w-full  text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                id="grid-first-name" type="text" placeholder="" v-model="name">
+                id="grid-first-name" type="text" placeholder="กรอกประเภทที่พัก" v-model="name"/>
             </div>
             <div class="w-full px-3">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                 คำอธิบาย :
               </label>
-              <input
+              <InputText
                 class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-password" type="text" placeholder="" v-model="description">
+                id="grid-password" type="text" placeholder="กรอกคำอธิบายสำหรับที่พัก" v-model="description"/>
             </div>
           </div>
           <div class="md:flex md:items-center flex justify-content-end px-5">
