@@ -4,16 +4,16 @@
       <div class="text-center text-2xl">ข้อมูลห้อง</div>
       <div class="flex px-4 w-full item-center p-4" style="flex-direction: column; align-items: center;">
         <div class="flex justify-center">
-          <p class="w-40 text-center text-2xl text-bold m-0" >สถานะ: {{ reservationEnabled ? 'เปิด' : 'ปิด' }}</p>
+          <p class="w-40 text-center text-2xl text-bold m-0">สถานะ: {{ reservationEnabled ? 'เปิด' : 'ปิด' }}</p>
         </div>
         <div class="card flex justify-center mt-2">
           <InputSwitch v-model="reservationEnabled" @click="changeallstatus()" />
         </div>
       </div>
-      <DataTable :value="Array.isArray(item_product) ? item_product : []" :paginator="true" :rows="20" 
+      <DataTable :value="Array.isArray(item_product) ? item_product : []" :paginator="true" :rows="20"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
-        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด" responsiveLayout="stack"  >
+        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด" responsiveLayout="stack">
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
         <template #empty>
           <p class="font-italic text-center text-5xl" style="color: #bd1616">
@@ -54,18 +54,21 @@
         </Column>
         <Column :exportable="false" header="เพิ่มเติม" style="width: 16%;">
           <template #body="item">
-            <div class="xl:flex mx-2" v-if="item.data.status === true">
+            <div class="xl:flex mx-2 " v-if="item.data.status === true">
               <EditHotel title="แก้ไขข้อมูล" :data="item.data" />
+            </div>
+            <div v-else class="xl:flex mx-2 ">
+              <Button disabled class="delete-button bg-gray-500 border-0  text-white font-bold py-2 px-4 rounded">
+                รออนุมัติ
+              </Button>
+            </div>
+            <div class="xl:flex mx-2">
               <Button @click="deleteProduct(item.data._id)"
                 class="delete-button bg-red-500 border-0 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                style="background-color: #C21010">ลบ</Button>
-
+                style="background-color: #C21010">
+                ลบ
+              </Button>
             </div>
-            <div v-else>
-              กรุณารออนุมัติจาก admin
-            </div>
-
-
           </template>
         </Column>
       </DataTable>
@@ -107,7 +110,7 @@ export default {
         );
         if (productResponse.data && productResponse.data) {
           item_product.value = productResponse.data;
-          
+
           console.log(productResponse.data)
           reservationEnabled.value = productResponse.data[0].statusbooking
 
@@ -166,51 +169,51 @@ export default {
         // Update the statusbooking for the corresponding item
         if (newStatus == true) {
           const updatedItem = item_product.value.find(item => item._id === _id);
-        if (updatedItem) {
-          updatedItem.statusbooking = newStatus;
-          // Update the statusbooking on the server
-          const response = await axios.put(
-            `${process.env.VUE_APP_API}room/openstatusbyid/${_id}`,
-            { statusbooking: newStatus },
-            {
-              headers: {
-                token: localStorage.getItem("token"),
-              },
-            }
-          );
+          if (updatedItem) {
+            updatedItem.statusbooking = newStatus;
+            // Update the statusbooking on the server
+            const response = await axios.put(
+              `${process.env.VUE_APP_API}room/openstatusbyid/${_id}`,
+              { statusbooking: newStatus },
+              {
+                headers: {
+                  token: localStorage.getItem("token"),
+                },
+              }
+            );
 
-          if (!response.data) {
-            getData()
-            throw new Error("Failed to update statusbooking on the server");
+            if (!response.data) {
+              getData()
+              throw new Error("Failed to update statusbooking on the server");
+            }
+          } else {
+            throw new Error("Item not found in the local data");
           }
-        } else {
-          throw new Error("Item not found in the local data");
         }
-        }
-        else{
+        else {
           const updatedItem = item_product.value.find(item => item._id === _id);
-        if (updatedItem) {
-          updatedItem.statusbooking = newStatus;
-          // Update the statusbooking on the server
-          const response = await axios.put(
-            `${process.env.VUE_APP_API}room/closestatusbyid/${_id}`,
-            { statusbooking: newStatus },
-            {
-              headers: {
-                token: localStorage.getItem("token"),
-              },
-            }
-          );
+          if (updatedItem) {
+            updatedItem.statusbooking = newStatus;
+            // Update the statusbooking on the server
+            const response = await axios.put(
+              `${process.env.VUE_APP_API}room/closestatusbyid/${_id}`,
+              { statusbooking: newStatus },
+              {
+                headers: {
+                  token: localStorage.getItem("token"),
+                },
+              }
+            );
 
-          if (!response.data) {
-            getData()
-            throw new Error("Failed to update statusbooking on the server");
+            if (!response.data) {
+              getData()
+              throw new Error("Failed to update statusbooking on the server");
+            }
+          } else {
+            throw new Error("Item not found in the local data");
           }
-        } else {
-          throw new Error("Item not found in the local data");
         }
-        }
-        
+
       } catch (error) {
         console.error(error);
       }
@@ -229,25 +232,24 @@ export default {
 
 
   methods: {
-    async changeallstatus(){
-      const  status = !this.reservationEnabled
-      if(status===true)
-      {
+    async changeallstatus() {
+      const status = !this.reservationEnabled
+      if (status === true) {
         await axios.put(`${process.env.VUE_APP_API}room/openstatus/`, {},
-              {
-                headers: {
-                  token: localStorage.getItem("token"),
-                },
-              })
+          {
+            headers: {
+              token: localStorage.getItem("token"),
+            },
+          })
         this.getData()
       }
-      else{
+      else {
         await axios.put(`${process.env.VUE_APP_API}room/closestatus/`, {},
-              {
-                headers: {
-                  token: localStorage.getItem("token"),
-                },
-              })
+          {
+            headers: {
+              token: localStorage.getItem("token"),
+            },
+          })
 
         this.getData()
       }

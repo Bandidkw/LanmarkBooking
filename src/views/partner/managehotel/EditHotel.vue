@@ -31,10 +31,10 @@
           </div>
           <div class="col-12">
             <p>ประเภทห้องพัก :</p>
-            <Dropdown name="type" v-model="type" :options="cities" optionLabel="name" optionValue="name"
+            <Dropdown name="type" v-model="type" :options="cities" optionLabel="name" optionValue="_id"
               placeholder="เลือกประเภทห้องพัก" class="w-full" />
           </div>
-          <div v-if="type === 'โรงแรม'" class="col-12">
+          <div v-if="type === '656aafdbe0452c77321a212d'" class="col-12">
             <p>ระดับห้อง :</p>
             <Dropdown class="w-full" v-model="inputlevelroom" :options="roomLevel" optionLabel="label" optionValue="value"
               placeholder="เลือกประเภท" />
@@ -64,6 +64,26 @@
             <p>จำนวนห้องน้ำ :</p>
             <InputText v-model="bathroom" name="bathroom" class="w-full" />
           </div>
+          <div class="col-12">
+            <p>ประเภทผู้เช่า :</p>
+            <Dropdown v-model="partnertype" :options="selectpartnertype" optionLabel="label" optionValue="value"
+              class="w-full" />
+          </div>
+          <div class="col-12">
+            <p>เลือกระยะเวลา :</p>
+            <Calendar class="w-full " style="height: 56px;" v-model="selectedDate" showIcon iconDisplay="input"
+              dateFormat="dd/mm/yy" selectionMode="range" :manualInput="false" :numberOfMonths="2"
+              :minDate="minSelectableDate" :disabled-dates="disabledDates"
+              :disabled="partnertype !== 'ผู้เช่าปล่อยเช่า'" />
+          </div>
+          <div class="col-12">
+            <p>สถานที่ใกล้เคียง:</p>
+            <div class="flex gap-2">
+              <InputText v-model="nearlocation" class="w-full" />
+              <InputText v-model="distancelocation" class="w-full" />
+            </div>
+          </div>
+
           <div class="col-12">
             <p>ที่อยู่ :</p>
             <InputText v-model="address" name="address" class="w-full" />
@@ -195,6 +215,15 @@ export default {
       bedtype: "",
       inputbedtype: "",
       inputlevelroom: "",
+      partnertype: "",
+      timebookingstart: "",
+      timebookingend: "",
+      nearlocation: "",
+      distancelocation: "",
+      selectpartnertype: [
+        { label: 'เจ้าของปล่อยเช่า', value: 'เจ้าของปล่อยเช่า' },
+        { label: 'ผู้เช่าปล่อยเช่า', value: 'ผู้เช่าปล่อยเช่า' },
+      ],
       selectbed: [
         { label: 'เตียงเดี่ยว ขนาด 3 ฟุต', value: 'เตียงเดี่ยว ขนาด 3 ฟุต' },
         { label: 'เตียงเดี่ยว ขนาด 3.5 ฟุต', value: 'เตียงเดี่ยว ขนาด 3.5 ฟุต' },
@@ -219,7 +248,13 @@ export default {
         { label: 'ห้องคาบาน่า', value: 'ห้องคาบาน่า' },
         { label: 'ห้องพักมีสองชั้น', value: 'ห้องพักมีสองชั้น' },
         { label: 'ห้องสตูดิโอ', value: 'ห้องสตูดิโอ' },
-      ]
+      ],
+      selectedDate: "",
+      minSelectableDate: new Date(),
+      disabledDates: [
+        new Date(2023, 10, 29),
+        new Date(2023, 10, 30)
+      ],
     };
   },
   methods: {
@@ -246,6 +281,13 @@ export default {
         this.bathroom = response.data?.bathroom
         this.address = response.data?.address
         this.province = response.data?.province
+        this.nearlocation = response.data?.nearlocation
+        this.distancelocation = response.data?.distancelocation
+        this.selectedDate = [
+          new Date(response.data.timebookingstart),
+          new Date(response.data.timebookingend)
+        ];
+        this.partnertype = response.data?.partnertype
         const getamphure = await this.getamphure("amphure")
         if (getamphure == true) {
           this.amphure = response.data?.amphure
@@ -298,7 +340,12 @@ export default {
               amphure: this.amphure,
               province: this.province,
               typehotelbed: typehotelbed,
-              typehotelroom: this.inputlevelroom
+              typehotelroom: this.inputlevelroom,
+              nearlocation: this.nearlocation,
+              distancelocation: this.distancelocation,
+              timebookingstart: this.selectedDate[0],
+              timebookingend: this.selectedDate[1],
+              partnertype: this.partnertype,
 
             },
             {

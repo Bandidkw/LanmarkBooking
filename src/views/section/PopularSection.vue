@@ -6,7 +6,7 @@
           <Galleria v-model:visible="displayBasic"
             :value="item.image.map(imageId => `https://drive.google.com/uc?export=view&id=${imageId}`)" :numVisible="5"
             containerStyle="max-width: 640px" :showThumbnails="false" :showIndicators="true"
-            :changeItemOnIndicatorHover="true" showIndicatorsOnItem="inside" :indicatorsPosition="position">
+            :changeItemOnIndicatorHover="true" :showIndicatorsOnItem="true" :indicatorsPosition="position">
             <template v-slot:item="{ item }">
               <img :src="item" :alt="item.alt" />
             </template>
@@ -19,7 +19,7 @@
         <p class="text-base font-bold m-0 max-[414px]:my-2">ราคา: {{ item.price.toLocaleString() }} บาท/คืน</p>
       </div>
     </div>
-    
+
   </div>
 </template>
 
@@ -31,6 +31,7 @@ export default {
   data() {
     const displayBasic = ref(true);
     const gridData = ref([]);
+    const position = "bottom";
 
     const getroom = async () => {
       const Response = await axios.get(`${process.env.VUE_APP_API}room/`);
@@ -46,6 +47,7 @@ export default {
       displayBasic,
       gridData,
       currentImageIndex: 0,
+      position,
     };
   },
   methods: {
@@ -109,6 +111,7 @@ export default {
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
 @media screen and (max-width:1440px) {
   .grid-container {
     grid-template-columns: repeat(4, 1fr);
@@ -153,19 +156,22 @@ export default {
   .image-container {
     margin-bottom: 1rem;
   }
+
   .image-container img {
-  width: 150px;
-  height: 150px;
+    width: 150px;
+    height: 150px;
+  }
 }
-}
+
 @media screen and (max-width:430px) {
   .grid-container {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .image-container img {
-  width: 150px;
-  height: 150px;
-}
+    width: 150px;
+    height: 150px;
+  }
 }
 
 @media screen and (max-width:414px) {
@@ -186,9 +192,10 @@ export default {
     text-align: center;
     padding: 0.5rem;
   }
+
   .image-container img {
-  width: 250px;
-  height: 250px;
-}
+    width: 250px;
+    height: 250px;
+  }
 }
 </style>
