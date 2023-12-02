@@ -2,12 +2,12 @@
   <div class="center-container">
     <div class="grid-cols-1">
       <div class="register-text">
-        <h1>WELCOME</h1>
+        <h1>ยินดีต้อนรับ</h1>
       </div>
       <div class="button_selection">
         <Button @click="showModal('partner')" class="hover:bg-blue-700 hover:text-white " style="color: #fff;"
-          label=" For Partner" severity="secondary" outlined />
-        <Button @click="showModal('member')" class="hover:bg-orange-900" label=" For Member" severity="warning"
+          label=" สมัครเป็นพาร์ทเนอร์" severity="secondary" outlined />
+        <Button @click="showModal('member')" class="hover:bg-orange-900" label=" สมัครเป็นสมาชิก" severity="warning"
           outlined />
 
       </div>
@@ -62,7 +62,7 @@
         </div>
 
         <div class="flex justify-content-end">
-          <Button label="Register" @click="register('member')" severity="help" rounded />
+          <Button label="ลงทะเบียน" @click="register('member')" severity="help" rounded />
         </div>
       </form>
     </Dialog>
@@ -172,7 +172,7 @@
         </div>
 
         <div class="flex justify-content-end">
-          <Button label="Register" @click="register('partner')" severity="help" rounded :disabled="!checked" />
+          <Button label="ลงทะเบียน" @click="register('partner')" severity="help" rounded :disabled="!checked" />
         </div>
         <div>
           <Contract :datacontract="datacontract" :id="id" />

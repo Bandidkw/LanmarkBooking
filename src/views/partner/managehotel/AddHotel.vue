@@ -198,7 +198,7 @@
             <FileUpload name="demo[]" url="/api/upload" id="fileinput" ref="fileinput" type="file"
               class="custom-file-upload" @change="handleFileChange" accept="image/*" multiple>
               <template #empty>
-                <p>Upload File Picture</p>
+                <p>อัพโหลดรูปภาพห้อง</p>
               </template>
             </FileUpload>
           </div>
