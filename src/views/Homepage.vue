@@ -72,7 +72,7 @@
     <div class="card w-full flex justify-content-between">
             <span class="p-float-label">
               <Dropdown v-model="selectedTypelessor" showClear :options="typelessor" optionLabel="name" placeholder="เลือกประเภทผู้ให้เช่า" class="w-full" />
-        </span>
+            </span>
         <Button @click="filterData" label="ค้นหา" severity="secondary"  />
     </div>
         </div>
@@ -182,7 +182,7 @@ export default {
     // ทำการเรียก API โดยใช้ตัวกรองที่ถูกเลือก
     // และอัพเดทข้อมูลที่แสดงผลบนหน้าเว็บ
     // ตัวอย่างเท่านั้น โปรดปรับเปลี่ยนตามโครงสร้างของโปรเจกต์ Vue.js ของคุณ
-    axios.get(`${process.env.VUE_APP_API}room/filter`, {
+    axios.get(`${process.env.VUE_APP_API}room/type`, {
       params: {
         type: this.selectedType,
         priceRange: this.selectedPriceRange,
@@ -216,7 +216,6 @@ export default {
   height: 2.5rem;
   justify-content: center;
 }
-
 /*------------------------- search-box-style -------------------------*/
 .search-box-cus {
   width: 30%;

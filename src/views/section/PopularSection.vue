@@ -51,7 +51,6 @@ export default {
     };
   },
   methods: {
-
     getImage(item) {
       console.log("fim");
       if (typeof item === "string") {

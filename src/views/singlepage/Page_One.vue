@@ -4,6 +4,9 @@
       <div class="px-40 text-center head-info">
         <h1 class="text-2xl">{{ roomdata.name }}</h1>
       </div>
+      <div class="flex flex-col justify-content-start">
+        <Rating v-model="value" :stars="10" />
+      </div>
     </div>
     <div class="image-box py-2 w-full h-[31.25rem] flex gap-x-2">
       <div class="w-2/4 large-box">
@@ -28,7 +31,7 @@
         <div class="flex justify-between mb-4">
           <h1 class="text-2xl font-bold">{{ roomdata.name }}</h1>
           <div class="flex flex-col justify-content-start">
-    <Rating v-model="value" :stars="10" />
+            <p class="text-base font-semibold"> รีวิว {{ averageRating }}</p>
 </div>
         </div>
         <p>{{roomdata.guests}} คน || {{ roomdata.bedroom }} ห้องนอน || {{ roomdata.bed }} เตียง || {{ roomdata.bathroom }} ห้องน้ำ  </p>
@@ -55,8 +58,8 @@
         <div
           class="flex flex-col gap-y-1 sleep-box border-2 border-black rounded-2xl w-[207px] h-[143px]">
           <div class="gap-x-3 flex">
-            <i class="bi bi-image-alt text-2xl"></i>
-            <i class="bi-image-alt text-2xl"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 24px; width: 24px; fill: currentcolor;"><path d="M28 2a2 2 0 0 1 2 1.85v9.99l1.85 5.54a3 3 0 0 1 .11.46l.03.24.01.24V30h-2v-2H2v2H0v-9.68a3 3 0 0 1 .09-.71l.06-.23L2 13.84V4a2 2 0 0 1 1.7-1.98L3.85 2H4zm2 20H2v4h28zm-1.39-6H3.4l-1.34 4h27.9zM28 4H4v10h2v-4a2 2 0 0 1 1.85-2H24a2 2 0 0 1 2 1.85V14h2zm-13 6H8v4h7zm9 0h-7v4h7z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 24px; width: 24px; fill: currentcolor;"><path d="M28 2a2 2 0 0 1 2 1.85v9.99l1.85 5.54a3 3 0 0 1 .11.46l.03.24.01.24V30h-2v-2H2v2H0v-9.68a3 3 0 0 1 .09-.71l.06-.23L2 13.84V4a2 2 0 0 1 1.7-1.98L3.85 2H4zm2 20H2v4h28zm-1.39-6H3.4l-1.34 4h27.9zM28 4H4v10h2v-4a2 2 0 0 1 1.85-2H24a2 2 0 0 1 2 1.85V14h2zm-13 6H8v4h7zm9 0h-7v4h7z"></path></svg>
           </div>
           <div>
             <p class="font-bold">ห้องนอน</p>
@@ -102,6 +105,7 @@
 
 <script>
 import axios from "axios";
+import Rating from 'primevue/rating';
 
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
@@ -110,6 +114,9 @@ onMounted(() => {
 });
 
 export default {
+  components:{
+    Rating,
+  },
   props: ["id"],
   data() {
     const roomdata = ref([])
@@ -118,11 +125,21 @@ export default {
 
     const room_id = this.$route.params.id;
     const getroom = async (_id) => {
-      const id = this.$route.params.id;
-      const Response = await axios.get(`${process.env.VUE_APP_API}room/${id}`);
-      this.roomdata = Response.data
-      this.price = this.roomdata.price
+      try {
+    const id = this.$route.params.id;
+    const response = await axios.get(`${process.env.VUE_APP_API}room/${id}`);
+    this.roomdata = response.data;
 
+    // ตรวจสอบค่า rating และตั้งค่าให้กับ value
+    if (this.roomdata.rating) {
+      this.value = this.roomdata.rating;
+    }
+
+    this.price = this.roomdata.price;
+  } catch (error) {
+    console.error("Error fetching room data:", error);
+    // จัดการข้อผิดพลาด, เช่นแสดงข้อความสำหรับผู้ใช้
+  }
     }
     onMounted(() => {
       getroom();
@@ -231,6 +248,17 @@ export default {
         return ""
       }
     },
+  },
+  computed: {
+    averageRating() {
+    if (this.value && this.value.length > 0) {
+      const sum = this.value.reduce((total, rating) => total + rating, 0);
+      const average = sum / this.value.length;
+      return average.toFixed(1);
+    } else {
+      return "N/A";
+    }
+  },
   },
 
 };

@@ -7,7 +7,17 @@
     <div class="search-box">
       <span class="p-input-icon-right">
         <InputText placeholder="ค้นหา" class="search-box-input" />
-        <i class="pi pi-search pr-2 cursor-pointer pl-2 mb-4" />
+        <i class="pi pi-search pr-2 cursor-pointer pl-2 mb-4" style="    justify-content: center;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    background-color: #3b82f6;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    top: 8px;
+    right: 8px;
+    color: #fff;" />
       </span>
     </div>
     <LoginUser />

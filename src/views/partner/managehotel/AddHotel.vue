@@ -42,7 +42,7 @@
             </label>
             <Dropdown
               class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2  mb-2 leading-tight focus:outline-none focus:bg-white"
-              v-model="type" :options="cities" optionLabel="name" optionValue="_id" placeholder="เลือกประเภท" />
+              v-model="type" showClear :options="cities" optionLabel="name" optionValue="_id" placeholder="เลือกประเภท" />
           </div>
           <div v-show="type === '656aafdbe0452c77321a212d'" class="w-full md:w-1/2 px-4 mb-2">
             <label class="block uppercase tracking-wide text-gray-700 text-xs mb-2 font-bold mb-2" for="grid-first-name">
@@ -72,7 +72,7 @@
           <div class="w-full  md:w-1/2  px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
               for="grid-first-name">ประเภทเตียง :</label>
-            <Dropdown v-model="bedtype" :options="selectbed" optionLabel="label" optionValue="value"
+            <Dropdown v-model="bedtype" showClear :options="selectbed" optionLabel="label" optionValue="value"
               class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
               placeholder="เลือกประเภทเตียง" filter/>
           </div>
@@ -104,7 +104,7 @@
             <div class="w-full">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 for="grid-first-name">ประเภทผู้เช่า :</label>
-              <Dropdown v-model="partnertype" :options="selectpartnertype" optionLabel="label" optionValue="value"
+              <Dropdown v-model="partnertype" showClear :options="selectpartnertype" optionLabel="label" optionValue="value"
                 class="appearance-none   w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
                 placeholder="เลือกประเภทผู้เช่า"  />
             </div>
@@ -131,9 +131,6 @@
                 id="distance-location" type="text" v-model="distancelocation" placeholder="ระยะทาง" />
             </div>
           </div>
-
-
-
           <!-- เป็น array -->
           <!-- <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -150,8 +147,6 @@
               </li>
             </ul>
           </div> -->
-
-
           <div class="w-full md:w-1/2 px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
               ที่อยู่ :
