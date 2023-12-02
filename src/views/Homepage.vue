@@ -42,31 +42,38 @@
             <div>
               <h2>ประเภทที่พัก</h2>
             </div>
-            <Button @click="closeFilter" icon="pi pi-times" severity="danger" text rounded aria-label="Cancel" />
+            <Button @click="closeFilter" icon="pi pi-times" severity="secondary" text rounded aria-label="Cancel" />
           </div>
           <label class="py-2" for="category">ประเภท</label>
           <div class="card flex justify-content-start">
-        <Dropdown v-model="selectedType" :options="roomtype" optionLabel="name" placeholder="เลือกประเภท" class="w-full" />
+            <Dropdown v-model="selectedType" showClear :options="roomtype" optionLabel="name" placeholder="เลือกประเภท" class="w-full" />
+            <!-- <div>{{ selectedType }}</div> -->
     </div>
 
           <!-- ช่องเลือกราคา -->
           <label class="py-2" for="price">ช่วงราคา</label>
           <div class="card flex justify-content-start">
-        <Dropdown v-model="selectedPriceRange" :options="pricerange" optionLabel="name" placeholder="เลือกช่วงราคา" class="w-full" />
+        <Dropdown v-model="selectedPriceRange" showClear :options="pricerange" optionLabel="name" placeholder="เลือกช่วงราคา" class="w-full" />
     </div>
 
           <label class="py-2" for="bed">ประเภทเตียง</label>
           <div class="card flex justify-content-start">
-        <Dropdown v-model="selectedBed" :options="bedtype" optionLabel="name" placeholder="เลือกประเภทเตียง" class="w-full" />
+        <Dropdown v-model="selectedBed" showClear :options="bedtype" optionLabel="name" placeholder="เลือกประเภทเตียง" class="w-full" />
         <!-- <div>{{ selectedBed }}</div> -->
     </div>
           <!-- ช่องเลือกจำนวน -->
           <label class="py-2" for="quantity">จำนวนเข้าพัก</label>
           <div class="card w-full flex justify-content-between">
             <span class="p-float-label">
-              <InputNumber v-model="value" inputId="minmax-buttons" mode="decimal" showButtons :min="0" :max="100" />
+              <InputNumber id="number-input" v-model="value" />
         </span>
-        <Button label="ค้นหา" severity="secondary"  />
+    </div>
+    <label class="py-2" for="quantity">ประเภทผู้ให้เช่า</label>
+    <div class="card w-full flex justify-content-between">
+            <span class="p-float-label">
+              <Dropdown v-model="selectedTypelessor" showClear :options="typelessor" optionLabel="name" placeholder="เลือกประเภทผู้ให้เช่า" class="w-full" />
+        </span>
+        <Button @click="filterData" label="ค้นหา" severity="secondary"  />
     </div>
         </div>
       </div>
@@ -74,12 +81,13 @@
     
     <!-------------------------- popular-section --------------------------->
     <div class="poppular-box">
-      <PopularSection />
+      <PopularSection/>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import { ref } from "vue";
 import PopularSection from "@/views/section/PopularSection.vue";
 
@@ -87,17 +95,24 @@ export default {
   components: {
     PopularSection,
   },
+  created() {
+  axios.get(`${process.env.VUE_APP_API}room/type`)
+    .then(response => {
+      this.roomtype = response.data;
+    })
+    .catch(error => {
+      console.error('Error fetching room types', error);
+    });
+},
   name: "HomepageMain",
   data() {
     const selectedType = ref();
-    const roomtype = ref([
-    { name: 'New York', code: 'NY' },
-    { name: 'Rome', code: 'RM' },
-    { name: 'London', code: 'LDN' },
-    { name: 'Istanbul', code: 'IST' },
-    { name: 'Paris', code: 'PRS' }
-]);
     const selectedPriceRange = ref();
+    const selectedTypelessor = ref();
+    const typelessor = ref([
+    { name: 'เจ้าของปล่อยเช่า', code: '' },
+    { name: 'ผู้เช่าปล่อยเช่า', code: '' },
+]);
     const pricerange = ref([
     { name: '0-500', code: '' },
     { name: '501-1,000', code: '' },
@@ -105,7 +120,7 @@ export default {
     { name: '3,001-5,000', code: '' },
     { name: 'มากกว่า 5,000', code: '' }
 ]);
-const selectedBed = ref();
+    const selectedBed = ref();
     const bedtype = ref([
     { name: 'Single Bed', code:'เตียงเดี่ยว ขนาด 3 ฟุต'},
     { name: 'Twin Bed' , code:'เตียงเดี่ยว ขนาด 3.5 ฟุต'},
@@ -119,16 +134,18 @@ const selectedBed = ref();
     { name: 'Murphy Bed', code:'เตียงแบบพับเก็บได้'},
     { name: 'Bunk Bed', code:'เตียง 2 ชั้น'},
 ]);
-const value = ref();
+    const value = ref();
     return {
       isFilterVisible: false,
-      roomtype,
+      roomtype:[],
       selectedType,
       selectedPriceRange,
+      selectedTypelessor,
       pricerange,
       selectedBed,
       bedtype,
       value,
+      typelessor,
     };
   },
   methods: {
@@ -149,6 +166,38 @@ const value = ref();
       this.selectedBedtype = "";
       this.value = "";
     },
+    createaccount() {
+    if (this.selectedType) {
+      console.log('Selected type:', this.selectedType);
+    } else {
+      console.log('Please select a type');
+    }
+  },
+  filterData() {
+    // ทำการกรองข้อมูลด้วย selectedType, selectedPriceRange, selectedBed, value
+    // และอัพเดทข้อมูลที่แสดงผลบนหน้าเว็บ
+    this.fetchFilteredData();
+  },
+  fetchFilteredData() {
+    // ทำการเรียก API โดยใช้ตัวกรองที่ถูกเลือก
+    // และอัพเดทข้อมูลที่แสดงผลบนหน้าเว็บ
+    // ตัวอย่างเท่านั้น โปรดปรับเปลี่ยนตามโครงสร้างของโปรเจกต์ Vue.js ของคุณ
+    axios.get(`${process.env.VUE_APP_API}room/filter`, {
+      params: {
+        type: this.selectedType,
+        priceRange: this.selectedPriceRange,
+        bedType: this.selectedBed,
+        occupancy: this.value
+      }
+    })
+    .then(response => {
+      // อัพเดทข้อมูลหลังจากการกรอง
+      // this.rooms = response.data; // ตัวอย่างเท่านั้น
+    })
+    .catch(error => {
+      console.error('Error fetching filtered data', error);
+    });
+  }
   },
 };
 </script>
@@ -301,7 +350,6 @@ i {
   transition: transform 0.5s ease-in-out;
   transform-origin: bottom;
 }
-
 .filter-popup.open {
   transform: translate(-50%, -50%);
 }
