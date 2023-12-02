@@ -1,15 +1,19 @@
-
 <template>
   <div class="grid px-10 mt-3 ml-5 mr-5 w-full">
+    <Loading :loading="loading" />
     <div class="col-12 lg:col-12 border">
       <div class="text-center font-bold text-4xl">ข้อมูล member</div>
-      <div class="text-right my-5">
-      </div>
+      <div class="text-right my-5"></div>
 
-      <DataTable :value="Array.isArray(item_product) ? item_product : []" :paginator="true" :rows="20"
+      <DataTable
+        :value="Array.isArray(item_product) ? item_product : []"
+        :paginator="true"
+        :rows="20"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
-        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด" responsiveLayout="stack">
+        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด"
+        responsiveLayout="stack"
+      >
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
 
         <template #empty>
@@ -18,23 +22,35 @@
           </p>
         </template>
 
-        <Column field="telephone" header="เบอร์โทรศัพท์" style="width: 20%;"></Column>
-        <Column field="name" class="" header="ชื่อ" style="width: 10%;"> </Column>
-        <Column field="firstname" class="" header="ชื่อจริง" style="width: 10%;"> </Column>
-        <Column field="lastname" class="" header="นามสกุล" style="width: 10%;"> </Column>
-        <Column field="email" class="" header="อีเมล" style="width: 10%;"> </Column>
-        <Column :exportable="false" class="" header="เพิ่มเติม" style="width: 10%">
-
+        <Column
+          field="telephone"
+          header="เบอร์โทรศัพท์"
+          style="width: 20%"
+        ></Column>
+        <Column field="name" class="" header="ชื่อ" style="width: 10%">
+        </Column>
+        <Column field="firstname" class="" header="ชื่อจริง" style="width: 10%">
+        </Column>
+        <Column field="lastname" class="" header="นามสกุล" style="width: 10%">
+        </Column>
+        <Column field="email" class="" header="อีเมล" style="width: 10%">
+        </Column>
+        <Column
+          :exportable="false"
+          class=""
+          header="เพิ่มเติม"
+          style="width: 10%"
+        >
           <template #body="item">
-
-            <Button @click="deleteProduct(item.data._id)"
+            <Button
+              @click="deleteProduct(item.data._id)"
               class="bg-red-500 hover:bg-red-700 border-none text-white font-bold py-2 px-4 rounded"
-              style="background-color: #C21010">ลบ</Button>
-
+              style="background-color: #c21010"
+              >ลบ</Button
+            >
           </template>
         </Column>
       </DataTable>
-
     </div>
   </div>
 </template>
@@ -43,16 +59,18 @@
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
+import Loading from "../../../components/Loading.vue";
 
 export default {
   components: {
-
+    Loading,
   },
   created() {
     document.title = "ข้อมูล Member";
   },
   setup() {
     const item_product = ref([]);
+    const loading = ref(true);
     const getData = async () => {
       try {
         const productResponse = await axios.get(
@@ -66,7 +84,8 @@ export default {
 
         if (productResponse.data && productResponse.data) {
           item_product.value = productResponse.data.data;
-          console.log(productResponse.data.data)
+          loading.value = false;
+          console.log(productResponse.data.data);
         } else {
           console.error("Data is missing in the API response.");
         }
@@ -87,7 +106,7 @@ export default {
 
         if (response.data) {
           // หากการลบสำเร็จ อัปเดตข้อมูล
-          getData()
+          getData();
           // แสดงข้อความสำเร็จ (ตัวเลือก)
           Swal.fire({
             icon: "success",
@@ -115,11 +134,9 @@ export default {
       item_product,
       getData,
       deleteProduct,
-
+      loading,
     };
-
   },
-  name: 'ManageAdmin',
+  name: "ManageAdmin",
 };
 </script>
-

@@ -1,5 +1,6 @@
 <template>
   <div class="grid px-10 mt-3 ml-5 mr-5 w-full containter">
+    <Loading :loading="loading" />
     <div class="col-12 lg:col-12 border">
       <div class="text-center font-bold text-4xl">จัดการข้อมูล admin</div>
       <div class="text-right my-5">
@@ -17,7 +18,6 @@
         :rows="20"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
-        :loading="loading"
         currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด"
         responsiveLayout="stack"
       >
@@ -59,8 +59,8 @@
               @click="deleteProduct(item.data._id)"
               class="bg-red-500 hover:bg-red-700 text-white font-bold border-none py-2 px-4 rounded"
               style="background-color: #c21010"
-              >ลบ</Button
-            >
+              >ลบ</Button>
+            
           </template>
         </Column>
       </DataTable>
@@ -73,18 +73,20 @@ import axios from "axios";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
 import updateadmin from "@/views/admin/manageadmin/EditAdmin.vue";
+import Loading from "../../../components/Loading.vue";
 
 export default {
   components: {
     updateadmin,
+    Loading,
   },
   created() {
     document.title = "จัดการข้อมูล admin";
   },
   setup() {
     const item_product = ref([]);
-    let loading = ref(true);
     const searchall = ref('');
+    const loading = ref(true);
     const getData = async () => {
       try {
         const productResponse = await axios.get(
@@ -97,8 +99,8 @@ export default {
         );
 
         if (productResponse.data && productResponse.data) {
-          loading.value = false;
           item_product.value = productResponse.data.data;
+          loading.value = false;
           console.log(productResponse.data.data);
         } else {
           console.error("Data is missing in the API response.");

@@ -1,15 +1,19 @@
-
 <template>
   <div class="grid px-10 mt-3 ml-5 mr-5 w-full">
+    <Loading :loading="loading" />
     <div class="col-12 lg:col-12 border">
       <div class="text-center font-bold text-4xl">ข้อมูล partner</div>
-      <div class="text-right my-5">
-      </div>
+      <div class="text-right my-5"></div>
 
-      <DataTable :value="Array.isArray(item_product) ? item_product : []" :paginator="true" :rows="20"
+      <DataTable
+        :value="Array.isArray(item_product) ? item_product : []"
+        :paginator="true"
+        :rows="20"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
-        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด" responsiveLayout="stack">
+        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด"
+        responsiveLayout="stack"
+      >
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
 
         <template #empty>
@@ -18,67 +22,126 @@
           </p>
         </template>
 
-        <Column field="telephone" header="เบอร์โทรศัพท์" style="width: 20%;"></Column>
-        <Column field="name" class="" header="ชื่อ" style="width: 10%;"> </Column>
-        <Column header="รายละเอียด" style="width: 10%;">
-          <template #body="{ data }">
-            <Button @click="showPartnerDetail(data)"
-              class="bg-blue-500 hover:bg-blue-700 border-none text-white font-bold py-2 px-4 rounded mx-2">รายละเอียด</Button>
-
-          </template>
-
+        <Column
+          field="telephone"
+          header="เบอร์โทรศัพท์"
+          style="width: 20%"
+        ></Column>
+        <Column field="name" class="" header="ชื่อ" style="width: 10%">
         </Column>
-        <Column :exportable="false" class="" header="เพิ่มเติม" style="width: 10%">
-
+        <Column header="รายละเอียด" style="width: 10%">
+          <template #body="{ data }">
+            <Button
+              @click="showPartnerDetail(data)"
+              class="bg-blue-500 hover:bg-blue-700 border-none text-white font-bold py-2 px-4 rounded mx-2"
+              >รายละเอียด</Button
+            >
+          </template>
+        </Column>
+        <Column
+          :exportable="false"
+          class=""
+          header="เพิ่มเติม"
+          style="width: 10%"
+        >
           <template #body="item">
-            <updateadmin title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data" />
-            <Button @click="deleteProduct(item.data._id)"
+            <updateadmin
+              title="แก้ไขข้อมูล"
+              :admin_id="item.data._id"
+              :data="item.data"
+            />
+            <Button
+              @click="deleteProduct(item.data._id)"
               class="bg-red-500 border-none hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-              style="background-color: #C21010">ลบ</Button>
-
+              style="background-color: #c21010"
+              >ลบ</Button
+            >
           </template>
         </Column>
       </DataTable>
-
     </div>
   </div>
-  <Dialog v-model:visible="DetailPartner" header="แก้ไขข้อมูล Partner" modal :style="{ width: '50rem' }"
-    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-
+  <Dialog
+    v-model:visible="DetailPartner"
+    header="แก้ไขข้อมูล Partner"
+    modal
+    :style="{ width: '50rem' }"
+    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
+  >
     <div class="grid">
       <div class="col-12 md:col-12">
         <form>
           <div class="col-12 flex justify-content-center">
-            <img v-if="image" :src="getImage(image)" alt="ID Card" style="  max-width: 50%; height: 50%" />
+            <img
+              v-if="image"
+              :src="getImage(image)"
+              alt="ID Card"
+              style="max-width: 50%; height: 50%"
+            />
             <div v-else>ไม่มีรูปภาพ</div>
           </div>
           <div class="col-12">
-            <p> ID Card:</p>
-            <InputText v-model="idcard" class="w-full text-black-950 font-bold" style="color:#000" disabled />
+            <p>ID Card:</p>
+            <InputText
+              v-model="idcard"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p> First Name :</p>
-            <InputText v-model="name" class="w-full text-black-950 font-bold" style="color:#000" disabled />
+            <p>First Name :</p>
+            <InputText
+              v-model="name"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>Phone : </p>
-            <InputText v-model="phone" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>Phone :</p>
+            <InputText
+              v-model="phone"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>email : </p>
-            <InputText v-model="email" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>email :</p>
+            <InputText
+              v-model="email"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12 flex justify-content-center">
-            <img v-if="image_bank" :src="getImage(image_bank)" alt="ID Card" style="  max-width: 50%; height: 50%" />
+            <img
+              v-if="image_bank"
+              :src="getImage(image_bank)"
+              alt="ID Card"
+              style="max-width: 50%; height: 50%"
+            />
             <div v-else>ไม่มีรูปภาพ</div>
           </div>
           <div class="col-12">
-            <p>ธนาคาร : </p>
-            <InputText v-model="bank" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>ธนาคาร :</p>
+            <InputText
+              v-model="bank"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>เลขบัญชี : </p>
-            <InputText v-model="numberbank" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>เลขบัญชี :</p>
+            <InputText
+              v-model="numberbank"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
         </form>
       </div>
@@ -90,10 +153,11 @@
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
+import Loading from "../../../components/Loading.vue";
 
 export default {
   components: {
-
+    Loading,
   },
   created() {
     document.title = "ข้อมูล partner";
@@ -108,6 +172,7 @@ export default {
     const bank = ref("");
     const numberbank = ref("");
     const image_bank = ref("");
+    const loading = ref(true);
 
     const item_product = ref([]);
     const getData = async () => {
@@ -123,7 +188,8 @@ export default {
 
         if (productResponse.data && productResponse.data) {
           item_product.value = productResponse.data.data;
-          console.log(productResponse.data.data)
+          loading.value = false;
+          console.log(productResponse.data.data);
         } else {
           console.error("Data is missing in the API response.");
         }
@@ -144,7 +210,7 @@ export default {
 
         if (response.data) {
           // หากการลบสำเร็จ อัปเดตข้อมูล
-          getData()
+          getData();
           // แสดงข้อความสำเร็จ (ตัวเลือก)
           Swal.fire({
             icon: "success",
@@ -166,20 +232,18 @@ export default {
       }
     };
     const showPartnerDetail = async (data) => {
-
-
       DetailPartner.value = true;
-      image.value = data.image_idcard
-      name.value = data.name
-      phone.value = data.telephone
-      console.log(data)
-      console.log(data.idcard)
-      idcard.value = data.idcard
-      email.value = data.email
-      bank.value = data.bank
-      numberbank.value = data.numberbank
-      image_bank.value = data.image_bank
-    }
+      image.value = data.image_idcard;
+      name.value = data.name;
+      phone.value = data.telephone;
+      console.log(data);
+      console.log(data.idcard);
+      idcard.value = data.idcard;
+      email.value = data.email;
+      bank.value = data.bank;
+      numberbank.value = data.numberbank;
+      image_bank.value = data.image_bank;
+    };
     onMounted(() => {
       getData();
     });
@@ -196,13 +260,13 @@ export default {
       email,
       bank,
       numberbank,
-      image_bank
+      image_bank,
+      loading,
     };
-
   },
   methods: {
     getImage(item) {
-      if (typeof item === 'string') {
+      if (typeof item === "string") {
         return `https://drive.google.com/uc?export=view&id=${item}`;
       } else if (Array.isArray(item) && item.length > 0) {
         const firstImageId = item[0];
@@ -212,8 +276,7 @@ export default {
       }
     },
   },
-  
-  name: 'ManagePartner',
+
+  name: "ManagePartner",
 };
 </script>
-

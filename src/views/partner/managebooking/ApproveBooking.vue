@@ -1,13 +1,19 @@
 <template>
   <div class="grid px-10 mt-3 ml-5 mr-5 w-full">
+    <Loading :loading="loading" />
     <div class="col-12 lg:col-12 border">
       <div class="text-center font-bold text-4xl">ข้อมูลอนุมัติการจองห้อง</div>
       <div class="text-right my-5"></div>
 
-      <DataTable :value="Array.isArray(item_product) ? item_product : []" :paginator="true" :rows="20"
+      <DataTable
+        :value="Array.isArray(item_product) ? item_product : []"
+        :paginator="true"
+        :rows="20"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
-        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด" responsiveLayout="stack">
+        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด"
+        responsiveLayout="stack"
+      >
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
 
         <template #empty>
@@ -16,19 +22,32 @@
           </p>
         </template>
 
-        <Column field="member_id.name" header="ชื่อผู้จอง" style="width: 20%"></Column>
+        <Column
+          field="member_id.name"
+          header="ชื่อผู้จอง"
+          style="width: 20%"
+        ></Column>
         <Column field="room_id.name" header="ห้องพัก" style="width: 10%">
         </Column>
         <Column header="วันที่จะจอง" style="width: 10%">
           <template #body="{ data }">
-            {{ new Date(data.date_from).toLocaleDateString('th-TH', {
-              timeZone: 'Asia/Bangkok', day: 'numeric', month:
-                'numeric', year: 'numeric'
-            }) }} -
-            {{ new Date(data.date_to).toLocaleDateString('th-TH', {
-              timeZone: 'Asia/Bangkok', day: 'numeric', month:
-                'numeric', year: 'numeric'
-            }) }}
+            {{
+              new Date(data.date_from).toLocaleDateString("th-TH", {
+                timeZone: "Asia/Bangkok",
+                day: "numeric",
+                month: "numeric",
+                year: "numeric",
+              })
+            }}
+            -
+            {{
+              new Date(data.date_to).toLocaleDateString("th-TH", {
+                timeZone: "Asia/Bangkok",
+                day: "numeric",
+                month: "numeric",
+                year: "numeric",
+              })
+            }}
           </template>
         </Column>
         <Column header="จำนวนคืน" style="width: 10%">
@@ -37,20 +56,24 @@
           </template>
         </Column>
         <Column field="price" header="ราคา" style="width: 10%"></Column>
-        <Column header="รายละเอียด" style="width: 10%;">
+        <Column header="รายละเอียด" style="width: 10%">
           <template #body="{ data }">
-            <Button @click="showPartnerDetail(data)"
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">รายละเอียด</Button>
+            <Button
+              @click="showPartnerDetail(data)"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2"
+              >รายละเอียด</Button
+            >
           </template>
-
         </Column>
-
-
       </DataTable>
     </div>
   </div>
-  <Dialog v-model:visible="DetailPartner" modal :style="{ width: '50rem' }"
-    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+  <Dialog
+    v-model:visible="DetailPartner"
+    modal
+    :style="{ width: '50rem' }"
+    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
+  >
     <div class="grid">
       <div class="col-12 text-center">
         <h2>ข้อมูลรายละเอียด</h2>
@@ -59,27 +82,53 @@
     <div class="grid">
       <div class="col-12 md:col-12">
         <div class="col-12">
-          <p> ชื่อผู้จอง:</p>
-          <InputText v-model="membername" class="w-full text-black-950 font-bold" style="color:#000" disabled />
+          <p>ชื่อผู้จอง:</p>
+          <InputText
+            v-model="membername"
+            class="w-full text-black-950 font-bold"
+            style="color: #000"
+            disabled
+          />
         </div>
         <div class="col-12">
-          <p> ห้อง :</p>
-          <InputText v-model="roomname" class="w-full text-black-950 font-bold" style="color:#000" disabled />
+          <p>ห้อง :</p>
+          <InputText
+            v-model="roomname"
+            class="w-full text-black-950 font-bold"
+            style="color: #000"
+            disabled
+          />
         </div>
         <div class="col-12">
-          <p>วันที่จะจอง : </p>
-          <InputText v-model="datebooking" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+          <p>วันที่จะจอง :</p>
+          <InputText
+            v-model="datebooking"
+            class="w-full text-black-950 font-bold"
+            style="color: #000"
+            disabled
+          />
         </div>
         <div class="col-12">
-          <p>ราคา : </p>
-          <InputText v-model="price" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+          <p>ราคา :</p>
+          <InputText
+            v-model="price"
+            class="w-full text-black-950 font-bold"
+            style="color: #000"
+            disabled
+          />
         </div>
       </div>
       <div class="col-12 md:col-12 text-center">
-        <Button @click="approvepartner(data_id)"
-          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2 boeder-none">อนุมัติ</Button>
-        <Button @click="unapprovepartner(data_id)"
-          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">ไม่อนุมัติ</Button>
+        <Button
+          @click="approvepartner(data_id)"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2 boeder-none"
+          >อนุมัติ</Button
+        >
+        <Button
+          @click="unapprovepartner(data_id)"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          >ไม่อนุมัติ</Button
+        >
       </div>
     </div>
   </Dialog>
@@ -89,10 +138,10 @@
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
+import Loading from "../../../components/Loading.vue";
 
 export default {
-
-  components: {},
+  components: { Loading },
 
   created() {
     document.title = "ข้อมูล partner";
@@ -105,9 +154,10 @@ export default {
     let membername = ref("");
     let roomname = ref("");
     let datebooking = ref("");
-    let price = ref("")
+    let price = ref("");
 
     const item_product = ref([]);
+    const loading = ref(true);
     const getData = async () => {
       console.log(DetailPartner, "status dialog before click button ");
 
@@ -122,8 +172,14 @@ export default {
         );
 
         if (Response.data.status === true) {
-          const datafindstatus = Response.data.data.filter(item => item.status[item.status.length - 1].statusbooking === "รออนุมัติห้อง")
+          const datafindstatus = Response.data.data.filter(
+            (item) =>
+              item.status[item.status.length - 1].statusbooking ===
+              "รออนุมัติห้อง"
+          );
           item_product.value = datafindstatus.reverse();
+          loading.value = false;
+
           console.log(Response.data.data);
         } else {
           console.error("Data is missing in the API response.");
@@ -207,12 +263,25 @@ export default {
     };
     const showPartnerDetail = async (data) => {
       DetailPartner.value = true;
-      data_id.value = data._id
-      membername.value = data.member_id.name
-      roomname.value = data.room_id.name
-      datebooking.value = new Date(data.date_from).toLocaleDateString('th-TH', { timeZone: 'Asia/Bangkok', day: 'numeric', month: 'numeric', year: 'numeric' }) + " - " + new Date(data.date_to).toLocaleDateString('th-TH', { timeZone: 'Asia/Bangkok', day: 'numeric', month: 'numeric', year: 'numeric' })
-      price.value = data.price
-    }
+      data_id.value = data._id;
+      membername.value = data.member_id.name;
+      roomname.value = data.room_id.name;
+      datebooking.value =
+        new Date(data.date_from).toLocaleDateString("th-TH", {
+          timeZone: "Asia/Bangkok",
+          day: "numeric",
+          month: "numeric",
+          year: "numeric",
+        }) +
+        " - " +
+        new Date(data.date_to).toLocaleDateString("th-TH", {
+          timeZone: "Asia/Bangkok",
+          day: "numeric",
+          month: "numeric",
+          year: "numeric",
+        });
+      price.value = data.price;
+    };
 
     onMounted(() => {
       getData();
@@ -231,7 +300,7 @@ export default {
       roomname,
       datebooking,
       price,
-
+      loading,
     };
   },
 
@@ -246,7 +315,7 @@ export default {
       return `${nights + 1} คืน`;
     },
     getImage(item) {
-      if (typeof item === 'string') {
+      if (typeof item === "string") {
         return `https://drive.google.com/uc?export=view&id=${item}`;
       } else if (Array.isArray(item) && item.length > 0) {
         const firstImageId = item[0];
@@ -258,4 +327,3 @@ export default {
   },
 };
 </script>
-

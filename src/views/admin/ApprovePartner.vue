@@ -1,5 +1,6 @@
 <template>
   <div class="grid px-10 mt-3 ml-5 mr-5 w-full">
+    <Loading :loading="loading" />
     <div class="col-12 lg:col-12 border">
       <div class="text-center font-bold text-4xl">ข้อมูลอนุมัติpartner</div>
       <div class="text-right my-5"></div>
@@ -116,10 +117,13 @@
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
+import Loading from "../../components/Loading.vue";
 
 export default {
 
-  components: {},
+  components: {
+    Loading
+  },
 
   created() {
     document.title = "ข้อมูล partner";
@@ -136,6 +140,8 @@ export default {
     const bank = ref("");
     const numberbank = ref("");
     const image_bank = ref("");
+    const loading = ref(true)
+
 
     const item_product = ref([]);
     const getData = async () => {
@@ -153,7 +159,7 @@ export default {
 
         if (productResponse.data && productResponse.data) {
           item_product.value = productResponse.data.data.reverse();
-
+          loading.value = false
           console.log(productResponse.data.data);
         } else {
           console.error("Data is missing in the API response.");
@@ -265,7 +271,8 @@ export default {
       email,
       bank,
       numberbank,
-      image_bank
+      image_bank,
+      loading
     };
   },
 

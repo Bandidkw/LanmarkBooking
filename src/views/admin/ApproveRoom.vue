@@ -1,5 +1,6 @@
 <template>
   <div class="grid px-10 mt-3 ml-5 mr-5 w-full">
+    <Loading :loading="loading" />
     <div class="col-12 lg:col-12 border">
       <div class="text-center font-bold text-4xl">ข้อมูลอนุมัติการเพิ่มห้อง</div>
       <div class="text-right my-5"></div>
@@ -175,9 +176,11 @@
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
+import Loading from "../../components/Loading.vue";
+
 
 export default {
-  components: {},
+  components: { Loading },
   created() {
     document.title = "ข้อมูลอนุมัติห้อง";
   },
@@ -201,6 +204,8 @@ export default {
     const amphure = ref("");
     const province = ref("");
     const displayBasic = ref(true)
+    const loading = ref(true)
+
     ///////
 
     const item_product = ref([]);
@@ -217,6 +222,7 @@ export default {
 
         if (productResponse.data && productResponse.data) {
           item_product.value = productResponse.data.reverse();
+          loading.value = false
 
           console.log(productResponse.data, "ขอข้อมูลหน่อยครับ");
         } else {
@@ -365,7 +371,8 @@ export default {
       amphure,
       province,
       displayBasic,
-      responsiveOptions
+      responsiveOptions,
+      loading
     };
   },
   methods: {
