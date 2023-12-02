@@ -128,19 +128,19 @@
           <div class="input-box">
             <label for="province"> จังหวัด :</label>
             <Dropdown v-model="partner.province" :options="provincedropdown.value" optionLabel="name_th"
-              optionValue="name_th" placeholder="เลือกจังหวัด" @change="getamphure('amphure')" />
+              optionValue="name_th" placeholder="เลือกจังหวัด" @change="getamphure('amphure')" filter />
             <span class="error-message">{{ errors.province }}</span>
           </div>
           <div class="input-box">
             <label for="amphure"> อำเภอ :</label>
             <Dropdown v-model="partner.amphure" :options="amphuredropdown.value" optionLabel="name_th"
-              optionValue="name_th" placeholder="เลือกอำเภอ" @change="getamphure('tambon')" />
+              optionValue="name_th" placeholder="เลือกอำเภอ" @change="getamphure('tambon')"  filter/>
             <span class="error-message">{{ errors.amphure }}</span>
           </div>
           <div class="input-box">
             <label for="tambon"> ตำบล :</label>
             <Dropdown v-model="partner.tambon" :options="tambondropdown.value" optionLabel="name_th" optionValue="name_th"
-              placeholder="เลือกตำบล" />
+              placeholder="เลือกตำบล" filter />
             <span class="error-message">{{ errors.tambon }}</span>
           </div>
         </div>

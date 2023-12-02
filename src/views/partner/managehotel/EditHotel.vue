@@ -93,21 +93,21 @@
             <Dropdown
               class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
               v-model="province" :options="provincedropdown.value" optionLabel="name_th" optionValue="name_th"
-              placeholder="เลือกจังหวัด" @change="getamphure('amphure')" />
+              placeholder="เลือกจังหวัด" @change="getamphure('amphure')" filter/>
           </div>
           <div class="col-12">
             <p>อำเภอ :</p>
             <Dropdown
               class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
               v-model="amphure" :options="amphuredropdown.value" optionLabel="name_th" optionValue="name_th"
-              placeholder="เลือกอำเภอ" @change="getamphure('tambon')" />
+              placeholder="เลือกอำเภอ" @change="getamphure('tambon')" filter/>
           </div>
           <div class="col-12">
             <p>ตำบล :</p>
             <Dropdown
               class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
               v-model="tambon" :options="tambondropdown.value" optionLabel="name_th" optionValue="name_th"
-              placeholder="เลือกตำบล" />
+              placeholder="เลือกตำบล" filter/>
           </div>
 
 

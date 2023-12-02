@@ -74,7 +74,7 @@
               for="grid-first-name">ประเภทเตียง :</label>
             <Dropdown v-model="bedtype" :options="selectbed" optionLabel="label" optionValue="value"
               class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
-              placeholder="เลือกประเภทเตียง" />
+              placeholder="เลือกประเภทเตียง" filter/>
           </div>
           <div v-show="bedtype === 'เพิ่มเติม'" class="w-full  md:w-1/2  px-4 mb-2 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -106,7 +106,7 @@
                 for="grid-first-name">ประเภทผู้เช่า :</label>
               <Dropdown v-model="partnertype" :options="selectpartnertype" optionLabel="label" optionValue="value"
                 class="appearance-none   w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
-                placeholder="เลือกประเภทผู้เช่า" />
+                placeholder="เลือกประเภทผู้เช่า"  />
             </div>
             <div class="w-full">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -167,7 +167,9 @@
             <Dropdown
               class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
               v-model="province" :options="provincedropdown.value" optionLabel="name_th" optionValue="name_th"
-              placeholder="เลือกจังหวัด" @change="getamphure('amphure')" />
+              placeholder="เลือกจังหวัด" @change="getamphure('amphure')" filter >
+
+              </Dropdown>
 
           </div>
 
@@ -178,7 +180,7 @@
             <Dropdown
               class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
               v-model="amphure" :options="amphuredropdown.value" optionLabel="name_th" optionValue="name_th"
-              placeholder="เลือกอำเภอ" @change="getamphure('tambon')" />
+              placeholder="เลือกอำเภอ" @change="getamphure('tambon')" filter />
           </div>
 
           <div class="w-full md:w-1/2 px-4 mb-2 ">
@@ -188,7 +190,7 @@
             <Dropdown
               class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
               v-model="tambon" :options="tambondropdown.value" optionLabel="name_th" optionValue="name_th"
-              placeholder="เลือกตำบล" />
+              placeholder="เลือกตำบล" filter />
           </div>
 
 

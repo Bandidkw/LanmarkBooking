@@ -46,8 +46,7 @@
           sortable
           style="width: 20%"
         ></Column>
-        <Column field="name" class="" header="ชื่อ" sortable style="width: 10%">
-        </Column>
+        <Column field="name" class="" header="ชื่อ" sortable style="width: 10%"></Column>
         <Column
           :exportable="false"
           class=""
