@@ -36,9 +36,9 @@
           </div>
         </div>
 
-        <label for="email">อีเมล์</label>
+        <label for="email">อีเมล</label>
         <InputText class="input-form" type="email" v-model="member.email" @input="validateField('email', 'member')"
-          placeholder="กรอกอีเมล์" />
+          placeholder="กรอกอีเมล" />
         <span class="error-message">{{ errors.email }}</span>
 
         <label for="phone"> เบอร์โทรศัพท์:</label>
@@ -83,9 +83,9 @@
           placeholder="กรอกเบอร์โทรศัพท์" />
         <span class="error-message">{{ errors.phone }}</span>
 
-        <label for="email">อีเมล์</label>
+        <label for="email">อีเมล</label>
         <InputText class="input-form" type="email" v-model="partner.email" @input="validateField('partner', 'member')"
-          placeholder="กรอกอีเมล์" />
+          placeholder="กรอกอีเมล" />
         <span class="error-message">{{ errors.email }}</span>
 
         <label for="idcard">รหัสบัตรประชาชน :</label>
@@ -429,8 +429,8 @@ export default {
         lname: yup.string().required("* กรุณากรอกนามสกุล"),
         email: yup
           .string()
-          .email("* กรุณากรอกอีเมล์ให้ถูกต้อง")
-          .required("* กรุณากรอกอีเมล์"),
+          .email("* กรุณากรอกอีเมลให้ถูกต้อง")
+          .required("* กรุณากรอกอีเมล"),
         phone: yup.string()
           .required("* กรุณากรอกเบอร์โทรศัพท์"),
         // .matches(
@@ -467,8 +467,8 @@ export default {
           }),
         email: yup
           .string()
-          .email("* กรุณากรอกอีเมล์ให้ถูกต้อง")
-          .required("* กรุณากรอกอีเมล์"),
+          .email("* กรุณากรอกอีเมลให้ถูกต้อง")
+          .required("* กรุณากรอกอีเมล"),
         address: yup.string().required("* กรุณากรอกที่อยู่"),
         tambon: yup.string().required("* กรุณาเลือกตำบล"),
         amphure: yup.string().required("* กรุณากรอกอำเภอ"),
