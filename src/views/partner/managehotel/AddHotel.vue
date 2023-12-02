@@ -44,7 +44,7 @@
               class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2  mb-2 leading-tight focus:outline-none focus:bg-white"
               v-model="type" :options="cities" optionLabel="name" optionValue="_id" placeholder="เลือกประเภท" />
           </div>
-          <div v-show="type === '65680f013a464f61e3de1a5c'" class="w-full md:w-1/2 px-4 mb-2">
+          <div v-show="type === '656aafdbe0452c77321a212d'" class="w-full md:w-1/2 px-4 mb-2">
             <label class="block uppercase tracking-wide text-gray-700 text-xs mb-2 font-bold mb-2" for="grid-first-name">
               ระดับห้อง :
             </label>
@@ -111,9 +111,10 @@
             <div class="w-full">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 for="grid-first-name">เลือกระยะเวลา :</label>
-              <Calendar class="w-full " style="height: 56px;" v-model="selectedDate" showIcon iconDisplay="input" dateFormat="dd/mm/yy"
-                selectionMode="range" :manualInput="false" :numberOfMonths="2" :minDate="minSelectableDate"
-                :disabled-dates="disabledDates" :disabled="partnertype !== 'ผู้เช่าปล่อยเช่า'" />
+              <Calendar class="w-full " style="height: 56px;" v-model="selectedDate" showIcon iconDisplay="input"
+                dateFormat="dd/mm/yy" selectionMode="range" :manualInput="false" :numberOfMonths="2"
+                :minDate="minSelectableDate" :disabled-dates="disabledDates"
+                :disabled="partnertype !== 'ผู้เช่าปล่อยเช่า'" />
             </div>
           </div>
 
@@ -277,7 +278,6 @@ export default {
       description: "",
       phone_number: "",
       price: "",
-      type: "",
       guests: "",
       bedroom: "",
       bed: "",
@@ -285,6 +285,7 @@ export default {
       latitude: "",
       longitude: "",
       address: "",
+      type: "",
       tambon: "",
       amphure: "",
       province: "",
