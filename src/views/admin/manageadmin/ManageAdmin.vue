@@ -24,7 +24,7 @@
       >
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
         <template #empty>
-          <p class="font-italic text-center text-5xl" style="color: #bd1616">
+          <p class="font-italic text-center text-5xl text-center" style="color: #bd1616">
             ไม่พบข้อมูลสินค้า
           </p>
         </template>

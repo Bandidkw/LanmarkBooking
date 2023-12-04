@@ -6,9 +6,10 @@
       <div class="text-right my-5"></div>
 
       <DataTable
-        :value="Array.isArray(item_product) ? item_product : []"
+        :value="Filter"
         :paginator="true"
         :rows="20"
+        selectionMode="single"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
         currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด"
@@ -20,6 +21,18 @@
           <p class="font-italic text-center text-5xl" style="color: #bd1616">
             ไม่พบข้อมูลสินค้า
           </p>
+        </template>
+        <template #header>
+          <div class="flex justify-content-end">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search" />
+              <InputText
+                v-model="searchall"
+                placeholder="ค้นหา"
+                class="bg-white-500 p-2 m-1 pl-5 border"
+              />
+            </span>
+          </div>
         </template>
 
         <Column
@@ -71,6 +84,7 @@ export default {
   setup() {
     const item_product = ref([]);
     const loading = ref(true);
+    const searchall = ref("");
     const getData = async () => {
       try {
         const productResponse = await axios.get(
@@ -135,7 +149,27 @@ export default {
       getData,
       deleteProduct,
       loading,
+      searchall
     };
+  },
+   computed: {
+    Filter() {
+      if(this.searchall) { //ค้นหาด้วยคำ
+        const searchTerm = this.searchall.toLowerCase();
+        return this.item_product.filter((item) => {
+          // ใช้ includes() เพื่อตรวจสอบว่าคำที่ค้นหาอยู่ในชื่อหรือเบอร์โทรศัพท์หรือไม่
+          return (
+            item.name.toLowerCase().includes(searchTerm) ||
+            item.telephone.includes(searchTerm) ||
+            item.firstname.toLowerCase().includes(searchTerm) ||
+            item.lastname.toLowerCase().includes(searchTerm) ||
+            item.email.toLowerCase().includes(searchTerm)
+          );
+        });
+      } else {
+        return this.item_product;
+      }
+    },
   },
   name: "ManageAdmin",
 };

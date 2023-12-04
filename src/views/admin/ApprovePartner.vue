@@ -5,39 +5,78 @@
       <div class="text-center font-bold text-4xl">ข้อมูลอนุมัติpartner</div>
       <div class="text-right my-5"></div>
 
-      <DataTable :value="Array.isArray(item_product) ? item_product : []" :paginator="true" :rows="20"
+      <DataTable
+        :value="Filter"
+        :paginator="true"
+        :rows="20"
+        selectionMode="single"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
-        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด" responsiveLayout="stack">
+        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด"
+        responsiveLayout="stack"
+      >
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
 
         <template #empty>
-          <p class="font-italic text-center text-5xl" style="color: #bd1616">
+          <p class="font-italic text-center text-5xl text-center" style="color: #bd1616">
             ไม่พบข้อมูลสินค้า
           </p>
         </template>
+        <template #header>
+          <div class="flex justify-content-end">
+            <div class="mx-2">
+              <Dropdown
+                v-model="selectstatus"
+                :options="statusdata"
+                optionLabel="name"
+                optionValue="name"
+                placeholder="เลือกสถานะการค้นหา"
+              />
+            </div>
 
-        <Column field="telephone" header="เบอร์โทรศัพท์" style="width: 14%"></Column>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search" />
+              <InputText
+                v-model="searchall"
+                placeholder="ค้นหา"
+                class="bg-white-500 p-2 m-1 pl-5 border"
+              />
+            </span>
+          </div>
+        </template>
+
+        <Column
+          field="telephone"
+          header="เบอร์โทรศัพท์"
+          style="width: 14%"
+        ></Column>
         <Column field="name" class="" header="ชื่อ" style="width: 14%">
         </Column>
         <Column class="test-box" header="สถานะอนุมัติ" style="width: 14%">
           <template #body="{ data }">
-            <div class="lg:w-10 xl:w-5 bg-orange-500 flex justify-content-center"
-              style=" border-radius: 1rem; padding: 0.5rem;"
-              v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'">
-              <div class="font-bold" style="color: #fff;">
+            <div
+              class="lg:w-10 xl:w-5 bg-orange-500 flex justify-content-center"
+              style="border-radius: 1rem; padding: 0.5rem"
+              v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'"
+            >
+              <div class="font-bold" style="color: #fff">
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
             </div>
-            <div class="lg:w-10 xl:w-5 bg-green-500 flex justify-content-center"
-              style=" border-radius: 1rem; padding: 0.5rem;" v-if="data.approve.slice(-1)[0].statusapprove === 'อนุมัติ'">
+            <div
+              class="lg:w-10 xl:w-5 bg-green-500 flex justify-content-center"
+              style="border-radius: 1rem; padding: 0.5rem"
+              v-if="data.approve.slice(-1)[0].statusapprove === 'อนุมัติ'"
+            >
               <div class="text-white font-bold">
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
             </div>
-            <div class="lg:w-10 xl:w-5 bg-red-500 flex justify-content-center"
-              style=" border-radius: 1rem; padding: 0.5rem;"
-              v-if="data.approve.slice(-1)[0].statusapprove === 'ไม่อนุมัติ'">
+            <div
+              class="lg:w-10 xl:w-5 bg-red-500 flex justify-content-center"
+              style="border-radius: 1rem; padding: 0.5rem"
+              v-if="data.approve.slice(-1)[0].statusapprove === 'ไม่อนุมัติ'"
+            >
               <div class="text-white font-bold">
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
@@ -45,67 +84,121 @@
             <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
           </template>
         </Column>
-        <Column header="รายละเอียด" style="width: 10%;">
+        <Column header="รายละเอียด" style="width: 10%">
           <template #body="{ data }">
-            <Button @click="showPartnerDetail(data)"
-              class="bg-blue-500 hover:bg-blue-700 border-none text-white font-bold py-2 px-4 rounded mx-2">รายละเอียด</Button>
-
+            <Button
+              @click="showPartnerDetail(data)"
+              class="bg-blue-500 hover:bg-blue-700 border-none text-white font-bold py-2 px-4 rounded mx-2"
+              >รายละเอียด</Button
+            >
           </template>
-
         </Column>
 
         <Column style="width: 10%">
           <template #body="{ data }">
             <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
-            <div class="flex justify-content-center" v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'">
+            <div
+              class="flex justify-content-center"
+              v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'"
+            >
               <!-- กรณีรอการอนุมัติ -->
-              <Button @click="approvepartner(data._id)"
-                class="bg-green-500 hover:bg-green-700 border-none text-white font-bold py-2 px-4 rounded mx-2 boeder-none">อนุมัติ</Button>
-              <Button @click="unapprovepartner(data._id)"
-                class="bg-red-500 hover:bg-red-700 text-white border-none font-bold py-2 px-4 rounded">ไม่อนุมัติ</Button>
+              <Button
+                @click="approvepartner(data._id)"
+                class="bg-green-500 hover:bg-green-700 border-none text-white font-bold py-2 px-4 rounded mx-2 boeder-none"
+                >อนุมัติ</Button
+              >
+              <Button
+                @click="unapprovepartner(data._id)"
+                class="bg-red-500 hover:bg-red-700 text-white border-none font-bold py-2 px-4 rounded"
+                >ไม่อนุมัติ</Button
+              >
             </div>
           </template>
         </Column>
       </DataTable>
     </div>
   </div>
-  <Dialog v-model:visible="DetailPartner" header="แก้ไขข้อมูล Partner" modal :style="{ width: '50rem' }"
-    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-
+  <Dialog
+    v-model:visible="DetailPartner"
+    header="แก้ไขข้อมูล Partner"
+    modal
+    :style="{ width: '50rem' }"
+    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
+  >
     <div class="grid">
       <div class="col-12 md:col-12">
         <form>
           <div class="col-12 flex justify-content-center">
-            <img v-if="image" :src="getImage(image)" alt="ID Card" style="  max-width: 50%; height: 50%" />
+            <img
+              v-if="image"
+              :src="getImage(image)"
+              alt="ID Card"
+              style="max-width: 50%; height: 50%"
+            />
             <div v-else>ไม่มีรูปภาพ</div>
           </div>
           <div class="col-12">
-            <p> ID Card:</p>
-            <InputText v-model="idcard" class="w-full text-black-950 font-bold" style="color:#000" disabled />
+            <p>ID Card:</p>
+            <InputText
+              v-model="idcard"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p> First Name :</p>
-            <InputText v-model="name" class="w-full text-black-950 font-bold" style="color:#000" disabled />
+            <p>First Name :</p>
+            <InputText
+              v-model="name"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>Phone : </p>
-            <InputText v-model="phone" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>Phone :</p>
+            <InputText
+              v-model="phone"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>email : </p>
-            <InputText v-model="email" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>email :</p>
+            <InputText
+              v-model="email"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12 flex justify-content-center">
-            <img v-if="image_bank" :src="getImage(image_bank)" alt="ID Card" style="  max-width: 50%; height: 50%" />
+            <img
+              v-if="image_bank"
+              :src="getImage(image_bank)"
+              alt="ID Card"
+              style="max-width: 50%; height: 50%"
+            />
             <div v-else>ไม่มีรูปภาพ</div>
           </div>
           <div class="col-12">
-            <p>ธนาคาร : </p>
-            <InputText v-model="bank" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>ธนาคาร :</p>
+            <InputText
+              v-model="bank"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>เลขบัญชี : </p>
-            <InputText v-model="numberbank" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>เลขบัญชี :</p>
+            <InputText
+              v-model="numberbank"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
         </form>
       </div>
@@ -120,9 +213,8 @@ import Swal from "sweetalert2";
 import Loading from "../../components/Loading.vue";
 
 export default {
-
   components: {
-    Loading
+    Loading,
   },
 
   created() {
@@ -140,10 +232,16 @@ export default {
     const bank = ref("");
     const numberbank = ref("");
     const image_bank = ref("");
-    const loading = ref(true)
-
-
+    const loading = ref(true);
+    const searchall = ref("");
     const item_product = ref([]);
+    const statusdata = ref([
+      { name: "เลือกสถานะการค้นหา" },
+      { name: "อนุมัติ" },
+      { name: "รออนุมัติ" },
+      { name: "ไม่อนุมัติ" },
+    ]);
+    const selectstatus = ref("");
     const getData = async () => {
       console.log(DetailPartner, "status dialog before click button ");
 
@@ -159,7 +257,7 @@ export default {
 
         if (productResponse.data && productResponse.data) {
           item_product.value = productResponse.data.data.reverse();
-          loading.value = false
+          loading.value = false;
           console.log(productResponse.data.data);
         } else {
           console.error("Data is missing in the API response.");
@@ -236,21 +334,18 @@ export default {
     };
 
     const showPartnerDetail = async (data) => {
-
-
       DetailPartner.value = true;
-      image.value = data.image_idcard
-      name.value = data.name
-      phone.value = data.telephone
-      console.log(data)
-      console.log(data.idcard)
-      idcard.value = data.idcard
-      email.value = data.email
-      bank.value = data.bank
-      numberbank.value = data.numberbank
-      image_bank.value = data.image_bank
-    }
-
+      image.value = data.image_idcard;
+      name.value = data.name;
+      phone.value = data.telephone;
+      console.log(data);
+      console.log(data.idcard);
+      idcard.value = data.idcard;
+      email.value = data.email;
+      bank.value = data.bank;
+      numberbank.value = data.numberbank;
+      image_bank.value = data.image_bank;
+    };
 
     onMounted(() => {
       getData();
@@ -272,7 +367,10 @@ export default {
       bank,
       numberbank,
       image_bank,
-      loading
+      loading,
+      searchall,
+      statusdata,
+      selectstatus,
     };
   },
 
@@ -280,13 +378,39 @@ export default {
 
   methods: {
     getImage(item) {
-      if (typeof item === 'string') {
+      if (typeof item === "string") {
         return `https://drive.google.com/uc?export=view&id=${item}`;
       } else if (Array.isArray(item) && item.length > 0) {
         const firstImageId = item[0];
         return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
       } else {
         return "";
+      }
+    },
+  },
+  computed: {
+    Filter() {
+      if (this.selectstatus && this.selectstatus != "เลือกสถานะการค้นหา") { // ค้นหาสถานะ
+        const searchTerm = this.searchall.toLowerCase();
+        const selectstatus = this.selectstatus.toLowerCase();
+        return this.item_product.filter((item) => {
+          return (
+            item.approve.slice(-1)[0].statusapprove === selectstatus &&
+            (item.name.toLowerCase().includes(searchTerm) ||
+              item.telephone.includes(searchTerm))
+          );
+        });
+      } else if (this.searchall) { //ค้นหาด้วยคำ
+        const searchTerm = this.searchall.toLowerCase();
+        return this.item_product.filter((item) => {
+          // ใช้ includes() เพื่อตรวจสอบว่าคำที่ค้นหาอยู่ในชื่อหรือเบอร์โทรศัพท์หรือไม่
+          return (
+            item.name.toLowerCase().includes(searchTerm) ||
+            item.telephone.includes(searchTerm)
+          );
+        });
+      } else {
+        return this.item_product;
       }
     },
   },
@@ -297,7 +421,6 @@ export default {
   .test-box {
     width: 100%;
     background-color: red;
-
   }
 }
 </style>

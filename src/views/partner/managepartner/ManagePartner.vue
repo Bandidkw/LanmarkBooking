@@ -6,9 +6,10 @@
       <div class="text-right my-5"></div>
 
       <DataTable
-        :value="Array.isArray(item_product) ? item_product : []"
+        :value="Filter"
         :paginator="true"
         :rows="20"
+        selectionMode="single"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
         currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด"
@@ -17,11 +18,22 @@
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
 
         <template #empty>
-          <p class="font-italic text-center text-5xl" style="color: #bd1616">
+          <p class="font-italic text-center text-5xl text-center" style="color: #bd1616">
             ไม่พบข้อมูลสินค้า
           </p>
         </template>
-
+        <template #header>
+          <div class="flex justify-content-end">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search" />
+              <InputText
+                v-model="searchall"
+                placeholder="ค้นหา"
+                class="bg-white-500 p-2 m-1 pl-5 border"
+              />
+            </span>
+          </div>
+        </template>
         <Column
           field="telephone"
           header="เบอร์โทรศัพท์"
@@ -173,7 +185,7 @@ export default {
     const numberbank = ref("");
     const image_bank = ref("");
     const loading = ref(true);
-
+    const searchall = ref("");
     const item_product = ref([]);
     const getData = async () => {
       try {
@@ -262,6 +274,7 @@ export default {
       numberbank,
       image_bank,
       loading,
+      searchall
     };
   },
   methods: {
@@ -273,6 +286,22 @@ export default {
         return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
       } else {
         return "";
+      }
+    },
+  },
+    computed: {
+    Filter() {
+      if (this.searchall) { //ค้นหาด้วยคำ
+        const searchTerm = this.searchall.toLowerCase();
+        return this.item_product.filter((item) => {
+          // ใช้ includes() เพื่อตรวจสอบว่าคำที่ค้นหาอยู่ในชื่อหรือเบอร์โทรศัพท์หรือไม่
+          return (
+            item.name.toLowerCase().includes(searchTerm) ||
+            item.telephone.includes(searchTerm)
+          );
+        });
+      } else {
+        return this.item_product;
       }
     },
   },

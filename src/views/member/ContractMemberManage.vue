@@ -6,7 +6,7 @@
       <div class="text-right my-5"></div>
 
       <DataTable
-        :value="Array.isArray(item_product) ? item_product : []"
+        :value="Filter"
         :paginator="true"
         :rows="20"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -17,11 +17,22 @@
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
 
         <template #empty>
-          <p class="font-italic text-center text-5xl" style="color: #bd1616">
+          <p class="font-italic text-center text-5xl text-center" style="color: #bd1616">
             ไม่พบข้อมูลสัญญา
           </p>
         </template>
-
+        <template #header>
+          <div class="flex justify-content-end">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search" />
+              <InputText
+                v-model="searchall"
+                placeholder="ค้นหา"
+                class="bg-white-500 p-2 m-1 pl-5 border"
+              />
+            </span>
+          </div>
+        </template>
         <Column
           field="member_id.name"
           header="ชื่อพาร์ทเนอร์"
@@ -262,7 +273,7 @@ export default {
     const DetailPartner = ref(false);
     const Datacontract = ref([]);
     const loading = ref(true);
-
+    const searchall = ref("");
     const item_product = ref([]);
     const getData = async () => {
       console.log(DetailPartner, "status dialog before click button ");
@@ -306,6 +317,7 @@ export default {
       Datacontract,
       showPartnerDetail,
       DetailPartner,
+      searchall,
     };
   },
   name: "contractmembermanage",
@@ -319,6 +331,20 @@ export default {
         return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
       } else {
         return "";
+      }
+    },
+  },
+    computed: {
+    Filter() {
+      if(this.searchall) { //ค้นหาด้วยคำ
+        const searchTerm = this.searchall.toLowerCase();
+        return this.item_product.filter((item) => {
+          // ใช้ includes() เพื่อตรวจสอบว่าคำที่ค้นหาอยู่ในชื่อหรือเบอร์โทรศัพท์หรือไม่
+          return (
+            item.name.toLowerCase().includes(searchTerm));
+        });
+      } else {
+        return this.item_product;
       }
     },
   },

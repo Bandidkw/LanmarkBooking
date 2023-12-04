@@ -5,18 +5,39 @@
       <div class="text-center font-bold text-4xl">ข้อมูลอนุมัติการเพิ่มห้อง</div>
       <div class="text-right my-5"></div>
 
-      <DataTable :value="Array.isArray(item_product) ? item_product : []" :paginator="true" :rows="20"
+      <DataTable :value="Filter" :paginator="true" :rows="20" selectionMode="single"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
         currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด" responsiveLayout="stack">
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
 
         <template #empty>
-          <p class="font-italic text-center text-5xl" style="color: #bd1616">
+          <p class="font-italic text-center text-5xl text-center" style="color: #bd1616">
             ไม่พบข้อมูลสินค้า
           </p>
         </template>
+        <template #header>
+          <div class="flex justify-content-end">
+            <div class="mx-2">
+              <Dropdown
+                v-model="selectstatus"
+                :options="statusdata"
+                optionLabel="name"
+                optionValue="name"
+                placeholder="เลือกสถานะการค้นหา"
+              />
+            </div>
 
+            <span class="p-input-icon-left">
+              <i class="pi pi-search" />
+              <InputText
+                v-model="searchall"
+                placeholder="ค้นหา"
+                class="bg-white-500 p-2 m-1 pl-5 border"
+              />
+            </span>
+          </div>
+        </template>
         <Column field="partner_id.name" header="ชื่อ partner" style="width: 10%"></Column>
         <Column field="image" header="Picture" style="width: 15%">
           <template #body="{ data }">
@@ -205,7 +226,14 @@ export default {
     const province = ref("");
     const displayBasic = ref(true)
     const loading = ref(true)
-
+    const searchall = ref("");
+    const statusdata = ref([
+      { name: "เลือกสถานะการค้นหา" },
+      { name: "อนุมัติ" },
+      { name: "รออนุมัติ" },
+      { name: "ไม่อนุมัติ" },
+    ]);
+    const selectstatus = ref("");
     ///////
 
     const item_product = ref([]);
@@ -372,7 +400,10 @@ export default {
       province,
       displayBasic,
       responsiveOptions,
-      loading
+      loading,
+      searchall,
+      statusdata,
+      selectstatus,
     };
   },
   methods: {
@@ -383,6 +414,33 @@ export default {
         return item.map((imageId) => `https://drive.google.com/uc?export=view&id=${imageId}`);
       } else {
         return "";
+      }
+    },
+  },
+   computed: {
+    Filter() {
+      if (this.selectstatus && this.selectstatus != "เลือกสถานะการค้นหา") { // ค้นหาสถานะ
+        const searchTerm = this.searchall.toLowerCase();
+        const selectstatus = this.selectstatus.toLowerCase();
+        return this.item_product.filter((item) => {
+          return (
+            item.approve.slice(-1)[0].statusapprove === selectstatus &&
+            (item.name.toLowerCase().includes(searchTerm) ||
+              item.partner_id.name.toLowerCase().includes(searchTerm))
+          );
+        });
+      } else if (this.searchall) { //ค้นหาด้วยคำ
+        const searchTerm = this.searchall.toLowerCase();
+        return this.item_product.filter((item) => {
+          console.log(item.name.toLowerCase().includes(searchTerm))
+          // ใช้ includes() เพื่อตรวจสอบว่าคำที่ค้นหาอยู่ในชื่อหรือเบอร์โทรศัพท์หรือไม่
+          return (
+            item.name.toLowerCase().includes(searchTerm) ||
+            item.partner_id.name.toLowerCase().includes(searchTerm)
+          );
+        });
+      } else {
+        return this.item_product;
       }
     },
   },
