@@ -15,7 +15,7 @@
         />
         <Button
           @click="showModal('member')"
-          class="hover:bg-orange-900"
+          class="hover:bg-orange-900 hover:text-white"
           label=" สมัครเป็นสมาชิก"
           severity="warning"
           outlined

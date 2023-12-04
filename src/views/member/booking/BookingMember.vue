@@ -6,7 +6,7 @@
       <div class="text-right my-5"></div>
 
       <DataTable
-        :value="Array.isArray(item_product) ? item_product : []"
+        :value="Filter"
         :paginator="true"
         :rows="20"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -20,6 +20,28 @@
           <p class="font-italic text-center text-5xl" style="color: #bd1616">
             ไม่พบข้อมูลการจอง
           </p>
+        </template>
+        <template #header>
+          <div class="flex justify-content-end">
+            <div class="mx-2">
+              <Dropdown
+                v-model="selectstatus"
+                :options="statusdata"
+                optionLabel="name"
+                optionValue="name"
+                placeholder="เลือกสถานะการค้นหา"
+              />
+            </div>
+
+            <span class="p-input-icon-left">
+              <i class="pi pi-search" />
+              <InputText
+                v-model="searchall"
+                placeholder="ค้นหา"
+                class="bg-white-500 p-2 m-1 pl-5 border"
+              />
+            </span>
+          </div>
         </template>
 
         <Column field="room_id.name" header="ห้องพัก" style="width: 10%">
@@ -251,6 +273,14 @@ export default {
     let databooking = ref("");
     let imagePreview = ref(null);
     const loading = ref(true);
+    const searchall = ref("");
+    const selectstatus = ref("");
+    const statusdata = ref([
+      { name: "เลือกสถานะการค้นหา" },
+      { name: "รออนุมัติห้อง" },
+      { name: "จองห้องสำเร็จ" },
+      { name: "ไม่อนุมัติห้อง" },
+    ]);
 
     const item_product = ref([]);
     const getData = async () => {
@@ -392,6 +422,9 @@ export default {
       filepic: "",
       imagePreview,
       loading,
+      searchall,
+      statusdata,
+      selectstatus,
     };
   },
 
@@ -465,6 +498,51 @@ export default {
           text: "กรุณาเพิ่มหลักฐานการชำระเงิน",
         });
         this.DetailPartner = true;
+      }
+    },
+  },
+  computed: {
+    Filter() {
+      if (this.selectstatus && this.selectstatus !== "เลือกสถานะการค้นหา") {
+        const searchTerm = this.searchall.toLowerCase();
+        const selectstatus = this.selectstatus.toLowerCase();
+        return this.item_product.filter((item) => {
+          const isInStatus =
+            (selectstatus === "รออนุมัติห้อง" &&
+              item.status.slice(-1)[0].statusbooking === "รออนุมัติห้อง") ||
+            (selectstatus === "จองห้องสำเร็จ" &&
+              item.status.slice(-1)[0].statusbooking === "จองห้องสำเร็จ") ||
+            (selectstatus === "ไม่อนุมัติห้อง" &&
+              item.status.slice(-1)[0].statusbooking === "ไม่อนุมัติห้อง");
+
+          const matchesSearch =
+            (item.room_id &&
+              item.room_id.name.toLowerCase().includes(searchTerm)) ||
+            String(item.price).includes(searchTerm);
+
+          const bookingSearchFrom =
+            item.booking_id && item.booking_id.date_from.includes(searchTerm);
+          const bookingSearchTo =
+            item.booking_id && item.booking_id.date_to.includes(searchTerm);
+
+          return (
+            isInStatus &&
+            (matchesSearch || bookingSearchFrom || bookingSearchTo)
+          );
+        });
+      } else if (this.searchall) {
+        const searchTerm = this.searchall.toLowerCase();
+        return this.item_product.filter((item) => {
+          return (
+            (item.room_id &&
+              item.room_id.name.toLowerCase().includes(searchTerm)) ||
+            item.date_from.includes(searchTerm) ||
+            item.date_to.includes(searchTerm) ||
+            String(item.price).includes(searchTerm)
+          );
+        });
+      } else {
+        return this.item_product;
       }
     },
   },

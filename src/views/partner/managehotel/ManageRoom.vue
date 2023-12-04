@@ -20,7 +20,7 @@
         </div>
       </div>
       <DataTable
-        :value="Array.isArray(item_product) ? item_product : []"
+        :value="Filter"
         :paginator="true"
         :rows="20"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -33,6 +33,28 @@
           <p class="font-italic text-center text-5xl" style="color: #bd1616">
             ไม่พบข้อมูลสินค้า
           </p>
+        </template>
+        <template #header>
+          <div class="flex justify-content-end">
+            <div class="mx-2">
+              <Dropdown
+                v-model="selectstatus"
+                :options="statusdata"
+                optionLabel="name"
+                optionValue="name"
+                placeholder="เลือกสถานะการค้นหา"
+              />
+            </div>
+
+            <span class="p-input-icon-left">
+              <i class="pi pi-search" />
+              <InputText
+                v-model="searchall"
+                placeholder="ค้นหา"
+                class="bg-white-500 p-2 m-1 pl-5 border"
+              />
+            </span>
+          </div>
         </template>
 
         <Column header="STATUS" style="width: 5%">
@@ -79,7 +101,6 @@
         <!-- <Column field="address" class="" header="ที่อยู่" style="width: 10%;" /> -->
         <Column
           field="phone_number"
-          class=""
           header="เบอร์โทรติดต่อ"
           style="width: 10%"
         />
@@ -137,9 +158,16 @@ export default {
   },
 
   setup() {
+    const searchall = ref("");
     const item_product = ref([]);
     const reservationEnabled = ref(false);
     const loading = ref(true);
+    const selectstatus = ref("");
+    const statusdata = ref([
+      { name: "เลือกสถานะการค้นหา" },
+      { name: "เปิดการจอง" },
+      { name: "ปิดการจอง" },
+    ]);
 
     const getData = async () => {
       try {
@@ -266,6 +294,9 @@ export default {
       deleteProduct,
       handleStatusChange,
       loading,
+      searchall,
+      statusdata,
+      selectstatus,
     };
   },
 
@@ -321,6 +352,33 @@ export default {
     //   collectData();
     // }
     // },
+  },
+  computed: {
+    Filter() {
+      if (this.selectstatus && this.selectstatus != "เลือกสถานะการค้นหา") {
+        const searchTerm = this.searchall.toLowerCase();
+        const selectstatus = this.selectstatus.toLowerCase();
+        return this.item_product.filter((item) => {
+          return (
+            item.statusbooking === (selectstatus === "เปิดการจอง") &&
+            ((item.name && item.name.toLowerCase().includes(searchTerm)) ||
+              (item.telephone && item.telephone.includes(searchTerm)) ||
+              (item.price && String(item.price).includes(searchTerm)))
+          );
+        });
+      } else if (this.searchall) {
+        const searchTerm = this.searchall.toLowerCase();
+        return this.item_product.filter((item) => {
+          return (
+            item.name.toLowerCase().includes(searchTerm) ||
+            item.phone_number.includes(searchTerm) ||
+            String(item.price).includes(searchTerm)
+          );
+        });
+      } else {
+        return this.item_product;
+      }
+    },
   },
 
   name: "ManageRoom",

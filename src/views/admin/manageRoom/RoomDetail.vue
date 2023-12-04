@@ -16,7 +16,7 @@
         <button @click="closeAddTypeModal">ปิด</button>
       </div>
       <DataTable
-        :value="Array.isArray(item_product) ? item_product : []"
+        :value="Filter"
         :paginator="true"
         :rows="20"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -29,6 +29,18 @@
           <p class="font-italic text-center text-5xl" style="color: #bd1616">
             ไม่พบข้อมูล
           </p>
+        </template>
+        <template #header>
+          <div class="flex justify-content-end">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search" />
+              <InputText
+                v-model="searchall"
+                placeholder="ค้นหา"
+                class="bg-white-500 p-2 m-1 pl-5 border"
+              />
+            </span>
+          </div>
         </template>
 
         <Column field="name" header="ชื่อ" class="xl:w-2/4"></Column>
@@ -80,6 +92,7 @@ export default {
     const item_product = ref([]);
     const isAddTypeModalOpen = ref(false);
     const loading = ref(true);
+    const searchall = ref("");
     const getData = async () => {
       try {
         const productResponse = await axios.get(
@@ -145,12 +158,28 @@ export default {
       deleteProduct,
       isAddTypeModalOpen,
       loading,
+      searchall,
     };
   },
   name: "RoomDetail",
   methods: {
     closeAddTypeModal() {
       this.isAddTypeModalOpen, false;
+    },
+  },
+  computed: {
+    Filter() {
+      if (this.searchall) {
+        const searchTerm = this.searchall.toLowerCase();
+        return this.item_product.filter((item) => {
+          return (
+            item.name.toLowerCase().includes(searchTerm) ||
+            item.description.includes(searchTerm)
+          );
+        });
+      } else {
+        return this.item_product;
+      }
     },
   },
 };

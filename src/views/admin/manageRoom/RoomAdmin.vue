@@ -6,7 +6,7 @@
       <div class="text-right my-5"></div>
 
       <DataTable
-        :value="Array.isArray(item_product) ? item_product : []"
+        :value="Filter"
         :paginator="true"
         :rows="20"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -21,7 +21,18 @@
             ไม่พบข้อมูลสินค้า
           </p>
         </template>
-
+        <template #header>
+          <div class="flex justify-content-end">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search" />
+              <InputText
+                v-model="searchall"
+                placeholder="ค้นหา"
+                class="bg-white-500 p-2 m-1 pl-5 border"
+              />
+            </span>
+          </div>
+        </template>
         <Column field="image" header="Picture" style="width: 20%">
           <template #body="{ data }">
             <img
@@ -89,6 +100,7 @@ export default {
   setup() {
     const item_product = ref([]);
     const loading = ref(true);
+    const searchall = ref("");
     const getData = async () => {
       try {
         const productResponse = await axios.get(
@@ -153,6 +165,7 @@ export default {
       getData,
       deleteProduct,
       loading,
+      searchall,
     };
   },
   methods: {
@@ -164,6 +177,23 @@ export default {
         return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
       } else {
         return "";
+      }
+    },
+  },
+  computed: {
+    Filter() {
+      if (this.searchall) {
+        const searchTerm = this.searchall.toLowerCase();
+        return this.item_product.filter((item) => {
+          return (
+            item.name.toLowerCase().includes(searchTerm) ||
+            item.description.includes(searchTerm) ||
+            item.phone_number.includes(searchTerm) ||
+            String(item.price).includes(searchTerm)
+          );
+        });
+      } else {
+        return this.item_product;
       }
     },
   },

@@ -6,7 +6,7 @@
       <div class="text-right my-5"></div>
 
       <DataTable
-        :value="Array.isArray(item_product) ? item_product : []"
+        :value="Filter"
         :paginator="true"
         :rows="20"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -20,6 +20,18 @@
           <p class="font-italic text-center text-5xl" style="color: #bd1616">
             ไม่มีข้อมูลการจอง
           </p>
+        </template>
+        <template #header>
+          <div class="flex justify-content-end">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search" />
+              <InputText
+                v-model="searchall"
+                placeholder="ค้นหา"
+                class="bg-white-500 p-2 m-1 pl-5 border"
+              />
+            </span>
+          </div>
         </template>
 
         <Column
@@ -134,6 +146,7 @@ export default {
 
   setup() {
     // const partnerDetail = ref(null);
+    const searchall = ref("");
     const DetailPartner = ref(false);
     const loading = ref(true);
     let data_id = ref("");
@@ -202,6 +215,7 @@ export default {
       datebooking,
       price,
       loading,
+      searchall,
     };
   },
 
@@ -223,6 +237,26 @@ export default {
         return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
       } else {
         return "";
+      }
+    },
+  },
+  computed: {
+    Filter() {
+      if (this.searchall) {
+        const searchTerm = this.searchall.toLowerCase();
+        return this.item_product.filter((item) => {
+          return (
+            (item.member_id &&
+              item.member_id.name.toLowerCase().includes(searchTerm)) ||
+            (item.room_id &&
+              item.room_id.name.toLowerCase().includes(searchTerm)) ||
+            (item.date_from && item.date_from.includes(searchTerm)) ||
+            (item.date_to && item.date_to.includes(searchTerm)) ||
+            String(item.price).includes(searchTerm)
+          );
+        });
+      } else {
+        return this.item_product;
       }
     },
   },
