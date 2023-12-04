@@ -1,4 +1,4 @@
-<template >
+<template>
   <div>
     <Toast />
     <div class="topweb-right">
@@ -11,45 +11,87 @@
       </div>
     </div>
 
-    <Dialog v-model:visible="LoginModal" @onHide="resetForm" maximizable modal header=" เข้าสู่ระบบ"
-      :style="{ width: '20rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+    <Dialog
+      v-model:visible="LoginModal"
+      @onHide="resetForm"
+      maximizable
+      modal
+      header=" เข้าสู่ระบบ"
+      :style="{ width: '20rem' }"
+      :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
+    >
       <form @submit.prevent="login" class="form-control">
-
         <label for="telephone">เบอร์โทรศัพท์</label>
-        <InputText id="telephone" v-model="telephone" aria-describedby="telephone-help" @input="validateInput" required />
+        <InputText
+          id="telephone"
+          v-model="telephone"
+          aria-describedby="telephone-help"
+          @input="validateInput"
+          required
+        />
         <p v-if="showValidationError" class="error-message">
           กรุณากรอกเลขโทรศัพท์ที่ถูกต้อง
         </p>
 
-
         <label for="password">รหัสผ่าน</label>
-        <InputText aria-describedby="password-help" :type="showPassword ? 'text' : 'password'" id="password"
-          v-model="password" required />
+        <InputText
+          aria-describedby="password-help"
+          :type="showPassword ? 'text' : 'password'"
+          id="password"
+          v-model="password"
+          required
+        />
 
         <div class="flex items-center">
           <input type="checkbox" id="showPassword" v-model="showPassword" />
           <label for="showPassword">แสดงรหัสผ่าน</label>
         </div>
 
-        <Button label="เข้าสู่ระบบ" severity="help" rounded type="submit" class="mt-2" />
-        <span class="flex justify-content-center">ยังไม่มีบัญชี ผู้ใช้งาน
-          <a href="#" style="color: blue; text-decoration: underline" @click="registerPage">สร้างบัญชี</a></span>
+        <Button
+          label="เข้าสู่ระบบ"
+          icon="pi pi-sign-in"
+          :loading="loading"
+          severity="help"
+          rounded
+          type="submit"
+        />
+
+        <span class="flex justify-content-center"
+          >ยังไม่มีบัญชี ผู้ใช้งาน
+          <a
+            href="#"
+            style="color: blue; text-decoration: underline"
+            @click="registerPage"
+            >สร้างบัญชี</a
+          ></span
+        >
       </form>
     </Dialog>
   </div>
 </template>
 <script>
-import axios from 'axios';
+import axios from "axios";
 import { useToast } from "primevue/usetoast";
+import { ref } from "vue";
 export default {
-
   data() {
+    const loading = ref(false);
     const toast = useToast();
     const showSuccess = () => {
-      toast.add({ severity: 'success', summary: 'ล็อคอินสำเร็จ', detail: 'ยินดีต้อนรับ', life: 3000 });
-    }
+      toast.add({
+        severity: "success",
+        summary: "ล็อคอินสำเร็จ",
+        detail: "ยินดีต้อนรับ",
+        life: 3000,
+      });
+    };
     const showError = () => {
-      toast.add({ severity: 'error', summary: 'ล็อคอินไม่สำเร็จ', detail: 'ข้อมูลผิดพลาด หรือ ยังไม่ได้ลงทะเบียน', life: 3000 });
+      toast.add({
+        severity: "error",
+        summary: "ล็อคอินไม่สำเร็จ",
+        detail: "ข้อมูลผิดพลาด หรือ ยังไม่ได้ลงทะเบียน",
+        life: 3000,
+      });
     };
     return {
       telephone: "",
@@ -59,14 +101,17 @@ export default {
       LoginModal: false,
       RegisterVisible: false,
       showSuccess,
-      showError
-    }
-  }, methods: {
+      showError,
+      loading,
+    };
+  },
+  methods: {
     showPopup() {
       this.LoginModal = true;
     },
 
     async login() {
+      this.loading = true;
       if (
         this.telephone === null ||
         this.telephone === "" ||
@@ -74,6 +119,7 @@ export default {
         this.password === ""
       ) {
         console.log("fail");
+        this.loading = false;
       } else {
         try {
           const res = await axios.post(`${process.env.VUE_APP_API}signin/`, {
@@ -81,19 +127,21 @@ export default {
             password: this.password,
           });
           if (res.data) {
-            this.showSuccess()
+            this.showSuccess();
             setTimeout(() => {
               localStorage.setItem("token", res.data.token);
               window.location.assign("/");
               console.log(res.data);
             }, 1500);
           } else {
-            this.showError()
+            this.showError();
+            this.loading = false;
             return console.log("faill");
           }
         } catch (error) {
           console.log(error);
-          this.showError()
+          this.loading = false;
+          this.showError();
         }
       }
     },
@@ -114,15 +162,14 @@ export default {
   watch: {
     LoginModal(newValue) {
       if (!newValue) {
-        this.resetForm()
+        this.resetForm();
       }
-    }
+    },
   },
-  components: {
-  },
-}
+  components: {},
+};
 </script>
-<style scope >
+<style scope>
 .topweb-right {
   display: flex;
   align-items: center;
@@ -177,10 +224,10 @@ export default {
   flex-direction: column;
   row-gap: 0.5rem;
 }
-.log-icon{
+.log-icon {
   transition: all 0.2s ease-in-out;
 }
-.log-icon:hover{
+.log-icon:hover {
   background: #fff;
   box-shadow: 0px 2px 10px 5px #3b82f6;
   color: #000;
@@ -197,7 +244,6 @@ export default {
 .show-pass input,
 label {
   cursor: pointer;
-
 }
 
 /* .p-button.p-button-help, .p-buttonset.p-button-help > .p-button, .p-splitbutton.p-button-help > .p-button {
@@ -205,7 +251,7 @@ label {
     background: #3b82f6;
     border: 1px solid #3b82f6;
 } */
-@media screen and (max-width:640px) {
+@media screen and (max-width: 640px) {
   .topweb-right p {
     display: none;
   }

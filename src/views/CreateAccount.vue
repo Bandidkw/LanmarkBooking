@@ -116,6 +116,8 @@
         <div class="flex justify-content-end">
           <Button
             label="ลงทะเบียน"
+            icon="pi pi-user-plus"
+            :loading="loading"
             @click="register('member')"
             severity="help"
             rounded
@@ -320,6 +322,8 @@
         <div class="flex justify-content-end">
           <Button
             label="ลงทะเบียน"
+            icon="pi pi-user-plus"
+            :loading="loading"
             @click="register('partner')"
             severity="help"
             rounded
@@ -342,6 +346,7 @@ import { useToast } from "primevue/usetoast";
 import Contract from "../components/Contract_Modal.vue";
 export default {
   data() {
+    const loading = ref(false);
     const toast = useToast();
     const provincedropdown = ref([]);
     const amphuredropdown = ref([null]);
@@ -427,6 +432,7 @@ export default {
       showError,
       checked,
       id: null,
+      loading,
     };
   },
   components: {
@@ -493,6 +499,7 @@ export default {
     //// register
 
     async register(userType) {
+      this.loading = true;
       try {
         if (userType === "member") {
           await this.validateMemberForm();
@@ -510,7 +517,9 @@ export default {
           );
           if (productResponse.data && productResponse.data) {
             console.log(productResponse, "success");
+            this.loading = false;
           } else {
+            this.loading = false;
             this.showError();
             console.error("Data is missing in the API response.");
           }
@@ -539,7 +548,10 @@ export default {
           if (productResponse.data.status === true) {
             console.log(productResponse.data);
             await this.uploadPicture(productResponse.data.data._id);
+            this.loading = false;
           } else {
+            this.loading = false;
+
             this.showError();
             console.error("Data is missing in the API response.");
           }
@@ -547,9 +559,12 @@ export default {
         this.showSuccess();
         this.showModalPartner = false;
         this.showModalMember = false;
+        this.loading = false;
 
         await this.$router.push("/");
       } catch (error) {
+        this.loading = false;
+
         this.showError();
         console.error("Form validation failed:", error);
       }

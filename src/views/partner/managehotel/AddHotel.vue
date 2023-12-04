@@ -72,8 +72,14 @@
               ประเภทห้องพัก :
             </label>
             <Dropdown
-              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2  mb-2 leading-tight focus:outline-none focus:bg-white"
-              v-model="type" showClear :options="cities" optionLabel="name" optionValue="_id" placeholder="เลือกประเภท" />
+              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+              v-model="type"
+              showClear
+              :options="cities"
+              optionLabel="name"
+              optionValue="_id"
+              placeholder="เลือกประเภท"
+            />
           </div>
           <div
             v-show="type === '65680f013a464f61e3de1a5c'"
@@ -124,12 +130,22 @@
               placeholder="จำนวนห้องนอน"
             />
           </div>
-          <div class="w-full  md:w-1/2  px-4 mb-2 ">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-first-name">ประเภทเตียง :</label>
-            <Dropdown v-model="bedtype" showClear :options="selectbed" optionLabel="label" optionValue="value"
-              class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
-              placeholder="เลือกประเภทเตียง" filter/>
+          <div class="w-full md:w-1/2 px-4 mb-2">
+            <label
+              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              for="grid-first-name"
+              >ประเภทเตียง :</label
+            >
+            <Dropdown
+              v-model="bedtype"
+              showClear
+              :options="selectbed"
+              optionLabel="label"
+              optionValue="value"
+              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+              placeholder="เลือกประเภทเตียง"
+              filter
+            />
           </div>
           <div
             v-show="bedtype === 'เพิ่มเติม'"
@@ -181,11 +197,20 @@
 
           <div class="w-full md:w-1/2 px-4 mb-2 flex gap-2">
             <div class="w-full">
-              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-first-name">ประเภทผู้เช่า :</label>
-              <Dropdown v-model="partnertype" showClear :options="selectpartnertype" optionLabel="label" optionValue="value"
-                class="appearance-none   w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
-                placeholder="เลือกประเภทผู้เช่า"  />
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-first-name"
+                >ประเภทผู้เช่า :</label
+              >
+              <Dropdown
+                v-model="partnertype"
+                showClear
+                :options="selectpartnertype"
+                optionLabel="label"
+                optionValue="value"
+                class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+                placeholder="เลือกประเภทผู้เช่า"
+              />
             </div>
             <div class="w-full">
               <label
@@ -250,8 +275,11 @@
               </li>
             </ul>
           </div> -->
-          <div class="w-full md:w-1/2 px-4 mb-2 ">
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+          <div class="w-full md:w-1/2 px-4 mb-2">
+            <label
+              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              for="grid-first-name"
+            >
               ที่อยู่ :
             </label>
             <InputText
@@ -343,9 +371,15 @@
           </div>
         </div>
         <div class="flex justify-content-end" style="margin-right: 40px">
-          <div class="md:w-1/3"></div>
           <div class="md:w-1/3">
-            <Button @click="addRoom" label="เพิ่มข้อมูลห้อง" />
+            <Button
+              @click="addRoom"
+              label="เพิ่มข้อมูลห้อง"
+              severity="help"
+              rounded
+              icon="pi pi-cloud-upload"
+              :loading="loading"
+            />
           </div>
           <div class="md:w-1/3"></div>
         </div>
@@ -363,6 +397,7 @@ export default {
   name: "AddHotelPartner",
   data() {
     const cities = ref([]);
+    const loading = ref(false);
     const gettype = async (_id) => {
       try {
         const response = await axios.get(
@@ -489,6 +524,7 @@ export default {
       selectedDate: "",
       minSelectableDate: new Date(),
       disabledDates: [new Date(2023, 10, 29), new Date(2023, 10, 30)],
+      loading,
     };
   },
   methods: {
@@ -511,6 +547,7 @@ export default {
 
     async addRoom() {
       try {
+        this.loading = true;
         const typehotelbed =
           this.bedtype === "เพิ่มเติม" ? this.inputbedtype : this.bedtype;
         const res = await axios.post(
@@ -550,6 +587,8 @@ export default {
           // for (const images of this.image) {
           await this.uploadPicture(res.data.data._id);
           // }
+          this.loading = false;
+
           Swal.fire({
             icon: "success",
             title: "บันทึกสำเร็จ",
@@ -557,6 +596,7 @@ export default {
           });
           this.$router.push("/manageroom");
         } else {
+          this.loading = false;
           await Swal.fire({
             icon: "error",
             title: "เกิดข้อผิดพลาด",
@@ -564,6 +604,8 @@ export default {
           });
         }
       } catch (error) {
+        this.loading = false;
+
         console.log(error, "error");
         await Swal.fire({
           icon: "error",

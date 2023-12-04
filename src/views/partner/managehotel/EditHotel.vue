@@ -1,15 +1,20 @@
 <template>
-  <Button @click="getdata" class=" hover:bg-orange-700 border-0 text-white font-bold py-2 px-4 rounded mx-2 lg:mx-0"
-    style="background-color: #ff7315" :label="title" :loading="loading" />
+  <Button
+    @click="getdata"
+    class="hover:bg-orange-700 border-0 text-white font-bold py-2 px-4 rounded mx-2 lg:mx-0"
+    style="background-color: #ff7315"
+    :label="title"
+    :loading="loading"
+  />
 
   <!--eslint-disable-next-line vue/no-multiple-template-root -->
-  <Dialog v-model:visible="sidebar" modal :style="{ width: '50rem' }"
-    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-    <div class="grid">
-      <div class="col-12 text-center">
-        <h2>HOTEL PARTNER</h2>
-      </div>
-    </div>
+  <Dialog
+    v-model:visible="sidebar"
+    header="แก้ไขข้อมูล"
+    modal
+    :style="{ width: '50rem' }"
+    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
+  >
     <div class="grid">
       <div class="col-12 md:col-12">
         <form class="">
@@ -19,11 +24,19 @@
           </div>
           <div class="col-12">
             <p>รายละเอียด :</p>
-            <InputText v-model="description" name="description" class="w-full" />
+            <InputText
+              v-model="description"
+              name="description"
+              class="w-full"
+            />
           </div>
           <div class="col-12">
             <p>เบอร์โทรศัพท์ :</p>
-            <InputText v-model="phone_number" name="phone_number" class="w-full" />
+            <InputText
+              v-model="phone_number"
+              name="phone_number"
+              class="w-full"
+            />
           </div>
           <div class="col-12">
             <p>ราคา :</p>
@@ -31,13 +44,26 @@
           </div>
           <div class="col-12">
             <p>ประเภทห้องพัก :</p>
-            <Dropdown name="type" v-model="type" :options="cities" optionLabel="name" optionValue="_id"
-              placeholder="เลือกประเภทห้องพัก" class="w-full" />
+            <Dropdown
+              name="type"
+              v-model="type"
+              :options="cities"
+              optionLabel="name"
+              optionValue="_id"
+              placeholder="เลือกประเภทห้องพัก"
+              class="w-full"
+            />
           </div>
           <div v-if="type === '656aafdbe0452c77321a212d'" class="col-12">
             <p>ระดับห้อง :</p>
-            <Dropdown class="w-full" v-model="inputlevelroom" :options="roomLevel" optionLabel="label" optionValue="value"
-              placeholder="เลือกประเภท" />
+            <Dropdown
+              class="w-full"
+              v-model="inputlevelroom"
+              :options="roomLevel"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="เลือกประเภท"
+            />
           </div>
           <div class="col-12">
             <p>จำนวนผู้เข้าพัก :</p>
@@ -49,12 +75,23 @@
           </div>
           <div class="col-12">
             <p>ประเภทเตียง :</p>
-            <Dropdown v-model="bedtype" :options="selectbed" optionLabel="label" optionValue="value" class="w-full"
-              placeholder="เลือกประเภทเตียง" />
+            <Dropdown
+              v-model="bedtype"
+              :options="selectbed"
+              optionLabel="label"
+              optionValue="value"
+              class="w-full"
+              placeholder="เลือกประเภทเตียง"
+            />
           </div>
           <div class="col-12" v-if="bedtype === 'เพิ่มเติม'">
             <p>กรอกประเภทเตียงเพิ่มเติม :</p>
-            <InputText type="text" v-model="inputbedtype" placeholder="กรอกประเภทเตียงเพิ่มเติม" class="w-full" />
+            <InputText
+              type="text"
+              v-model="inputbedtype"
+              placeholder="กรอกประเภทเตียงเพิ่มเติม"
+              class="w-full"
+            />
           </div>
           <div class="col-12">
             <p>จำนวนเตียง :</p>
@@ -66,15 +103,30 @@
           </div>
           <div class="col-12">
             <p>ประเภทผู้เช่า :</p>
-            <Dropdown v-model="partnertype" :options="selectpartnertype" optionLabel="label" optionValue="value"
-              class="w-full" />
+            <Dropdown
+              v-model="partnertype"
+              :options="selectpartnertype"
+              optionLabel="label"
+              optionValue="value"
+              class="w-full"
+            />
           </div>
           <div class="col-12">
             <p>เลือกระยะเวลา :</p>
-            <Calendar class="w-full " style="height: 56px;" v-model="selectedDate" showIcon iconDisplay="input"
-              dateFormat="dd/mm/yy" selectionMode="range" :manualInput="false" :numberOfMonths="2"
-              :minDate="minSelectableDate" :disabled-dates="disabledDates"
-              :disabled="partnertype !== 'ผู้เช่าปล่อยเช่า'" />
+            <Calendar
+              class="w-full"
+              style="height: 56px"
+              v-model="selectedDate"
+              showIcon
+              iconDisplay="input"
+              dateFormat="dd/mm/yy"
+              selectionMode="range"
+              :manualInput="false"
+              :numberOfMonths="2"
+              :minDate="minSelectableDate"
+              :disabled-dates="disabledDates"
+              :disabled="partnertype !== 'ผู้เช่าปล่อยเช่า'"
+            />
           </div>
           <div class="col-12">
             <p>สถานที่ใกล้เคียง:</p>
@@ -91,25 +143,41 @@
           <div class="col-12">
             <p>จังหวัด :</p>
             <Dropdown
-              class="appearance-none  w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
-              v-model="province" :options="provincedropdown.value" optionLabel="name_th" optionValue="name_th"
-              placeholder="เลือกจังหวัด" @change="getamphure('amphure')" filter/>
+              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              v-model="province"
+              :options="provincedropdown.value"
+              optionLabel="name_th"
+              optionValue="name_th"
+              placeholder="เลือกจังหวัด"
+              @change="getamphure('amphure')"
+              filter
+            />
           </div>
           <div class="col-12">
             <p>อำเภอ :</p>
             <Dropdown
               class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
-              v-model="amphure" :options="amphuredropdown.value" optionLabel="name_th" optionValue="name_th"
-              placeholder="เลือกอำเภอ" @change="getamphure('tambon')" filter/>
+              v-model="amphure"
+              :options="amphuredropdown.value"
+              optionLabel="name_th"
+              optionValue="name_th"
+              placeholder="เลือกอำเภอ"
+              @change="getamphure('tambon')"
+              filter
+            />
           </div>
           <div class="col-12">
             <p>ตำบล :</p>
             <Dropdown
               class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
-              v-model="tambon" :options="tambondropdown.value" optionLabel="name_th" optionValue="name_th"
-              placeholder="เลือกตำบล" filter/>
+              v-model="tambon"
+              :options="tambondropdown.value"
+              optionLabel="name_th"
+              optionValue="name_th"
+              placeholder="เลือกตำบล"
+              filter
+            />
           </div>
-
 
           <!-- <div class="col-12">
             <p>รหัสพาร์ทเนอร์ :</p>
@@ -123,8 +191,15 @@
       </div>
     </div>
     <div class="grid">
-      <div class="col-12 text-center mt-2">
-        <Button label="แก้ไข" @click="editadmin" />
+      <div class="col-12 flex justify-content-end text-center mt-2">
+        <Button
+          label="แก้ไข"
+          severity="help"
+          rounded
+          icon="pi pi-file-edit"
+          :loading="loading"
+          @click="editadmin"
+        />
       </div>
     </div>
   </Dialog>
@@ -143,7 +218,7 @@ export default {
   },
   data() {
     ////////  get dropdown list /////////
-
+    const loading = ref(false);
     const cities = ref([]);
 
     const gettype = async (_id) => {
@@ -193,6 +268,7 @@ export default {
       getprovince();
     });
     return {
+      loading,
       cities,
       provincedropdown,
       amphuredropdown,
@@ -221,40 +297,49 @@ export default {
       nearlocation: "",
       distancelocation: "",
       selectpartnertype: [
-        { label: 'เจ้าของปล่อยเช่า', value: 'เจ้าของปล่อยเช่า' },
-        { label: 'ผู้เช่าปล่อยเช่า', value: 'ผู้เช่าปล่อยเช่า' },
+        { label: "เจ้าของปล่อยเช่า", value: "เจ้าของปล่อยเช่า" },
+        { label: "ผู้เช่าปล่อยเช่า", value: "ผู้เช่าปล่อยเช่า" },
       ],
       selectbed: [
-        { label: 'เตียงเดี่ยว ขนาด 3 ฟุต', value: 'เตียงเดี่ยว ขนาด 3 ฟุต' },
-        { label: 'เตียงเดี่ยว ขนาด 3.5 ฟุต', value: 'เตียงเดี่ยว ขนาด 3.5 ฟุต' },
-        { label: 'เตียงคู่ขนาดใหญ่ 1 เตียง', value: 'เตียงคู่ขนาดใหญ่ 1 เตียง' },
-        { label: 'เตียงเดี่ยว 2 เตียงติดกัน', value: 'เตียงเดี่ยว 2 เตียงติดกัน' },
-        { label: 'เตียงเดี่ยว ขนาด 5 ฟุต', value: 'เตียงเดี่ยว ขนาด 5 ฟุต' },
-        { label: 'เตียงเดี่ยว ขนาด 6 ฟุต', value: 'เตียงเดี่ยว ขนาด 6 ฟุต' },
-        { label: 'เตียงเดี่ยวจำนวน 3 เตียง', value: 'เตียงเดี่ยวจำนวน 3 เตียง' },
-        { label: 'เตียงเสริม', value: 'เตียงเสริม' },
-        { label: 'ฟูกนอนพื้น', value: 'ฟูกนอนพื้น' },
-        { label: 'เตียงแบบพับเก็บได้', value: 'เตียงแบบพับเก็บได้' },
-        { label: 'เตียง 2 ชั้น', value: 'เตียง 2 ชั้น' },
-        { label: 'เพิ่มเติม', value: "เพิ่มเติม" },
+        { label: "เตียงเดี่ยว ขนาด 3 ฟุต", value: "เตียงเดี่ยว ขนาด 3 ฟุต" },
+        {
+          label: "เตียงเดี่ยว ขนาด 3.5 ฟุต",
+          value: "เตียงเดี่ยว ขนาด 3.5 ฟุต",
+        },
+        {
+          label: "เตียงคู่ขนาดใหญ่ 1 เตียง",
+          value: "เตียงคู่ขนาดใหญ่ 1 เตียง",
+        },
+        {
+          label: "เตียงเดี่ยว 2 เตียงติดกัน",
+          value: "เตียงเดี่ยว 2 เตียงติดกัน",
+        },
+        { label: "เตียงเดี่ยว ขนาด 5 ฟุต", value: "เตียงเดี่ยว ขนาด 5 ฟุต" },
+        { label: "เตียงเดี่ยว ขนาด 6 ฟุต", value: "เตียงเดี่ยว ขนาด 6 ฟุต" },
+        {
+          label: "เตียงเดี่ยวจำนวน 3 เตียง",
+          value: "เตียงเดี่ยวจำนวน 3 เตียง",
+        },
+        { label: "เตียงเสริม", value: "เตียงเสริม" },
+        { label: "ฟูกนอนพื้น", value: "ฟูกนอนพื้น" },
+        { label: "เตียงแบบพับเก็บได้", value: "เตียงแบบพับเก็บได้" },
+        { label: "เตียง 2 ชั้น", value: "เตียง 2 ชั้น" },
+        { label: "เพิ่มเติม", value: "เพิ่มเติม" },
       ],
       roomLevel: [
-        { label: 'ห้องสแตนดาร์ด ', value: 'ห้องสแตนดาร์ด' },
-        { label: 'ห้องซูพีเรีย', value: 'ห้องซูพีเรีย' },
-        { label: 'ห้องดีลักซ์ ', value: 'ห้องดีลักซ์' },
-        { label: 'ห้องสวีท ', value: 'ห้องสวีท' },
-        { label: 'ห้องฮันนีมูน', value: 'ห้องฮันนีมูน' },
-        { label: 'ห้องสำหรับครอบครัว', value: 'ห้องสำหรับครอบครัว' },
-        { label: 'ห้องคาบาน่า', value: 'ห้องคาบาน่า' },
-        { label: 'ห้องพักมีสองชั้น', value: 'ห้องพักมีสองชั้น' },
-        { label: 'ห้องสตูดิโอ', value: 'ห้องสตูดิโอ' },
+        { label: "ห้องสแตนดาร์ด ", value: "ห้องสแตนดาร์ด" },
+        { label: "ห้องซูพีเรีย", value: "ห้องซูพีเรีย" },
+        { label: "ห้องดีลักซ์ ", value: "ห้องดีลักซ์" },
+        { label: "ห้องสวีท ", value: "ห้องสวีท" },
+        { label: "ห้องฮันนีมูน", value: "ห้องฮันนีมูน" },
+        { label: "ห้องสำหรับครอบครัว", value: "ห้องสำหรับครอบครัว" },
+        { label: "ห้องคาบาน่า", value: "ห้องคาบาน่า" },
+        { label: "ห้องพักมีสองชั้น", value: "ห้องพักมีสองชั้น" },
+        { label: "ห้องสตูดิโอ", value: "ห้องสตูดิโอ" },
       ],
       selectedDate: "",
       minSelectableDate: new Date(),
-      disabledDates: [
-        new Date(2023, 10, 29),
-        new Date(2023, 10, 30)
-      ],
+      disabledDates: [new Date(2023, 10, 29), new Date(2023, 10, 30)],
     };
   },
   methods: {
@@ -268,42 +353,41 @@ export default {
             headers: { token: localStorage.getItem("token") },
           }
         );
-        this.name = response.data?.name
-        this.description = response.data?.description
-        this.phone_number = response.data?.phone_number
-        this.price = response.data?.price
-        this.type = response.data?.type._id
-        this.bedtype = response.data?.typehotelbed
-        this.inputlevelroom = response.data?.typehotelroom
-        this.guests = response.data?.guests
-        this.bedroom = response.data?.bedroom
-        this.bed = response.data?.bed
-        this.bathroom = response.data?.bathroom
-        this.address = response.data?.address
-        this.province = response.data?.province
-        this.nearlocation = response.data?.nearlocation
-        this.distancelocation = response.data?.distancelocation
+        this.name = response.data?.name;
+        this.description = response.data?.description;
+        this.phone_number = response.data?.phone_number;
+        this.price = response.data?.price;
+        this.type = response.data?.type._id;
+        this.bedtype = response.data?.typehotelbed;
+        this.inputlevelroom = response.data?.typehotelroom;
+        this.guests = response.data?.guests;
+        this.bedroom = response.data?.bedroom;
+        this.bed = response.data?.bed;
+        this.bathroom = response.data?.bathroom;
+        this.address = response.data?.address;
+        this.province = response.data?.province;
+        this.nearlocation = response.data?.nearlocation;
+        this.distancelocation = response.data?.distancelocation;
         this.selectedDate = [
           new Date(response.data.timebookingstart),
-          new Date(response.data.timebookingend)
+          new Date(response.data.timebookingend),
         ];
-        this.partnertype = response.data?.partnertype
-        const getamphure = await this.getamphure("amphure")
+        this.partnertype = response.data?.partnertype;
+        const getamphure = await this.getamphure("amphure");
         if (getamphure == true) {
-          this.amphure = response.data?.amphure
+          this.amphure = response.data?.amphure;
         }
-        const gettambon = await this.getamphure("tambon")
+        const gettambon = await this.getamphure("tambon");
         if (gettambon == true) {
-          this.tambon = response.data?.tambon
+          this.tambon = response.data?.tambon;
         }
-
-
       } catch (error) {
         console.log(error);
       }
     },
 
     async editadmin() {
+      this.loading = true;
       if (
         // this.telephone === null ||
         // this.telephone === "" ||
@@ -311,6 +395,7 @@ export default {
         this.name === null
       ) {
         this.sidebar = false;
+        this.loading = false;
         await Swal.fire({
           icon: "error",
           title: "กรอกข้อมูลไม่ครบ",
@@ -319,7 +404,8 @@ export default {
         this.sidebar = true;
       } else {
         try {
-          const typehotelbed = this.bedtype === 'เพิ่มเติม' ? this.inputbedtype : this.bedtype
+          const typehotelbed =
+            this.bedtype === "เพิ่มเติม" ? this.inputbedtype : this.bedtype;
           const id = this.data._id;
           const res = await axios.patch(
             `${process.env.VUE_APP_API}room/${id}`,
@@ -333,8 +419,8 @@ export default {
               bedroom: this.bedroom,
               bed: this.bed,
               bathroom: this.bathroom,
-              latitude: '1',
-              longitude: '1',
+              latitude: "1",
+              longitude: "1",
               address: this.address,
               tambon: this.tambon,
               amphure: this.amphure,
@@ -346,7 +432,6 @@ export default {
               timebookingstart: this.selectedDate[0],
               timebookingend: this.selectedDate[1],
               partnertype: this.partnertype,
-
             },
             {
               headers: {
@@ -356,6 +441,7 @@ export default {
           );
           if (res.data) {
             this.sidebar = false;
+            this.loading = false;
             await Swal.fire({
               icon: "success",
               title: "แก้ไขข้อมูลสำเร็จ",
@@ -363,6 +449,7 @@ export default {
             });
           } else {
             this.sidebar = false;
+            this.loading = false;
             await Swal.fire({
               icon: "error",
               title: "เกิดข้อผิดพลาด",
@@ -372,6 +459,7 @@ export default {
           }
         } catch (error) {
           this.sidebar = false;
+          this.loading = false;
           await Swal.fire({
             icon: "error",
             title: "เกิดข้อผิดพลาด",
@@ -393,7 +481,7 @@ export default {
             `${process.env.VUE_APP_THAILAND}thailand/amphure/by-province-id/${id}`
           );
           this.amphuredropdown.value = amphure.data;
-          return true
+          return true;
         }
         if (type === "tambon") {
           const selectedAmphureObject = this.amphuredropdown.value.find(
@@ -407,7 +495,7 @@ export default {
             `${process.env.VUE_APP_THAILAND}thailand/tambon/by-amphure-id/${id}`
           );
           this.tambondropdown.value = tambon.data;
-          return true
+          return true;
         }
       } catch (error) {
         console.log(error);

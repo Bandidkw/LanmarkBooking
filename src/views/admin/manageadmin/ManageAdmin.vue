@@ -6,8 +6,10 @@
       <div class="text-right my-5">
         <router-link to="/addadmin">
           <Button
-            label="เพิ่มข้อมูลadmin"
-            class="bg-blue-500 border-none hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            label="เพิ่มข้อมูล admin"
+            severity="help"
+            icon="pi pi-user-plus"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
           />
         </router-link>
       </div>
@@ -47,7 +49,13 @@
           sortable
           style="width: 20%"
         ></Column>
-        <Column field="name" class="" header="ชื่อ" sortable style="width: 10%"></Column>
+        <Column
+          field="name"
+          class=""
+          header="ชื่อ"
+          sortable
+          style="width: 10%"
+        ></Column>
         <Column
           :exportable="false"
           class=""
@@ -60,8 +68,8 @@
               @click="deleteProduct(item.data._id)"
               class="bg-red-500 hover:bg-red-700 text-white font-bold border-none py-2 px-4 rounded"
               style="background-color: #c21010"
-              >ลบ</Button>
-            
+              >ลบ</Button
+            >
           </template>
         </Column>
       </DataTable>
@@ -86,7 +94,7 @@ export default {
   },
   setup() {
     const item_product = ref([]);
-    const searchall = ref('');
+    const searchall = ref("");
     const loading = ref(true);
     const getData = async () => {
       try {
@@ -157,10 +165,10 @@ export default {
     };
   },
   computed: {
-  Filter() {
-    if (this.searchall) {
+    Filter() {
+      if (this.searchall) {
         const searchTerm = this.searchall.toLowerCase();
-        return this.item_product.filter(item => {
+        return this.item_product.filter((item) => {
           // ใช้ includes() เพื่อตรวจสอบว่าคำที่ค้นหาอยู่ในชื่อหรือเบอร์โทรศัพท์หรือไม่
           return (
             item.name.toLowerCase().includes(searchTerm) ||
@@ -170,8 +178,8 @@ export default {
       } else {
         return this.item_product;
       }
+    },
   },
-},
 
   name: "ManageAdmin",
 };

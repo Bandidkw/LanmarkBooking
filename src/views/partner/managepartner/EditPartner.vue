@@ -1,171 +1,181 @@
 <template>
-  <div class="grid">
-    <div class="col-12 text-center">
-      <h2>แก้ไขข้อมูลส่วนตัว</h2>
+  <div style="width: 60%;">
+    <div class="grid">
+      <div class="col-12 text-center">
+        <h2>แก้ไขข้อมูลส่วนตัว</h2>
+      </div>
     </div>
-  </div>
-  <div class="grid">
-    <div class="col-12 md:col-12">
-      <form class="">
-        <div class="col-12">
-          <p>เบอร์โทรศัพท์ :</p>
-          <InputText
-            v-model="telephone"
-            name="telephone"
-            placeholder="000-0000-00000"
-            class="w-full"
-          />
-        </div>
+    <div class="grid">
+      <div class="col-12 md:col-12">
+        <form class="">
+          <div class="col-12">
+            <p>เบอร์โทรศัพท์ :</p>
+            <InputText
+              v-model="telephone"
+              name="telephone"
+              placeholder="000-0000-00000"
+              class="w-full"
+            />
+          </div>
 
-        <div class="col-12">
-          <p>ชื่อ :</p>
-          <InputText
-            v-model="name"
-            name="name"
-            placeholder="กรุณากรอกชื่อ"
-            class="w-full"
-          />
-        </div>
-        <div class="col-12">
-          <p>ที่อยู่ :</p>
-          <InputText v-model="address" name="address" class="w-full" />
-        </div>
-        <div class="col-12">
-          <p>Province :</p>
-          <Dropdown
-            class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
-            v-model="province"
-            :options="provincedropdown.value"
-            optionLabel="name_th"
-            optionValue="name_th"
-            placeholder="เลือกจังหวัด"
-            @change="getamphure('amphure')"
-          />
-        </div>
-        <div class="col-12">
-          <p>Amphure :</p>
-          <Dropdown
-            class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
-            v-model="amphure"
-            :disabled="!province"
-            :options="amphuredropdown.value"
-            optionLabel="name_th"
-            optionValue="name_th"
-            placeholder="เลือกอำเภอ"
-            @change="getamphure('tambon')"
-          />
-        </div>
-        <div class="col-12">
-          <p>Tambon :</p>
-          <Dropdown
-            class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
-            v-model="tambon"
-            :disabled="!amphure"
-            :options="tambondropdown.value"
-            optionLabel="name_th"
-            optionValue="name_th"
-            placeholder="เลือกตำบล"
-          />
-        </div>
-        <div class="col-12">
-          <p>email :</p>
-          <InputText v-model="email" name="email" class="w-full" />
-        </div>
-        <div class="col-12">
-          <p>รูปบัตรประชาชน :</p>
-          <div class="text-center">
-            <img
-              v-if="image_card && newimageid_cardpreview === ''"
-              :src="getImage(image_card)"
-              alt="ID Card"
-              width="300"
-            />
-            <img
-              v-if="newimageid_cardpreview"
-              :src="newimageid_cardpreview"
-              alt="ID Card"
-              width="300"
-            />
-            <FileUpload
-              mode="basic"
-              name="demo[]"
-              id="imageidcardinput"
-              ref="imageidcardinput"
-              type="file"
-              accept="image/*"
-              customUpload
-              @change="handleFileChange('image_bank')"
-              chooseLabel="เปลี่ยนรูป"
-              class="mt-3"
+          <div class="col-12">
+            <p>ชื่อ :</p>
+            <InputText
+              v-model="name"
+              name="name"
+              placeholder="กรุณากรอกชื่อ"
+              class="w-full"
             />
           </div>
-        </div>
-        <div class="col-12">
-          <p>เลขบัตรประชาชน :</p>
-          <InputText v-model="idcard" name="idcard" class="w-full" />
-        </div>
-        <div class="col-12">
-          <p>รูปเลขบัญชีธนาคาร :</p>
-          <div class="text-center">
-            <img
-              v-if="image_bank && newimage_bank === ''"
-              :src="getImage(image_bank)"
-              alt="ID Card"
-              width="300"
-            />
-            <img
-              v-if="newimage_bankpreview"
-              :src="newimage_bankpreview"
-              alt="ID Card"
-              width="300"
-            />
-            <FileUpload
-              mode="basic"
-              name="demo[]"
-              id="imagebankinput"
-              ref="imagebankinput"
-              type="file"
-              accept="image/*"
-              customUpload
-              @change="handleFileChangebank('image_bank')"
-              chooseLabel="เปลี่ยนรูป"
-              class="mt-3"
+          <div class="col-12">
+            <p>ที่อยู่ :</p>
+            <InputText v-model="address" name="address" class="w-full" />
+          </div>
+          <div class="col-12">
+            <p>จังหวัด :</p>
+            <Dropdown
+              class="appearance-none w-full text-gray-700 border  rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              v-model="province"
+              :options="provincedropdown.value"
+              optionLabel="name_th"
+              optionValue="name_th"
+              placeholder="เลือกจังหวัด"
+              @change="getamphure('amphure')"
             />
           </div>
-        </div>
-        <div class="col-12">
-          <p>ธนาคาร :</p>
-          <Dropdown
-            v-model="bank"
-            :options="banks"
-            optionLabel="label"
-            optionValue="value"
-            placeholder="เลือกธนาคารที่ใช้งาน"
-            class="w-full"
-          />
-        </div>
-        <div class="col-12">
-          <p>เลขบัญชี :</p>
-          <InputText v-model="numberbank" name="numberbank" class="w-full" />
-        </div>
-        <div class="col-12">
-          <p>password :(ถ้าไม่ได้เปลี่ยนรหัสผ่านไม่ต้องกรอก)</p>
-          <InputText
-            type="password"
-            class="w-full"
-            name="password"
-            placeholder="*****"
-            v-model="password"
-          />
-        </div>
-      </form>
+          <div class="col-12">
+            <p>อำเภอ :</p>
+            <Dropdown
+              class="appearance-none w-full text-gray-700 border  rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              v-model="amphure"
+              :disabled="!province"
+              :options="amphuredropdown.value"
+              optionLabel="name_th"
+              optionValue="name_th"
+              placeholder="เลือกอำเภอ"
+              @change="getamphure('tambon')"
+            />
+          </div>
+          <div class="col-12">
+            <p>ตำบล :</p>
+            <Dropdown
+              class="appearance-none w-full text-gray-700 border  rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              v-model="tambon"
+              :disabled="!amphure"
+              :options="tambondropdown.value"
+              optionLabel="name_th"
+              optionValue="name_th"
+              placeholder="เลือกตำบล"
+            />
+          </div>
+          <div class="col-12">
+            <p>email :</p>
+            <InputText v-model="email" name="email" class="w-full" />
+          </div>
+          <div class="col-12">
+            <p>รูปบัตรประชาชน :</p>
+            <div class="text-center">
+              <img
+                v-if="image_card && newimageid_cardpreview === ''"
+                :src="getImage(image_card)"
+                alt="ID Card"
+                width="300"
+              />
+              <img
+                v-if="newimageid_cardpreview"
+                :src="newimageid_cardpreview"
+                alt="ID Card"
+                width="300"
+              />
+              <FileUpload
+                mode="basic"
+                name="demo[]"
+                id="imageidcardinput"
+                ref="imageidcardinput"
+                type="file"
+                accept="image/*"
+                customUpload
+                @change="handleFileChange('image_bank')"
+                chooseLabel="เปลี่ยนรูป"
+                class="mt-3"
+              />
+            </div>
+          </div>
+          <div class="col-12">
+            <p>เลขบัตรประชาชน :</p>
+            <InputText v-model="idcard" name="idcard" class="w-full" />
+          </div>
+          <div class="col-12">
+            <p>รูปเลขบัญชีธนาคาร :</p>
+            <div class="text-center">
+              <img
+                v-if="image_bank && newimage_bank === ''"
+                :src="getImage(image_bank)"
+                alt="ID Card"
+                width="300"
+              />
+              <img
+                v-if="newimage_bankpreview"
+                :src="newimage_bankpreview"
+                alt="ID Card"
+                width="300"
+              />
+              <FileUpload
+                mode="basic"
+                name="demo[]"
+                id="imagebankinput"
+                ref="imagebankinput"
+                type="file"
+                accept="image/*"
+                customUpload
+                @change="handleFileChangebank('image_bank')"
+                chooseLabel="เปลี่ยนรูป"
+                class="mt-3"
+              />
+            </div>
+          </div>
+          <div class="col-12">
+            <p>ธนาคาร :</p>
+            <Dropdown
+              v-model="bank"
+              :options="banks"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="เลือกธนาคารที่ใช้งาน"
+              class="w-full"
+            />
+          </div>
+          <div class="col-12">
+            <p>เลขบัญชี :</p>
+            <InputText v-model="numberbank" name="numberbank" class="w-full" />
+          </div>
+          <div class="col-12">
+            <p>password :(ถ้าไม่ได้เปลี่ยนรหัสผ่านไม่ต้องกรอก)</p>
+            <InputText
+              type="password"
+              class="w-full"
+              name="password"
+              placeholder="*****"
+              v-model="password"
+            />
+          </div>
+          <div class="col-12">
+            <div class="col-12 text-center flex justify-content-end mt-2">
+              <Button
+                label="แก้ไข"
+                severity="help"
+                rounded
+                icon="pi pi-file-edit"
+                :loading="loading"
+                @click="editpartner"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-  <div class="grid">
-    <div class="col-12 text-center mt-2">
-      <Button label="แก้ไข" @click="editpartner" />
-    </div>
-  </div>
+
   <!-- </Dialog> -->
 </template>
 
@@ -180,6 +190,7 @@ export default {
     title: String,
   },
   data() {
+    const loading = ref(false);
     const provincedropdown = ref([]);
     const amphuredropdown = ref([null]);
     const tambondropdown = ref([null]);
@@ -241,6 +252,7 @@ export default {
       getdata();
     });
     return {
+      loading,
       provincedropdown,
       amphuredropdown,
       tambondropdown,
@@ -285,46 +297,53 @@ export default {
         });
       } else {
         try {
+          this.loading = true;
           const id = this._id;
-          let changeimage_bank = false
-          if(this.newimageid_card != "" && this.image_card !=[]){
-              const res = await axios.delete(`${process.env.VUE_APP_API}partner/${id}/picture/${this.image_card}`);
-              console.log(res.data.message)
+          let changeimage_bank = false;
+          if (this.newimageid_card != "" && this.image_card != []) {
+            const res = await axios.delete(
+              `${process.env.VUE_APP_API}partner/${id}/picture/${this.image_card}`
+            );
+            console.log(res.data.message);
           }
-          if(this.newimage_bank !="" && this.image_bank !=[])
-          {
-              changeimage_bank = true
+          if (this.newimage_bank != "" && this.image_bank != []) {
+            changeimage_bank = true;
           }
-          const res = await axios.put(`${process.env.VUE_APP_API}partner/${id}`, {
-            telephone:this.telephone,
-            password:this.password,
-            name : this.name,
-            idcard:this.idcard,
-            address:this.address,
-            tambon:this.tambon,
-            amphure:this.amphure,
-            province:this.province,
-            email:this.email,
-            bank:this.bank,
-            numberbank:this.numberbank,
-            changeimage_bank:changeimage_bank, // มีการเปลี่ยนรูปบัญชีหรือไม่
-            level : "1"
-          }, {
-            headers: {
-              token: localStorage.getItem("token"),
+          const res = await axios.put(
+            `${process.env.VUE_APP_API}partner/${id}`,
+            {
+              telephone: this.telephone,
+              password: this.password,
+              name: this.name,
+              idcard: this.idcard,
+              address: this.address,
+              tambon: this.tambon,
+              amphure: this.amphure,
+              province: this.province,
+              email: this.email,
+              bank: this.bank,
+              numberbank: this.numberbank,
+              changeimage_bank: changeimage_bank, // มีการเปลี่ยนรูปบัญชีหรือไม่
+              level: "1",
             },
-          });
+            {
+              headers: {
+                token: localStorage.getItem("token"),
+              },
+            }
+          );
           if (res.data.status === true) {
-            if (this.newimageid_card != "" ||this.newimage_bank !=""){
+            if (this.newimageid_card != "" || this.newimage_bank != "") {
               await this.uploadPicture(id);
             }
+            this.loading = false;
             await Swal.fire({
               icon: "success",
               title: "แก้ไขข้อมูลสำเร็จ",
               text: "ข้อมูลแก้ไขข้อมูลเรียบร้อย",
             });
-
           } else {
+            this.loading = false;
             await Swal.fire({
               icon: "error",
               title: "เกิดข้อผิดพลาด",
@@ -332,12 +351,13 @@ export default {
             });
           }
         } catch (error) {
+          this.loading = false;
           await Swal.fire({
             icon: "error",
             title: "เกิดข้อผิดพลาด",
             text: error,
           });
-          console.log(error)
+          console.log(error);
         }
       }
     },
