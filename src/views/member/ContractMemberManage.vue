@@ -69,20 +69,18 @@
         >
           <template #body="{ data }">
             <div
-              class="sm:w-8 md:w-6 xl:w-5 bg-red-500 flex justify-content-center"
+              class="sm:w-8 md:w-6 xl:w-5 bg-red-100 text-red-600 font-normal border-2 border-red-300 text-center"
               style="border-radius: 1rem; padding: 0.5rem"
               v-if="data.status === false"
             >
-              <div class="font-bold" style="color: #fff">
-                ยังไม่ได้ยืนยันสัญญา
-              </div>
+              <div>ยังไม่ได้ยืนยันสัญญา</div>
             </div>
             <div
-              class="sm:w-8 md:w-6 xl:w-5 bg-green-500 flex justify-content-center"
+              class="sm:w-8 md:w-6 xl:w-5 bg-green-100 text-green-600 font-normal border-2 border-green-300 text-center"
               style="border-radius: 1rem; padding: 0.5rem"
               v-if="data.status === true"
             >
-              <div class="text-white font-bold">ได้ยืนยันสัญญาแล้ว</div>
+              <div>ได้ยืนยันสัญญาแล้ว</div>
             </div>
             <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
           </template>

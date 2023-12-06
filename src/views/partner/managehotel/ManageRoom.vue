@@ -98,14 +98,14 @@
           <template class="flex justify-content-center" #body="{ data }">
             <div
               v-if="data.statusbooking === true"
-              class="lg:w-10 xl:w-5 bg-green-500 text-white text-center"
+              class="lg:w-10 xl:w-5 bg-green-100 text-green-600 font-normal border-2 border-green-300 text-center"
               style="border-radius: 1rem; padding: 0.5rem"
             >
               เปิดการจอง
             </div>
             <div
               v-else
-              class="lg:w-10 xl:w-5 bg-red-500 text-white text-center"
+              class="lg:w-10 xl:w-5 bg-red-100 text-red-600 font-normal border-2 border-red-300 text-center"
               style="border-radius: 1rem; padding: 0.5rem"
             >
               ปิดการจอง

@@ -90,29 +90,29 @@
         >
           <template #body="{ data }">
             <div
-              class="lg:w-10 xl:w-5 bg-orange-500 flex justify-content-center"
+              class="lg:w-10 xl:w-5 bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
               style="border-radius: 1rem; padding: 0.5rem"
               v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'"
             >
-              <div class="font-bold" style="color: #fff">
+              <div>
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
             </div>
             <div
-              class="lg:w-10 xl:w-5 bg-green-500 flex justify-content-center"
+              class="lg:w-10 xl:w-5 bg-green-100 text-green-600 font-normal border-2 border-green-300 text-center"
               style="border-radius: 1rem; padding: 0.5rem"
               v-if="data.approve.slice(-1)[0].statusapprove === 'อนุมัติ'"
             >
-              <div class="text-white font-bold">
+              <div>
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
             </div>
             <div
-              class="lg:w-10 xl:w-5 bg-red-500 flex justify-content-center"
+              class="lg:w-10 xl:w-5 bg-red-100 text-red-600 font-normal border-2 border-red-300 text-center"
               style="border-radius: 1rem; padding: 0.5rem"
               v-if="data.approve.slice(-1)[0].statusapprove === 'ไม่อนุมัติ'"
             >
-              <div class="text-white font-bold">
+              <div>
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
             </div>
