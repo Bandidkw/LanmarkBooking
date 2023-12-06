@@ -1,11 +1,5 @@
 <template>
-  <Button
-    @click="getdata"
-    class="hover:bg-orange-700 border-0 text-white font-bold py-2 px-4 rounded mx-2 lg:mx-0"
-    style="background-color: #ff7315"
-    :label="title"
-    :loading="loading"
-  />
+  <i class="pi pi-pencil cursor-pointer icon-style" @click="getdata" />
 
   <!--eslint-disable-next-line vue/no-multiple-template-root -->
   <Dialog
@@ -143,7 +137,7 @@
           <div class="col-12">
             <p>จังหวัด :</p>
             <Dropdown
-              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none w-full text-gray-700 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
               v-model="province"
               :options="provincedropdown.value"
               optionLabel="name_th"
@@ -156,7 +150,7 @@
           <div class="col-12">
             <p>อำเภอ :</p>
             <Dropdown
-              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none w-full text-gray-700 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
               v-model="amphure"
               :options="amphuredropdown.value"
               optionLabel="name_th"
@@ -169,7 +163,7 @@
           <div class="col-12">
             <p>ตำบล :</p>
             <Dropdown
-              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none w-full text-gray-700 rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
               v-model="tambon"
               :options="tambondropdown.value"
               optionLabel="name_th"
@@ -178,28 +172,17 @@
               filter
             />
           </div>
-
-          <!-- <div class="col-12">
-            <p>รหัสพาร์ทเนอร์ :</p>
-            <InputText
-              v-model="partner_id.password"
-              name="partner_id.password"
-              class="w-full"
+          <div class="col-12 flex justify-content-end text-center mt-2">
+            <Button
+              label="แก้ไข"
+              severity="help"
+              rounded
+              icon="pi pi-file-edit"
+              :loading="loading"
+              @click="editadmin"
             />
-          </div> -->
+          </div>
         </form>
-      </div>
-    </div>
-    <div class="grid">
-      <div class="col-12 flex justify-content-end text-center mt-2">
-        <Button
-          label="แก้ไข"
-          severity="help"
-          rounded
-          icon="pi pi-file-edit"
-          :loading="loading"
-          @click="editadmin"
-        />
       </div>
     </div>
   </Dialog>

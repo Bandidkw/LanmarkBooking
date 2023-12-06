@@ -7,9 +7,11 @@
         <router-link to="/addadmin">
           <Button
             label="เพิ่มข้อมูล admin"
-            severity="help"
+            severity="secondary"
             icon="pi pi-user-plus"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
+            text
+            raised
+            class="hover:text-blue-500 rounded-xl font-bold py-2.5 px-4"
           />
         </router-link>
       </div>
@@ -26,7 +28,10 @@
       >
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
         <template #empty>
-          <p class="font-italic text-center text-5xl text-center" style="color: #bd1616">
+          <p
+            class="font-italic text-center text-5xl text-center"
+            style="color: #bd1616"
+          >
             ไม่พบข้อมูลสินค้า
           </p>
         </template>
@@ -47,29 +52,24 @@
           field="telephone"
           header="เบอร์โทรศัพท์"
           sortable
-          style="width: 20%"
+          style="width: 20%; cursor: default"
         ></Column>
         <Column
           field="name"
           class=""
           header="ชื่อ"
           sortable
-          style="width: 10%"
+          style="width: 10%; cursor: default"
         ></Column>
-        <Column
-          :exportable="false"
-          class=""
-          header="เพิ่มเติม"
-          style="width: 10%"
-        >
+        <Column :exportable="false" style="width: 10%; cursor: default">
           <template #body="item">
-            <updateadmin title="แก้ไขข้อมูล" :data="item.data" />
-            <Button
-              @click="deleteProduct(item.data._id)"
-              class="bg-red-500 hover:bg-red-700 text-white font-bold border-none py-2 px-4 rounded"
-              style="background-color: #c21010"
-              >ลบ</Button
-            >
+            <div class="flex justify-content-around">
+              <updateadmin :data="item.data" />
+              <i
+                class="pi pi-trash cursor-pointer icon-style"
+                @click="deleteProduct(item.data._id)"
+              />
+            </div>
           </template>
         </Column>
       </DataTable>
@@ -184,8 +184,11 @@ export default {
   name: "ManageAdmin",
 };
 </script>
-<style scoped>
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+<style scope>
+.icon-style {
+  transition: all 0.2s ease-in-out;
+}
+.icon-style:hover {
+  color: #3b82f6;
+}
 </style>

@@ -1,18 +1,33 @@
 <template>
   <div class="card flex justify-content-center">
-    <Galleria v-model:visible="displayBasic" :value="image" :responsiveOptions="responsiveOptions" :numVisible="9"
-      containerStyle="max-width: 50%" :circular="true" :fullScreen="true" :showItemNavigators="true"
-      :showThumbnailNavigators="false">
+    <Galleria
+      v-model:visible="displayBasic"
+      :value="image"
+      :responsiveOptions="responsiveOptions"
+      :numVisible="9"
+      containerStyle="max-width: 50%"
+      :circular="true"
+      :fullScreen="true"
+      :showItemNavigators="true"
+      :showThumbnailNavigators="false"
+    >
       <template v-slot:item="{ item }">
-        <img :src="getImage(item)" :alt="item.alt" style="width: 80%; display: block" />
+        <img
+          :src="getImage(item)"
+          :alt="item.alt"
+          style="width: 80%; display: block"
+        />
       </template>
       <template v-slot:thumbnail="{ item }">
-        <img :src="getImage(item)" :alt="item.alt" style=" display: block ;width:50px ;height:50px " />
+        <img
+          :src="getImage(item)"
+          :alt="item.alt"
+          style="display: block; width: 50px; height: 50px"
+        />
       </template>
     </Galleria>
 
-    <Button label="รูปภาพ" class="hover:bg-blue-700" style="background-color: #3bb2f6; border:none" icon="pi pi-eye
-            " @click="displayBasicFunc" />
+    <i class="icon-style pi pi-eye cursor-pointer" @click="displayBasicFunc" />
   </div>
 </template>
 
@@ -49,7 +64,7 @@ export default {
   },
   data() {
     return {
-      image: [''],
+      image: [""],
       displayBasic: false,
     };
   },
@@ -70,7 +85,9 @@ export default {
       if (typeof item === "string") {
         return `https://drive.google.com/uc?export=view&id=${item}`;
       } else if (Array.isArray(item) && item.length > 0) {
-        return item.map((imageId) => `https://drive.google.com/uc?export=view&id=${imageId}`);
+        return item.map(
+          (imageId) => `https://drive.google.com/uc?export=view&id=${imageId}`
+        );
       } else {
         return "";
       }

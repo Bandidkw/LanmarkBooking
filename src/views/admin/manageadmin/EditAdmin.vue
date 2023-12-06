@@ -1,10 +1,5 @@
 <template>
-  <Button
-    @click="getdata"
-    class="hover:bg-red-700 border-none text-white font-bold py-2 px-4 rounded mx-2"
-    style="background-color: #ff7315"
-    :label="title"
-  />
+  <i class="pi pi-pencil cursor-pointer icon-style" @click="getdata" />
 
   <!--eslint-disable-next-line vue/no-multiple-template-root -->
   <Dialog

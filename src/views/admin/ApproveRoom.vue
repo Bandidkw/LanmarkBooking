@@ -2,17 +2,28 @@
   <div class="grid px-10 mt-3 ml-5 mr-5 w-full">
     <Loading :loading="loading" />
     <div class="col-12 lg:col-12 border">
-      <div class="text-center font-bold text-4xl">ข้อมูลอนุมัติการเพิ่มห้อง</div>
+      <div class="text-center font-bold text-4xl">
+        ข้อมูลอนุมัติการเพิ่มห้อง
+      </div>
       <div class="text-right my-5"></div>
 
-      <DataTable :value="Filter" :paginator="true" :rows="20" selectionMode="single"
+      <DataTable
+        :value="Filter"
+        :paginator="true"
+        :rows="20"
+        selectionMode="single"
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 25, 50, 75, 100]"
-        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด" responsiveLayout="stack">
+        currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด"
+        responsiveLayout="stack"
+      >
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
 
         <template #empty>
-          <p class="font-italic text-center text-5xl text-center" style="color: #bd1616">
+          <p
+            class="font-italic text-center text-5xl text-center"
+            style="color: #bd1616"
+          >
             ไม่พบข้อมูลสินค้า
           </p>
         </template>
@@ -38,36 +49,64 @@
             </span>
           </div>
         </template>
-        <Column field="partner_id.name" header="ชื่อ partner" style="width: 10%"></Column>
-        <Column field="image" header="Picture" style="width: 15%">
+        <Column
+          field="partner_id.name"
+          header="ชื่อ partner"
+          style="width: 10%; cursor: default"
+        ></Column>
+        <Column
+          field="image"
+          header="Picture"
+          style="width: 15%; cursor: default"
+        >
           <template #body="{ data }">
-            <img v-if="Array.isArray(data.image) && data.image.length > 0" :src="getImage(data.image[0])" alt="ID Card"
-              width="200" style="max-width: 100%; height: auto" />
+            <img
+              v-if="Array.isArray(data.image) && data.image.length > 0"
+              :src="getImage(data.image[0])"
+              alt="ID Card"
+              width="200"
+              style="max-width: 100%; height: auto"
+            />
 
             <div v-else>ไม่มีรูปภาพ</div>
           </template>
         </Column>
-        <Column field="name" class="" header="ชื่อ" style="width: 10%">
+        <Column
+          field="name"
+          class=""
+          header="ชื่อ"
+          style="width: 10%; cursor: default"
+        >
         </Column>
-        <Column class="" header="สถานะอนุมัติ" style="width: 15%">
+        <Column
+          class=""
+          header="สถานะอนุมัติ"
+          style="width: 15%; cursor: default"
+        >
           <template #body="{ data }">
-            <div class="lg:w-10 xl:w-5 bg-orange-500 flex justify-content-center"
-              style="  border-radius: 1rem; padding: 0.5rem;"
-              v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'">
-              <div class="font-bold" style="color: #fff;">
+            <div
+              class="lg:w-10 xl:w-5 bg-orange-500 flex justify-content-center"
+              style="border-radius: 1rem; padding: 0.5rem"
+              v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'"
+            >
+              <div class="font-bold" style="color: #fff">
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
             </div>
-            <div class="lg:w-10 xl:w-5 bg-green-500 flex justify-content-center"
-              style="  border-radius: 1rem; padding: 0.5rem;"
-              v-if="data.approve.slice(-1)[0].statusapprove === 'อนุมัติ'">
+            <div
+              class="lg:w-10 xl:w-5 bg-green-500 flex justify-content-center"
+              style="border-radius: 1rem; padding: 0.5rem"
+              v-if="data.approve.slice(-1)[0].statusapprove === 'อนุมัติ'"
+            >
               <div class="text-white font-bold">
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
             </div>
-            <div class="lg:w-10 xl:w-5 bg-red-500 flex justify-content-center"
-              style="  border-radius: 1rem; padding: 0.5rem;"
-              v-if="data.approve.slice(-1)[0].statusapprove === 'ไม่อนุมัติ'">
+            <div
+              class="lg:w-10 xl:w-5 bg-red-500 flex justify-content-center"
+              style="border-radius: 1rem; padding: 0.5rem"
+              v-if="data.approve.slice(-1)[0].statusapprove === 'ไม่อนุมัติ'"
+            >
               <div class="text-white font-bold">
                 {{ data.approve.slice(-1)[0].statusapprove }}
               </div>
@@ -75,130 +114,226 @@
             <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
           </template>
         </Column>
-        <Column header="รายละเอียด" style="width: 10%;">
+        <Column style="width: 10%; cursor: default">
           <template #body="{ data }">
-            <Button @click="detailRoom(data)"
-              class="bg-blue-500 hover:bg-blue-700 text-white border-none font-bold py-2 px-4 rounded mx-2">รายละเอียด</Button>
-          </template>
-        </Column>
-
-        <Column style="width: 10%">
-          <template #body="{ data }">
-            <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
-            <div class="flex justify-content-center" v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'">
-              <!-- กรณีรอการอนุมัติ -->
-              <Button @click="approveroom(data._id)"
-                class="bg-green-500 border-black hover:bg-green-700 border-none text-white font-bold py-2 px-4 rounded mx-2">อนุมัติ</Button>
-              <Button @click="unapproveroom(data._id)"
-                class="bg-red-500 hover:bg-red-700 border-none text-white font-bold py-2 px-4 rounded">ไม่อนุมัติ</Button>
+            <div
+              class="flex justify-content-around"
+              style="align-items: center"
+            >
+              <i
+                @click="detailRoom(data)"
+                class="pi pi-info-circle icon-style cursor-pointer"
+              />
+              <div
+                class="flex gap-3"
+                v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'"
+              >
+                <Button
+                  class="hover:bg-green-400 hover:text-white"
+                  text
+                  raised
+                  icon="pi pi-check hover:text-white"
+                  severity="success "
+                  @click="approveroom(data._id)"
+                />
+                <Button
+                  class="hover:bg-red-400 hover:text-white"
+                  icon="pi pi-times hover:text-white"
+                  text
+                  raised
+                  severity="danger"
+                  @click="unapproveroom(data._id)"
+                />
+              </div>
             </div>
           </template>
         </Column>
       </DataTable>
     </div>
   </div>
-  <Dialog v-model:visible="DetailRoom" header="ข้อมูลห้อง" modal :style="{ width: '50rem' }"
-    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-
+  <Dialog
+    v-model:visible="DetailRoom"
+    header="ข้อมูลห้อง"
+    modal
+    :style="{ width: '50rem' }"
+    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
+  >
     <div class="grid">
       <div class="col-12 md:col-12">
         <form>
           <div class="col-12 flex justify-content-center">
-            <Galleria v-model:visible="displayBasic" :value="image" :responsiveOptions="responsiveOptions" :numVisible="9"
-              containerStyle="max-width: 50%" :circular="true" :showItemNavigators="true"
-              :showThumbnailNavigators="false">
+            <Galleria
+              v-model:visible="displayBasic"
+              :value="image"
+              :responsiveOptions="responsiveOptions"
+              :numVisible="9"
+              containerStyle="max-width: 50%"
+              :circular="true"
+              :showItemNavigators="true"
+              :showThumbnailNavigators="false"
+            >
               <template v-slot:item="{ item }">
-                <img :src="getImage(item)" :alt="item.alt" style="width: 100%; display: block" />
+                <img
+                  :src="getImage(item)"
+                  :alt="item.alt"
+                  style="width: 100%; display: block"
+                />
               </template>
               <template v-slot:thumbnail="{ item }">
-                <img :src="getImage(item)" :alt="item.alt" style=" display: block ;width:50px ;height:50px " />
+                <img
+                  :src="getImage(item)"
+                  :alt="item.alt"
+                  style="display: block; width: 50px; height: 50px"
+                />
               </template>
             </Galleria>
           </div>
-
-
-          <!-- <div class="col-12 flex justify-content-center">
-            <img v-if="image" :src="getImage(image)" alt="ID Card" style="  max-width: 50%; height: 50%" />
-            <div v-else>ไม่มีรูปภาพ</div>
-          </div> -->
-
-
-
           <div class="col-12">
-            <p> ชื่อโรงแรม:</p>
-            <InputText v-model="name" class="w-full text-black-950 font-bold" style="color:#000" disabled />
+            <p>ชื่อโรงแรม:</p>
+            <InputText
+              v-model="name"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
             <p>รายละเอียด:</p>
-            <InputText v-model="description" class="w-full text-black-950 font-bold" style="color:#000" disabled />
+            <InputText
+              v-model="description"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>เบอร์โทรศัพท์ : </p>
-            <InputText v-model="phone_number" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>เบอร์โทรศัพท์ :</p>
+            <InputText
+              v-model="phone_number"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>ราคา : </p>
-            <InputText v-model="price" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>ราคา :</p>
+            <InputText
+              v-model="price"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>ประเภทห้องพัก : </p>
-            <InputText v-model="type" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>ประเภทห้องพัก :</p>
+            <InputText
+              v-model="type"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>จำนวนผู้เข้าพัก : </p>
-            <InputText v-model="guests" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>จำนวนผู้เข้าพัก :</p>
+            <InputText
+              v-model="guests"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>จำนวนห้องนอน : </p>
-            <InputText v-model="bedroom" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>จำนวนห้องนอน :</p>
+            <InputText
+              v-model="bedroom"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>จำนวนเตียง : </p>
-            <InputText v-model="bed" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>จำนวนเตียง :</p>
+            <InputText
+              v-model="bed"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>จำนวนห้องน้ำ : </p>
-            <InputText v-model="bathroom" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>จำนวนห้องน้ำ :</p>
+            <InputText
+              v-model="bathroom"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>Latitude : </p>
-            <InputText v-model="latitude" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>Latitude :</p>
+            <InputText
+              v-model="latitude"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>Longitude : </p>
-            <InputText v-model="longitude" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>Longitude :</p>
+            <InputText
+              v-model="longitude"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>ที่อยู่ : </p>
-            <InputText v-model="address" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>ที่อยู่ :</p>
+            <InputText
+              v-model="address"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>ตำบล : </p>
-            <InputText v-model="tambon" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>ตำบล :</p>
+            <InputText
+              v-model="tambon"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>อำเภอ : </p>
-            <InputText v-model="amphure" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>อำเภอ :</p>
+            <InputText
+              v-model="amphure"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
           <div class="col-12">
-            <p>จังหวัด : </p>
-            <InputText v-model="province" class="w-full text-black-950 font-bold " style="color:#000" disabled />
+            <p>จังหวัด :</p>
+            <InputText
+              v-model="province"
+              class="w-full text-black-950 font-bold"
+              style="color: #000"
+              disabled
+            />
           </div>
-
-
-
         </form>
       </div>
     </div>
   </Dialog>
 </template>
-  
+
 <script>
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
 import Loading from "../../components/Loading.vue";
-
 
 export default {
   components: { Loading },
@@ -206,8 +341,8 @@ export default {
     document.title = "ข้อมูลอนุมัติห้อง";
   },
   setup() {
-    /////// dialog detail room 
-    const DetailRoom = ref(false)
+    /////// dialog detail room
+    const DetailRoom = ref(false);
     const image = ref(null);
     const name = ref("");
     const description = ref("");
@@ -224,8 +359,8 @@ export default {
     const tambon = ref("");
     const amphure = ref("");
     const province = ref("");
-    const displayBasic = ref(true)
-    const loading = ref(true)
+    const displayBasic = ref(true);
+    const loading = ref(true);
     const searchall = ref("");
     const statusdata = ref([
       { name: "เลือกสถานะการค้นหา" },
@@ -250,7 +385,7 @@ export default {
 
         if (productResponse.data && productResponse.data) {
           item_product.value = productResponse.data.reverse();
-          loading.value = false
+          loading.value = false;
 
           console.log(productResponse.data, "ขอข้อมูลหน่อยครับ");
         } else {
@@ -329,27 +464,24 @@ export default {
     const detailRoom = async (data) => {
       try {
         DetailRoom.value = true;
-        image.value = data.image
-        name.value = data.name
-        description.value = data.description
-        phone_number.value = data.phone_number
-        price.value = data.price
-        type.value = data.type.name
-        guests.value = data.guests
-        bedroom.value = data.bedroom
-        bed.value = data.bed
-        bathroom.value = data.bathroom
-        latitude.value = data.latitude
-        longitude.value = data.longitude
-        address.value = data.address
-        tambon.value = data.tambon
-        amphure.value = data.amphure
-        province.value = data.province
-
-      }
-      catch (error) {
+        image.value = data.image;
+        name.value = data.name;
+        description.value = data.description;
+        phone_number.value = data.phone_number;
+        price.value = data.price;
+        type.value = data.type.name;
+        guests.value = data.guests;
+        bedroom.value = data.bedroom;
+        bed.value = data.bed;
+        bathroom.value = data.bathroom;
+        latitude.value = data.latitude;
+        longitude.value = data.longitude;
+        address.value = data.address;
+        tambon.value = data.tambon;
+        amphure.value = data.amphure;
+        province.value = data.province;
+      } catch (error) {
         console.error("Error", error);
-
       }
     };
     const responsiveOptions = ref([
@@ -411,15 +543,18 @@ export default {
       if (typeof item === "string") {
         return `https://drive.google.com/uc?export=view&id=${item}`;
       } else if (Array.isArray(item) && item.length > 0) {
-        return item.map((imageId) => `https://drive.google.com/uc?export=view&id=${imageId}`);
+        return item.map(
+          (imageId) => `https://drive.google.com/uc?export=view&id=${imageId}`
+        );
       } else {
         return "";
       }
     },
   },
-   computed: {
+  computed: {
     Filter() {
-      if (this.selectstatus && this.selectstatus != "เลือกสถานะการค้นหา") { // ค้นหาสถานะ
+      if (this.selectstatus && this.selectstatus != "เลือกสถานะการค้นหา") {
+        // ค้นหาสถานะ
         const searchTerm = this.searchall.toLowerCase();
         const selectstatus = this.selectstatus.toLowerCase();
         return this.item_product.filter((item) => {
@@ -429,10 +564,11 @@ export default {
               item.partner_id.name.toLowerCase().includes(searchTerm))
           );
         });
-      } else if (this.searchall) { //ค้นหาด้วยคำ
+      } else if (this.searchall) {
+        //ค้นหาด้วยคำ
         const searchTerm = this.searchall.toLowerCase();
         return this.item_product.filter((item) => {
-          console.log(item.name.toLowerCase().includes(searchTerm))
+          console.log(item.name.toLowerCase().includes(searchTerm));
           // ใช้ includes() เพื่อตรวจสอบว่าคำที่ค้นหาอยู่ในชื่อหรือเบอร์โทรศัพท์หรือไม่
           return (
             item.name.toLowerCase().includes(searchTerm) ||
@@ -446,4 +582,11 @@ export default {
   },
 };
 </script>
-  
+<style scope>
+.icon-style {
+  transition: all 0.2s ease-in-out;
+}
+.icon-style:hover {
+  color: #3b82f6;
+}
+</style>

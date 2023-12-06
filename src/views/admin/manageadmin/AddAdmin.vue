@@ -53,7 +53,7 @@
         <div class="md:flex md:items-center justify-content-end px-5">
           <Button
             @click="addadmin"
-            class="addAdmin_btn px-4 py-2 bg-blue-500 delay-1000 text-white text-center hover:bg-blue-700 border-none cursor-pointer"
+            class="addAdmin_btn px-4 py-2.5 bg-blue-500 delay-1000 text-white text-center hover:bg-blue-700 border-none cursor-pointer"
             type="button"
             label=" เพิ่มข้อมูล"
             severity="help"

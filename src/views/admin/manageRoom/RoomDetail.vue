@@ -47,23 +47,15 @@
         <Column field="description" class="xl:w-2/4" header="รายละเอียด">
         </Column>
 
-        <Column
-          :exportable="false"
-          class="lg:w-4 xl:w-3 2xl:w-0"
-          header="เพิ่มเติม"
-        >
+        <Column :exportable="false" class="lg:w-4 xl:w-3 2xl:w-0">
           <template #body="item">
-            <updatetype
-              :data="item.data"
-              title="แก้ไขประเภทที่พัก"
-              @typeAdded="getData"
-            />
-            <Button
-              @click="deleteProduct(item.data._id)"
-              class="bg-red-500 hover:bg-red-700 border-none text-white font-bold py-2 px-4 rounded"
-              style="background-color: #c21010"
-              >ลบ</Button
-            >
+            <div class="flex justify-content-around">
+              <updatetype :data="item.data" @typeAdded="getData" />
+              <i
+                class="pi pi-trash cursor-pointer icon-style"
+                @click="deleteProduct(item.data._id)"
+              />
+            </div>
           </template>
         </Column>
       </DataTable>
