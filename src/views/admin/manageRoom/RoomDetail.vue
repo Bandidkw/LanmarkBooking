@@ -44,8 +44,18 @@
           </div>
         </template>
 
-        <Column field="name" header="ชื่อ" class="xl:w-2/4"></Column>
-        <Column field="description" class="xl:w-2/4" header="รายละเอียด">
+        <Column
+          field="name"
+          header="ชื่อ"
+          class="xl:w-2/4"
+          :headerStyle="{ color: headerTextColor }"
+        ></Column>
+        <Column
+          field="description"
+          class="xl:w-2/4"
+          header="รายละเอียด"
+          :headerStyle="{ color: headerTextColor }"
+        >
         </Column>
 
         <Column :exportable="false" class="lg:w-4 xl:w-3 2xl:w-0">
@@ -152,6 +162,7 @@ export default {
       isAddTypeModalOpen,
       loading,
       searchall,
+      headerTextColor: "rgb(156 163 175)",
     };
   },
   name: "RoomDetail",

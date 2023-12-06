@@ -64,8 +64,19 @@
             </div>
           </template>
         </Column>
-        <Column field="name" header="ชื่อ" style="width: 5%"></Column>
-        <Column field="image" header="Picture" style="width: 15%">
+        <Column
+          field="name"
+          header="ชื่อ"
+          style="width: 5%"
+          class="text-column"
+          :headerStyle="{ color: headerTextColor }"
+        ></Column>
+        <Column
+          field="image"
+          header="Picture"
+          style="width: 15%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             <img
               v-if="Array.isArray(data.image) && data.image.length > 0"
@@ -73,11 +84,17 @@
               alt="ID Card"
               width="200"
               style="max-width: 100%; height: auto"
+              :headerStyle="{ color: headerTextColor }"
             />
             <div v-else>ไม่มีรูปภาพ</div>
           </template>
         </Column>
-        <Column field="statusbooking" header="คำอธิบาย" style="width: 17%">
+        <Column
+          field="statusbooking"
+          header="คำอธิบาย"
+          style="width: 17%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template class="flex justify-content-center" #body="{ data }">
             <div
               v-if="data.statusbooking === true"
@@ -100,9 +117,15 @@
           field="phone_number"
           header="เบอร์โทรติดต่อ"
           style="width: 10%"
-          :headerStyle="{ color: 'rgb(75, 85, 99)' }"
+          :headerStyle="{ color: headerTextColor }"
         />
-        <Column field="price" class="" header="ราคา" style="width: 10%" />
+        <Column
+          field="price"
+          class=""
+          header="ราคา"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        />
 
         <Column :exportable="false" style="width: 16%">
           <template #body="item">
@@ -284,6 +307,7 @@ export default {
       searchall,
       statusdata,
       selectstatus,
+      headerTextColor: "rgb(156 163 175)",
     };
   },
 

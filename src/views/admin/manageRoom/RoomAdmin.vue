@@ -34,7 +34,12 @@
             </span>
           </div>
         </template>
-        <Column field="image" header="Picture" style="width: 20%">
+        <Column
+          field="image"
+          header="Picture"
+          style="width: 20%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             <img
               v-if="Array.isArray(data.image) && data.image.length > 0"
@@ -47,12 +52,33 @@
             <div v-else>ไม่มีรูปภาพ</div>
           </template>
         </Column>
-        <Column field="name" header="ชื่อ" style="width: 10%"></Column>
-        <Column field="description" header="คำอธิบาย" style="width: 10%">
+        <Column
+          field="name"
+          header="ชื่อ"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        ></Column>
+        <Column
+          field="description"
+          header="คำอธิบาย"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        >
         </Column>
-        <Column field="phone_number" header="เบอร์โทรติดต่อ" style="width: 10%">
+        <Column
+          field="phone_number"
+          header="เบอร์โทรติดต่อ"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        >
         </Column>
-        <Column field="price" class="" header="ราคา" style="width: 5%">
+        <Column
+          field="price"
+          class=""
+          header="ราคา"
+          style="width: 5%"
+          :headerStyle="{ color: headerTextColor }"
+        >
         </Column>
         <Column :exportable="false" style="width: 5%">
           <template #body="item">
@@ -150,6 +176,7 @@ export default {
       deleteProduct,
       loading,
       searchall,
+      headerTextColor: "rgb(156 163 175)",
     };
   },
   methods: {

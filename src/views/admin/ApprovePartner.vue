@@ -53,15 +53,21 @@
           field="telephone"
           header="เบอร์โทรศัพท์"
           style="width: 14%; cursor: default"
+          :headerStyle="{ color: headerTextColor }"
         ></Column>
         <Column
           field="name"
           class=""
           header="ชื่อ"
           style="width: 14%; cursor: default"
+          :headerStyle="{ color: headerTextColor }"
         >
         </Column>
-        <Column header="สถานะอนุมัติ" style="width: 14%; cursor: default">
+        <Column
+          header="สถานะอนุมัติ"
+          style="width: 14%; cursor: default"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             <div
               class="lg:w-10 xl:w-5 bg-orange-500 flex justify-content-center"
@@ -385,6 +391,7 @@ export default {
       searchall,
       statusdata,
       selectstatus,
+      headerTextColor: "rgb(156 163 175)",
     };
   },
 

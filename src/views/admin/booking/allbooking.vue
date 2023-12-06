@@ -39,10 +39,20 @@
           field="member_id.name"
           header="ชื่อผู้จอง"
           style="width: 20%"
+          :headerStyle="{ color: headerTextColor }"
         ></Column>
-        <Column field="room_id.name" header="ห้องพัก" style="width: 10%">
+        <Column
+          field="room_id.name"
+          header="ห้องพัก"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        >
         </Column>
-        <Column header="วันที่จะจอง" style="width: 10%">
+        <Column
+          header="วันที่จะจอง"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             {{
               new Date(data.date_from).toLocaleDateString("th-TH", {
@@ -63,12 +73,21 @@
             }}
           </template>
         </Column>
-        <Column header="จำนวนคืน" style="width: 10%">
+        <Column
+          header="จำนวนคืน"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             {{ calculateNightStay(data.date_from, data.date_to) }}
           </template>
         </Column>
-        <Column field="price" header="ราคา" style="width: 10%"></Column>
+        <Column
+          field="price"
+          header="ราคา"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        ></Column>
         <Column class="lg:w-2 xl:w-1 2xl:w-0">
           <template #body="{ data }">
             <Button
@@ -218,6 +237,7 @@ export default {
       price,
       loading,
       searchall,
+      headerTextColor: "rgb(156 163 175)",
     };
   },
 

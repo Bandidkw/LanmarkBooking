@@ -54,11 +54,13 @@
           field="partner_id.name"
           header="ชื่อ partner"
           style="width: 10%; cursor: default"
+          :headerStyle="{ color: headerTextColor }"
         ></Column>
         <Column
           field="image"
           header="Picture"
           style="width: 15%; cursor: default"
+          :headerStyle="{ color: headerTextColor }"
         >
           <template #body="{ data }">
             <img
@@ -77,12 +79,14 @@
           class=""
           header="ชื่อ"
           style="width: 10%; cursor: default"
+          :headerStyle="{ color: headerTextColor }"
         >
         </Column>
         <Column
           class=""
           header="สถานะอนุมัติ"
           style="width: 15%; cursor: default"
+          :headerStyle="{ color: headerTextColor }"
         >
           <template #body="{ data }">
             <div
@@ -539,6 +543,7 @@ export default {
       searchall,
       statusdata,
       selectstatus,
+      headerTextColor: "rgb(156 163 175)",
     };
   },
   methods: {

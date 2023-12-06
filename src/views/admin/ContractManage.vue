@@ -44,12 +44,14 @@
           field="signature"
           header="ชื่อพาร์ทเนอร์"
           style="width: 14%; cursor: default"
+          :headerStyle="{ color: headerTextColor }"
         ></Column>
         <Column
           field=""
           class=""
           header="เวลาที่ยืนยัน"
           style="width: 14%; cursor: default"
+          :headerStyle="{ color: headerTextColor }"
         >
           <template #body="{ data }">
             <div v-if="data.time != null">
@@ -66,6 +68,7 @@
           class=""
           header="สถานะอนุมัติ"
           style="width: 25%; cursor: default"
+          :headerStyle="{ color: headerTextColor }"
         >
           <template #body="{ data }">
             <div
@@ -335,6 +338,7 @@ export default {
       DetailPartner,
       loading,
       searchall,
+      headerTextColor: "rgb(156 163 175)",
     };
   },
 

@@ -54,6 +54,7 @@
           header="เบอร์โทรศัพท์"
           sortable
           style="width: 20%; cursor: default"
+          :headerStyle="{ color: headerTextColor }"
         ></Column>
         <Column
           field="name"
@@ -61,8 +62,13 @@
           header="ชื่อ"
           sortable
           style="width: 10%; cursor: default"
+          :headerStyle="{ color: headerTextColor }"
         ></Column>
-        <Column :exportable="false" style="width: 10%; cursor: default">
+        <Column
+          :exportable="false"
+          style="width: 10%; cursor: default"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="item">
             <div class="flex justify-content-around">
               <updateadmin :data="item.data" />
@@ -163,6 +169,7 @@ export default {
       deleteProduct,
       loading,
       searchall,
+      headerTextColor: "rgb(156 163 175)",
     };
   },
   computed: {

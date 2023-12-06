@@ -42,12 +42,14 @@
           field="telephone"
           header="เบอร์โทรศัพท์"
           style="width: 20%; cursor: default"
+          :headerStyle="{ color: headerTextColor }"
         ></Column>
         <Column
           field="name"
           class=""
           header="ชื่อ"
           style="width: 10%; cursor: default"
+          :headerStyle="{ color: headerTextColor }"
         >
         </Column>
         <Column :exportable="false" style="width: 10%; cursor: default">
@@ -278,6 +280,7 @@ export default {
       image_bank,
       loading,
       searchall,
+      headerTextColor: "rgb(156 163 175)",
     };
   },
   methods: {

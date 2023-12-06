@@ -41,8 +41,15 @@
           field="member_id.name"
           header="ชื่อพาร์ทเนอร์"
           style="width: 14%"
+          :headerStyle="{ color: headerTextColor }"
         ></Column>
-        <Column field="" class="" header="เวลาที่ยืนยัน" style="width: 14%">
+        <Column
+          field=""
+          class=""
+          header="เวลาที่ยืนยัน"
+          style="width: 14%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             <div v-if="data.time != null">
               {{
@@ -54,7 +61,12 @@
             <div v-else>ยังไม่ได้ยืนยัน</div>
           </template>
         </Column>
-        <Column class="" header="สถานะอนุมัติ" style="width: 25%">
+        <Column
+          class=""
+          header="สถานะอนุมัติ"
+          style="width: 25%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             <div
               class="sm:w-8 md:w-6 xl:w-5 bg-red-500 flex justify-content-center"
@@ -323,6 +335,7 @@ export default {
       showPartnerDetail,
       DetailPartner,
       searchall,
+      headerTextColor: "rgb(156 163 175)",
     };
   },
   name: "contractmembermanage",
