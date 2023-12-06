@@ -11,8 +11,9 @@ import store from "./store";
 import InputNumber from 'primevue/inputnumber';
 import InputSwitch from 'primevue/inputswitch';
 import Rating from 'primevue/rating';
+import mitt from 'mitt';
 
-import SelectButton from 'primevue/selectbutton';
+const bus = mitt();
 
 import "primeicons/primeicons.css"; //icons
 import "primevue/resources/primevue.min.css"; //core css
@@ -45,7 +46,10 @@ import FileUpload from 'primevue/fileupload';
 import Image from 'primevue/image';
 import Galleria from 'primevue/galleria';
 import Checkbox from 'primevue/checkbox';
+import SelectButton from 'primevue/selectbutton';
 
+// Attach EventBus to the app instance
+app.config.globalProperties.$bus = bus;
 
 app.use(PrimeVue);
 app.use(ToastService);

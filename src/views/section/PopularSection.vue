@@ -1,12 +1,30 @@
 <template>
-  <div class="grid-container pt-4 px-4 gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3">
-    <div v-for="(item, index) in gridData" :key="index" class="grid-item">
+  <div
+    class="grid-container pt-4 px-4 gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3"
+  >
+    <div
+      v-for="(item, index) in filteredGridData"
+      :key="index"
+      class="grid-item"
+    >
       <router-link :to="{ name: 'hotel', params: { id: item._id } }">
         <div class="image-container">
-          <Galleria v-model:visible="displayBasic"
-            :value="item.image.map(imageId => `https://drive.google.com/uc?export=view&id=${imageId}`)" :numVisible="5"
-            containerStyle="max-width: 640px" :showThumbnails="false" :showIndicators="true"
-            :changeItemOnIndicatorHover="true" :showIndicatorsOnItem="true" :indicatorsPosition="position">
+          <Galleria
+            v-model:visible="displayBasic"
+            :value="
+              item.image.map(
+                (imageId) =>
+                  `https://drive.google.com/uc?export=view&id=${imageId}`
+              )
+            "
+            :numVisible="5"
+            containerStyle="max-width: 640px"
+            :showThumbnails="false"
+            :showIndicators="true"
+            :changeItemOnIndicatorHover="true"
+            :showIndicatorsOnItem="true"
+            :indicatorsPosition="position"
+          >
             <template v-slot:item="{ item }">
               <img :src="item" :alt="item.alt" />
             </template>
@@ -16,10 +34,11 @@
       <div class="details-container px-2">
         <h2 class="text-xl m-0 font-semibold">{{ item.name }}</h2>
         <p class="text-base my-1">{{ item.description }}</p>
-        <p class="text-base font-bold m-0 max-[414px]:my-2">ราคา: {{ item.price.toLocaleString() }} บาท/คืน</p>
+        <p class="text-base font-bold m-0 max-[414px]:my-2">
+          ราคา: {{ item.price.toLocaleString() }} บาท/คืน
+        </p>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -32,15 +51,20 @@ export default {
     const displayBasic = ref(true);
     const gridData = ref([]);
     const position = "bottom";
+    const searchTerm = ref("");
 
     const getroom = async () => {
       const Response = await axios.get(`${process.env.VUE_APP_API}room/`);
-      const filteredstatus = Response.data.filter(item => item.statusbooking === true && item.status === true);
+      const filteredstatus = Response.data.filter(
+        (item) => item.statusbooking === true && item.status === true
+      );
       this.gridData = filteredstatus;
     };
 
     onMounted(() => {
       getroom();
+      // Listen for the search-hotels event
+      this.$bus.on("search-hotels", this.handleSearchHotels);
     });
 
     return {
@@ -48,25 +72,53 @@ export default {
       gridData,
       currentImageIndex: 0,
       position,
+      searchTerm,
     };
   },
   methods: {
     getImage(item) {
-      console.log("fim");
       if (typeof item === "string") {
         return `https://drive.google.com/uc?export=view&id=${item}`;
       } else if (Array.isArray(item) && item.length > 0) {
-        console.log("UWU");
-        return item.map((imageId) => `https://drive.google.com/uc?export=view&id=${imageId}`);
+        return item.map(
+          (imageId) => `https://drive.google.com/uc?export=view&id=${imageId}`
+        );
       } else {
-        console.log("TOT");
         return "";
       }
+      // Your existing code for getImage
     },
+    // New method to handle search-hotels event
+    handleSearchHotels(searchTerm) {
+      this.searchTerm = searchTerm;
+    },
+  },
+  computed: {
+    // Use a computed property to filter the data based on the search term
+    filteredGridData() {
+      return this.gridData.filter((item) => {
+        const lowerCaseName = item.name.toLowerCase();
+        const lowerCaseSearchTerm = this.searchTerm.toLowerCase();
+        return lowerCaseName.includes(lowerCaseSearchTerm);
+      });
+    },
+  },
+  watch: {
+    // Watch for changes in the search term and update the filtered data accordingly
+    searchTerm: {
+      handler(newTerm) {
+        console.log("Search term changed:", newTerm);
+      },
+      immediate: true, // Trigger the watcher immediately on component mount
+    },
+  },
+  beforeUnmount() {
+    // Clean up the event listener when the component is about to be destroyed
+    this.$bus.off("search-hotels", this.handleSearchHotels);
   },
 };
 </script>
-  
+
 <style scope>
 .p-galleria.p-galleria-indicator-onitem .p-galleria-indicators {
   background: none;
@@ -93,7 +145,6 @@ export default {
   height: 70%;
 }
 
-
 .image-container img {
   width: 250px;
   height: 250px;
@@ -105,20 +156,19 @@ export default {
   margin-top: 1rem;
 }
 
-@media screen and (max-width:1536px) {
+@media screen and (max-width: 1536px) {
   .grid-container {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
-@media screen and (max-width:1440px) {
+@media screen and (max-width: 1440px) {
   .grid-container {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
-
-@media screen and (max-width:1280px) {
+@media screen and (max-width: 1280px) {
   .grid-container {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -131,19 +181,19 @@ export default {
   }
 }
 
-@media screen and (max-width:992px) {
+@media screen and (max-width: 992px) {
   .grid-container {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media screen and (max-width:768px) {
+@media screen and (max-width: 768px) {
   .grid-container {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media screen and (max-width:640px) {
+@media screen and (max-width: 640px) {
   .grid-container {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -162,7 +212,7 @@ export default {
   }
 }
 
-@media screen and (max-width:430px) {
+@media screen and (max-width: 430px) {
   .grid-container {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -173,7 +223,7 @@ export default {
   }
 }
 
-@media screen and (max-width:414px) {
+@media screen and (max-width: 414px) {
   .grid-container {
     grid-template-columns: repeat(1, 1fr);
   }
