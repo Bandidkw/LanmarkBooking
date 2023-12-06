@@ -147,7 +147,7 @@ export default {
   width: 250px;
   height: 250px;
   object-fit: cover;
-  border-radius: 1.5rem;
+  border-radius: 1rem;
 }
 
 .details-container {
