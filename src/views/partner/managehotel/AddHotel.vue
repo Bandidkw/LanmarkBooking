@@ -12,7 +12,7 @@
               ชื่อห้อง :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name"
               type="text"
               v-model="name"
@@ -27,7 +27,7 @@
               รายละเอียด :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 mb-2 px-4 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 rounded py-3 mb-2 px-4 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name"
               type="text"
               v-model="description"
@@ -42,7 +42,7 @@
               เบอร์โทรศัพท์ :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 mb-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              class="appearance-none block w-full text-gray-700 rounded py-3 mb-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-password"
               type="text"
               v-model="phone_number"
@@ -57,7 +57,7 @@
               ราคา :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 mb-2 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 mb-2 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name"
               type="text"
               v-model="price"
@@ -72,7 +72,7 @@
               ประเภทห้องพัก :
             </label>
             <Dropdown
-              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none w-full text-gray-700 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
               v-model="type"
               showClear
               :options="cities"
@@ -92,7 +92,7 @@
               ระดับห้อง :
             </label>
             <Dropdown
-              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none w-full text-gray-700 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
               v-model="inputlevelroom"
               :options="roomLevel"
               optionLabel="label"
@@ -108,7 +108,7 @@
               จำนวนผู้เข้าพัก :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name"
               type="text"
               v-model="guests"
@@ -123,7 +123,7 @@
               จำนวนห้องนอน :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name"
               type="text"
               v-model="bedroom"
@@ -142,7 +142,7 @@
               :options="selectbed"
               optionLabel="label"
               optionValue="value"
-              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none w-full text-gray-700 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
               placeholder="เลือกประเภทเตียง"
               filter
             />
@@ -160,7 +160,7 @@
               type="text"
               v-model="inputbedtype"
               placeholder="กรอกประเภทเตียงเพิ่มเติม"
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
             />
           </div>
 
@@ -172,7 +172,7 @@
               จำนวนเตียง :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name"
               type="text"
               v-model="bed"
@@ -187,7 +187,7 @@
               จำนวนห้องน้ำ :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name"
               type="number"
               v-model="bathroom"
@@ -208,7 +208,7 @@
                 :options="selectpartnertype"
                 optionLabel="label"
                 optionValue="value"
-                class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+                class="appearance-none w-full text-gray-700 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
                 placeholder="เลือกประเภทผู้เช่า"
               />
             </div>
@@ -244,14 +244,14 @@
             </label>
             <div class="flex gap-2">
               <InputText
-                class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
+                class="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
                 id="near-location"
                 type="text"
                 v-model="nearlocation"
                 placeholder="สถานที่ใกล้เคียง"
               />
               <InputText
-                class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
+                class="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
                 id="distance-location"
                 type="text"
                 v-model="distancelocation"
@@ -283,7 +283,7 @@
               ที่อยู่ :
             </label>
             <InputText
-              class="appearance-none block w-full text-gray-700 border border-bluegray-800 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name"
               type="text"
               v-model="address"
@@ -298,7 +298,7 @@
               จังหวัด :
             </label>
             <Dropdown
-              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none w-full text-gray-700 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
               v-model="province"
               :options="provincedropdown.value"
               optionLabel="name_th"
@@ -318,7 +318,7 @@
               อำเภอ :
             </label>
             <Dropdown
-              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none w-full text-gray-700 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
               v-model="amphure"
               :options="amphuredropdown.value"
               optionLabel="name_th"
@@ -337,7 +337,7 @@
               ตำบล :
             </label>
             <Dropdown
-              class="appearance-none w-full text-gray-700 border border-bluegray-800 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none w-full text-gray-700 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
               v-model="tambon"
               :options="tambondropdown.value"
               optionLabel="name_th"
@@ -616,30 +616,28 @@ export default {
     },
     //// uploadfile picture
     async uploadPicture(_id) {
-     
       for (const images of this.image) {
         const formData = new FormData();
         formData.append("imgCollection", images); // Fix this line
         try {
-        const upimage = await axios.post(
-          `${process.env.VUE_APP_API}room/picture/${_id}`,
-          formData,
-          {
-            headers: {
-              token: localStorage.getItem("token"),
-            },
+          const upimage = await axios.post(
+            `${process.env.VUE_APP_API}room/picture/${_id}`,
+            formData,
+            {
+              headers: {
+                token: localStorage.getItem("token"),
+              },
+            }
+          );
+          if (upimage.data && upimage.data) {
+            console.log(upimage.data, "success_Image");
+          } else {
+            console.error("Data is missing in the API response.");
           }
-        );
-        if (upimage.data && upimage.data) {
-          console.log(upimage.data, "success_Image");
-        } else {
-          console.error("Data is missing in the API response.");
+        } catch (error) {
+          console.error("Error uploading picture:", error);
         }
-      } catch (error) {
-        console.error("Error uploading picture:", error);
       }
-      }
-      
     },
     async getamphure(type) {
       try {
