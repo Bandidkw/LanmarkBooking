@@ -594,7 +594,7 @@ export default {
             title: "บันทึกสำเร็จ",
             text: "ข้อมูลถูกบันทึกเรียบร้อย",
           });
-          //this.$router.push("/manageroom");
+          this.$router.push("/manageroom");
         } else {
           this.loading = false;
           await Swal.fire({
