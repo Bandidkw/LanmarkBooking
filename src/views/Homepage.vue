@@ -311,7 +311,7 @@ this.$emit('filteredData', filteredData);
   color: #000;
 }
 
-.room::before {
+.room::before{
   content: "";
   position: absolute;
   display: block;
@@ -319,7 +319,7 @@ this.$emit('filteredData', filteredData);
   height: 2px;
   bottom: 0;
   left: 0;
-  background-color: #535353;
+  background-color: #000000;
   transform: scaleX(0);
   transform-origin: top left;
   transition: transform 0.3s ease;
@@ -402,12 +402,6 @@ i {
   align-items: center;
   column-gap: 0.5rem;
   display: flex;
-}
-
-.poppular-info i {
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
-  color: #ffb703;
 }
 
 .content {

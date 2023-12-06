@@ -23,19 +23,19 @@
   <!-- ตรวจสอบและแสดงรูปภาพทีละรูป -->
   <img v-if="roomdata.image.length > 1" class="w-full h-full" :src="getImage(roomdata.image?.[1])" alt=""/>
   <!-- ถ้าไม่มีรูปภาพ -->
-  <div v-else class="w-full h-full flex items-center justify-center bg-gray-300 rounded-br-2xl">
+  <div v-else class="w-full h-full flex items-center justify-center bg-gray-300">
     <p class="text-xl font-semibold">ไม่มีรูปภาพ</p>
   </div>
   <!-- ตรวจสอบและแสดงรูปภาพทีละรูป -->
   <img v-if="roomdata.image.length > 2" class="w-full h-full rounded-tr-2xl" :src="getImage(roomdata.image?.[2])" alt=""/>
   <!-- ถ้าไม่มีรูปภาพ -->
-  <div v-else class="w-full h-full flex items-center justify-center bg-gray-300">
+  <div v-else class="w-full h-full flex items-center justify-center bg-gray-300 rounded-tr-2xl">
   <p class="text-xl font-semibold">ไม่มีรูปภาพ</p>
   </div>
   <!-- ตรวจสอบและแสดงรูปภาพทีละรูป -->
   <img v-if="roomdata.image.length > 3" class="w-full h-full" :src="getImage(roomdata.image?.[3])" alt=""/>
   <!-- ถ้าไม่มีรูปภาพ -->
-  <div v-else class="w-full h-full flex items-center justify-center bg-gray-300 rounded-br-2xl">
+  <div v-else class="w-full h-full flex items-center justify-center bg-gray-300">
   <p class="text-xl font-semibold">ไม่มีรูปภาพ</p>
   </div>
   <!-- ตรวจสอบและแสดงรูปภาพทีละรูป -->
