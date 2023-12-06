@@ -594,7 +594,7 @@ export default {
             title: "บันทึกสำเร็จ",
             text: "ข้อมูลถูกบันทึกเรียบร้อย",
           });
-          this.$router.push("/manageroom");
+          //this.$router.push("/manageroom");
         } else {
           this.loading = false;
           await Swal.fire({
@@ -616,11 +616,11 @@ export default {
     },
     //// uploadfile picture
     async uploadPicture(_id) {
-      const formData = new FormData();
+     
       for (const images of this.image) {
+        const formData = new FormData();
         formData.append("imgCollection", images); // Fix this line
-      }
-      try {
+        try {
         const upimage = await axios.post(
           `${process.env.VUE_APP_API}room/picture/${_id}`,
           formData,
@@ -638,6 +638,8 @@ export default {
       } catch (error) {
         console.error("Error uploading picture:", error);
       }
+      }
+      
     },
     async getamphure(type) {
       try {

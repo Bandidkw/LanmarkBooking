@@ -331,7 +331,7 @@
           />
         </div>
         <div>
-          <!-- <Contract :datacontract="datacontract" :id="id" /> -->
+          <Contract :datacontract="datacontract" :id="id" />
         </div>
       </form>
     </Dialog>
