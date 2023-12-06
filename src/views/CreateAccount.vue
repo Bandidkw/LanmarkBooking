@@ -122,6 +122,7 @@
             severity="help"
             rounded
           />
+          <ContractMember :datacontract="datacontract" :id="id" />
         </div>
       </form>
     </Dialog>
@@ -344,6 +345,7 @@ import axios from "axios";
 import { onMounted, ref } from "vue";
 import { useToast } from "primevue/usetoast";
 import Contract from "../components/Contract_Modal.vue";
+import ContractMember from "../components/ContractMember_Modal.vue";
 export default {
   data() {
     const loading = ref(false);
@@ -437,6 +439,7 @@ export default {
   },
   components: {
     Contract,
+    ContractMember
   },
   methods: {
     handleRegisterSuccess(data) {
