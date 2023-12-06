@@ -28,7 +28,8 @@
               <InputText
                 v-model="searchall"
                 placeholder="ค้นหา"
-                class="bg-white-500 p-2 m-1 pl-5 border"
+                class="bg-white-500 border"
+                style="height: 48px"
               />
             </span>
           </div>
@@ -70,9 +71,11 @@
         <Column field="price" header="ราคา" style="width: 10%"></Column>
         <Column class="lg:w-2 xl:w-1 2xl:w-0">
           <template #body="{ data }">
-            <i
+            <Button
+              outlined
+              severity="help "
+              icon="pi pi-info-circle"
               @click="showPartnerDetail(data)"
-              class="pi pi-info-circle icon-style cursor-pointer"
             />
           </template>
         </Column>

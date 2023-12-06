@@ -33,7 +33,8 @@
               <InputText
                 v-model="searchall"
                 placeholder="ค้นหา"
-                class="bg-white-500 p-2 m-1 pl-5 border"
+                class="bg-white-500 border"
+                style="height: 48px"
               />
             </span>
           </div>
@@ -88,9 +89,11 @@
         </Column>
         <Column style="width: 10%; cursor: default">
           <template #body="{ data }">
-            <i
+            <Button
+              outlined
+              severity="help "
+              icon="pi pi-info-circle"
               @click="showPartnerDetail(data)"
-              class="pi pi-info-circle icon-style cursor-pointer"
             />
           </template>
         </Column>

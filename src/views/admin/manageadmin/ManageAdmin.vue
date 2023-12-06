@@ -42,7 +42,8 @@
               <InputText
                 v-model="searchall"
                 placeholder="ค้นหา"
-                class="bg-white-500 p-2 pl-5 border"
+                class="bg-white-500 border"
+                style="height: 48px"
               />
             </span>
           </div>

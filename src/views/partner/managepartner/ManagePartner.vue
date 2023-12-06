@@ -32,7 +32,8 @@
               <InputText
                 v-model="searchall"
                 placeholder="ค้นหา"
-                class="bg-white-500 p-2 m-1 pl-5 border"
+                class="bg-white-500 border"
+                style="height: 48px"
               />
             </span>
           </div>
@@ -55,9 +56,11 @@
               class="flex justify-content-around"
               style="align-items: center"
             >
-              <i
+              <Button
+                outlined
+                severity="help "
+                icon="pi pi-info-circle"
                 @click="showPartnerDetail(item)"
-                class="pi pi-info-circle icon-style cursor-pointer"
               />
               <Button
                 @click="deleteProduct(item.data._id)"
