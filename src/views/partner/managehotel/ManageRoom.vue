@@ -2,23 +2,7 @@
   <div class="grid px-10 mt-3 ml-5 mr-5 w-full">
     <Loading :loading="loading" />
     <div class="col-12 lg:col-12 border">
-      <div class="text-center text-2xl">ข้อมูลห้อง</div>
-      <div
-        class="flex px-4 w-full item-center p-4"
-        style="flex-direction: column; align-items: center"
-      >
-        <div class="flex justify-center">
-          <p class="w-40 text-center text-2xl text-bold m-0">
-            สถานะ: {{ reservationEnabled ? "เปิด" : "ปิด" }}
-          </p>
-        </div>
-        <div class="card flex justify-center mt-2">
-          <InputSwitch
-            v-model="reservationEnabled"
-            @click="changeallstatus()"
-          />
-        </div>
-      </div>
+      <div class="text-center text-2xl mb-8">ข้อมูลห้อง</div>
       <DataTable
         :value="Filter"
         :paginator="true"
@@ -35,25 +19,38 @@
           </p>
         </template>
         <template #header>
-          <div class="flex justify-content-end">
-            <div class="mx-2">
-              <Dropdown
-                v-model="selectstatus"
-                :options="statusdata"
-                optionLabel="name"
-                optionValue="name"
-                placeholder="เลือกสถานะการค้นหา"
+          <div class="grid grid-cols-2 justify-content-between">
+            <div class="flex" style="align-items: center">
+              <p class="w-40 text-center text-sm m-0 mr-4">
+                เปิด-ปิดการจองห้อง: {{ reservationEnabled ? "เปิด" : "ปิด" }}
+              </p>
+              <InputSwitch
+                v-model="reservationEnabled"
+                @click="changeallstatus()"
               />
             </div>
 
-            <span class="p-input-icon-left">
-              <i class="pi pi-search" />
-              <InputText
-                v-model="searchall"
-                placeholder="ค้นหา"
-                class="bg-white-500 p-2 m-1 pl-5 border"
-              />
-            </span>
+            <div class="flex justify-content-end">
+              <div class="mx-2">
+                <Dropdown
+                  v-model="selectstatus"
+                  :options="statusdata"
+                  optionLabel="name"
+                  optionValue="name"
+                  placeholder="เลือกสถานะการค้นหา"
+                />
+              </div>
+
+              <div class="p-input-icon-left">
+                <i class="pi pi-search" />
+                <InputText
+                  v-model="searchall"
+                  placeholder="ค้นหา"
+                  class="bg-white-500 border"
+                  style="height: 48px"
+                />
+              </div>
+            </div>
           </div>
         </template>
 
