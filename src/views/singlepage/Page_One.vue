@@ -4,26 +4,48 @@
       <div class="px-40 text-center head-info">
         <h1 class="text-2xl">{{ roomdata.name }}</h1>
       </div>
-      <div class="flex flex-col justify-content-start">
+      <!-- <div class="flex flex-col justify-content-start">
         <Rating v-model="value" :stars="10" />
-      </div>
+      </div> -->
     </div>
-    <div class="image-box py-2 w-full h-[31.25rem] flex gap-x-2">
-      <div class="w-2/4 large-box">
-        <img class="w-full h-full rounded-s-2xl" :src="getImage(roomdata.image)" alt="Large Image" />
-      </div>
-      <div class="w-2/4 m-0 small-box grid grid-cols-2 grid-rows-2 gap-2"
-        v-if="roomdata && roomdata.image && roomdata.image.length > 0">
-        <img class="w-full h-full" :src="getImage(roomdata.image?.[1])" alt="">
-        <img class="w-full h-full rounded-tr-2xl" :src="getImage(roomdata.image?.[2])" alt="">
-        <img class="w-full h-full" :src="getImage(roomdata.image?.[3])" alt="">
-        <img class="w-full h-full rounded-br-2xl" :src="getImage(roomdata.image?.[4])" alt="">
-      </div>
-      <div class="w-2/4 m-0 small-box flex items-center justify-center" v-else>
-        <p class="text-xl font-semibold">ไม่มีรูปภาพ</p>
-      </div>
-
+  <div class="image-box py-2 w-full h-[31.25rem] flex gap-x-2">
+    <div class="w-2/4 large-box">
+      <img
+        v-if="roomdata && roomdata.image && roomdata.image.length > 0" class="w-full h-full rounded-s-2xl" :src="getImage(roomdata.image)" alt="Large Image"/>
+  <!-- ถ้าไม่มีรูปภาพ -->
+  <div v-else class="w-full h-full flex items-center justify-center bg-gray-300 rounded-s-2xl">
+    <p class="text-xl font-semibold">ไม่มีรูปภาพ</p>
+    <!-- แสดงข้อมูลรูปภาพ (หากต้องการ) -->
   </div>
+</div>
+<!-- ตรวจสอบว่ามีรูปภาพหรือไม่ และแสดงรูปภาพทีละรูป -->
+<div v-if="roomdata && roomdata.image && roomdata.image.length > 0" class="w-2/4 m-0 small-box grid grid-cols-2 grid-rows-2 gap-2">
+  <!-- ตรวจสอบและแสดงรูปภาพทีละรูป -->
+  <img v-if="roomdata.image.length > 1" class="w-full h-full" :src="getImage(roomdata.image?.[1])" alt=""/>
+  <!-- ถ้าไม่มีรูปภาพ -->
+  <div v-else class="w-full h-full flex items-center justify-center bg-gray-300 rounded-br-2xl">
+    <p class="text-xl font-semibold">ไม่มีรูปภาพ</p>
+  </div>
+  <!-- ตรวจสอบและแสดงรูปภาพทีละรูป -->
+  <img v-if="roomdata.image.length > 2" class="w-full h-full rounded-tr-2xl" :src="getImage(roomdata.image?.[2])" alt=""/>
+  <!-- ถ้าไม่มีรูปภาพ -->
+  <div v-else class="w-full h-full flex items-center justify-center bg-gray-300">
+  <p class="text-xl font-semibold">ไม่มีรูปภาพ</p>
+  </div>
+  <!-- ตรวจสอบและแสดงรูปภาพทีละรูป -->
+  <img v-if="roomdata.image.length > 3" class="w-full h-full" :src="getImage(roomdata.image?.[3])" alt=""/>
+  <!-- ถ้าไม่มีรูปภาพ -->
+  <div v-else class="w-full h-full flex items-center justify-center bg-gray-300 rounded-br-2xl">
+  <p class="text-xl font-semibold">ไม่มีรูปภาพ</p>
+  </div>
+  <!-- ตรวจสอบและแสดงรูปภาพทีละรูป -->
+  <img v-if="roomdata.image.length > 4" class="w-full h-full rounded-br-2xl" :src="getImage(roomdata.image?.[4])" alt=""/>
+  <!-- ถ้าไม่มีรูปภาพ -->
+  <div v-else class="w-full h-full flex items-center justify-center bg-gray-300 rounded-br-2xl">
+  <p class="text-xl font-semibold">ไม่มีรูปภาพ</p>
+  </div>
+</div>
+</div>
   <div class="flex pt-4 px-5 justify-between border h-[850px] rounded-2xl gap-x-8 max-[430px]:flex-col max-[430px]:h-auto max-[414px]:flex-col max-[414px]:h-auto">
     <!-- รายละเอียด -->
     <div class="w-1/2 max-[414px]:w-full max-[430px]:w-full ">
@@ -32,7 +54,7 @@
           <h1 class="text-2xl font-bold">{{ roomdata.name }}</h1>
           <div class="flex flex-col justify-content-start">
             <p class="text-base font-semibold"> รีวิว {{ averageRating }}</p>
-</div>
+          </div>
         </div>
         <p>{{roomdata.guests}} คน || {{ roomdata.bedroom }} ห้องนอน || {{ roomdata.bed }} เตียง || {{ roomdata.bathroom }} ห้องน้ำ  </p>
         <!-- รายละเอียดเพิ่มเติม -->

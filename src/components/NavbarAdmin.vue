@@ -38,13 +38,13 @@
                   v-for="item in menu"
                   :key="item.id"
                   :to="item.route"
-                  class="block px-4 py-2 hover:text-white hover:bg-[#007bff]"
+                  class="w-full text-center block px-4 py-2 hover:text-white hover:bg-[#007bff]"
                 >
                   {{ item.label }}
                 </router-link>
                 <button
                   @click="logout"
-                  class="block px-4 py-2 hover:text-white hover:bg-[#dc3545]"
+                  class="w-full block px-4 py-2 hover:text-white hover:bg-[#dc3545]"
                 >
                   ออกจากระบบ
                 </button>

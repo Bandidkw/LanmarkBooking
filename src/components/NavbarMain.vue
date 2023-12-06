@@ -7,7 +7,7 @@
     <router-link to="/" class="topweb-left">
       <img src="/logo/lanmark-logo-navbar.png" alt="" />
     </router-link>
-    <div class="search-box" @keyup.enter="searchHotels">
+    <div class="search-box" v-if="isRegisterPage">
       <span class="p-input-icon-right">
         <InputText
           v-model="searchTerm"
@@ -52,6 +52,12 @@ export default {
   },
   components: {
     LoginUser,
+  },
+  computed: {
+    isRegisterPage() {
+      // สมมติว่า "/register" เป็นเส้นทางสำหรับหน้าลงทะเบียน
+      return this.$route.path === '/register' ? false : true;
+    }
   },
 };
 </script>

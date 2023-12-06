@@ -32,11 +32,9 @@
         </div>
       </router-link>
       <div class="details-container px-2">
-        <h2 class="text-xl m-0 font-semibold">{{ item.name }}</h2>
-        <p class="text-base my-1">{{ item.description }}</p>
-        <p class="text-base font-bold m-0 max-[414px]:my-2">
-          ราคา: {{ item.price.toLocaleString() }} บาท/คืน
-        </p>
+        <h2 class="text-xl m-0 font-normal">{{ item.name }}</h2>
+        <p class="text-sm my-1">{{ item.description }}</p>
+        <p class="text-base font-bold m-0 max-[414px]:my-2">฿ {{ item.price.toLocaleString() }} คืน</p>
       </div>
     </div>
   </div>

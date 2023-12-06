@@ -16,10 +16,10 @@
               </button>
           <transition name="fade">
             <div v-if="isMenuOpen(menuKey)" @click.stop="closeDropdowns" class="menu-dropdown lg:inline-blockorigin-top-right absolute mt-2 w-40 bg-white border border-gray-300 py-2 rounded-lg shadow-lg z-10">
-              <router-link v-for="item in menu" :key="item.id" :to="item.route" class="block px-4 py-2 hover:text-white hover:bg-[#007bff]">
+              <router-link v-for="item in menu" :key="item.id" :to="item.route" class="w-full text-center block px-4 py-2 hover:text-white hover:bg-[#007bff]">
                 {{ item.label }}
               </router-link>
-              <button  @click="logout" class="block px-4 py-2 hover:text-white hover:bg-[#dc3545]">
+              <button  @click="logout" class="w-full block px-4 py-2 hover:text-white hover:bg-[#dc3545]">
                   ออกจากระบบ
                 </button>
             </div>

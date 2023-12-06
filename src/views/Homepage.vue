@@ -5,31 +5,31 @@
     <div class="choose-room">
       <div class="room">
         <i class="bi bi-house-door"></i>
-        <a @click="createaccount">อพาร์ทเม้นท์</a>
+        <a class="font-type" @click="createaccount">อพาร์ทเม้นท์</a>
       </div>
       <div class="room">
         <i class="bi bi-house"></i>
-        <a @click="createaccount">ห้องพักทั่วไป</a>
+        <a class="font-type" @click="createaccount">ห้องพักทั่วไป</a>
       </div>
       <div class="room">
         <i class="bi bi-building"></i>
-        <a @click="createaccount">คอนโด</a>
+        <a class="font-type" @click="createaccount">คอนโด</a>
       </div>
       <div class="room">
         <i class="bi bi-tsunami"></i>
-        <a @click="createaccount">ริมทะเล</a>
+        <a class="font-type" @click="createaccount">ริมทะเล</a>
       </div>
       <div class="room">
         <i class="bi bi-tree"></i>
-        <a @click="createaccount">ป่า-เขา</a>
+        <a class="font-type" @click="createaccount">ป่า-เขา</a>
       </div>
       <div class="room">
         <i class="bi bi-brightness-alt-high"></i>
-        <a @click="createaccount">เกาะ</a>
+        <a class="font-type" @click="createaccount">เกาะ</a>
       </div>
       <div class="room">
         <i class="bi bi-houses"></i>
-        <a @click="createaccount">คฤหาสน์</a>
+        <a class="font-type" @click="createaccount">คฤหาสน์</a>
       </div>
       <!----------------------------------------- Filter-box ------------------------------->
       <div class="filter cursor-pointer" @click="showFilter">
@@ -47,7 +47,6 @@
           <label class="py-2" for="category">ประเภท</label>
           <div class="card flex justify-content-start">
             <Dropdown v-model="selectedType" showClear :options="roomtype" optionLabel="name" placeholder="เลือกประเภท" class="w-full" />
-            <!-- <div>{{ selectedType }}</div> -->
     </div>
 
           <!-- ช่องเลือกราคา -->
@@ -64,13 +63,13 @@
           <!-- ช่องเลือกจำนวน -->
           <label class="py-2" for="quantity">จำนวนเข้าพัก</label>
           <div class="card w-full flex justify-content-between">
-            <span class="p-float-label">
-              <InputNumber id="number-input" v-model="value" />
+            <span class="p-float-label" style="width: 100%;">
+              <Dropdown v-model="selectedNumber" showClear :options="numberValue" optionLabel="name" placeholder="เลือกจำนวนเข้าพัก" class="w-full" />
         </span>
     </div>
     <label class="py-2" for="quantity">ประเภทผู้ให้เช่า</label>
-    <div class="card w-full flex justify-content-between">
-            <span class="p-float-label">
+    <div class="card w-full flex justify-content-between" style="flex-direction: column; width: 100%;">
+            <span class="p-float-label mb-4">
               <Dropdown v-model="selectedTypelessor" showClear :options="typelessor" optionLabel="name" placeholder="เลือกประเภทผู้ให้เช่า" class="w-full" />
             </span>
         <Button @click="filterData" label="ค้นหา" severity="secondary"  />
@@ -107,18 +106,29 @@ export default {
   name: "HomepageMain",
   data() {
     const selectedType = ref();
-    const selectedPriceRange = ref();
     const selectedTypelessor = ref();
     const typelessor = ref([
     { name: 'เจ้าของปล่อยเช่า', code: '' },
     { name: 'ผู้เช่าปล่อยเช่า', code: '' },
 ]);
+    const selectedPriceRange = ref();
     const pricerange = ref([
     { name: '0-500', code: '' },
     { name: '501-1,000', code: '' },
     { name: '1,001-3,000', code: '' },
     { name: '3,001-5,000', code: '' },
     { name: 'มากกว่า 5,000', code: '' }
+]);
+    const selectedNumber = ref();
+    const numberValue = ref([
+    { name: '1', code: '' },
+    { name: '2', code: '' },
+    { name: '3', code: '' },
+    { name: '4', code: '' },
+    { name: '5', code: '' },
+    { name: '6', code: '' },
+    { name: '7', code: '' },
+    { name: '8+', code: '' },
 ]);
     const selectedBed = ref();
     const bedtype = ref([
@@ -145,6 +155,8 @@ export default {
       selectedBed,
       bedtype,
       value,
+      selectedNumber,
+      numberValue,
       typelessor,
     };
   },
@@ -164,6 +176,7 @@ export default {
       this.selectedPriceRange = "";
       this.selectedQuantity = "";
       this.selectedBedtype = "";
+      this.selectedTypelessor ="";
       this.value = "";
     },
     createaccount() {
@@ -174,14 +187,9 @@ export default {
     }
   },
   filterData() {
-    // ทำการกรองข้อมูลด้วย selectedType, selectedPriceRange, selectedBed, value
-    // และอัพเดทข้อมูลที่แสดงผลบนหน้าเว็บ
     this.fetchFilteredData();
   },
   fetchFilteredData() {
-    // ทำการเรียก API โดยใช้ตัวกรองที่ถูกเลือก
-    // และอัพเดทข้อมูลที่แสดงผลบนหน้าเว็บ
-    // ตัวอย่างเท่านั้น โปรดปรับเปลี่ยนตามโครงสร้างของโปรเจกต์ Vue.js ของคุณ
     axios.get(`${process.env.VUE_APP_API}room/type`, {
       params: {
         type: this.selectedType,
@@ -191,8 +199,8 @@ export default {
       }
     })
     .then(response => {
-      // อัพเดทข้อมูลหลังจากการกรอง
-      // this.rooms = response.data; // ตัวอย่างเท่านั้น
+    const filteredData = response.data.filter(room => room.occupancy <= 10);
+this.$emit('filteredData', filteredData);
     })
     .catch(error => {
       console.error('Error fetching filtered data', error);
@@ -209,7 +217,9 @@ export default {
   display: flex;
   flex-direction: column;
 }
-
+.font-type{
+  font-size: 0.8rem;
+}
 .title-info {
   display: flex;
   width: 100%;
@@ -235,7 +245,6 @@ export default {
 .search input {
   border-radius: 25px 0 0 25px;
 }
-
 .input-group-append {
   border: #3b82f6 1px solid;
   border-radius: 0 25px 25px 0;
@@ -245,7 +254,6 @@ export default {
 .input-group-append button {
   border-radius: 0 25px 25px 0;
 }
-
 .input-group button {
   border: none;
   width: 100%;
@@ -255,7 +263,6 @@ export default {
 }
 
 .search input {
-  /* border: none; */
   border: #3b82f6 1px solid;
   width: 100%;
   height: 100%;
@@ -281,7 +288,7 @@ export default {
   padding: 10px;
   display: flex;
   align-items: center;
-  column-gap: 2rem;
+  column-gap: 3rem;
   justify-content: center;
 }
 
@@ -290,25 +297,44 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 1rem;
 }
-
 .room i {
-  font-size: 1.2rem;
+  font-size: 1.6rem;
 }
-
-.room a,
-i {
-  color: #252525;
-  transition: all 0.2s ease-in-out;
+.room {
+  position: relative;
+  color: #000;
+  text-decoration: none;
 }
 
 .room:hover {
-  text-shadow: 0px 0px 5px #3b82f6;
-  color: #6b6b6b;
-  text-decoration: underline;
+  color: #000;
 }
 
+.room::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #535353;
+  transform: scaleX(0);
+  transform-origin: top left;
+  transition: transform 0.3s ease;
+}
+
+.room:hover::before {
+  transform: scaleX(1);
+}
+.room i , a{
+  color: #535353;
+  transition: all 0.2s ease-in-out;
+}
+.room a{
+  padding-bottom: 0.5rem;
+}
 .filter {
   cursor: default;
   border: #707070 1px solid;
@@ -326,7 +352,6 @@ i {
   color: #252525;
 }
 
-
 /*-------------------------------- filter-popup ----------------------*/
 
 .filter-btn {
@@ -342,7 +367,6 @@ i {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -352,7 +376,6 @@ i {
 .filter-popup.open {
   transform: translate(-50%, -50%);
 }
-
 .filter-popup button {
   cursor: pointer;
 }
@@ -445,7 +468,9 @@ p {
   margin: 0;
   padding: 0;
 }
-
+.p-inputnumber-input{
+  width: 100%;
+}
 .hidden {
   transition: 0.5s ease;
   opacity: 0;
@@ -466,6 +491,17 @@ p {
   .room a {
     display: none;
   }
+}
+
+@media screen and (max-width:640px) {
+  .p-inputnumber-input {
+    width: 100%;
+}  
+}
+@media screen and (max-width:576px) {
+  .p-inputnumber-input {
+    width: 100%;
+}  
 }
 
 @media screen and (max-width:430px) {

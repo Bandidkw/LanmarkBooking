@@ -705,7 +705,6 @@ export default {
         }
       }
     },
-
     //// resetform
     resetForm() {
       this.member = {
