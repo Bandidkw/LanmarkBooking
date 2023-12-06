@@ -1,7 +1,7 @@
 <!-- Navbar.vue -->
 <template>
   <nav
-    class="nav-bar"
+    class="nav-bar w-full"
     style="box-shadow: rgba(59, 131, 246, 0.712) 0 1px 10px 1px"
   >
     <router-link to="/" class="topweb-left">

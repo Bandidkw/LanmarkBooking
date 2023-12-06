@@ -111,7 +111,7 @@ methods: {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  /* width: 100%; */
   margin: 0;
   position: relative;
   z-index: 0;

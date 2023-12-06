@@ -284,7 +284,7 @@ this.$emit('filteredData', filteredData);
 
 /*---------------------------- choose-style ------------------------*/
 .choose-room {
-  margin-top: 1rem;
+  margin: 1rem;
   padding: 10px;
   display: flex;
   align-items: center;

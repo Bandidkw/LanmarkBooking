@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grid-container pt-4 px-4 gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3"
+    class=" grid-container px-4 gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3"
   >
     <div
       v-for="(item, index) in filteredGridData"
@@ -32,9 +32,9 @@
         </div>
       </router-link>
       <div class="details-container px-2">
-        <h2 class="text-xl m-0 font-normal">{{ item.name }}</h2>
-        <p class="text-sm my-1">{{ item.description }}</p>
-        <p class="text-base font-bold m-0 max-[414px]:my-2">฿ {{ item.price.toLocaleString() }} คืน</p>
+        <h2 class="text-lg font-semibold pt-1 m-0">{{ item.name }}</h2>
+        <p class="text-base my-1">{{ item.description }}</p>
+        <p class="text-base font-semibold m-0 max-[414px]:my-2">฿ {{ item.price.toLocaleString() }} คืน</p>
       </div>
     </div>
   </div>
