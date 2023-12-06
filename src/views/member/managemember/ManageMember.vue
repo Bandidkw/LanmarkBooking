@@ -38,29 +38,46 @@
         <Column
           field="telephone"
           header="เบอร์โทรศัพท์"
-          style="width: 20%"
+          style="width: 20%; cursor: default"
         ></Column>
-        <Column field="name" class="" header="ชื่อ" style="width: 10%">
-        </Column>
-        <Column field="firstname" class="" header="ชื่อจริง" style="width: 10%">
-        </Column>
-        <Column field="lastname" class="" header="นามสกุล" style="width: 10%">
-        </Column>
-        <Column field="email" class="" header="อีเมล" style="width: 10%">
+        <Column
+          field="name"
+          class=""
+          header="ชื่อ"
+          style="width: 10%; cursor: default"
+        >
         </Column>
         <Column
-          :exportable="false"
+          field="firstname"
           class=""
-          header="เพิ่มเติม"
-          style="width: 10%"
+          header="ชื่อจริง"
+          style="width: 10%; cursor: default"
         >
+        </Column>
+        <Column
+          field="lastname"
+          class=""
+          header="นามสกุล"
+          style="width: 10%; cursor: default"
+        >
+        </Column>
+        <Column
+          field="email"
+          class=""
+          header="อีเมล"
+          style="width: 10%; cursor: default"
+        >
+        </Column>
+        <Column :exportable="false" style="width: 10%; cursor: default">
           <template #body="item">
             <Button
               @click="deleteProduct(item.data._id)"
-              class="bg-red-500 hover:bg-red-700 border-none text-white font-bold py-2 px-4 rounded"
-              style="background-color: #c21010"
-              >ลบ</Button
-            >
+              class="hover:bg-red-400 hover:text-white"
+              icon="pi pi-times hover:text-white"
+              text
+              raised
+              severity="danger"
+            />
           </template>
         </Column>
       </DataTable>
@@ -149,12 +166,13 @@ export default {
       getData,
       deleteProduct,
       loading,
-      searchall
+      searchall,
     };
   },
-   computed: {
+  computed: {
     Filter() {
-      if(this.searchall) { //ค้นหาด้วยคำ
+      if (this.searchall) {
+        //ค้นหาด้วยคำ
         const searchTerm = this.searchall.toLowerCase();
         return this.item_product.filter((item) => {
           // ใช้ includes() เพื่อตรวจสอบว่าคำที่ค้นหาอยู่ในชื่อหรือเบอร์โทรศัพท์หรือไม่

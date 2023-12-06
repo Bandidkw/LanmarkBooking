@@ -19,7 +19,10 @@
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
 
         <template #empty>
-          <p class="font-italic text-center text-5xl text-center" style="color: #bd1616">
+          <p
+            class="font-italic text-center text-5xl text-center"
+            style="color: #bd1616"
+          >
             ไม่พบข้อมูลสัญญา
           </p>
         </template>
@@ -36,13 +39,17 @@
           </div>
         </template>
 
-
         <Column
           field="signature"
           header="ชื่อพาร์ทเนอร์"
-          style="width: 14%"
+          style="width: 14%; cursor: default"
         ></Column>
-        <Column field="" class="" header="เวลาที่ยืนยัน" style="width: 14%">
+        <Column
+          field=""
+          class=""
+          header="เวลาที่ยืนยัน"
+          style="width: 14%; cursor: default"
+        >
           <template #body="{ data }">
             <div v-if="data.time != null">
               {{
@@ -54,7 +61,11 @@
             <div v-else>ยังไม่ได้ยืนยัน</div>
           </template>
         </Column>
-        <Column class="" header="สถานะอนุมัติ" style="width: 25%">
+        <Column
+          class=""
+          header="สถานะอนุมัติ"
+          style="width: 25%; cursor: default"
+        >
           <template #body="{ data }">
             <div
               class="sm:w-8 md:w-6 xl:w-5 bg-red-500 flex justify-content-center"
@@ -75,13 +86,12 @@
             <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
           </template>
         </Column>
-        <Column header="รายละเอียด" style="width: 10%">
+        <Column style="width: 10%; cursor: default">
           <template #body="{ data }">
-            <Button
+            <i
               @click="showPartnerDetail(data)"
-              class="bg-blue-500 hover:bg-blue-700 border-none text-white font-bold py-2 px-4 rounded mx-2"
-              >รายละเอียด</Button
-            >
+              class="pi pi-info-circle icon-style cursor-pointer"
+            />
           </template>
         </Column>
       </DataTable>
@@ -321,7 +331,7 @@ export default {
       showPartnerDetail,
       DetailPartner,
       loading,
-      searchall
+      searchall,
     };
   },
 
@@ -339,13 +349,12 @@ export default {
   },
   computed: {
     Filter() {
-      if(this.searchall) { //ค้นหาด้วยคำ
+      if (this.searchall) {
+        //ค้นหาด้วยคำ
         const searchTerm = this.searchall.toLowerCase();
         return this.item_product.filter((item) => {
           // ใช้ includes() เพื่อตรวจสอบว่าคำที่ค้นหาอยู่ในชื่อหรือเบอร์โทรศัพท์หรือไม่
-          return (
-            item.signature.toLowerCase().includes(searchTerm) 
-          );
+          return item.signature.toLowerCase().includes(searchTerm);
         });
       } else {
         return this.item_product;
@@ -354,3 +363,11 @@ export default {
   },
 };
 </script>
+<style scope>
+.icon-style {
+  transition: all 0.2s ease-in-out;
+}
+.icon-style:hover {
+  color: #3b82f6;
+}
+</style>

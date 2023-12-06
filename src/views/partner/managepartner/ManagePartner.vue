@@ -18,7 +18,10 @@
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
 
         <template #empty>
-          <p class="font-italic text-center text-5xl text-center" style="color: #bd1616">
+          <p
+            class="font-italic text-center text-5xl text-center"
+            style="color: #bd1616"
+          >
             ไม่พบข้อมูลสินค้า
           </p>
         </template>
@@ -37,37 +40,34 @@
         <Column
           field="telephone"
           header="เบอร์โทรศัพท์"
-          style="width: 20%"
+          style="width: 20%; cursor: default"
         ></Column>
-        <Column field="name" class="" header="ชื่อ" style="width: 10%">
-        </Column>
-        <Column header="รายละเอียด" style="width: 10%">
-          <template #body="{ data }">
-            <Button
-              @click="showPartnerDetail(data)"
-              class="bg-blue-500 hover:bg-blue-700 border-none text-white font-bold py-2 px-4 rounded mx-2"
-              >รายละเอียด</Button
-            >
-          </template>
-        </Column>
         <Column
-          :exportable="false"
+          field="name"
           class=""
-          header="เพิ่มเติม"
-          style="width: 10%"
+          header="ชื่อ"
+          style="width: 10%; cursor: default"
         >
+        </Column>
+        <Column :exportable="false" style="width: 10%; cursor: default">
           <template #body="item">
-            <updateadmin
-              title="แก้ไขข้อมูล"
-              :admin_id="item.data._id"
-              :data="item.data"
-            />
-            <Button
-              @click="deleteProduct(item.data._id)"
-              class="bg-red-500 border-none hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-              style="background-color: #c21010"
-              >ลบ</Button
+            <div
+              class="flex justify-content-around"
+              style="align-items: center"
             >
+              <i
+                @click="showPartnerDetail(item)"
+                class="pi pi-info-circle icon-style cursor-pointer"
+              />
+              <Button
+                @click="deleteProduct(item.data._id)"
+                class="hover:bg-red-400 hover:text-white"
+                icon="pi pi-times hover:text-white"
+                text
+                raised
+                severity="danger"
+              />
+            </div>
           </template>
         </Column>
       </DataTable>
@@ -274,7 +274,7 @@ export default {
       numberbank,
       image_bank,
       loading,
-      searchall
+      searchall,
     };
   },
   methods: {
@@ -289,9 +289,10 @@ export default {
       }
     },
   },
-    computed: {
+  computed: {
     Filter() {
-      if (this.searchall) { //ค้นหาด้วยคำ
+      if (this.searchall) {
+        //ค้นหาด้วยคำ
         const searchTerm = this.searchall.toLowerCase();
         return this.item_product.filter((item) => {
           // ใช้ includes() เพื่อตรวจสอบว่าคำที่ค้นหาอยู่ในชื่อหรือเบอร์โทรศัพท์หรือไม่

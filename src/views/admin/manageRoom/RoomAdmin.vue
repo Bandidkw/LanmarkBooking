@@ -47,36 +47,19 @@
           </template>
         </Column>
         <Column field="name" header="ชื่อ" style="width: 10%"></Column>
-        <Column
-          field="description"
-          class=""
-          header="คำอธิบาย"
-          style="width: 10%"
-        >
+        <Column field="description" header="คำอธิบาย" style="width: 10%">
         </Column>
-        <Column
-          field="phone_number"
-          class=""
-          header="เบอร์โทรติดต่อ"
-          style="width: 10%"
-        >
+        <Column field="phone_number" header="เบอร์โทรติดต่อ" style="width: 10%">
         </Column>
         <Column field="price" class="" header="ราคา" style="width: 5%">
         </Column>
-        <Column
-          :exportable="false"
-          class=""
-          header="ลบข้อมูล"
-          style="width: 5%"
-        >
+        <Column :exportable="false" style="width: 5%">
           <template #body="item">
             <!-- <updateadmin title="แก้ไขข้อมูล" :admin_id="item.data._id" :data="item.data"/> -->
-            <Button
+            <i
               @click="deleteProduct(item.data._id)"
-              class="bg-red-500 border-none hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-              style="background-color: #c21010"
-              >ลบ</Button
-            >
+              class="pi pi-trash cursor-pointer icon-style"
+            />
           </template>
         </Column>
       </DataTable>

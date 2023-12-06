@@ -17,7 +17,10 @@
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
 
         <template #empty>
-          <p class="font-italic text-center text-5xl text-center" style="color: #bd1616">
+          <p
+            class="font-italic text-center text-5xl text-center"
+            style="color: #bd1616"
+          >
             ไม่พบข้อมูลสัญญา
           </p>
         </template>
@@ -71,13 +74,12 @@
             <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
           </template>
         </Column>
-        <Column header="รายละเอียด" style="width: 10%">
+        <Column style="width: 10%">
           <template #body="{ data }">
-            <Button
+            <i
               @click="showPartnerDetail(data)"
-              class="bg-blue-500 hover:bg-blue-700 border-none text-white font-bold py-2 px-4 rounded mx-2"
-              >รายละเอียด</Button
-            >
+              class="pi pi-info-circle icon-style cursor-pointer"
+            />
           </template>
         </Column>
       </DataTable>
@@ -334,14 +336,14 @@ export default {
       }
     },
   },
-    computed: {
+  computed: {
     Filter() {
-      if(this.searchall) { //ค้นหาด้วยคำ
+      if (this.searchall) {
+        //ค้นหาด้วยคำ
         const searchTerm = this.searchall.toLowerCase();
         return this.item_product.filter((item) => {
           // ใช้ includes() เพื่อตรวจสอบว่าคำที่ค้นหาอยู่ในชื่อหรือเบอร์โทรศัพท์หรือไม่
-          return (
-            item.name.toLowerCase().includes(searchTerm));
+          return item.name.toLowerCase().includes(searchTerm);
         });
       } else {
         return this.item_product;

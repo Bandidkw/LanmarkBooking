@@ -68,13 +68,12 @@
           </template>
         </Column>
         <Column field="price" header="ราคา" style="width: 10%"></Column>
-        <Column header="ข้อมูลการจอง" class="lg:w-2 xl:w-1 2xl:w-0">
+        <Column class="lg:w-2 xl:w-1 2xl:w-0">
           <template #body="{ data }">
-            <Button
+            <i
               @click="showPartnerDetail(data)"
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2"
-              >ข้อมูลการจอง</Button
-            >
+              class="pi pi-info-circle icon-style cursor-pointer"
+            />
           </template>
         </Column>
       </DataTable>

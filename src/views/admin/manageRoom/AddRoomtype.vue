@@ -1,7 +1,11 @@
 <template>
   <Button
     @click="onclick = true"
-    class="border-none bg-green-400 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2"
+    severity="secondary"
+    icon="pi pi-user-plus"
+    text
+    raised
+    class="hover:text-blue-500 rounded-xl font-bold py-2.5 px-4"
     label="เพิ่มประเภทห้อง"
   />
 
@@ -49,7 +53,7 @@
             <Button
               @click="addroomtype"
               label="เพิ่มข้อมูล"
-              class="px-4 py-2 bg-blue-500 text-white text-center hover:bg-blue-700 rounded"
+              class="px-4 py-2.5 bg-blue-500 text-white text-center hover:bg-blue-700 rounded"
               type="button"
               severity="help"
               rounded

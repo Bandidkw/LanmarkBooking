@@ -57,7 +57,7 @@
           </div>
         </template>
 
-        <Column header="STATUS" style="width: 5%">
+        <Column style="width: 5%">
           <template #body="{ data }">
             <div class="card flex justify-center mt-2">
               <InputSwitch
@@ -103,34 +103,24 @@
           field="phone_number"
           header="เบอร์โทรติดต่อ"
           style="width: 10%"
+          :headerStyle="{ color: 'rgb(75, 85, 99)' }"
         />
         <Column field="price" class="" header="ราคา" style="width: 10%" />
-        <Column header="รูปภาพ" style="width: 5%">
+
+        <Column :exportable="false" style="width: 16%">
           <template #body="item">
-            <Gallery :data="item.data" />
-          </template>
-        </Column>
-        <Column :exportable="false" header="เพิ่มเติม" style="width: 16%">
-          <template #body="item">
-            <div class="xl:flex mx-2" v-if="item.data.status === true">
-              <EditHotel title="แก้ไขข้อมูล" :data="item.data" />
-            </div>
-            <div v-else class="xl:flex mx-2">
-              <Button
-                disabled
-                class="delete-button bg-gray-500 border-0 text-white font-bold py-2 px-4 rounded"
-              >
-                รออนุมัติ
-              </Button>
-            </div>
-            <div class="xl:flex mx-2">
-              <Button
-                @click="deleteProduct(item.data._id)"
-                class="delete-button bg-red-500 border-0 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                style="background-color: #c21010"
-              >
-                ลบ
-              </Button>
+            <div class="flex justify-content-between">
+              <Gallery :data="item.data" />
+
+              <div class="xl:flex mx-2" v-if="item.data.status === true">
+                <EditHotel :data="item.data" />
+              </div>
+              <div class="xl:flex mx-2">
+                <i
+                  class="pi pi-trash cursor-pointer icon-style"
+                  @click="deleteProduct(item.data._id)"
+                />
+              </div>
             </div>
           </template>
         </Column>
@@ -384,7 +374,13 @@ export default {
   name: "ManageRoom",
 };
 </script>
-<style scoped>
+<style scope>
+.icon-style {
+  transition: all 0.2s ease-in-out;
+}
+.icon-style:hover {
+  color: #3b82f6;
+}
 @media (min-width: 640px) {
   .delete-button {
     margin: 0;

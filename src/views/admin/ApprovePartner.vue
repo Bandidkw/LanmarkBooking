@@ -18,7 +18,10 @@
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
 
         <template #empty>
-          <p class="font-italic text-center text-5xl text-center" style="color: #bd1616">
+          <p
+            class="font-italic text-center text-5xl text-center"
+            style="color: #bd1616"
+          >
             ไม่พบข้อมูลสินค้า
           </p>
         </template>
@@ -48,11 +51,16 @@
         <Column
           field="telephone"
           header="เบอร์โทรศัพท์"
-          style="width: 14%"
+          style="width: 14%; cursor: default"
         ></Column>
-        <Column field="name" class="" header="ชื่อ" style="width: 14%">
+        <Column
+          field="name"
+          class=""
+          header="ชื่อ"
+          style="width: 14%; cursor: default"
+        >
         </Column>
-        <Column class="test-box" header="สถานะอนุมัติ" style="width: 14%">
+        <Column header="สถานะอนุมัติ" style="width: 14%; cursor: default">
           <template #body="{ data }">
             <div
               class="lg:w-10 xl:w-5 bg-orange-500 flex justify-content-center"
@@ -84,34 +92,37 @@
             <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
           </template>
         </Column>
-        <Column header="รายละเอียด" style="width: 10%">
+        <Column style="width: 10%; cursor: default">
           <template #body="{ data }">
-            <Button
-              @click="showPartnerDetail(data)"
-              class="bg-blue-500 hover:bg-blue-700 border-none text-white font-bold py-2 px-4 rounded mx-2"
-              >รายละเอียด</Button
-            >
-          </template>
-        </Column>
-
-        <Column style="width: 10%">
-          <template #body="{ data }">
-            <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
             <div
-              class="flex justify-content-center"
-              v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'"
+              class="flex justify-content-around"
+              style="align-items: center"
             >
-              <!-- กรณีรอการอนุมัติ -->
-              <Button
-                @click="approvepartner(data._id)"
-                class="bg-green-500 hover:bg-green-700 border-none text-white font-bold py-2 px-4 rounded mx-2 boeder-none"
-                >อนุมัติ</Button
+              <i
+                @click="showPartnerDetail(data)"
+                class="pi pi-info-circle icon-style cursor-pointer"
+              />
+              <div
+                v-if="data.approve.slice(-1)[0].statusapprove === 'รออนุมัติ'"
+                class="flex gap-3"
               >
-              <Button
-                @click="unapprovepartner(data._id)"
-                class="bg-red-500 hover:bg-red-700 text-white border-none font-bold py-2 px-4 rounded"
-                >ไม่อนุมัติ</Button
-              >
+                <Button
+                  class="hover:bg-green-400 hover:text-white"
+                  text
+                  raised
+                  icon="pi pi-check hover:text-white"
+                  severity="success "
+                  @click="approvepartner(data._id)"
+                />
+                <Button
+                  class="hover:bg-red-400 hover:text-white"
+                  icon="pi pi-times hover:text-white"
+                  text
+                  raised
+                  severity="danger"
+                  @click="unapprovepartner(data._id)"
+                />
+              </div>
             </div>
           </template>
         </Column>
@@ -390,7 +401,8 @@ export default {
   },
   computed: {
     Filter() {
-      if (this.selectstatus && this.selectstatus != "เลือกสถานะการค้นหา") { // ค้นหาสถานะ
+      if (this.selectstatus && this.selectstatus != "เลือกสถานะการค้นหา") {
+        // ค้นหาสถานะ
         const searchTerm = this.searchall.toLowerCase();
         const selectstatus = this.selectstatus.toLowerCase();
         return this.item_product.filter((item) => {
@@ -400,7 +412,8 @@ export default {
               item.telephone.includes(searchTerm))
           );
         });
-      } else if (this.searchall) { //ค้นหาด้วยคำ
+      } else if (this.searchall) {
+        //ค้นหาด้วยคำ
         const searchTerm = this.searchall.toLowerCase();
         return this.item_product.filter((item) => {
           // ใช้ includes() เพื่อตรวจสอบว่าคำที่ค้นหาอยู่ในชื่อหรือเบอร์โทรศัพท์หรือไม่
@@ -416,11 +429,11 @@ export default {
   },
 };
 </script>
-<style scoped>
-@media (min-width: 1024px) {
-  .test-box {
-    width: 100%;
-    background-color: red;
-  }
+<style scope>
+.icon-style {
+  transition: all 0.2s ease-in-out;
+}
+.icon-style:hover {
+  color: #3b82f6;
 }
 </style>
