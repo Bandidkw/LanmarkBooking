@@ -28,11 +28,15 @@
             </label>
             <InputText
               class="appearance-none block w-full text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              type="tel"
               id="grid-first-name"
-              type="text"
+              @input="validateInput"
               placeholder="กรุณากรอกเบอร์โทรศัพท์"
               v-model="telephone"
             />
+            <p v-if="showValidationError" style="font-size: 12px; color: red">
+              *กรุณากรอกเลขโทรศัพท์ที่ถูกต้อง (8-10 ตัว)
+            </p>
           </div>
           <div class="w-full px-3">
             <label
@@ -81,6 +85,7 @@ export default {
       password: "",
       name: "",
       loading,
+      showValidationError: false,
     };
   },
   methods: {
@@ -141,6 +146,13 @@ export default {
           });
         }
       }
+    },
+    validateInput() {
+      const isValidNumber = /^[0-9]+$/.test(this.telephone);
+      const isValidLength =
+        this.telephone.length >= 8 && this.telephone.length <= 10;
+
+      this.showValidationError = !(isValidNumber && isValidLength);
     },
   },
 };

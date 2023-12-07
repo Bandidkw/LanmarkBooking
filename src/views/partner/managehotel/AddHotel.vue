@@ -368,7 +368,7 @@
               @change="handleFileChange"
               accept="image/*"
               multiple
-              maxFileSize="10000000"
+              maxFileSize="999999999"
             >
               <template #empty>
                 <p>อัพโหลดรูปภาพห้อง</p>
@@ -545,23 +545,37 @@ export default {
     //   this.tasks.splice(index, 1);
     // },
     handleFileChange(event) {
-      // const input = this.$refs.fileinput;
-      // if (input.files && input.files.length > 0) {
-      //   this.image = Array.from(input.files);
       const input = this.$refs.fileinput;
+      const selectedFiles = Array.from(input.files);
+      console.log(selectedFiles.length, "---");
 
-      // Calculate the total number of selected images
-      const totalImages = this.image.length + input.files.length;
-
-      // Check if the total number of images exceeds 5
-      if (totalImages > 5) {
-        // Clear the FileUpload component
-        this.$refs.fileinput.clear();
+      if (selectedFiles.length > 5) {
+        // If more than 5 files are selected, clear the input
+        this.clearFileInput();
         return;
       }
 
-      // Update the 'image' data property with the selected files
-      this.image = this.image.concat(Array.from(input.files));
+      // Check if adding the selected files would exceed the limit of 5 images
+      console.log(this.image.length + selectedFiles.length, " ++++");
+
+      if (this.image.length + selectedFiles.length > 5) {
+        // If so, clear the existing images and add the new ones
+        // this.clearFileInput();
+        this.$refs.fileinput.clear();
+
+        this.image = selectedFiles;
+        console.log(selectedFiles, "selectedFiles");
+        console.log(this.image, "thisimage");
+      } else {
+        // If within the limit, concatenate the selected files
+        console.log("else");
+        this.image = this.image.concat(selectedFiles);
+      }
+    },
+
+    clearFileInput() {
+      // Clear the file input
+      this.$refs.fileinput.clear();
     },
 
     async addRoom() {

@@ -49,6 +49,8 @@ import Image from 'primevue/image';
 import Galleria from 'primevue/galleria';
 import Checkbox from 'primevue/checkbox';
 import SelectButton from 'primevue/selectbutton';
+import InputMask from 'primevue/inputmask';
+
 
 // Attach EventBus to the app instance
 app.config.globalProperties.$bus = bus;
@@ -106,6 +108,7 @@ app.component("FileUpload", FileUpload);
 app.component("Image", Image);
 app.component("Galleria", Galleria);
 app.component("Checkbox", Checkbox);
+app.component("InputMask", InputMask);
 
 
 

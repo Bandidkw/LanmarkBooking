@@ -3,8 +3,9 @@
   <nav
     id="header"
     class="w-full z-30 top-10 py-1 bg-white border-b border-black-400"
-    style="box-shadow: rgba(59, 131, 246, 0.377) 0 1px 10px 1px">
-    <div class="w-full flex items-center justify-between mt-0 px-6 py-2" >
+    style="box-shadow: rgba(59, 131, 246, 0.377) 0 1px 10px 1px"
+  >
+    <div class="w-full flex items-center justify-between mt-0 px-6 py-2">
       <div>
         <router-link to="/">
           <img src="/logo/lanmark-logo-navbar.png" :width="200" alt="" />
@@ -14,7 +15,7 @@
         class="order-2 md:order-3 flex flex-wrap items-center justify-end mr-0 md:mr-4"
         id="nav-content"
       >
-        <div class="auth flex items-center w-full md:w-full" >
+        <div class="auth flex items-center w-full md:w-full">
           <div
             v-for="(menu, menuKey) in dropdowns"
             :key="menuKey"
@@ -57,7 +58,7 @@
   </nav>
 
   <div class="full-width-menubar">
-    <Menubar :model="menu" class="center-nav"/>
+    <Menubar :model="menu" class="center-nav" />
   </div>
 </template>
 
@@ -71,27 +72,27 @@ export default {
         items: false,
       },
       namestore: `${this.$store.getters.name}`,
-      dropdowns:{
-         items:[ 
-          { id: 1, label: "แก้ไขข้อมูล", route: "/editadminuser" },
-        ],
+      dropdowns: {
+        items: [{ id: 1, label: "แก้ไขข้อมูล", route: "/editadminuser" }],
       },
       menu: [
-      {
+        {
           label: "Dashboard",
           icon: "pi pi-link",
           to: "/dashboardadmin",
-      },
-      {
+        },
+        {
           label: "admin",
           icon: "pi pi-user",
           items: [
             {
               label: "เพิ่มข้อมูล admin",
+              icon: "pi pi-user-plus",
               to: "/addadmin",
             },
             {
               label: "จัดการข้อมูล admin",
+              icon: "pi pi-user-edit",
               to: "/manageadmin",
             },
           ],
@@ -102,18 +103,22 @@ export default {
           items: [
             {
               label: "อนุมัติ partner",
+              icon: "pi pi-verified",
               to: "/approvepartner",
             },
             {
               label: "อนุมัติห้อง partner",
+              icon: "bi bi-door-closed",
               to: "/approveroom",
             },
             {
               label: "จัดการข้อมูล partner",
+              icon: "pi pi-user-edit",
               to: "/managepartner",
             },
             {
               label: "สัญญา partner",
+              icon: "bi bi-journal-check",
               to: "/contractmanage",
             },
           ],
@@ -124,47 +129,52 @@ export default {
           items: [
             {
               label: "จัดการข้อมูล member",
+              icon: "pi pi-user-edit",
               to: "/managemember",
             },
             {
               label: "สัญญา member",
+              icon: "bi bi-journal-check",
               to: "/contractmembermanage",
-            }
-            
+            },
           ],
         },
         {
           label: "ห้อง",
-          icon: "pi pi-folder",
+          icon: "bi bi-houses",
           items: [
             {
               label: "ประเภทห้อง",
+              icon: "bi bi-house-gear",
               to: "/RoomDetail",
             },
             {
               label: "อนุมัติการเพิ่มห้อง",
+               icon: "pi pi-verified",
               to: "/approveroom",
             },
             {
               label: "ข้อมูลห้อง",
+              icon: "bi bi-house-exclamation",
               to: "/roomadmin",
-            }
+            },
           ],
         },
         {
-          label: "จอง",
-          icon: "pi pi-send",
+          label: "การจอง",
+          icon: "bi bi-pencil-square",
           items: [
             {
               label: "ข้อมูลจอง",
+              icon: "bi bi-calendar2-check",
               to: "/bookingall",
-            }
+            },
           ],
         },
       ],
     };
   },
-  methods : {
+  methods: {
     logout() {
       localStorage.clear();
       this.$store.commit("setLoginDefault");
@@ -193,7 +203,7 @@ export default {
         Object.keys(this.isMenuOpenState).map((key) => [key, false])
       );
     },
-  }
+  },
 };
 </script>
 
@@ -211,8 +221,8 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.center-nav[data-v-9bdad0c2]{
+.center-nav[data-v-9bdad0c2] {
   background-color: #fff;
-  box-shadow: rgba(113, 165, 248, 0.226)0 1px 10px 1px;
+  box-shadow: rgba(113, 165, 248, 0.226) 0 1px 10px 1px;
 }
 </style>

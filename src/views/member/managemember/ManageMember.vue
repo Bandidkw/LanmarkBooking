@@ -44,7 +44,6 @@
         ></Column>
         <Column
           field="name"
-          class=""
           header="ชื่อ"
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
@@ -52,7 +51,6 @@
         </Column>
         <Column
           field="firstname"
-          class=""
           header="ชื่อจริง"
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
@@ -60,7 +58,6 @@
         </Column>
         <Column
           field="lastname"
-          class=""
           header="นามสกุล"
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
@@ -68,20 +65,19 @@
         </Column>
         <Column
           field="email"
-          class=""
           header="อีเมล"
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         >
         </Column>
-        <Column :exportable="false" style="width: 10%; cursor: default">
+        <!-- <Column :exportable="false" style="width: 10%; cursor: default">
           <template #body="item">
             <i
               class="pi pi-trash cursor-pointer icon-style"
               @click="deleteProduct(item.data._id)"
             />
           </template>
-        </Column>
+        </Column> -->
       </DataTable>
     </div>
   </div>
@@ -127,66 +123,75 @@ export default {
       }
     };
 
-    const deleteProduct = async (_id) => {
-      try {
-        const { value: deletehotel } = await Swal.fire({
-          title: "ต้องการลบหรือไม่",
-          text: "คุณต้องการลบรายการนี้หรือไม่",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          cancelButtonText: "ยกเลิก",
-          confirmButtonText: "ยืนยันลบ",
-          // input: "text",
-          // inputLabel: "สาเหตุที่ต้องการลบ",
-          // inputPlaceholder: "กรุณากรอกสาเหตุ",
-          // inputValidator: (value) => {
-          //   if (!value) {
-          //     return "กรุณากรอกสาเหตุที่ต้องการลบ";
-          //   }
-          // },
-        });
+    // const deleteProduct = async (_id) => {
+    //   try {
+    //     console.log("kim");
+    //     const { value: deletehotel } = await Swal.fire({
+    //       title: "ต้องการลบหรือไม่",
+    //       text: "คุณต้องการลบรายการนี้หรือไม่",
+    //       icon: "warning",
+    //       showCancelButton: true,
+    //       confirmButtonColor: "#3085d6",
+    //       cancelButtonColor: "#d33",
+    //       cancelButtonText: "ยกเลิก",
+    //       confirmButtonText: "ยืนยันลบ",
+    //       // input: "text",
+    //       // inputLabel: "สาเหตุที่ต้องการลบ",
+    //       // inputPlaceholder: "กรุณากรอกสาเหตุ",
+    //       // inputValidator: (value) => {
+    //       //   if (!value) {
+    //       //     return "กรุณากรอกสาเหตุที่ต้องการลบ";
+    //       //   }
+    //       // },
+    //     });
 
-        if (deletehotel) {
-          const response = await axios.delete(
-            `${process.env.VUE_APP_API}member/${_id}`,
-            {
-              headers: {
-                token: localStorage.getItem("token"),
-              },
-            }
-          );
+    //     if (deletehotel) {
+    //       console.log("kim1");
 
-          if (response.data) {
-            getData();
-            await Swal.fire({
-              icon: "success",
-              title: "ลบรายการสำเร็จ",
-            });
-          } else {
-            await Swal.fire({
-              icon: "error",
-              title: "เกิดข้อผิดพลาด",
-              text: "ไม่สามารถแก้ไขข้อมูลได้",
-            });
-          }
-        }
-      } catch (error) {
-        await Swal.fire({
-          icon: "error",
-          title: "เกิดข้อผิดพลาด",
-          text: "ไม่สามารถลบข้อมูลได้",
-        });
-      }
-    };
+    //       const response = await axios.delete(
+    //         `${process.env.VUE_APP_API}member/${_id}`,
+    //         {
+    //           headers: {
+    //             token: localStorage.getItem("token"),
+    //           },
+    //         }
+    //       );
+
+    //       if (response.data) {
+    //         console.log("kim2");
+
+    //         getData();
+    //         await Swal.fire({
+    //           icon: "success",
+    //           title: "ลบรายการสำเร็จ",
+    //         });
+    //       } else {
+    //         console.log("kim3");
+
+    //         await Swal.fire({
+    //           icon: "error",
+    //           title: "เกิดข้อผิดพลาด",
+    //           text: "ไม่สามารถแก้ไขข้อมูลได้",
+    //         });
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.log("kim4");
+
+    //     await Swal.fire({
+    //       icon: "error",
+    //       title: "เกิดข้อผิดพลาด",
+    //       text: "ไม่สามารถลบข้อมูลได้",
+    //     });
+    //   }
+    // };
     onMounted(() => {
       getData();
     });
     return {
       item_product,
       getData,
-      deleteProduct,
+      // deleteProduct,
       loading,
       searchall,
       headerTextColor: "rgb(156 163 175)",

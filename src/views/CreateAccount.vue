@@ -84,7 +84,7 @@
           type="tel"
           v-model="member.phone"
           @input="validateField('phone', 'member')"
-          placeholder="กรอกเบอร์โทรศัพท์"
+          placeholder="กรุณากรอกเบอร์โทรศัพท์"
         />
         <span class="error-message">{{ errors.phone }}</span>
 
@@ -150,13 +150,13 @@
         />
         <span class="error-message">{{ errors.name }}</span>
 
-        <label for="phone"> เบอร์โทรศัพท์ :</label>
+        <label for="phone"> เบอร์โทรศัพท์:</label>
         <InputText
           class="input-form"
           type="tel"
           v-model="partner.phone"
           @input="validateField('phone', 'partner')"
-          placeholder="กรอกเบอร์โทรศัพท์"
+          placeholder="กรุณากรอกเบอร์โทรศัพท์"
         />
         <span class="error-message">{{ errors.phone }}</span>
 
@@ -611,7 +611,11 @@ export default {
           .string()
           .email("* กรุณากรอกอีเมลให้ถูกต้อง")
           .required("* กรุณากรอกอีเมล"),
-        phone: yup.string().required("* กรุณากรอกเบอร์โทรศัพท์"),
+        phone: yup
+          .string()
+          .required("* กรุณากรอกเบอร์โทรศัพท์")
+          .min(8, "* เบอร์โทรต้องมีอย่างน้อย 8 หลัก")
+          .max(10, "* เบอร์โทรต้องมีไม่เกิน 10 หลัก"),
         // .matches(
         //   /^[0-9-]+$/,
         //   "Invalid phone number. Please enter a valid phone number."
@@ -627,7 +631,11 @@ export default {
     async validatePartnerForm() {
       const PartnerSchema = yup.object({
         name: yup.string().required("* กรุณากรอกชื่อ"),
-        phone: yup.string().required("* กรุณากรอกเบอร์โทรศัพท์"),
+        phone: yup
+          .string()
+          .required("* กรุณากรอกเบอร์โทรศัพท์")
+          .min(8, "* เบอร์โทรต้องมีอย่างน้อย 8 หลัก")
+          .max(10, "* เบอร์โทรต้องมีไม่เกิน 10 หลัก"),
         // .matches(
         //   /^[0-9-]+$/,
         //   "Invalid phone number. Please enter a valid phone number."

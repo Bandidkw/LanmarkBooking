@@ -64,6 +64,9 @@
                 icon="pi pi-info-circle"
                 @click="showPartnerDetail(item)"
               />
+              <p style="font-size: 7px">
+                เอาไว้ลบพาร์ทเนอร์ (จริงๆไม่สามารถลบได้)
+              </p>
               <i
                 class="pi pi-trash cursor-pointer icon-style"
                 @click="deleteProduct(item.data._id)"
