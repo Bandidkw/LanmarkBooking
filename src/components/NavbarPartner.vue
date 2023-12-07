@@ -1,6 +1,7 @@
 <!-- Navbar.vue -->
 <template>
   <nav id="header" class="w-full z-30 top-10 py-1 bg-white border-b border-black-400" style="box-shadow: rgba(59, 131, 246, 0.377) 0 1px 10px 1px">
+    <Loading :loading="loading"/>
     <div class="w-full flex items-center justify-between mt-0 px-6 py-2" >
       <div>
         <router-link to="/">
@@ -22,9 +23,9 @@
                   class="w-full text-center block px-4 py-2 hover:text-white hover:bg-[#007bff]">
                   {{ item.label }}
                 </router-link>
+                <button @click="downloadContract" class="text-sm w-full block px-4 py-2 hover:text-white hover:bg-[#004e98]">ดาวน์โหลดสัญญา</button>    
                 <button @click="logout" class="w-full block px-4 py-2 hover:text-white hover:bg-[#dc3545]">
-                  ออกจากระบบ
-                </button>
+                  ออกจากระบบ</button> 
               </div>
             </transition>
           </div>
@@ -32,8 +33,6 @@
       </div>
     </div>
   </nav>
-
-  <!-- eslint-disable-next-line vue/no-multiple-template-root -->
   <div class="full-width-menubar">
     <Menubar :model="menu" class="center-nav"/>
   </div>
@@ -43,7 +42,6 @@
 
 export default {
   components: {
-
   },
   data() {
     return {
@@ -84,10 +82,12 @@ export default {
           items: [
             {
               label: "เพิ่มห้อง",
+              icon:"pi pi-plus",
               to: "/addhotel",
             },
             {
               label: "จัดการห้อง",
+              icon:"pi pi-pencil",
               to: "/manageroom",
             }
           ],
@@ -98,10 +98,12 @@ export default {
           items: [
             {
               label: "อนุมัติการจองห้อง",
+              icon:"pi pi-check-square",
               to: "/managebooking",
             },
             {
               label: "อนุมัติการชำระเงิน",
+              icon:"pi pi-dollar",
               to: "/approvepayment",
             }
           ],
@@ -110,6 +112,16 @@ export default {
     };
   },
   methods: {
+    downloadContract() {
+      // สร้าง URL สำหรับไฟล์ PDF
+      const pdfUrl = '/pdf/contract_partner.pdf';  // กำหนดเส้นของไฟล์ PDF
+
+      // สร้าง Element <a> เพื่อทำการดาวน์โหลด
+      const link = document.createElement('a');
+      link.href = pdfUrl;
+      link.setAttribute('target', '_blank');
+      link.click();
+    },
     logout() {
       localStorage.clear();
       this.$store.commit("setLoginDefault");

@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-container px-4 gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3">
+  <div class="grid-container px-2 gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3">
     <div
       v-for="(item, index) in filteredGridData"
       :key="index"
@@ -12,7 +12,7 @@
             :value="
               item.image.map(
                 (imageId) =>
-                  `https://drive.google.com/uc?export=view&id=${imageId}`
+                `https://drive.google.com/uc?export=view&id=${imageId}`
               )
             "
             :numVisible="5"
@@ -152,7 +152,7 @@ export default {
 }
 
 .image-container img {
-  width: 250px;
+  width: 270px;
   height: 250px;
   object-fit: cover;
   border-radius: 1rem;

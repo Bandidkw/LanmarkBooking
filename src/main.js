@@ -7,8 +7,6 @@ import App from './App.vue';
 import router from './router/index.js'; // นำมาใช้ Router ที่เราสร้าง
 
 
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 
 import store from "./store";
 
@@ -59,8 +57,6 @@ app.use(PrimeVue);
 app.use(ToastService);
 app.use(ConfirmationService);
 app.use(store);
-app.use(jsPDF);
-app.use(html2canvas);
 
 
 try {

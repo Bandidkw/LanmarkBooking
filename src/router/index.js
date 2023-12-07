@@ -93,6 +93,12 @@ const router = createRouter({
 
     },
     {
+      path: "/contractmodal",
+      name: "contractmodal",
+      component: () => import("@/components/Contract_Modal.vue"),
+      
+    },
+    {
       path: "/managepartner",
       name: "managepartner",
       component: () => import("@/views/partner/managepartner/ManagePartner.vue"),

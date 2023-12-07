@@ -31,9 +31,10 @@ export default {
     };
   },
   mounted() {
-  const isFirstVisit = localStorage.getItem("firstVisit") === null;
+    const isFirstVisit = localStorage.getItem("firstVisit") === null;
+  const popupClosed = localStorage.getItem("popupClosed") === "true";
 
-  if (isFirstVisit) {
+  if (isFirstVisit && !popupClosed) {
     this.showPopup = true;
     localStorage.setItem("firstVisit", "true");
   }
@@ -85,21 +86,20 @@ if (localStorage.getItem("token") !== null) {
 },
 methods: {
   onAnimationEnd(event) {
-  console.log('Animation end event:', event.animationName);
-  if (event.animationName === 'fade-out') {
-    this.showPopup = false;
-  }
-},
-  closePopup() {
-  console.log("Close popup clicked");
-  if (this.$refs.popupContent) {
-    this.$refs.popupContent.classList.add('fade-out');
-    setTimeout(() => {
-      console.log('Timeout triggered');
+    if (event.animationName === 'fade-out') {
       this.showPopup = false;
-    }, 100);
-  }
-},
+      localStorage.setItem("popupClosed", "true");
+    }
+  },
+  closePopup() {
+    if (this.$refs.popupContent) {
+      this.$refs.popupContent.classList.add('fade-out');
+      setTimeout(() => {
+        this.showPopup = false;
+        localStorage.setItem("popupClosed", "true");
+      }, 100);
+    }
+  },
 },
 
 
