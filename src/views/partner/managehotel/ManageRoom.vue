@@ -156,7 +156,6 @@ import Swal from "sweetalert2";
 import EditHotel from "./EditHotel.vue";
 import Gallery from "../../../components/Gallery.vue";
 import Loading from "../../../components/Loading.vue";
-
 export default {
   components: {
     EditHotel,
