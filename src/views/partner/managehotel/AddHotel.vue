@@ -82,7 +82,7 @@
             />
           </div>
           <div
-            v-show="type === '65680f013a464f61e3de1a5c'"
+            v-show="type === '656aafdbe0452c77321a212d'"
             class="w-full md:w-1/2 px-4 mb-2"
           >
             <label
@@ -350,9 +350,14 @@
           <div class="w-full md:w-1/2 px-4 mb-2">
             <label
               class="flex uppercase w-3/12 tracking-wide text-gray-700 text-xs font-bold mb-2"
+              style="align-items: center"
               for="grid-first-name"
               >เพิ่มรูปภาพ :
             </label>
+            <p class="text-red-500 text-xs">
+              (* สามารถเพิ่มรูปภาพได้สูงสุด 5 รูป )<br />
+              (**แนะนำให้เพิ่มรูปภาพ 5 รูป**)
+            </p>
             <FileUpload
               name="demo[]"
               url="/api/upload"
@@ -363,6 +368,7 @@
               @change="handleFileChange"
               accept="image/*"
               multiple
+              maxFileSize="10000000"
             >
               <template #empty>
                 <p>อัพโหลดรูปภาพห้อง</p>
@@ -539,10 +545,23 @@ export default {
     //   this.tasks.splice(index, 1);
     // },
     handleFileChange(event) {
+      // const input = this.$refs.fileinput;
+      // if (input.files && input.files.length > 0) {
+      //   this.image = Array.from(input.files);
       const input = this.$refs.fileinput;
-      if (input.files && input.files.length > 0) {
-        this.image = Array.from(input.files);
+
+      // Calculate the total number of selected images
+      const totalImages = this.image.length + input.files.length;
+
+      // Check if the total number of images exceeds 5
+      if (totalImages > 5) {
+        // Clear the FileUpload component
+        this.$refs.fileinput.clear();
+        return;
       }
+
+      // Update the 'image' data property with the selected files
+      this.image = this.image.concat(Array.from(input.files));
     },
 
     async addRoom() {

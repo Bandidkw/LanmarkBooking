@@ -198,43 +198,15 @@
           <span class="error-message">{{ errors.filepic }}</span>
         </div>
 
-        <label for="image_bank">รูปภาพสมุดบัญชี :</label>
-        <FileUpload
-          mode="basic"
-          name="demo[]"
-          id="imagebankinput"
-          ref="imagebankinput"
-          type="file"
-          accept="image/*"
-          customUpload
-          @change="handleFileChange('image_bank')"
+        <label for="address">ที่อยู่ :</label>
+        <InputText
+          class="input-form"
+          type="tel"
+          v-model="partner.address"
+          @input="validateField('address', 'partner')"
+          placeholder="กรอกที่อยู่"
         />
-        <span class="error-message">{{ errors.image_bank }}</span>
-
-        <div class="input-content">
-          <div class="input-box">
-            <label for="bank">ธนาคาร :</label>
-            <Dropdown
-              v-model="partner.bank"
-              :options="banks"
-              optionLabel="label"
-              optionValue="value"
-              placeholder="เลือกธนาคารที่ใช้งาน"
-            />
-            <span class="error-message">{{ errors.bank }}</span>
-          </div>
-          <div class="input-box">
-            <label for="numberbank">เลขบัญชี :</label>
-            <InputText
-              class="input-form"
-              type="tel"
-              v-model="partner.numberbank"
-              @input="validateField('numberbank', 'partner')"
-              placeholder="กรอกเลขบัญชีธนาคาร"
-            />
-            <span class="error-message">{{ errors.numberbank }}</span>
-          </div>
-        </div>
+        <span class="error-message">{{ errors.address }}</span>
 
         <div class="input-content">
           <div class="input-box">
@@ -277,15 +249,43 @@
           </div>
         </div>
 
-        <label for="address">ที่อยู่ :</label>
-        <InputText
-          class="input-form"
-          type="tel"
-          v-model="partner.address"
-          @input="validateField('address', 'partner')"
-          placeholder="กรอกที่อยู่"
+        <label for="image_bank">รูปภาพสมุดบัญชี :</label>
+        <FileUpload
+          mode="basic"
+          name="demo[]"
+          id="imagebankinput"
+          ref="imagebankinput"
+          type="file"
+          accept="image/*"
+          customUpload
+          @change="handleFileChange('image_bank')"
         />
-        <span class="error-message">{{ errors.address }}</span>
+        <span class="error-message">{{ errors.image_bank }}</span>
+
+        <div class="input-content">
+          <div class="input-box">
+            <label for="bank">ธนาคาร :</label>
+            <Dropdown
+              v-model="partner.bank"
+              :options="banks"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="เลือกธนาคารที่ใช้งาน"
+            />
+            <span class="error-message">{{ errors.bank }}</span>
+          </div>
+          <div class="input-box">
+            <label for="numberbank">เลขบัญชี :</label>
+            <InputText
+              class="input-form"
+              type="tel"
+              v-model="partner.numberbank"
+              @input="validateField('numberbank', 'partner')"
+              placeholder="กรอกเลขบัญชีธนาคาร"
+            />
+            <span class="error-message">{{ errors.numberbank }}</span>
+          </div>
+        </div>
 
         <div class="input-content">
           <div class="input-box">
@@ -439,7 +439,7 @@ export default {
   },
   components: {
     Contract,
-    ContractMember
+    ContractMember,
   },
   methods: {
     handleRegisterSuccess(data) {
