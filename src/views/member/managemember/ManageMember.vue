@@ -76,13 +76,9 @@
         </Column>
         <Column :exportable="false" style="width: 10%; cursor: default">
           <template #body="item">
-            <Button
+            <i
+              class="pi pi-trash cursor-pointer icon-style"
               @click="deleteProduct(item.data._id)"
-              class="hover:bg-red-400 hover:text-white"
-              icon="pi pi-times hover:text-white"
-              text
-              raised
-              severity="danger"
             />
           </template>
         </Column>
@@ -130,31 +126,51 @@ export default {
         console.error(error);
       }
     };
+
     const deleteProduct = async (_id) => {
       try {
-        const response = await axios.delete(
-          `${process.env.VUE_APP_API}member/${_id}`,
-          {
-            headers: {
-              token: localStorage.getItem("token"),
-            },
-          }
-        );
+        const { value: deletehotel } = await Swal.fire({
+          title: "ต้องการลบหรือไม่",
+          text: "คุณต้องการลบรายการนี้หรือไม่",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          cancelButtonText: "ยกเลิก",
+          confirmButtonText: "ยืนยันลบ",
+          // input: "text",
+          // inputLabel: "สาเหตุที่ต้องการลบ",
+          // inputPlaceholder: "กรุณากรอกสาเหตุ",
+          // inputValidator: (value) => {
+          //   if (!value) {
+          //     return "กรุณากรอกสาเหตุที่ต้องการลบ";
+          //   }
+          // },
+        });
 
-        if (response.data) {
-          // หากการลบสำเร็จ อัปเดตข้อมูล
-          getData();
-          // แสดงข้อความสำเร็จ (ตัวเลือก)
-          Swal.fire({
-            icon: "success",
-            title: "ลบข้อมูลmemberสำเร็จ",
-          });
-        } else {
-          await Swal.fire({
-            icon: "error",
-            title: "เกิดข้อผิดพลาด",
-            text: "ไม่สามารถแก้ไขข้อมูลได้",
-          });
+        if (deletehotel) {
+          const response = await axios.delete(
+            `${process.env.VUE_APP_API}member/${_id}`,
+            {
+              headers: {
+                token: localStorage.getItem("token"),
+              },
+            }
+          );
+
+          if (response.data) {
+            getData();
+            await Swal.fire({
+              icon: "success",
+              title: "ลบรายการสำเร็จ",
+            });
+          } else {
+            await Swal.fire({
+              icon: "error",
+              title: "เกิดข้อผิดพลาด",
+              text: "ไม่สามารถแก้ไขข้อมูลได้",
+            });
+          }
         }
       } catch (error) {
         await Swal.fire({

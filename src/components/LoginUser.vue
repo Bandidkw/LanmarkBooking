@@ -51,9 +51,10 @@
           label="เข้าสู่ระบบ"
           icon="pi pi-sign-in"
           :loading="loading"
-          severity="help"
           rounded
           type="submit"
+          class="hover:bg-blue-700"
+          style="background-color: #3b82f6"
         />
 
         <span class="flex justify-content-center"
