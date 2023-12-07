@@ -1,7 +1,5 @@
 <template>
-  <div
-    class=" grid-container px-4 gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3"
-  >
+  <div class="grid-container px-4 gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3">
     <div
       v-for="(item, index) in filteredGridData"
       :key="index"
@@ -34,7 +32,9 @@
       <div class="details-container px-2">
         <h2 class="text-lg font-semibold pt-1 m-0">{{ item.name }}</h2>
         <p class="text-base my-1">{{ item.description }}</p>
-        <p class="text-base font-semibold m-0 max-[414px]:my-2">฿ {{ item.price.toLocaleString() }} คืน</p>
+        <p class="text-base font-semibold m-0 max-[414px]:my-2">
+          ฿ {{ item.price.toLocaleString() }} คืน
+        </p>
       </div>
     </div>
   </div>
@@ -118,6 +118,14 @@ export default {
 </script>
 
 <style scope>
+.p-galleria-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
 .p-galleria.p-galleria-indicator-onitem .p-galleria-indicators {
   background: none;
 }
