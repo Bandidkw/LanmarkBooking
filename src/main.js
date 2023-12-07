@@ -6,6 +6,10 @@ import App from './App.vue';
 //import routerAdmin from './router/admin.js'; // นำมาใช้ Router ที่เราสร้าง
 import router from './router/index.js'; // นำมาใช้ Router ที่เราสร้าง
 
+
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 import store from "./store";
 
 import InputNumber from 'primevue/inputnumber';
@@ -55,6 +59,9 @@ app.use(PrimeVue);
 app.use(ToastService);
 app.use(ConfirmationService);
 app.use(store);
+app.use(jsPDF);
+app.use(html2canvas);
+
 
 try {
   const token = localStorage.getItem("token");

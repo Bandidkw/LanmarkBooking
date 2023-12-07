@@ -10,7 +10,7 @@
         <div class="popup-container " v-if="showPopup">
     <!-- Popup Content -->
     <div ref="popupContent" @animationend="onAnimationEnd" class="{ 'popup-content': true, 'fade-out': !showPopup } flex p-2 bg-white" style="flex-direction: column; align-items: center; border-radius: 1rem;">
-        <img src="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/image_data/file/83916/s960_hotel_booking.jpg" alt="Popup Image" class="popup-image" style="border-radius: 1rem;" />
+        <img src="https://bookingx.app/wp-content/uploads/2023/10/hotel-booking-1.png" alt="Popup Image" class="popup-image" style="border-radius: 1rem;" />
         <Button label="Submit" style="justify-content: center;" @click="closePopup">ปิดโฆษณา</Button>
 
       </div>

@@ -1,10 +1,10 @@
 <template >
-  <div>
+  <div id="pdf-content" ref="content">
     <!-- <div>
       <Button label="Contract Electronic" icon="pi pi-external-link" @click="sidebar = true" />
     </div> -->
 
-    <Dialog v-model:visible="sidebar" modal :style="{ width: '80%' }"
+    <Dialog v-model:visible="sidebar" modal :closable="false" :style="{ width: '80%' }"
       :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
       <template v-slot:header>
         <div style="text-align: center; font-size: 1.5rem; font-weight: bold;">
@@ -80,29 +80,31 @@
             <li>สำเนาบัตรประจำตัวประชาชนของผู้มีอำนาจลงนามพร้อมลงลายมือชื่อรับรองสำเนาถูกต้อง</li>
             <li>สำเนาบัญชีสมุดธนาคารที่จะให้ทางlanmark.com โอนเงินชำระค่าบริการ พร้อมลงลายมือชื่อรับรองสำเนาถูกต้อง</li>
           </ul>
-
-
-
         </div>
       </div>
-      <!-- <div class="grid mt-5">
+      <div class="grid mt-5">
         <div class="col-12 md:col-12 text-center">
           <Button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2 boeder-none"
             @click="approve(datacontract._id)">คุณยินยอมสัญญา</Button>
           <Button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
             @click="unapprove()">ไม่ยืนยันสัญญา</Button>
+            <Button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2 border-none"
+      @click="download">Download PDF</Button>
         </div>
-      </div> -->
+      </div>
     </Dialog>
   </div>
 </template>
 <script>
+import jsPDF from 'jspdf' 
+import html2canvas from "html2canvas"
 export default {
   data() {
     return {
       prop: {
         // datacontract: '',
         id: String,
+        id: '',
       },
       sidebar: true,
       // datacontract: ""
@@ -121,50 +123,47 @@ export default {
   //   this.getcontract();
   // },
   methods: {
-    // async getcontract() {
-    //   try {
-    //     const Response = await axios.get(`${process.env.VUE_APP_API}contract/partner/`,
-    //       {
-    //         headers: {
-    //           token: localStorage.getItem("token"),
-    //         },
-    //       });
-    //     console.log(Response.data.message)
-    //     if (Response.data.status === true) {
-    //       this.datacontract = Response.data.data;
-    //       if (Response.data.data.status === true) {
-    //         this.sidebar = false
-    //       } else {
-    //         this.sidebar = true
-    //       }
-    //       console.log(Response.data.data);
-    //     }
-    //     else if (Response.data.message === "ไม่มีข้อมูล contract") {
-    //       console.log("ยังไม่สร้าง contract")
-    //       await this.addcontract();
-    //     } else {
-    //       console.error("Data is missing in the API response.");
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // },
-    async addcontract() {
+download() {
+  const doc = new jsPDF();
+  const contentHtml = this.$refs.content.innerHTML;
+  doc.fromHTML(contentHtml, 15, 15, {
+    width: 170
+  });
+  doc.save("sample.pdf");
+ },
 
+ downloadWithCSS() {
+   const doc = new jsPDF();
+   /** WITH CSS */
+   var canvasElement = document.createElement('canvas');
+    html2canvas(this.$refs.content, { canvas: canvasElement 
+      }).then(function (canvas) {
+    const img = canvas.toDataURL("image/jpeg", 0.8);
+    doc.addImage(img,'JPEG',20,20);
+    doc.save("sample.pdf");
+   });
+ },
+    async getcontract() {
       try {
-        const Response = await axios.post(`${process.env.VUE_APP_API}contract/`, {},
+        const Response = await axios.get(`${process.env.VUE_APP_API}contract/partner/`,
           {
             headers: {
               token: localStorage.getItem("token"),
             },
           });
-
+        console.log(Response.data.message)
         if (Response.data.status === true) {
           this.datacontract = Response.data.data;
-          await this.approve(id)
-          console.log("สร้าง")
+          if (Response.data.data.status === true) {
+            this.sidebar = false
+          } else {
+            this.sidebar = true
+          }
           console.log(Response.data.data);
-          // this.sidebar = true
+        }
+        else if (Response.data.message === "ไม่มีข้อมูล contract") {
+          console.log("ยังไม่สร้าง contract")
+          await this.addcontract();
         } else {
           console.error("Data is missing in the API response.");
         }
@@ -172,6 +171,29 @@ export default {
         console.error(error);
       }
     },
+    async addcontract() {
+  try {
+    const Response = await axios.post(`${process.env.VUE_APP_API}contract/`, {},
+      {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      });
+
+    if (Response.data.status === true) {
+      this.datacontract = Response.data.data;
+      await this.approve(this.prop.id) // เปลี่ยน id เป็น this.prop.id
+      console.log("สร้าง")
+      console.log(Response.data.data);
+      this.sidebar = true
+    } else {
+      console.error("Data is missing in the API response.");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+},
+
     async approve(id) {
       try {
         const Response = await axios.put(`${process.env.VUE_APP_API}contract/accept/${id}`, {},
@@ -182,7 +204,7 @@ export default {
           });
 
         if (Response.data.status === true) {
-          // this.sidebar = false
+          this.sidebar = false
         } else {
           console.error("Data is missing in the API response.");
         }
@@ -190,19 +212,19 @@ export default {
         console.error(error);
       }
     },
-    // async unapprove() {
+    async unapprove() {
 
-    //   localStorage.clear();
-    //   this.$store.commit("setLoginDefault");
-    //   this.sidebar = false
-    //   // Swal.fire({
-    //   //   icon: "error",
-    //   //   title: "กรุณายินยอมสัญญาก่อน",
-    //   //   text: "ถ้าคุณไม่ยินยอมสัญญาจะไม่สามารถเข้าใช้งานได้",
-    //   // });
-    //   // this.$router.push("/");
+      localStorage.clear();
+      this.$store.commit("setLoginDefault");
+      this.sidebar = false
+      // Swal.fire({
+      //   icon: "error",
+      //   title: "กรุณายินยอมสัญญาก่อน",
+      //   text: "ถ้าคุณไม่ยินยอมสัญญาจะไม่สามารถเข้าใช้งานได้",
+      // });
+      this.$router.push("/");
 
-    // }
+    }
   }
 }
 </script>

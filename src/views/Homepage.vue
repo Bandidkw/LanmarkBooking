@@ -329,7 +329,7 @@ this.$emit('filteredData', filteredData);
   transform: scaleX(1);
 }
 .room i , a{
-  color: #535353;
+  color: #494949;
   transition: all 0.2s ease-in-out;
 }
 .room a{
@@ -337,17 +337,16 @@ this.$emit('filteredData', filteredData);
 }
 .filter {
   cursor: default;
-  border: #707070 1px solid;
+  border: #494949 1px solid;
   padding: 8px;
   border-radius: 0.5rem;
   column-gap: 5px;
-  color: #707070;
+  color: #494949;
   display: flex;
   transition: all 0.2s ease-in-out;
 }
 
-.filter a,
-i {
+.filter a,i {
   font-size: 1rem;
   color: #252525;
 }
@@ -355,6 +354,8 @@ i {
 /*-------------------------------- filter-popup ----------------------*/
 
 .filter-btn {
+  display: flex;
+  column-gap: 0.3rem;
   cursor: pointer;
 }
 
