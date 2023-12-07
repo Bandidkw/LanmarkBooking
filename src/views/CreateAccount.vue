@@ -313,13 +313,6 @@
           </div>
         </div>
 
-        <!-- <div style="display: flex; align-items: center">
-          <Checkbox v-model="checked" :binary="true" />
-          <label for="ingredient1" class="ml-2">
-            ยืนยันสัญญาอิเล็กทรอนิกส์
-          </label>
-        </div> -->
-
         <div class="flex justify-content-end">
           <Button
             label="ลงทะเบียน"
@@ -328,7 +321,6 @@
             @click="register('partner')"
             severity="help"
             rounded
-            :disabled="!checked"
           />
         </div>
         <div>
