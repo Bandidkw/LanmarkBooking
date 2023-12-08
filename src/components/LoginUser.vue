@@ -63,9 +63,8 @@
             href="#"
             style="color: blue; text-decoration: underline"
             @click="registerPage"
-            >สร้างบัญชี</a
-          ></span
-        >
+            >สร้างบัญชี</a>
+         </span>
       </form>
     </Dialog>
   </div>
@@ -104,6 +103,7 @@ export default {
       showSuccess,
       showError,
       loading,
+      test:window.location.hostname,
     };
   },
   methods: {
@@ -123,9 +123,22 @@ export default {
         this.loading = false;
       } else {
         try {
+           const getip = await axios.get(`https://api64.ipify.org/?format=json`).catch((error)=>{return false})
+           let ip =""
+           if(getip.status===200)
+           {
+              ip = getip.data.ip
+           }
+           else{
+              ip= "ไม่มี"
+           }
           const res = await axios.post(`${process.env.VUE_APP_API}signin/`, {
             telephone: this.telephone,
             password: this.password,
+          },{
+            headers: {
+              ipadress:ip
+            },
           });
           if (res.data) {
             this.showSuccess();
