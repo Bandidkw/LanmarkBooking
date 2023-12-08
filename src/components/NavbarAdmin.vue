@@ -82,58 +82,58 @@ export default {
           to: "/dashboardadmin",
         },
         {
-          label: "admin",
+          label: "แอดมิน",
           icon: "pi pi-user",
           items: [
             {
-              label: "เพิ่มข้อมูล admin",
+              label: "เพิ่มข้อมูลแอดมิน",
               icon: "pi pi-user-plus",
               to: "/addadmin",
             },
             {
-              label: "จัดการข้อมูล admin",
+              label: "จัดการข้อมูลแอดมิน",
               icon: "pi pi-user-edit",
               to: "/manageadmin",
             },
           ],
         },
         {
-          label: "partner",
+          label: "พาร์ทเนอร์",
           icon: "pi pi-users",
           items: [
             {
-              label: "อนุมัติ partner",
+              label: "อนุมัติพาร์ทเนอร์",
               icon: "pi pi-verified",
               to: "/approvepartner",
             },
             {
-              label: "อนุมัติห้อง partner",
+              label: "อนุมัติห้องพาร์ทเนอร์",
               icon: "bi bi-door-closed",
               to: "/approveroom",
             },
             {
-              label: "จัดการข้อมูล partner",
+              label: "จัดการข้อมูลพาร์ทเนอร์",
               icon: "pi pi-user-edit",
               to: "/managepartner",
             },
             {
-              label: "สัญญา partner",
+              label: "สัญญาพาร์ทเนอร์",
               icon: "bi bi-journal-check",
               to: "/contractmanage",
             },
           ],
         },
         {
-          label: "member",
+          label: "เมมเบอร์",
           icon: "pi pi-users",
           items: [
             {
-              label: "จัดการข้อมูล member",
+              label: "จัดการข้อมูลเมมเบอร์",
               icon: "pi pi-user-edit",
               to: "/managemember",
             },
             {
-              label: "สัญญา member",
+              label: "สัญญาเมมเบอร์",
               icon: "bi bi-journal-check",
               to: "/contractmembermanage",
             },
@@ -150,7 +150,7 @@ export default {
             },
             {
               label: "อนุมัติการเพิ่มห้อง",
-               icon: "pi pi-verified",
+              icon: "pi pi-verified",
               to: "/approveroom",
             },
             {
@@ -168,6 +168,27 @@ export default {
               label: "ข้อมูลจอง",
               icon: "bi bi-calendar2-check",
               to: "/bookingall",
+            },
+          ],
+        },
+        {
+          label: "ไทม์ไลน์",
+          icon: "bi bi-clock-history",
+          items: [
+            {
+              label: "แอดมิน",
+              icon: " pi pi-user",
+              to: "/admintimeline",
+            },
+            {
+              label: "พาร์ทเนอร์",
+              icon: "pi pi-users",
+              to: "/partnertimeline",
+            },
+            {
+              label: "เมมเบอร์",
+              icon: "pi pi-users",
+              to: "/membertimeline",
             },
           ],
         },

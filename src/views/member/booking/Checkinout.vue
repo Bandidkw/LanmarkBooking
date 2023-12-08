@@ -121,37 +121,37 @@
         <Column class="text-center" header="สถานะอนุมัติ" style="width: 20%">
           <template #body="{ data }">
             <div
-              class="w-2/4 bg-blue-500"
+              class="lg:w-10 xl:w-5 bg-blue-100 text-blue-600 font-normal border-2 border-blue-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="data.check_in_date != null && data.check_out_date != null"
             >
-              <div class="font-bold" style="color: #fff">
-                เช็คอิน-เช็คเอาท์แล้ว
-              </div>
+              <div>เช็คอิน-เช็คเอาท์แล้ว</div>
             </div>
             <div
-              class="w-2/4 bg-green-500"
+              class="lg:w-10 xl:w-5 bg-green-100 text-green-600 font-normal border-2 border-green-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-else-if="data.check_in_date != null"
             >
-              <div class="font-bold" style="color: #fff">เช็คอินแล้ว</div>
+              <div>เช็คอินแล้ว</div>
             </div>
             <div
-              class="w-2/4 bg-orange-500"
+              class="lg:w-10 xl:w-5 bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-else-if="data.check_in_date === null"
             >
-              <div class="font-bold" style="color: #fff">ยังไม่ได้เช็คอิน</div>
+              <div>ยังไม่ได้เช็คอิน</div>
             </div>
           </template>
         </Column>
-        <Column header="เช็คอิน - เช็คเอาท์" style="width: 10%">
+        <!-- <Column header="เช็คอิน - เช็คเอาท์" style="width: 10%"> -->
+        <Column style="width: 10%">
           <template #body="{ data }">
             <Button
               @click="showPartnerDetail(data)"
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2"
-              >เช็คอิน - เช็คเอาท์</Button
-            >
+              icon="bi bi-clipboard2-check"
+              outlined
+              severity="help "
+            />
           </template>
         </Column>
       </DataTable>

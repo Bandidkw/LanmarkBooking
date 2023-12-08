@@ -76,60 +76,60 @@
         <Column class="text-center" header="สถานะอนุมัติ" style="width: 20%">
           <template #body="{ data }">
             <div
-              class="w-2/4 bg-orange-500"
+              class="lg:w-10 xl:w-5 bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="data.status.slice(-1)[0].statusbooking === 'รออนุมัติห้อง'"
             >
-              <div class="font-bold" style="color: #fff">
+              <div>
                 {{ data.status.slice(-1)[0].statusbooking }}
               </div>
             </div>
             <div
-              class="w-2/4 bg-green-500"
+              class="lg:w-10 xl:w-5 bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="data.status.slice(-1)[0].statusbooking === 'รอชำระเงิน'"
             >
-              <div class="text-white font-bold">
+              <div>
                 {{ data.status.slice(-1)[0].statusbooking }}
               </div>
             </div>
             <div
-              class="w-2/4 bg-green-500"
+              class="lg:w-10 xl:w-5 bg-blue-100 text-blue-600 font-normal border-2 border-blue-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="
                 data.status.slice(-1)[0].statusbooking === 'ยีนยันการชำระเงิน'
               "
             >
-              <div class="text-white font-bold">
+              <div>
                 {{ data.status.slice(-1)[0].statusbooking }}
               </div>
             </div>
             <div
-              class="w-2/4 bg-green-500"
+              class="lg:w-10 xl:w-5 bg-green-100 text-green-600 font-normal border-2 border-green-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="data.status.slice(-1)[0].statusbooking === 'จองห้องสำเร็จ'"
             >
-              <div class="text-white font-bold">
+              <div>
                 {{ data.status.slice(-1)[0].statusbooking }}
               </div>
             </div>
             <div
-              class="bg-red-500"
+              class="lg:w-10 xl:w-5 bg-red-100 text-red-600 font-normal border-2 border-red-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="data.status.slice(-1)[0].statusbooking === 'ไม่อนุมัติห้อง'"
             >
-              <div class="text-white font-bold">
+              <div>
                 {{ data.status.slice(-1)[0].statusbooking }}
               </div>
             </div>
             <div
-              class="bg-red-500"
+              class="lg:w-10 xl:w-5 bg-red-100 text-red-600 font-normal border-2 border-red-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="
                 data.status.slice(-1)[0].statusbooking === 'ชำระเงินไม่สำเร็จ'
               "
             >
-              <div class="text-white font-bold">
+              <div>
                 {{ data.status.slice(-1)[0].statusbooking }}
               </div>
             </div>
@@ -139,10 +139,11 @@
         <Column header="รายละเอียด" style="width: 10%">
           <template #body="{ data }">
             <Button
+              outlined
+              severity="help "
+              icon="pi pi-info-circle"
               @click="showPartnerDetail(data)"
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2"
-              >รายละเอียด</Button
-            >
+            />
           </template>
         </Column>
       </DataTable>

@@ -96,7 +96,7 @@ const router = createRouter({
       path: "/contractmodal",
       name: "contractmodal",
       component: () => import("@/components/Contract_Modal.vue"),
-      
+
     },
     {
       path: "/managepartner",
@@ -191,8 +191,22 @@ const router = createRouter({
       name: "contractmembermanage",
       component: () => import('@/views/member/ContractMemberManage.vue')
     },
-    
-    
+    ///// timeline login admin,partner,member //////
+    {
+      path: "/admintimeline",
+      name: "admintimeline",
+      component: () => import('@/views/admin/timeLineLogin/adminTimeLine.vue')
+    },
+    {
+      path: "/partnertimeline",
+      name: "partnertimeline",
+      component: () => import('@/views/admin/timeLineLogin/partnerTimeLine.vue')
+    },
+    {
+      path: "/membertimeline",
+      name: "membertimeline",
+      component: () => import('@/views/admin/timeLineLogin/memberTimeLine.vue')
+    },
   ],
 });
 
