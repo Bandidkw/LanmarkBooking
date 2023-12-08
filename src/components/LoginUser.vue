@@ -140,7 +140,7 @@ export default {
               ipadress:ip
             },
           });
-          if (res.data) {
+          if (res.data.status===true) {
             this.showSuccess();
             setTimeout(() => {
               localStorage.setItem("token", res.data.token);
@@ -148,7 +148,12 @@ export default {
               console.log(res.data);
             }, 1500);
           } else {
-            this.showError();
+            this.$toast.add({
+              severity: "error",
+              summary: "ล็อคอินไม่สำเร็จ",
+              detail: res.data.message,
+              life: 3000,
+            });
             this.loading = false;
             return console.log("faill");
           }
