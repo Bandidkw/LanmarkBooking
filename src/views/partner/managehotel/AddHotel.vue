@@ -1,7 +1,7 @@
 <template>
   <div class="grid px-24 py-4 mt-3">
     <div class="col-12 lg:col-12">
-      <center class="text-xl">เพิ่มข้อมูลห้อง</center>
+      <h1 class="text-xl flex justify-content-center">เพิ่มข้อมูลห้อง</h1>
       <form style="max-width: 750px">
         <div class="flex flex-wrap mb-0">
           <div class="w-full md:w-1/2 px-4 mb-2">
@@ -355,8 +355,7 @@
               >เพิ่มรูปภาพ :
             </label>
             <p class="text-red-500 text-xs">
-              (* สามารถเพิ่มรูปภาพได้สูงสุด 5 รูป )<br />
-              (**แนะนำให้เพิ่มรูปภาพ 5 รูป**)
+              (* เพิ่มรูปภาพห้องพัก 5 รูปภาพเพื่อนำไปแสดงหน้าหลัก)
             </p>
             <FileUpload
               name="demo[]"
@@ -368,7 +367,7 @@
               @change="handleFileChange"
               accept="image/*"
               multiple
-              maxFileSize="999999999"
+              :maxFileSize="Number('999999999')"
             >
               <template #empty>
                 <p>อัพโหลดรูปภาพห้อง</p>
@@ -547,35 +546,17 @@ export default {
     handleFileChange(event) {
       const input = this.$refs.fileinput;
       const selectedFiles = Array.from(input.files);
-      console.log(selectedFiles.length, "---");
-
-      if (selectedFiles.length > 5) {
-        // If more than 5 files are selected, clear the input
+      if (selectedFiles.length > 5 || this.image.length > 16) {
         this.clearFileInput();
-        return;
-      }
-
-      // Check if adding the selected files would exceed the limit of 5 images
-      console.log(this.image.length + selectedFiles.length, " ++++");
-
-      if (this.image.length + selectedFiles.length > 5) {
-        // If so, clear the existing images and add the new ones
-        // this.clearFileInput();
-        this.$refs.fileinput.clear();
-
         this.image = selectedFiles;
-        console.log(selectedFiles, "selectedFiles");
-        console.log(this.image, "thisimage");
       } else {
-        // If within the limit, concatenate the selected files
-        console.log("else");
         this.image = this.image.concat(selectedFiles);
       }
     },
 
     clearFileInput() {
-      // Clear the file input
       this.$refs.fileinput.clear();
+      this.image = [];
     },
 
     async addRoom() {
