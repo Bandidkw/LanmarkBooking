@@ -9,10 +9,9 @@
         <!-- Popup Container -->
         <div class="popup-container " v-if="showPopup">
     <!-- Popup Content -->
-    <div ref="popupContent" @animationend="onAnimationEnd" class="{ 'popup-content': true, 'fade-out': !showPopup } flex p-2 bg-white" style="flex-direction: column; align-items: center; border-radius: 1rem;">
-        <img src="https://bookingx.app/wp-content/uploads/2023/10/hotel-booking-1.png" alt="Popup Image" class="popup-image" style="border-radius: 1rem;" />
+    <div ref="popupContent" @animationend="onAnimationEnd" class="{ 'popup-content': true, 'fade-out': !showPopup } flex p-2 bg-white" style="flex-direction: column; align-items: center; border-radius: 1rem; width: 450px;">
+        <img src="https://quaysidehotel.co.uk/wp-content/uploads/2022/09/Reasons-to-a-room-direct-with-hotel-over-booking-via-third-party-travel-agency-1024x657.jpg" alt="Popup Image" class="popup-image" style="border-radius: 1rem;" />
         <Button label="Submit" style="justify-content: center;" @click="closePopup">ปิดโฆษณา</Button>
-
       </div>
   </div>
   </div>
@@ -145,6 +144,8 @@ methods: {
   }
 }
 .popup-content {
+  width: 250px;
+  height: 250px;
   text-align: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   opacity: 1;
@@ -159,7 +160,7 @@ methods: {
 }
 
 .popup-image {
-  max-width: 100%;
+  width: 100%;
   height: auto;
   margin-bottom: 10px;
 }

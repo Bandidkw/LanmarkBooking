@@ -5,6 +5,10 @@
     <div class="choose-room">
       <div class="room">
         <i class="bi bi-house-door"></i>
+        <a class="font-type" @click="createaccount">บ้าน</a>
+      </div>
+      <div class="room">
+        <i class="bi bi-houses"></i>
         <a class="font-type" @click="createaccount">อพาร์ทเม้นท์</a>
       </div>
       <div class="room">
@@ -12,23 +16,31 @@
         <a class="font-type" @click="createaccount">ห้องพักทั่วไป</a>
       </div>
       <div class="room">
+        <i class="bi bi-buildings"></i>
+        <a class="font-type" @click="createaccount">โรงแรม</a>
+      </div>
+      <div class="room">
         <i class="bi bi-building"></i>
         <a class="font-type" @click="createaccount">คอนโด</a>
       </div>
       <div class="room">
-        <i class="bi bi-tsunami"></i>
-        <a class="font-type" @click="createaccount">ริมทะเล</a>
-      </div>
-      <div class="room">
-        <i class="bi bi-tree"></i>
-        <a class="font-type" @click="createaccount">ป่า-เขา</a>
+        <i class="bi bi-house-lock"></i>
+        <a class="font-type" @click="createaccount">รีสอร์ท</a>
       </div>
       <div class="room">
         <i class="bi bi-brightness-alt-high"></i>
         <a class="font-type" @click="createaccount">เกาะ</a>
       </div>
       <div class="room">
-        <i class="bi bi-houses"></i>
+        <i class="bi bi-tree"></i>
+        <a class="font-type" @click="createaccount">ป่า-เขา</a>
+      </div>
+      <div class="room">
+        <i class="bi bi-tsunami"></i>
+        <a class="font-type" @click="createaccount">ริมทะเล</a>
+      </div>
+      <div class="room">
+        <i class="bi bi-luggage"></i>
         <a class="font-type" @click="createaccount">คฤหาสน์</a>
       </div>
       <!----------------------------------------- Filter-box ------------------------------->
