@@ -498,7 +498,7 @@ export default {
       try {
         if (userType === "member") {
           await this.validateMemberForm();
-          const productResponse = await axios.post(
+          const res = await axios.post(
             `${process.env.VUE_APP_API}signup/member`,
             {
               telephone: this.member.phone,
@@ -510,17 +510,25 @@ export default {
               roles: "member",
             }
           );
-          if (productResponse.data && productResponse.data) {
-            console.log(productResponse, "success");
+          if (res.data.status == true) {
+            console.log(res, "success");
             this.loading = false;
+            this.showSuccess();
+            this.showModalMember = false;
+            await this.$router.push("/");
           } else {
             this.loading = false;
-            this.showError();
+            this.$toast.add({
+              severity: "error",
+              summary: "สมัครสมาชิกไม่สำเร็จ",
+              detail: res.data.message,
+              life: 3000,
+            });
             console.error("Data is missing in the API response.");
           }
         } else if (userType === "partner") {
           await this.validatePartnerForm();
-          const productResponse = await axios.post(
+          const res = await axios.post(
             `${process.env.VUE_APP_API}signup/partner`,
             {
               telephone: this.partner.phone,
@@ -537,26 +545,28 @@ export default {
               level: "1",
             }
           );
-          this.$emit("register-success", {
-            registerId: productResponse.data.data._id,
-          });
-          if (productResponse.data.status === true) {
-            console.log(productResponse.data);
-            await this.uploadPicture(productResponse.data.data._id);
+          // this.$emit("register-success", {
+          //   registerId: res.data.data._id,
+          // });
+          if (res.data.status === true) {
+            console.log(res.data);
+            await this.uploadPicture(res.data.data._id);
+            this.showSuccess();
+            this.showModalPartner = false;
             this.loading = false;
+            await this.$router.push("/");
           } else {
             this.loading = false;
-
-            this.showError();
+             this.$toast.add({
+              severity: "error",
+              summary: "ลงทะเบียนไม่สำเร็จ",
+              detail: res.data.message,
+              life: 3000,
+            });
             console.error("Data is missing in the API response.");
           }
         }
-        this.showSuccess();
-        this.showModalPartner = false;
-        this.showModalMember = false;
-        this.loading = false;
 
-        await this.$router.push("/");
       } catch (error) {
         this.loading = false;
 
