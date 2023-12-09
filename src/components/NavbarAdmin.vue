@@ -26,7 +26,7 @@
               type="button"
               class="lg:inline-block lg:mt-0 hover:text-white px-2 py-2 rounded hover:bg-[#007bff] mr-2"
             >
-              <span class="bi bi-person-fill"></span> {{ namestore }}
+              <span class="bi bi-person-fill text-2xl"></span> {{ namestore }}
               <i class="bi bi-caret-down-fill"></i>
             </button>
             <transition name="fade">

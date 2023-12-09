@@ -44,10 +44,14 @@
             <InputText
               class="appearance-none block w-full text-gray-700 rounded py-3 mb-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-password"
-              type="text"
+              type="tel"
+              @input="validateInput"
               v-model="phone_number"
-              placeholder="000-000-0000"
+              placeholder="เบอร์โทรศัพท์"
             />
+            <p v-if="showValidationError" style="font-size: 12px; color: red">
+              *กรุณากรอกเลขโทรศัพท์ที่ถูกต้อง (8-10 ตัว)
+            </p>
           </div>
           <div class="w-full md:w-1/2 px-4 mb-2">
             <label
@@ -355,7 +359,7 @@
               >เพิ่มรูปภาพ :
             </label>
             <p class="text-red-500 text-xs">
-              (* เพิ่มรูปภาพห้องพัก 5 รูปภาพเพื่อนำไปแสดงหน้าหลัก)
+              * เพิ่มรูปภาพห้องพัก 5 รูปภาพเพื่อนำไปแสดง
             </p>
             <FileUpload
               name="demo[]"
@@ -530,6 +534,7 @@ export default {
       minSelectableDate: new Date(),
       disabledDates: [new Date(2023, 10, 29), new Date(2023, 10, 30)],
       loading,
+      showValidationError: false,
     };
   },
   methods: {
@@ -682,6 +687,13 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    validateInput() {
+      const isValidNumber = /^[0-9]+$/.test(this.phone_number);
+      const isValidLength =
+        this.phone_number.length >= 8 && this.phone_number.length <= 10;
+
+      this.showValidationError = !(isValidNumber && isValidLength);
     },
   },
 };

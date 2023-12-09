@@ -138,7 +138,7 @@ export default {
 .grid-container {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 0.5rem;
 }
 
@@ -152,7 +152,7 @@ export default {
 }
 
 .image-container img {
-  width: 270px;
+  width: 100%;
   height: 250px;
   object-fit: cover;
   border-radius: 1rem;
@@ -171,6 +171,9 @@ export default {
 @media screen and (max-width: 1440px) {
   .grid-container {
     grid-template-columns: repeat(4, 1fr);
+  }
+  .image-container img {
+    width: 100%;
   }
 }
 
@@ -249,7 +252,7 @@ export default {
   }
 
   .image-container img {
-    width: 250px;
+    width: 100%;
     height: 250px;
   }
 }
