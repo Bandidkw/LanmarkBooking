@@ -152,9 +152,14 @@ export default {
   border-radius: 50%;
   padding: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.3s;
-}
+  transition: background-color 0.3s , opacity 0.3s;
+  opacity: 0;
 
+}
+.image-container:hover .left-arrow,
+.image-container:hover .right-arrow {
+  opacity: 1;
+}
 .left-arrow {
   left: 0;
 }
