@@ -137,14 +137,14 @@ export default {
           cancelButtonColor: "#d33",
           cancelButtonText: "ยกเลิก",
           confirmButtonText: "ยืนยันลบ",
-          // input: "text",
-          // inputLabel: "สาเหตุที่ต้องการลบ",
-          // inputPlaceholder: "กรุณากรอกสาเหตุ",
-          // inputValidator: (value) => {
-          //   if (!value) {
-          //     return "กรุณากรอกสาเหตุที่ต้องการลบ";
-          //   }
-          // },
+          input: "text",
+          inputLabel: "สาเหตุที่ต้องการลบ",
+          inputPlaceholder: "กรุณากรอกสาเหตุ",
+          inputValidator: (value) => {
+            if (!value) {
+              return "กรุณากรอกสาเหตุที่ต้องการลบ";
+            }
+          },
         });
 
         if (deletehotel) {

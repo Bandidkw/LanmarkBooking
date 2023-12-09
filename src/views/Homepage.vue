@@ -523,5 +523,11 @@ p {
   .choose-room{
     column-gap: 1rem;
   }
+  .room{
+    display: none;
+  }
+  .filter-popup{
+    width: 300px;
+  }
 }
 </style>

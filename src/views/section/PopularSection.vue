@@ -141,7 +141,6 @@ export default {
   grid-template-columns: repeat(5, 1fr);
   gap: 0.5rem;
 }
-
 .grid-item {
   padding: 0 1rem;
 }
