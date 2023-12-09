@@ -8,7 +8,7 @@
           <img src="/logo/lanmark-logo-navbar.png" :width="200" alt="" />
         </router-link>
       </div>
-      <div class="order-2 md:order-3 flex flex-wrap items-center justify-end mr-0 md:mr-4" id="nav-content">
+      <div class="md:order-3 flex flex-wrap items-center justify-end mr-0 md:mr-4" id="nav-content">
         <div class="auth flex items-center w-full md:w-full" >
           <div v-for="(menu, menuKey) in dropdowns" :key="menuKey" class="relative lg:inline-block text-left">
             <button @click="toggleMenu(menuKey)" type="button"
@@ -78,23 +78,23 @@ export default {
         },
         {
           label: "ห้อง",
-          icon: "pi pi-folder",
+          icon: "bi bi-houses",
           items: [
             {
               label: "เพิ่มห้อง",
-              icon:"pi pi-plus",
+              icon:"bi bi-house-add",
               to: "/addhotel",
             },
             {
               label: "จัดการห้อง",
-              icon:"pi pi-pencil",
+              icon:"bi bi-house-gear",
               to: "/manageroom",
             }
           ],
         },
         {
-          label: "จอง",
-          icon: "pi pi-send",
+          label: "การจอง",
+          icon: "bi bi-pencil-square",
           items: [
             {
               label: "อนุมัติการจองห้อง",

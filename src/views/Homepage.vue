@@ -370,7 +370,6 @@ this.$emit('filteredData', filteredData);
   column-gap: 0.3rem;
   cursor: pointer;
 }
-
 .filter-popup {
   display: flex;
   flex-direction: column;
