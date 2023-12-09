@@ -62,25 +62,24 @@
 <script>
 import { onMounted, ref } from "vue";
 import Loading from "../../../components/Loading.vue";
-import { User } from "../../../service/user";
+import { Admin } from "../../../router/admin";
 
 export default {
   components: {
-    // updateadmin,
     Loading,
   },
   created() {
     document.title = "AdminTimeLine";
   },
   setup() {
-    const user = new User();
-    const item_product = ref([]);
+    const admin = new Admin();
+    const item_product = ref([""]);
     const searchall = ref("");
     const loading = ref(true);
 
     const getData = async () => {
       try {
-        const result = await user.GetTimeLineAdmin();
+        const result = await admin.GetTimeLineAdmin();
         item_product.value = result;
         console.log(item_product.value);
       } catch (error) {
@@ -96,7 +95,7 @@ export default {
 
     return {
       item_product,
-      user,
+      admin,
       getData,
       loading,
       searchall,
