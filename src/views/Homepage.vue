@@ -490,6 +490,17 @@ p {
 .grid-img:hover .hidden {
   opacity: 1;
 }
+@media screen and (max-width: 1280px) {
+  .search-box-cus {
+    display: none;
+  }
+  .room a {
+    display: none;
+  }
+  .choose-room{
+    column-gap: 1rem;
+  }
+}
 @media screen and (max-width: 768px) {
   .search-box-cus {
     display: none;

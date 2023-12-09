@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-container px-8 gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3">
+  <div class="grid-container px-4 gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3">
     <div
       v-for="(item, index) in filteredGridData"
       :key="index"
