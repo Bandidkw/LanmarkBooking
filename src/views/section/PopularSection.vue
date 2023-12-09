@@ -5,30 +5,35 @@
       :key="index"
       class="grid-item"
     >
-      <router-link :to="{ name: 'hotel', params: { id: item._id } }">
-        <div class="image-container">
+      <div class="image-container">
+        <router-link :to="{ name: 'hotel', params: { id: item._id } }">
           <Galleria
             v-model:visible="displayBasic"
-            :value="
-              item.image.map(
-                (imageId) =>
-                `https://drive.google.com/uc?export=view&id=${imageId}`
-              )
-            "
+            :value="getPreloadedImages(item)"
             :numVisible="5"
-            containerStyle="max-width: 640px"
+            containerStyle="max-width: 640px; position: relative;"
             :showThumbnails="false"
             :showIndicators="true"
             :changeItemOnIndicatorHover="true"
             :showIndicatorsOnItem="true"
             :indicatorsPosition="position"
+            :activeIndex.sync="item.activeIndex"
           >
             <template v-slot:item="{ item }">
-              <img :src="item" :alt="item.alt" />
+              <img :src="item" :alt="item && item.alt ? item.alt : ''" />
             </template>
           </Galleria>
-        </div>
-      </router-link>
+        </router-link>
+
+        <i
+          class="left-arrow bi bi-arrow-left-circle-fill text-white"
+          @click="prev(item)"
+        />
+        <i
+          class="right-arrow bi bi-arrow-right-circle-fill text-white"
+          @click="next(item)"
+        />
+      </div>
       <div class="details-container px-2">
         <h2 class="text-lg font-semibold pt-1 m-0">{{ item.name }}</h2>
         <p class="text-base my-1">{{ item.description }}</p>
@@ -56,7 +61,10 @@ export default {
       const filteredstatus = Response.data.filter(
         (item) => item.statusbooking === true && item.status === true
       );
-      this.gridData = filteredstatus;
+      this.gridData = filteredstatus.map((item) => ({
+        ...item,
+        activeIndex: 0,
+      })); // Initialize activeIndex for each item
     };
 
     onMounted(() => {
@@ -65,15 +73,31 @@ export default {
       this.$bus.on("search-hotels", this.handleSearchHotels);
     });
 
+    const next = (item) => {
+      item.activeIndex = (item.activeIndex + 1) % item.image.length;
+    };
+
+    const prev = (item) => {
+      item.activeIndex =
+        (item.activeIndex - 1 + item.image.length) % item.image.length;
+    };
+
     return {
       displayBasic,
       gridData,
-      currentImageIndex: 0,
       position,
       searchTerm,
+      next,
+      prev,
     };
   },
   methods: {
+    getPreloadedImages(item) {
+      return item.image.map(
+        (imageId) => `https://drive.google.com/uc?export=view&id=${imageId}`
+      );
+    },
+
     getImage(item) {
       if (typeof item === "string") {
         return `https://drive.google.com/uc?export=view&id=${item}`;
@@ -118,6 +142,26 @@ export default {
 </script>
 
 <style scope>
+.left-arrow,
+.right-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: white;
+  border-radius: 50%;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.left-arrow {
+  left: 0;
+}
+
+.right-arrow {
+  right: 0;
+}
 .p-galleria-item {
   display: flex;
   justify-content: center;
