@@ -2,7 +2,7 @@
   <div class="grid px-10 mt-3 ml-5 mr-5 w-full containter">
     <Loading :loading="loading" />
     <div class="col-12 lg:col-12 border">
-      <div class="text-center font-bold text-4xl">ADMIN TIMELINE</div>
+      <div class="text-center font-bold text-4xl">ข้อมูลการล็อคอิน ADMIN</div>
       <div class="text-right my-5"></div>
 
       <DataTable
@@ -25,6 +25,7 @@
         </template>
         <template #header>
           <div class="flex justify-content-end">
+            <Calendar v-model="selectdate"  dateFormat="dd/mm/yy" selectionMode="range" showIcon class="mx-3"/>
             <span class="p-input-icon-left">
               <i class="pi pi-search" />
               <InputText
@@ -55,6 +56,13 @@
             {{ formatDate(data.createdAt) }}
           </template>
         </Column>
+        <Column
+          field="ipaddress"
+          header="เลขเครื่องip"
+          sortable
+          style="width: 10%; cursor: default"
+          :headerStyle="{ color: headerTextColor }"
+        ></Column>
       </DataTable>
     </div>
   </div>
@@ -76,11 +84,13 @@ export default {
     const item_product = ref([""]);
     const searchall = ref("");
     const loading = ref(true);
-
+    const selectdate = ref("");
     const getData = async () => {
       try {
         const result = await admin.GetTimeLineAdmin();
-        item_product.value = result;
+        const clearresult = result.filter(item=>item.admin_id !="")
+        item_product.value = clearresult;
+        
         console.log(item_product.value);
       } catch (error) {
         console.error(error);
@@ -99,6 +109,7 @@ export default {
       getData,
       loading,
       searchall,
+      selectdate,
       headerTextColor: "rgb(156 163 175)",
     };
   },
@@ -121,13 +132,31 @@ export default {
   },
   computed: {
     Filter() {
-      if (this.searchall) {
+     if(this.selectdate){
+        const searchTerm = this.searchall.toLowerCase();
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };        
+        return this.item_product.filter((item) => {
+          const itemDate = new Date(item.createdAt);
+          const formattedItemDate = itemDate.toLocaleDateString('th-TH', options);
+          if(this.selectdate[0]!=null&&this.selectdate[0]!="" && this.selectdate[1]===null)
+          {
+            const startdate = this.selectdate[0].toLocaleDateString('th-TH', options)
+            return ((formattedItemDate==startdate)&&(item.admin_id.name.toLowerCase().includes(searchTerm)||item.ipaddress.toLowerCase().includes(searchTerm)));
+          }
+          if(this.selectdate[1]!=null&&this.selectdate[1]!="")
+          {
+            const startdate = this.selectdate[0].toLocaleDateString('th-TH', options)
+            const enddate =this.selectdate[1].toLocaleDateString('th-TH', options)
+            return ((formattedItemDate>=startdate&&formattedItemDate<=enddate)&&(item.admin_id.name.toLowerCase().includes(searchTerm)||item.ipaddress.toLowerCase().includes(searchTerm)));
+          }
+          
+        });
+     }else if (this.searchall) {
         const searchTerm = this.searchall.toLowerCase();
         return this.item_product.filter((item) => {
           return (
-            (item.admin_id &&
-              item.admin_id.name.toLowerCase().includes(searchTerm)) ||
-            item.createdAt.includes(searchTerm)
+            item.admin_id.name.toLowerCase().includes(searchTerm) ||
+            item.ipaddress.toLowerCase().includes(searchTerm)
           );
         });
       } else {
