@@ -3,24 +3,24 @@
   <div class="invitatain lg:py-0 lg:px-2 sm:px-1">
     <!------------------------------- choose-room ------------------------>
     <div class="choose-room">
-      <div class="room" @click="emitOption('ทั้งหมด')">
-        <i class="bi bi-globe-central-south-asia"></i>
+      <div class="room" @click="emitOption('')">
+        <img src="https://www.svgrepo.com/show/122153/global.svg" alt="">
         <a class="font-type">ทั้งหมด</a>
       </div>
       <div class="room" @click="emitOption('บ้าน')">
-        <img src="https://www.svgrepo.com/show/111256/house.svg" alt="">
+        <img src="https://www.svgrepo.com/download/70465/house.svg" alt="">
         <a class="font-type">บ้าน</a>
       </div>
       <div class="room" @click="emitOption('อพาร์ทเม้นท์')">
-        <img src="https://www.svgrepo.com/download/187296/apartment.svg" alt="">
+        <img src="https://www.svgrepo.com/show/187290/apartment.svg" alt="">
         <a class="font-type">อพาร์ทเม้นท์</a>
       </div>
       <div class="room" @click="emitOption('ห้องพักทั่วไป')">
-        <img src="https://static.thenounproject.com/png/3891254-200.png" alt="">
+        <img src="https://www.svgrepo.com/show/149612/hotel-room.svg" alt="">
         <a class="font-type">ห้องพักทั่วไป</a>
       </div>
       <div class="room" @click="emitOption('โรงแรม')">
-        <i class="bi bi-buildings"></i>
+        <img src="https://www.svgrepo.com/show/288092/hotel.svg" alt="">
         <a class="font-type">โรงแรม</a>
       </div>
       <div class="room" @click="emitOption('คอนโด')">
@@ -32,19 +32,19 @@
         <a class="font-type">รีสอร์ท</a>
       </div>
       <div class="room" @click="emitOption('เกาะ')">
-        <i class="bi bi-brightness-alt-high"></i>
+        <img src="https://www.svgrepo.com/show/2812/island.svg" alt="">
         <a class="font-type">เกาะ</a>
       </div>
       <div class="room" @click="emitOption('ป่า-เขา')">
-        <i class="bi bi-tree"></i>
+        <img src="https://www.svgrepo.com/show/88715/forest.svg" alt="">
         <a class="font-type">ป่า-เขา</a>
       </div>
       <div class="room" @click="emitOption('ริมทะเล')">
-        <i class="bi bi-tsunami"></i>
+        <img src="https://www.svgrepo.com/show/307553/storm-sea-ocean-waves.svg" alt="">
         <a class="font-type">ริมทะเล</a>
       </div>
       <div class="room" @click="emitOption('คฤหาสน์')">
-        <i class="bi bi-luggage"></i>
+        <img src="https://www.svgrepo.com/download/51006/mansion.svg" alt="">
         <a class="font-type">คฤหาสน์</a>
       </div>
       <!----------------------------------------- Filter-box ------------------------------->
@@ -363,7 +363,7 @@ export default {
   padding: 10px;
   display: flex;
   align-items: center;
-  column-gap: 3rem;
+  column-gap: 3.5rem;
   justify-content: center;
 }
 
