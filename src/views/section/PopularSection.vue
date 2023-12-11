@@ -228,7 +228,9 @@ export default {
   position: relative;
   height: 70%;
 }
-
+.image-container svg{
+  font-size: 2rem;
+}
 .image-container img {
   width: 100%;
   height: 250px;
