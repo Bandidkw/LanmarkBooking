@@ -28,7 +28,10 @@
         <a class="font-type">คอนโด</a>
       </div>
       <div class="room" @click="emitOption('รีสอร์ท')">
-        <img src="https://www.svgrepo.com/show/204714/sun-bath-resort.svg" alt="">
+        <img
+          src="https://www.svgrepo.com/show/204714/sun-bath-resort.svg"
+          alt=""
+        />
         <a class="font-type">รีสอร์ท</a>
       </div>
       <div class="room" @click="emitOption('เกาะ')">
@@ -406,7 +409,9 @@ export default {
 .room:hover::before {
   transform: scaleX(1);
 }
-.room i , a , img{
+.room i,
+a,
+img {
   color: #494949;
   transition: all 0.2s ease-in-out;
 }
