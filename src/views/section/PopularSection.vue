@@ -17,8 +17,7 @@
             :changeItemOnIndicatorHover="true"
             :showIndicatorsOnItem="true"
             :indicatorsPosition="position"
-            :activeIndex.sync="item.activeIndex"
-          >
+            :activeIndex.sync="item.activeIndex">
             <template v-slot:item="{ item }">
               <img :src="item" :alt="item && item.alt ? item.alt : ''" />
             </template>
@@ -26,13 +25,14 @@
         </router-link>
 
         <i
-          class="left-arrow bi bi-arrow-left-circle-fill text-white"
+          v-if="isRightArrowClicked" class="left-arrow bi bi-arrow-left-circle-fill text-white"
           @click="prev(item)"
         />
         <i
           class="right-arrow bi bi-arrow-right-circle-fill text-white"
           @click="next(item)"
         />
+        <svg :id="`your-svg-id-${index}`" @click="changeFill(index)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="position: absolute; transform: translateY(-50%); top: 12%; right: 5%; display: block; fill: rgba(0, 0, 0, 0.5); height: 24px; width: 24px; stroke: #fff; stroke-width: 2; overflow: visible; cursor: pointer; z-index: 9999;"><path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"></path></svg>
       </div>
       <div class="details-container px-2">
         <h2 class="text-lg font-semibold pt-1 m-0">{{ item.name }}</h2>
@@ -75,6 +75,7 @@ export default {
 
     const next = (item) => {
       item.activeIndex = (item.activeIndex + 1) % item.image.length;
+      this.isRightArrowClicked = true;
     };
 
     const prev = (item) => {
@@ -89,15 +90,34 @@ export default {
       searchTerm,
       next,
       prev,
+      isRightArrowClicked: false,
     };
   },
   methods: {
+    changeFill(index) {
+  // ค้นหาองค์ประกอบ SVG ด้วย ID
+  const svgElement = document.getElementById(`your-svg-id-${index}`);
+  
+  // ค้นหาองค์ประกอบ path ภายใน SVG
+  const pathElement = svgElement.querySelector('path');
+
+  // สลับสีเต็มรูปแบบระหว่างค่าสีสองค่า
+  const newColor = pathElement.style.fill === 'rgba(0, 0, 0, 0.5)' ? '#f72585' : 'rgba(0, 0, 0, 0.5)';
+
+  // เปลี่ยนสีเต็มรูปแบบด้วยการเปลี่ยนสีที่ไล่ลงมา
+  pathElement.style.transition = 'fill 0.5s';
+  pathElement.style.fill = newColor;
+
+  // เพิ่ม setTimeout เพื่อลบคุณสมบัติการเปลี่ยนสีหลังจากที่เสร็จสิ้น
+  setTimeout(() => {
+    pathElement.style.transition = '';
+  }, 300);
+},
     getPreloadedImages(item) {
       return item.image.map(
         (imageId) => `https://drive.google.com/uc?export=view&id=${imageId}`
       );
     },
-
     getImage(item) {
       if (typeof item === "string") {
         return `https://drive.google.com/uc?export=view&id=${item}`;
@@ -108,12 +128,13 @@ export default {
       } else {
         return "";
       }
-      // Your existing code for getImage
+
     },
-    // New method to handle search-hotels event
+
     handleSearchHotels(searchTerm) {
       this.searchTerm = searchTerm;
     },
+
   },
   computed: {
     // Use a computed property to filter the data based on the search term
@@ -152,7 +173,7 @@ export default {
   border-radius: 50%;
   padding: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.3s , opacity 0.3s;
+  transition: background-color 0.5s , opacity 0.5s;
   opacity: 0;
 
 }
@@ -163,7 +184,6 @@ export default {
 .left-arrow {
   left: 0;
 }
-
 .right-arrow {
   right: 0;
 }
@@ -205,11 +225,9 @@ export default {
   object-fit: cover;
   border-radius: 1rem;
 }
-
 .details-container {
   margin-top: 1rem;
 }
-
 @media screen and (max-width: 1536px) {
   .grid-container {
     grid-template-columns: repeat(4, 1fr);
