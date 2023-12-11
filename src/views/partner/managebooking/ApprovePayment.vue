@@ -36,13 +36,13 @@
         </template>
 
         <Column
-          field="member_id.name"
+          field="booking_id.member_id.name"
           header="ชื่อผู้จอง"
           style="width: 20%"
           :headerStyle="{ color: headerTextColor }"
         ></Column>
         <Column
-          field="room_id.name"
+          field="booking_id.room_id.name"
           header="ห้องพัก"
           style="width: 10%"
           :headerStyle="{ color: headerTextColor }"
@@ -53,9 +53,9 @@
           style="width: 10%"
           :headerStyle="{ color: headerTextColor }"
         >
-          <template #body="{ data }">
-            {{
-              new Date(data.date_from).toLocaleDateString("th-TH", {
+          <template #body="{ data }"> 
+           {{
+              new Date(data.booking_id.date_from).toLocaleDateString("th-TH", {
                 timeZone: "Asia/Bangkok",
                 day: "numeric",
                 month: "numeric",
@@ -64,7 +64,7 @@
             }}
             -
             {{
-              new Date(data.date_to).toLocaleDateString("th-TH", {
+              new Date(data.booking_id.date_to).toLocaleDateString("th-TH", {
                 timeZone: "Asia/Bangkok",
                 day: "numeric",
                 month: "numeric",
@@ -79,11 +79,11 @@
           :headerStyle="{ color: headerTextColor }"
         >
           <template #body="{ data }">
-            {{ calculateNightStay(data.date_from, data.date_to) }}
+            {{ calculateNightStay(data.booking_id.date_from, data.booking_id.date_to) }}
           </template>
         </Column>
         <Column
-          field="price"
+          field="booking_id.price"
           header="ราคา"
           style="width: 10%"
           :headerStyle="{ color: headerTextColor }"
@@ -155,7 +155,11 @@
         </div>
         <div class="col-12 text-center">
           <p>ภาพ :</p>
-          <Image :src="getImage(slip_image)" width="200" :preview="true" />
+          <div v-if="slip_image!=[]||slip_image!=''">
+            <Image :src="getImage(slip_image)" width="200" preview  name="image"/>
+          </div>
+          <div v-else>ไม่มีรูปภาพ</div>
+          
         </div>
       </div>
       <div class="col-12 md:col-12 text-center">
@@ -179,9 +183,9 @@ import axios from "axios";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
 import Loading from "../../../components/Loading.vue";
-
+import Gallery from "../../../components/Gallery.vue";
 export default {
-  components: { Loading },
+  components: { Loading,Gallery },
 
   created() {
     document.title = "ข้อมูล partner";
@@ -207,7 +211,7 @@ export default {
 
       try {
         const Response = await axios.get(
-          `${process.env.VUE_APP_API}booking/partner/payment/`,
+          `${process.env.VUE_APP_API}newbooking/payment/`,
           {
             headers: {
               token: localStorage.getItem("token"),
@@ -216,15 +220,13 @@ export default {
         );
 
         if (Response.data.status === true) {
-          const datafindstatus = Response.data.data.filter(
-            (item) =>
-              item.status[item.status.length - 1].statusbooking ===
-              "ยีนยันการชำระเงิน"
-          );
-          item_product.value = datafindstatus.reverse();
           loading.value = false;
-          item_payment.value = Response.data.payment;
-          console.log(datafindstatus);
+          const filterbooking_id = Response.data.payment.filter(item => item.booking_id != null && item.booking_id.member_id != null && item.booking_id.room_id
+          &&item.booking_id.room_id.partner_id !=null && item.booking_id.room_id.type != null
+          )
+
+          item_product.value = filterbooking_id.reverse();
+
           console.log(Response.data.payment);
         } else {
           console.error("Data is missing in the API response.");
@@ -237,7 +239,7 @@ export default {
       try {
         const pay_id = payment_id.value;
         const response = await axios.put(
-          `${process.env.VUE_APP_API}booking/confirmBookingPayment/${pay_id}`,
+          `${process.env.VUE_APP_API}/newbooking/payment/${pay_id}`,
           {},
           {
             headers: {
@@ -310,41 +312,25 @@ export default {
     };
     const showPartnerDetail = async (data) => {
       DetailPartner.value = true;
-      data_id.value = data._id;
-      membername.value = data.member_id.name;
-      roomname.value = data.room_id.name;
+      data_id.value = data.booking_id._id;
+      membername.value = data.booking_id.member_id.name;
+      roomname.value = data.booking_id.room_id.name;
       datebooking.value =
-        new Date(data.date_from).toLocaleDateString("th-TH", {
+        new Date(data.booking_id.date_from).toLocaleDateString("th-TH", {
           timeZone: "Asia/Bangkok",
           day: "numeric",
           month: "numeric",
           year: "numeric",
         }) +
         " - " +
-        new Date(data.date_to).toLocaleDateString("th-TH", {
+        new Date(data.booking_id.date_to).toLocaleDateString("th-TH", {
           timeZone: "Asia/Bangkok",
           day: "numeric",
           month: "numeric",
           year: "numeric",
         });
-      price.value = data.price;
-      ///แปลงเป็น array
-      const transformedData = item_payment.value.map((item) => ({
-        _id: item._id,
-        booking_id: item.booking_id,
-        slip_image: item.slip_image,
-        total_amount: item.total_amount,
-        payment_status: item.payment_status,
-        createdAt: item.createdAt,
-        updatedAt: item.updatedAt,
-        v: item.__v,
-      }));
-      const payment = transformedData.filter(
-        (item) => item.booking_id === data._id
-      );
-      slip_image.value = payment[payment.length - 1].slip_image;
-      payment_id.value = payment[payment.length - 1]._id;
-      //slip_image.value = transformedData.slip_image
+      price.value = data.booking_id.price;
+      slip_image.value = data.slip_image
       //console.log(transformedData[0])
     };
 
@@ -370,6 +356,7 @@ export default {
       payment_id,
       loading,
       searchall,
+      nextSibling:'',
       headerTextColor: "rgb(156 163 175)",
     };
   },
@@ -395,22 +382,22 @@ export default {
   },
   computed: {
     Filter() {
-      if (this.searchall) {
-        const searchTerm = this.searchall.toLowerCase();
-        return this.item_product.filter((item) => {
-          return (
-            (item.member_id &&
-              item.member_id.name.toLowerCase().includes(searchTerm)) ||
-            (item.room_id &&
-              item.room_id.name.toLowerCase().includes(searchTerm)) ||
-            (item.date_from && item.date_from.includes(searchTerm)) ||
-            (item.date_to && item.date_to.includes(searchTerm)) ||
-            String(item.price).includes(searchTerm)
-          );
-        });
-      } else {
+      // if (this.searchall) {
+      //   const searchTerm = this.searchall.toLowerCase();
+      //   return this.item_product.filter((item) => {
+      //     return (
+      //       (item.member_id &&
+      //         item.member_id.name.toLowerCase().includes(searchTerm)) ||
+      //       (item.room_id &&
+      //         item.room_id.name.toLowerCase().includes(searchTerm)) ||
+      //       (item.date_from && item.date_from.includes(searchTerm)) ||
+      //       (item.date_to && item.date_to.includes(searchTerm)) ||
+      //       String(item.price).includes(searchTerm)
+      //     );
+      //   });
+      // } else {
         return this.item_product;
-      }
+      // }
     },
   },
 };
