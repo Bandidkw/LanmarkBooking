@@ -3,16 +3,20 @@
   <div class="invitatain lg:py-0 lg:px-2 sm:px-1">
     <!------------------------------- choose-room ------------------------>
     <div class="choose-room">
+      <div class="room" @click="emitOption('ทั้งหมด')">
+        <i class="bi bi-globe-central-south-asia"></i>
+        <a class="font-type">ทั้งหมด</a>
+      </div>
       <div class="room" @click="emitOption('บ้าน')">
-        <i class="bi bi-house-door"></i>
+        <img src="https://www.svgrepo.com/show/111256/house.svg" alt="">
         <a class="font-type">บ้าน</a>
       </div>
       <div class="room" @click="emitOption('อพาร์ทเม้นท์')">
-        <i class="bi bi-houses"></i>
+        <img src="https://www.svgrepo.com/download/187296/apartment.svg" alt="">
         <a class="font-type">อพาร์ทเม้นท์</a>
       </div>
       <div class="room" @click="emitOption('ห้องพักทั่วไป')">
-        <i class="bi bi-house"></i>
+        <img src="https://static.thenounproject.com/png/3891254-200.png" alt="">
         <a class="font-type">ห้องพักทั่วไป</a>
       </div>
       <div class="room" @click="emitOption('โรงแรม')">
@@ -24,7 +28,7 @@
         <a class="font-type">คอนโด</a>
       </div>
       <div class="room" @click="emitOption('รีสอร์ท')">
-        <i class="bi bi-house-lock"></i>
+        <img src="https://www.svgrepo.com/show/204714/sun-bath-resort.svg" alt="">
         <a class="font-type">รีสอร์ท</a>
       </div>
       <div class="room" @click="emitOption('เกาะ')">
@@ -372,6 +376,9 @@ export default {
 .room i {
   font-size: 1.6rem;
 }
+.room img {
+  width: 1.6rem;
+}
 .room {
   position: relative;
   color: #000;
@@ -399,8 +406,7 @@ export default {
 .room:hover::before {
   transform: scaleX(1);
 }
-.room i,
-a {
+.room i , a , img{
   color: #494949;
   transition: all 0.2s ease-in-out;
 }
