@@ -255,8 +255,7 @@
           <label class="text-sm" for="credit">: จ่ายผ่านบัตรเครดิต</label>
           <Checkbox
             v-model="credit"
-            name="credit"
-            value="credit"
+            :binary="true"
             @change="handleCheckboxChange('credit')"
           />
         </div>
@@ -265,8 +264,7 @@
           <label class="text-sm" for="qrcode">: จ่ายผ่านการสแกน QR CODE</label>
           <Checkbox
             v-model="qrcode"
-            name="qrcode"
-            value="qrcode"
+            :binary="true"
             @change="handleCheckboxChange('qrcode')"
           />
         </div>
