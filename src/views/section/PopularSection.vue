@@ -1,3 +1,4 @@
+<!-- popularSection -->
 <template>
   <div class="grid-container px-4 gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3">
     <div
@@ -50,8 +51,12 @@ import axios from "axios";
 import { onMounted, ref } from "vue";
 
 export default {
+  props: {
+    filterValue: String,
+  },
   data() {
     const displayBasic = ref(true);
+    const originalGridData = ref([]);
     const gridData = ref([]);
     const position = "bottom";
     const searchTerm = ref("");
@@ -61,15 +66,14 @@ export default {
       const filteredstatus = Response.data.filter(
         (item) => item.statusbooking === true && item.status === true
       );
-      this.gridData = filteredstatus.map((item) => ({
+      this.originalGridData = filteredstatus.map((item) => ({
         ...item,
         activeIndex: 0,
-      })); // Initialize activeIndex for each item
+      }));
+      this.gridData = [...this.originalGridData];
     };
-
     onMounted(() => {
       getroom();
-      // Listen for the search-hotels event
       this.$bus.on("search-hotels", this.handleSearchHotels);
     });
 
@@ -91,6 +95,7 @@ export default {
       next,
       prev,
       isRightArrowClicked: false,
+      originalGridData,
     };
   },
   methods: {
@@ -128,16 +133,22 @@ export default {
       } else {
         return "";
       }
-
     },
-
     handleSearchHotels(searchTerm) {
       this.searchTerm = searchTerm;
     },
+    handleFilterChange(filterValue) {
+      if (!filterValue) {
+        this.gridData = [...this.originalGridData];
+        return;
+      }
 
+      this.gridData = this.originalGridData.filter((item) => {
+        return item.type.name.toLowerCase() === filterValue.toLowerCase();
+      });
+    },
   },
   computed: {
-    // Use a computed property to filter the data based on the search term
     filteredGridData() {
       return this.gridData.filter((item) => {
         const lowerCaseName = item.name.toLowerCase();
@@ -147,16 +158,16 @@ export default {
     },
   },
   watch: {
-    // Watch for changes in the search term and update the filtered data accordingly
     searchTerm: {
       handler(newTerm) {
         console.log("Search term changed:", newTerm);
       },
-      immediate: true, // Trigger the watcher immediately on component mount
+    },
+    filterValue(newValue) {
+      this.handleFilterChange(newValue);
     },
   },
   beforeUnmount() {
-    // Clean up the event listener when the component is about to be destroyed
     this.$bus.off("search-hotels", this.handleSearchHotels);
   },
 };
@@ -175,7 +186,6 @@ export default {
   cursor: pointer;
   transition: background-color 0.5s , opacity 0.5s;
   opacity: 0;
-
 }
 .image-container:hover .left-arrow,
 .image-container:hover .right-arrow {

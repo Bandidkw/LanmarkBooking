@@ -9,7 +9,12 @@
     </router-link>
     <div class="search-box" v-if="isRegisterPage">
       <span class="p-input-icon-right">
-        <InputText v-model="searchTerm" placeholder="ค้นหา" class="search-box-input"/>
+        <InputText
+          v-model="searchTerm"
+          placeholder="ค้นหา"
+          class="search-box-input"
+          @keyup.enter="searchHotels"
+        />
         <i
           @click="searchHotels"
           class="pi pi-search pr-2 cursor-pointer pl-2 mb-4 active:bg-blue-700 log-icon"
@@ -40,8 +45,8 @@ export default {
   computed: {
     isRegisterPage() {
       // สมมติว่า "/register" เป็นเส้นทางสำหรับหน้าลงทะเบียน
-      return this.$route.path === '/register' ? false : true;
-    }
+      return this.$route.path === "/register" ? false : true;
+    },
   },
 };
 </script>

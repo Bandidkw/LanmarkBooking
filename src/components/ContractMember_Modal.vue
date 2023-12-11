@@ -5,6 +5,7 @@
     </div> -->
 
     <Dialog
+      :closable="false"
       v-model:visible="sidebar"
       modal
       :style="{ width: '80%' }"
@@ -237,7 +238,7 @@ export default {
           await this.approve(id);
           console.log("สร้าง");
           console.log(Response.data.data);
-          this.sidebar = true
+          this.sidebar = true;
         } else {
           console.error("Data is missing in the API response.");
         }

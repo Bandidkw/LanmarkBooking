@@ -3,45 +3,45 @@
   <div class="invitatain lg:py-0 lg:px-2 sm:px-1">
     <!------------------------------- choose-room ------------------------>
     <div class="choose-room">
-      <div class="room">
+      <div class="room" @click="emitOption('บ้าน')">
         <i class="bi bi-house-door"></i>
-        <a class="font-type" @click="createaccount">บ้าน</a>
+        <a class="font-type">บ้าน</a>
       </div>
-      <div class="room">
+      <div class="room" @click="emitOption('อพาร์ทเม้นท์')">
         <i class="bi bi-houses"></i>
-        <a class="font-type" @click="createaccount">อพาร์ทเม้นท์</a>
+        <a class="font-type">อพาร์ทเม้นท์</a>
       </div>
-      <div class="room">
+      <div class="room" @click="emitOption('ห้องพักทั่วไป')">
         <i class="bi bi-house"></i>
-        <a class="font-type" @click="createaccount">ห้องพักทั่วไป</a>
+        <a class="font-type">ห้องพักทั่วไป</a>
       </div>
-      <div class="room">
+      <div class="room" @click="emitOption('โรงแรม')">
         <i class="bi bi-buildings"></i>
-        <a class="font-type" @click="createaccount">โรงแรม</a>
+        <a class="font-type">โรงแรม</a>
       </div>
-      <div class="room">
+      <div class="room" @click="emitOption('คอนโด')">
         <i class="bi bi-building"></i>
-        <a class="font-type" @click="createaccount">คอนโด</a>
+        <a class="font-type">คอนโด</a>
       </div>
-      <div class="room">
+      <div class="room" @click="emitOption('รีสอร์ท')">
         <i class="bi bi-house-lock"></i>
-        <a class="font-type" @click="createaccount">รีสอร์ท</a>
+        <a class="font-type">รีสอร์ท</a>
       </div>
-      <div class="room">
+      <div class="room" @click="emitOption('เกาะ')">
         <i class="bi bi-brightness-alt-high"></i>
-        <a class="font-type" @click="createaccount">เกาะ</a>
+        <a class="font-type">เกาะ</a>
       </div>
-      <div class="room">
+      <div class="room" @click="emitOption('ป่า-เขา')">
         <i class="bi bi-tree"></i>
-        <a class="font-type" @click="createaccount">ป่า-เขา</a>
+        <a class="font-type">ป่า-เขา</a>
       </div>
-      <div class="room">
+      <div class="room" @click="emitOption('ริมทะเล')">
         <i class="bi bi-tsunami"></i>
-        <a class="font-type" @click="createaccount">ริมทะเล</a>
+        <a class="font-type">ริมทะเล</a>
       </div>
-      <div class="room">
+      <div class="room" @click="emitOption('คฤหาสน์')">
         <i class="bi bi-luggage"></i>
-        <a class="font-type" @click="createaccount">คฤหาสน์</a>
+        <a class="font-type">คฤหาสน์</a>
       </div>
       <!----------------------------------------- Filter-box ------------------------------->
       <div class="filter cursor-pointer" @click="showFilter">
@@ -49,50 +49,100 @@
           <i class="bi bi-sliders"></i>
           <span>ตัวกรอง</span>
         </div>
-        <div class="filter-popup" v-if="isFilterVisible" :class="{ 'open': isFilterVisible }" @click.stop>
+        <div
+          class="filter-popup"
+          v-if="isFilterVisible"
+          :class="{ open: isFilterVisible }"
+          @click.stop
+        >
           <div class="top-filter">
             <div>
               <h2>ประเภทที่พัก</h2>
             </div>
-            <Button @click="closeFilter" icon="pi pi-times" severity="secondary" text rounded aria-label="Cancel" />
+            <Button
+              @click="closeFilter"
+              icon="pi pi-times"
+              severity="secondary"
+              text
+              rounded
+              aria-label="Cancel"
+            />
           </div>
           <label class="py-2" for="category">ประเภท</label>
           <div class="card flex justify-content-start">
-            <Dropdown v-model="selectedType" showClear :options="roomtype" optionLabel="name" placeholder="เลือกประเภท" class="w-full" />
-    </div>
+            <Dropdown
+              v-model="selectedType"
+              showClear
+              :options="roomtype"
+              optionLabel="name"
+              placeholder="เลือกประเภท"
+              class="w-full"
+            />
+          </div>
 
           <!-- ช่องเลือกราคา -->
           <label class="py-2" for="price">ช่วงราคา</label>
           <div class="card flex justify-content-start">
-        <Dropdown v-model="selectedPriceRange" showClear :options="pricerange" optionLabel="name" placeholder="เลือกช่วงราคา" class="w-full" />
-    </div>
+            <Dropdown
+              v-model="selectedPriceRange"
+              showClear
+              :options="pricerange"
+              optionLabel="name"
+              placeholder="เลือกช่วงราคา"
+              class="w-full"
+            />
+          </div>
 
           <label class="py-2" for="bed">ประเภทเตียง</label>
           <div class="card flex justify-content-start">
-        <Dropdown v-model="selectedBed" showClear :options="bedtype" optionLabel="name" placeholder="เลือกประเภทเตียง" class="w-full" />
-        <!-- <div>{{ selectedBed }}</div> -->
-    </div>
+            <Dropdown
+              v-model="selectedBed"
+              showClear
+              :options="bedtype"
+              optionLabel="name"
+              placeholder="เลือกประเภทเตียง"
+              class="w-full"
+            />
+            <!-- <div>{{ selectedBed }}</div> -->
+          </div>
           <!-- ช่องเลือกจำนวน -->
           <label class="py-2" for="quantity">จำนวนเข้าพัก</label>
           <div class="card w-full flex justify-content-between">
-            <span class="p-float-label" style="width: 100%;">
-              <Dropdown v-model="selectedNumber" showClear :options="numberValue" optionLabel="name" placeholder="เลือกจำนวนเข้าพัก" class="w-full" />
-        </span>
-    </div>
-    <label class="py-2" for="quantity">ประเภทผู้ให้เช่า</label>
-    <div class="card w-full flex justify-content-between" style="flex-direction: column; width: 100%;">
-            <span class="p-float-label mb-4">
-              <Dropdown v-model="selectedTypelessor" showClear :options="typelessor" optionLabel="name" placeholder="เลือกประเภทผู้ให้เช่า" class="w-full" />
+            <span class="p-float-label" style="width: 100%">
+              <Dropdown
+                v-model="selectedNumber"
+                showClear
+                :options="numberValue"
+                optionLabel="name"
+                placeholder="เลือกจำนวนเข้าพัก"
+                class="w-full"
+              />
             </span>
-        <Button @click="filterData" label="ค้นหา" severity="secondary"  />
-    </div>
+          </div>
+          <label class="py-2" for="quantity">ประเภทผู้ให้เช่า</label>
+          <div
+            class="card w-full flex justify-content-between"
+            style="flex-direction: column; width: 100%"
+          >
+            <span class="p-float-label mb-4">
+              <Dropdown
+                v-model="selectedTypelessor"
+                showClear
+                :options="typelessor"
+                optionLabel="name"
+                placeholder="เลือกประเภทผู้ให้เช่า"
+                class="w-full"
+              />
+            </span>
+            <Button @click="filterData" label="ค้นหา" severity="secondary" />
+          </div>
         </div>
       </div>
     </div>
-    
+
     <!-------------------------- popular-section --------------------------->
     <div class="poppular-box">
-      <PopularSection/>
+      <PopularSection :filterValue="selectedValue" />
     </div>
   </div>
 </template>
@@ -107,59 +157,60 @@ export default {
     PopularSection,
   },
   created() {
-  axios.get(`${process.env.VUE_APP_API}room/type`)
-    .then(response => {
-      this.roomtype = response.data;
-    })
-    .catch(error => {
-      console.error('Error fetching room types', error);
-    });
-},
+    axios
+      .get(`${process.env.VUE_APP_API}room/type`)
+      .then((response) => {
+        this.roomtype = response.data;
+      })
+      .catch((error) => {
+        console.error("Error fetching room types", error);
+      });
+  },
   name: "HomepageMain",
   data() {
     const selectedType = ref();
     const selectedTypelessor = ref();
     const typelessor = ref([
-    { name: 'เจ้าของปล่อยเช่า', code: '' },
-    { name: 'ผู้เช่าปล่อยเช่า', code: '' },
-]);
+      { name: "เจ้าของปล่อยเช่า", code: "" },
+      { name: "ผู้เช่าปล่อยเช่า", code: "" },
+    ]);
     const selectedPriceRange = ref();
     const pricerange = ref([
-    { name: '0-500', code: '' },
-    { name: '501-1,000', code: '' },
-    { name: '1,001-3,000', code: '' },
-    { name: '3,001-5,000', code: '' },
-    { name: 'มากกว่า 5,000', code: '' }
-]);
+      { name: "0-500", code: "" },
+      { name: "501-1,000", code: "" },
+      { name: "1,001-3,000", code: "" },
+      { name: "3,001-5,000", code: "" },
+      { name: "มากกว่า 5,000", code: "" },
+    ]);
     const selectedNumber = ref();
     const numberValue = ref([
-    { name: '1', code: '' },
-    { name: '2', code: '' },
-    { name: '3', code: '' },
-    { name: '4', code: '' },
-    { name: '5', code: '' },
-    { name: '6', code: '' },
-    { name: '7', code: '' },
-    { name: '8+', code: '' },
-]);
+      { name: "1", code: "" },
+      { name: "2", code: "" },
+      { name: "3", code: "" },
+      { name: "4", code: "" },
+      { name: "5", code: "" },
+      { name: "6", code: "" },
+      { name: "7", code: "" },
+      { name: "8+", code: "" },
+    ]);
     const selectedBed = ref();
     const bedtype = ref([
-    { name: 'Single Bed', code:'เตียงเดี่ยว ขนาด 3 ฟุต'},
-    { name: 'Twin Bed' , code:'เตียงเดี่ยว ขนาด 3.5 ฟุต'},
-    { name: 'Double Bed', code:'เตียงคู่ขนาดใหญ่ 1 เตียง'},
-    { name: 'Hollywood Twin', code:'เตียงเดี่ยว 2 เตียงติดกัน'},
-    { name: 'Queen Size', code:'เตียงเดี่ยว ขนาด 5 ฟุต'},
-    { name: 'King Size', code:'เตียงเดี่ยว ขนาด 6 ฟุต'},
-    { name: 'Triple Bed', code:'เตียงเดี่ยวจำนวน 3 เตียง'},
-    { name: 'Extra Bed', code:'เตียงเสริม'},
-    { name: 'Mattress', code:'ฟูกนอนพื้น'},
-    { name: 'Murphy Bed', code:'เตียงแบบพับเก็บได้'},
-    { name: 'Bunk Bed', code:'เตียง 2 ชั้น'},
-]);
+      { name: "Single Bed", code: "เตียงเดี่ยว ขนาด 3 ฟุต" },
+      { name: "Twin Bed", code: "เตียงเดี่ยว ขนาด 3.5 ฟุต" },
+      { name: "Double Bed", code: "เตียงคู่ขนาดใหญ่ 1 เตียง" },
+      { name: "Hollywood Twin", code: "เตียงเดี่ยว 2 เตียงติดกัน" },
+      { name: "Queen Size", code: "เตียงเดี่ยว ขนาด 5 ฟุต" },
+      { name: "King Size", code: "เตียงเดี่ยว ขนาด 6 ฟุต" },
+      { name: "Triple Bed", code: "เตียงเดี่ยวจำนวน 3 เตียง" },
+      { name: "Extra Bed", code: "เตียงเสริม" },
+      { name: "Mattress", code: "ฟูกนอนพื้น" },
+      { name: "Murphy Bed", code: "เตียงแบบพับเก็บได้" },
+      { name: "Bunk Bed", code: "เตียง 2 ชั้น" },
+    ]);
     const value = ref();
     return {
       isFilterVisible: false,
-      roomtype:[],
+      roomtype: [],
       selectedType,
       selectedPriceRange,
       selectedTypelessor,
@@ -170,54 +221,62 @@ export default {
       selectedNumber,
       numberValue,
       typelessor,
+      selectedValue: "",
     };
   },
   methods: {
     showFilter() {
       this.isFilterVisible = true;
 
-      document.body.classList.add('filter-popup-open');
+      document.body.classList.add("filter-popup-open");
     },
     closeFilter() {
       this.isFilterVisible = false;
 
-      document.body.classList.remove('filter-popup-open');
+      document.body.classList.remove("filter-popup-open");
 
       this.selectedType = "";
       this.selectedCategory = "";
       this.selectedPriceRange = "";
       this.selectedQuantity = "";
       this.selectedBedtype = "";
-      this.selectedTypelessor ="";
+      this.selectedTypelessor = "";
       this.value = "";
     },
     createaccount() {
-    if (this.selectedType) {
-      console.log('Selected type:', this.selectedType);
-    } else {
-      console.log('Please select a type');
-    }
-  },
-  filterData() {
-    this.fetchFilteredData();
-  },
-  fetchFilteredData() {
-    axios.get(`${process.env.VUE_APP_API}room/type`, {
-      params: {
-        type: this.selectedType,
-        priceRange: this.selectedPriceRange,
-        bedType: this.selectedBed,
-        occupancy: this.value
+      if (this.selectedType) {
+        console.log("Selected type:", this.selectedType);
+      } else {
+        console.log("Please select a type");
       }
-    })
-    .then(response => {
-    const filteredData = response.data.filter(room => room.occupancy <= 10);
-this.$emit('filteredData', filteredData);
-    })
-    .catch(error => {
-      console.error('Error fetching filtered data', error);
-    });
-  }
+    },
+    filterData() {
+      this.fetchFilteredData();
+    },
+
+    emitOption(selectedValue) {
+      this.selectedValue = selectedValue;
+    },
+    fetchFilteredData() {
+      axios
+        .get(`${process.env.VUE_APP_API}room/type`, {
+          params: {
+            type: this.selectedType,
+            priceRange: this.selectedPriceRange,
+            bedType: this.selectedBed,
+            occupancy: this.value,
+          },
+        })
+        .then((response) => {
+          const filteredData = response.data.filter(
+            (room) => room.occupancy <= 10
+          );
+          this.$emit("filteredData", filteredData);
+        })
+        .catch((error) => {
+          console.error("Error fetching filtered data", error);
+        });
+    },
   },
 };
 </script>
@@ -229,7 +288,7 @@ this.$emit('filteredData', filteredData);
   display: flex;
   flex-direction: column;
 }
-.font-type{
+.font-type {
   font-size: 0.8rem;
 }
 .title-info {
@@ -323,7 +382,7 @@ this.$emit('filteredData', filteredData);
   color: #000;
 }
 
-.room::before{
+.room::before {
   content: "";
   position: absolute;
   display: block;
@@ -340,11 +399,12 @@ this.$emit('filteredData', filteredData);
 .room:hover::before {
   transform: scaleX(1);
 }
-.room i , a{
+.room i,
+a {
   color: #494949;
   transition: all 0.2s ease-in-out;
 }
-.room a{
+.room a {
   padding-bottom: 0.5rem;
 }
 .filter {
@@ -358,7 +418,8 @@ this.$emit('filteredData', filteredData);
   transition: all 0.2s ease-in-out;
 }
 
-.filter a,i {
+.filter a,
+i {
   font-size: 1rem;
   color: #252525;
 }
@@ -474,7 +535,7 @@ p {
   margin: 0;
   padding: 0;
 }
-.p-inputnumber-input{
+.p-inputnumber-input {
   width: 100%;
 }
 .hidden {
@@ -497,7 +558,7 @@ p {
   .room a {
     display: none;
   }
-  .choose-room{
+  .choose-room {
     column-gap: 1rem;
   }
 }
@@ -510,34 +571,33 @@ p {
   }
 }
 
-@media screen and (max-width:640px) {
+@media screen and (max-width: 640px) {
   .p-inputnumber-input {
     width: 100%;
-}  
+  }
 }
-@media screen and (max-width:576px) {
+@media screen and (max-width: 576px) {
   .p-inputnumber-input {
     width: 100%;
-}  
+  }
 }
 
-@media screen and (max-width:430px) {
-  .invitatain{
+@media screen and (max-width: 430px) {
+  .invitatain {
     padding: 0 1rem;
   }
-  
 }
-@media screen and (max-width:414px) {
-  .invitatain{
+@media screen and (max-width: 414px) {
+  .invitatain {
     padding: 0 2rem 1rem 2rem;
   }
-  .choose-room{
+  .choose-room {
     column-gap: 1rem;
   }
-  .room{
+  .room {
     display: none;
   }
-  .filter-popup{
+  .filter-popup {
     width: 300px;
   }
 }
