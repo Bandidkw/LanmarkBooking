@@ -55,28 +55,32 @@ export default {
     filterValue: String,
   },
   data() {
+    function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
     const displayBasic = ref(true);
     const originalGridData = ref([]);
     const gridData = ref([]);
     const position = "bottom";
     const searchTerm = ref("");
-
     const getroom = async () => {
-      const Response = await axios.get(`${process.env.VUE_APP_API}room/`);
-      const filteredstatus = Response.data.filter(
-        (item) => item.statusbooking === true && item.status === true
-      );
-      this.originalGridData = filteredstatus.map((item) => ({
-        ...item,
-        activeIndex: 0,
-      }));
-      this.gridData = [...this.originalGridData];
-    };
+  const Response = await axios.get(`${process.env.VUE_APP_API}room/`);
+  const filteredstatus = Response.data.filter(
+    (item) => item.statusbooking === true && item.status === true
+  );
+  this.originalGridData = shuffleArray(
+    filteredstatus.map((item) => ({ ...item, activeIndex: 0 }))
+  );
+  this.gridData = [...this.originalGridData];
+};
     onMounted(() => {
       getroom();
       this.$bus.on("search-hotels", this.handleSearchHotels);
     });
-
     const next = (item) => {
       item.activeIndex = (item.activeIndex + 1) % item.image.length;
       this.isRightArrowClicked = true;
@@ -86,7 +90,6 @@ export default {
       item.activeIndex =
         (item.activeIndex - 1 + item.image.length) % item.image.length;
     };
-
     return {
       displayBasic,
       gridData,
@@ -96,6 +99,7 @@ export default {
       prev,
       isRightArrowClicked: false,
       originalGridData,
+      shuffleArray,
     };
   },
   methods: {

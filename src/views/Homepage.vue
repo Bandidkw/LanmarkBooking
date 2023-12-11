@@ -24,7 +24,7 @@
         <a class="font-type">โรงแรม</a>
       </div>
       <div class="room" @click="emitOption('คอนโด')">
-        <i class="bi bi-building"></i>
+        <img src="https://www.svgrepo.com//show/187275/apartment.svg" alt="">
         <a class="font-type">คอนโด</a>
       </div>
       <div class="room" @click="emitOption('รีสอร์ท')">
@@ -53,7 +53,7 @@
       <!----------------------------------------- Filter-box ------------------------------->
       <div class="filter cursor-pointer" @click="showFilter">
         <div class="filter-btn">
-          <i class="bi bi-sliders"></i>
+          <img style="width: 1.6rem;" src="https://www.svgrepo.com/show/365734/sliders-thin.svg" alt="">
           <span>ตัวกรอง</span>
         </div>
         <div
