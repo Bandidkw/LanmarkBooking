@@ -151,15 +151,11 @@
   </div>
   <Dialog
     v-model:visible="DetailPartner"
+    header="ข้อมูลรายละเอียด"
     modal
     :style="{ width: '50rem', 'z-index': 500 }"
     :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
   >
-    <div class="grid">
-      <div class="col-12 text-center">
-        <h2>ข้อมูลรายละเอียด</h2>
-      </div>
-    </div>
     <div class="grid">
       <div class="col-12 md:col-12">
         <div class="col-12">
@@ -201,32 +197,13 @@
         <div class="col-12">
           <p>ส่งหลักฐานการชำระเงิน</p>
           <div class="image-container">
-            <div class="text-center">
+            <div class="text-center" style="display: flex; flex-direction: column; align-items: center;">
               <div class="image-preview">
-                <i
-                  class="delete-icon bi bi-x-circle-fill"
-                  @click="deleteImage"
-                  v-if="imagePreview !== null"
-                ></i>
-                <Image
-                  :src="imagePreview"
-                  width="200"
-                  v-if="imagePreview !== null"
-                  :preview="true"
-                  class="rounded"
-                />
+                <i class="delete-icon bi bi-x-circle-fill" style="z-index: 100; font-size: 1.5rem; color: #fff;" @click="deleteImage" v-if="imagePreview !== null"></i>
+                <Image :src="imagePreview" v-if="imagePreview !== null" :preview="true" class="rounded"/>
               </div>
-
-              <FileUpload
-                mode="basic"
-                chooseLabel="เลือกรูปหลักฐานชำระเงิน"
-                :auto="true"
-                @uploader="chooseImg"
-                :customUpload="true"
-                accept="image/png, image/jpeg, image/jpg"
-                :maxFileSize="2097152"
-                invalidFileSizeMessage="ขนาดรูปภาพจะต้องไม่เกิน 2 mb"
-                :disabled="isDisabled"
+              <FileUpload mode="basic"
+                chooseLabel="เลือกรูปหลักฐานชำระเงิน" :auto="true" @uploader="chooseImg" :customUpload="true" accept="image/png, image/jpeg, image/jpg" :maxFileSize="2097152" nvalidFileSizeMessage="ขนาดรูปภาพจะต้องไม่เกิน 2 mb" :disabled="isDisabled"
               />
               <p><em>(ขนาดจะต้องเป็น 1:1)</em></p>
             </div>
@@ -573,6 +550,7 @@ export default {
   position: relative;
   width: 250px;
   height: 250px;
+  margin-bottom: 1rem;
 }
 .image-preview Image {
   width: 100%;
@@ -580,9 +558,8 @@ export default {
 
 .delete-icon {
   position: absolute;
-  top: 0%;
-  right: 100%;
-  color: red;
+  top: 5%;
+  right: 5%;
   border: none;
   cursor: pointer;
 }
