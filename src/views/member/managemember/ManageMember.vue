@@ -38,6 +38,7 @@
 
         <Column
           field="telephone"
+          sortable
           header="เบอร์โทรศัพท์"
           style="width: 20%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
@@ -45,6 +46,7 @@
         <Column
           field="name"
           header="ชื่อ"
+          sortable
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         >
@@ -52,6 +54,7 @@
         <Column
           field="firstname"
           header="ชื่อจริง"
+          sortable
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         >
@@ -59,6 +62,7 @@
         <Column
           field="lastname"
           header="นามสกุล"
+          sortable
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         >

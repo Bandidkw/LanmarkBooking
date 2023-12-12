@@ -53,6 +53,7 @@
         <Column
           field="partner_id.name"
           header="ชื่อ partner"
+          sortable
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         ></Column>
@@ -76,6 +77,7 @@
         </Column>
         <Column
           field="name"
+          sortable
           class=""
           header="ชื่อ"
           style="width: 10%; cursor: default"
