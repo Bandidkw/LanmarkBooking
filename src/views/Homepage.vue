@@ -4,27 +4,30 @@
     <!------------------------------- choose-room ------------------------>
     <div class="choose-room">
       <div class="room" @click="emitOption('')">
-        <img src="https://www.svgrepo.com/show/122153/global.svg" alt="">
+        <img
+          src="https://www.svgrepo.com/show/404610/global-globe-planet-space-world.svg"
+          alt=""
+        />
         <a class="font-type">ทั้งหมด</a>
       </div>
       <div class="room" @click="emitOption('บ้าน')">
-        <img src="https://www.svgrepo.com/download/70465/house.svg" alt="">
+        <img src="https://www.svgrepo.com/download/70465/house.svg" alt="" />
         <a class="font-type">บ้าน</a>
       </div>
       <div class="room" @click="emitOption('อพาร์ทเม้นท์')">
-        <img src="https://www.svgrepo.com/show/187290/apartment.svg" alt="">
+        <img src="https://www.svgrepo.com/show/187290/apartment.svg" alt="" />
         <a class="font-type">อพาร์ทเม้นท์</a>
       </div>
       <div class="room" @click="emitOption('ห้องพักทั่วไป')">
-        <img src="https://www.svgrepo.com/show/149612/hotel-room.svg" alt="">
+        <img src="https://www.svgrepo.com/show/149612/hotel-room.svg" alt="" />
         <a class="font-type">ห้องพักทั่วไป</a>
       </div>
       <div class="room" @click="emitOption('โรงแรม')">
-        <img src="https://www.svgrepo.com/show/288092/hotel.svg" alt="">
+        <img src="https://www.svgrepo.com/show/288092/hotel.svg" alt="" />
         <a class="font-type">โรงแรม</a>
       </div>
       <div class="room" @click="emitOption('คอนโด')">
-        <img src="https://www.svgrepo.com//show/187275/apartment.svg" alt="">
+        <img src="https://www.svgrepo.com//show/187275/apartment.svg" alt="" />
         <a class="font-type">คอนโด</a>
       </div>
       <div class="room" @click="emitOption('รีสอร์ท')">
@@ -35,25 +38,32 @@
         <a class="font-type">รีสอร์ท</a>
       </div>
       <div class="room" @click="emitOption('เกาะ')">
-        <img src="https://www.svgrepo.com/show/2812/island.svg" alt="">
+        <img src="https://www.svgrepo.com/show/2812/island.svg" alt="" />
         <a class="font-type">เกาะ</a>
       </div>
       <div class="room" @click="emitOption('ป่า-เขา')">
-        <img src="https://www.svgrepo.com/show/88715/forest.svg" alt="">
+        <img src="https://www.svgrepo.com/show/88715/forest.svg" alt="" />
         <a class="font-type">ป่า-เขา</a>
       </div>
       <div class="room" @click="emitOption('ริมทะเล')">
-        <img src="https://www.svgrepo.com/show/307553/storm-sea-ocean-waves.svg" alt="">
+        <img
+          src="https://www.svgrepo.com/show/307553/storm-sea-ocean-waves.svg"
+          alt=""
+        />
         <a class="font-type">ริมทะเล</a>
       </div>
       <div class="room" @click="emitOption('คฤหาสน์')">
-        <img src="https://www.svgrepo.com/download/51006/mansion.svg" alt="">
+        <img src="https://www.svgrepo.com/download/51006/mansion.svg" alt="" />
         <a class="font-type">คฤหาสน์</a>
       </div>
       <!----------------------------------------- Filter-box ------------------------------->
       <div class="filter cursor-pointer" @click="showFilter">
         <div class="filter-btn">
-          <img style="width: 1.6rem;" src="https://www.svgrepo.com/show/365734/sliders-thin.svg" alt="">
+          <img
+            style="width: 1.6rem"
+            src="https://www.svgrepo.com/show/365734/sliders-thin.svg"
+            alt=""
+          />
           <span>ตัวกรอง</span>
         </div>
         <div

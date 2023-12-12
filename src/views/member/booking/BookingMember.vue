@@ -198,34 +198,38 @@
             disabled
           />
         </div>
-        <div
-          v-if="
-            databooking.status[databooking.status.length - 1].statusbooking ===
-            'รอชำระเงิน'
-          "
-          class="col-12"
-        >
+        <div class="col-12">
           <p>ส่งหลักฐานการชำระเงิน</p>
-          <div class="col-12 text-center">
-            <Image
-              :src="imagePreview"
-              width="200"
-              v-if="imagePreview !== null"
-              :preview="true"
-            />
-            <FileUpload
-              mode="basic"
-              chooseLabel="เลือกรูปหลักฐานชำระเงิน"
-              :auto="true"
-              @uploader="chooseImg"
-              :customUpload="true"
-              accept="image/png, image/jpeg,image/jpg"
-              :fileLimit="1"
-              :maxFileSize="2097152"
-              invalidFileSizeMessage="ขนาดรูปภาพจะต้องไม่เกิน 2 mb"
-              :disabled="isDisabled"
-            />
-            <p><em>(ขนาดจะต้องเป็น 1:1)</em></p>
+          <div class="image-container">
+            <div class="text-center">
+              <div class="image-preview">
+                <i
+                  class="delete-icon bi bi-x-circle-fill"
+                  @click="deleteImage"
+                  v-if="imagePreview !== null"
+                ></i>
+                <Image
+                  :src="imagePreview"
+                  width="200"
+                  v-if="imagePreview !== null"
+                  :preview="true"
+                  class="rounded"
+                />
+              </div>
+
+              <FileUpload
+                mode="basic"
+                chooseLabel="เลือกรูปหลักฐานชำระเงิน"
+                :auto="true"
+                @uploader="chooseImg"
+                :customUpload="true"
+                accept="image/png, image/jpeg, image/jpg"
+                :maxFileSize="2097152"
+                invalidFileSizeMessage="ขนาดรูปภาพจะต้องไม่เกิน 2 mb"
+                :disabled="isDisabled"
+              />
+              <p><em>(ขนาดจะต้องเป็น 1:1)</em></p>
+            </div>
           </div>
         </div>
       </div>
@@ -447,9 +451,23 @@ export default {
         return "";
       }
     },
+    deleteImage() {
+      console.log("Deleting image");
+      this.imagePreview = null;
+      this.filepic = null;
+    },
     chooseImg(event) {
+      console.log("Choosing image");
+
+      if (this.filepic) {
+        console.log("Clearing existing file");
+        this.deleteImage();
+      }
+
       this.imagePreview = event.files[0].objectURL;
       this.filepic = event.files[0];
+
+      console.log("Image chosen:", this.filepic);
     },
     async addpayment(id) {
       if (this.filepic != "") {
@@ -549,3 +567,23 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.image-preview {
+  position: relative;
+  width: 250px;
+  height: 250px;
+}
+.image-preview Image {
+  width: 100%;
+}
+
+.delete-icon {
+  position: absolute;
+  top: 0%;
+  right: 100%;
+  color: red;
+  border: none;
+  cursor: pointer;
+}
+</style>

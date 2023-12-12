@@ -220,13 +220,13 @@
             </label>
           </div>
           <div class="mx-auto w-60 my-3 booking-box">
-            <button
+            <Button
               @click="visible = true"
-              class="booking-btn px-4 py-2 bg-blue-500 text-white text-center hover:bg-blue-700 rounded w-full"
+              class="booking-btn px-4 py-2 rounded-xl bg-blue-500 text-white text-center hover:bg-blue-700 rounded w-full"
               type="button"
-            >
-              จอง
-            </button>
+              :disabled="!selectedDate"
+              label="จอง"
+            />
           </div>
         </div>
       </div>
@@ -235,7 +235,7 @@
         maximizable
         modal
         header="จองห้อง"
-        :style="{ width: '50rem' }"
+        :style="{ width: '35rem' }"
         :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
       >
         <p class="text-lg text-center mb-2">
@@ -269,25 +269,14 @@
           />
         </div>
         <div v-show="qrcode">
-          <img
-            src="../../../public/logo//lanmark-logo-navbar.png"
-            alt=""
-          />
-          <FileUpload
-            mode="basic"
-            name="demo[]"
-            url="/api/upload"
-            accept="image/*"
-            customUpload
-            @uploader="customBase64Uploader"
-          />
+          <img src="../../../public/logo//lanmark-logo-navbar.png" alt="" />
         </div>
 
         <div class="mx-auto w-60 my-3 booking-box">
           <Button
             @click="addbooking"
             label="จอง"
-            class="booking-btn px-4 py-2 bg-blue-500 text-white text-center hover:bg-blue-700 rounded w-full"
+            class="booking-btn px-4 py-2 bg-blue-500 rounded-xl text-white text-center hover:bg-blue-700 rounded w-full"
             type="button"
             :disabled="isButtonDisabled"
           />
@@ -300,12 +289,8 @@
 <script>
 import axios from "axios";
 import Rating from "primevue/rating";
-
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
-onMounted(() => {
-  getroom();
-});
 
 export default {
   components: {
@@ -318,8 +303,8 @@ export default {
     const value = ref(null);
     const credit = ref(false);
     const qrcode = ref(false);
-
     const room_id = this.$route.params.id;
+
     const getroom = async (_id) => {
       try {
         const id = this.$route.params.id;
@@ -339,16 +324,88 @@ export default {
         // จัดการข้อผิดพลาด, เช่นแสดงข้อความสำหรับผู้ใช้
       }
     };
-    const customBase64Uploader = async (event) => {
-      const file = event.files[0];
-      const reader = new FileReader();
-      let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
 
-      reader.readAsDataURL(blob);
+    const addbooking = async () => {
+      try {
+        if (localStorage.getItem("token") != null) {
+          // if (this.selectedDate != "") {
 
-      reader.onloadend = function () {
-        const base64data = reader.result;
-      };
+          if (this.credit === true) {
+            const response = await axios.post(
+              `${process.env.VUE_APP_API}newbooking/bookingandpayment/`,
+              {
+                room_id: this.room_id,
+                date_from: this.selectedDate[0],
+                date_to: this.selectedDate[1],
+                price: this.price,
+              },
+              {
+                headers: {
+                  token: localStorage.getItem("token"),
+                },
+              }
+            );
+            // if (response.data.status === true) {
+            if (response) {
+              console.log(response, "res test");
+              Swal.fire({
+                icon: "success",
+                title: "จองสำเร็จ",
+                text: response.data.message,
+              });
+              await this.$router.push("/bookingmember");
+            } else {
+              await Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด",
+                text: response.data.message,
+              });
+            }
+          } else {
+            const response = await axios.post(
+              `${process.env.VUE_APP_API}newbooking/`,
+              {
+                room_id: this.room_id,
+                date_from: this.selectedDate[0],
+                date_to: this.selectedDate[1],
+                price: this.price,
+              },
+              {
+                headers: {
+                  token: localStorage.getItem("token"),
+                },
+              }
+            );
+            if (response.data.status === true) {
+              console.log(response, "response test");
+              Swal.fire({
+                icon: "success",
+                title: "จองสำเร็จ",
+                text: response.data.message,
+              });
+              await this.$router.push("/bookingmember");
+            } else {
+              await Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด",
+                text: response.data.message,
+              });
+            }
+          }
+        } else {
+          await Swal.fire({
+            icon: "error",
+            title: "กรุณาล็อคอิน",
+            text: "ก่อนจะจองกรุณาล็อคอินก่อน",
+          });
+        }
+      } catch (error) {
+        await Swal.fire({
+          icon: "error",
+          title: "เกิดข้อผิดพลาด",
+          text: error,
+        });
+      }
     };
     onMounted(() => {
       getroom();
@@ -366,7 +423,7 @@ export default {
       visible,
       credit,
       qrcode,
-      customBase64Uploader,
+      addbooking,
       // isLoggedIn: false,
     };
   },
@@ -398,61 +455,11 @@ export default {
       }
     },
 
-    async addbooking() {
-      try {
-        console.log(this.selectedDate);
-        if (localStorage.getItem("token") != null) {
-          if (this.selectedDate != "") {
-            const response = await axios.post(
-              `${process.env.VUE_APP_API}booking/`,
-              {
-                room_id: this.room_id,
-                date_from: this.selectedDate[0],
-                date_to: this.selectedDate[1],
-                price: this.price,
-              },
-              {
-                headers: {
-                  token: localStorage.getItem("token"),
-                },
-              }
-            );
-            if (response.data.status === true) {
-              Swal.fire({
-                icon: "success",
-                title: "จองสำเร็จ",
-                text: response.data.message,
-              });
-              await this.$router.push("/bookingmember");
-            } else {
-              await Swal.fire({
-                icon: "error",
-                title: "เกิดข้อผิดพลาด",
-                text: response.data.message,
-              });
-            }
-          } else {
-            await Swal.fire({
-              icon: "error",
-              title: "กรุณาเลือกวัน",
-              text: "กรุณาวันที่คุณต้องการจอง",
-            });
-          }
-        } else {
-          await Swal.fire({
-            icon: "error",
-            title: "กรุณาล็อคอิน",
-            text: "ก่อนจะจองกรุณาล็อคอินก่อน",
-          });
-        }
-      } catch (error) {
-        await Swal.fire({
-          icon: "error",
-          title: "เกิดข้อผิดพลาด",
-          text: error,
-        });
-      }
+    chooseImg(event) {
+      this.imagePreview = event.files[0].objectURL;
+      this.SlipImage = event.files[0];
     },
+
     getImage(item) {
       if (typeof item === "string") {
         return `https://drive.google.com/uc?export=view&id=${item}`;
