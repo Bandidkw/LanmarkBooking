@@ -53,8 +53,8 @@
           style="width: 10%"
           :headerStyle="{ color: headerTextColor }"
         >
-          <template #body="{ data }"> 
-           {{
+          <template #body="{ data }">
+            {{
               new Date(data.booking_id.date_from).toLocaleDateString("th-TH", {
                 timeZone: "Asia/Bangkok",
                 day: "numeric",
@@ -79,7 +79,12 @@
           :headerStyle="{ color: headerTextColor }"
         >
           <template #body="{ data }">
-            {{ calculateNightStay(data.booking_id.date_from, data.booking_id.date_to) }}
+            {{
+              calculateNightStay(
+                data.booking_id.date_from,
+                data.booking_id.date_to
+              )
+            }}
           </template>
         </Column>
         <Column
@@ -155,11 +160,15 @@
         </div>
         <div class="col-12 text-center">
           <p>ภาพ :</p>
-          <div v-if="slip_image!=[]||slip_image!=''">
-            <Image :src="getImage(slip_image)" width="200" preview  name="image"/>
+          <div v-if="slip_image != [] || slip_image != ''">
+            <Image
+              :src="getImage(slip_image)"
+              width="200"
+              preview
+              name="image"
+            />
           </div>
           <div v-else>ไม่มีรูปภาพ</div>
-          
         </div>
       </div>
       <div class="col-12 md:col-12 text-center">
@@ -185,7 +194,7 @@ import Swal from "sweetalert2";
 import Loading from "../../../components/Loading.vue";
 import Gallery from "../../../components/Gallery.vue";
 export default {
-  components: { Loading,Gallery },
+  components: { Loading, Gallery },
 
   created() {
     document.title = "ข้อมูล partner";
@@ -211,7 +220,7 @@ export default {
 
       try {
         const Response = await axios.get(
-          `${process.env.VUE_APP_API}newbooking/payment/`,
+          `${process.env.VUE_APP_API}newbooking/payment`,
           {
             headers: {
               token: localStorage.getItem("token"),
@@ -221,9 +230,14 @@ export default {
 
         if (Response.data.status === true) {
           loading.value = false;
-          const filterbooking_id = Response.data.payment.filter(item => item.booking_id != null && item.booking_id.member_id != null && item.booking_id.room_id
-          &&item.booking_id.room_id.partner_id !=null && item.booking_id.room_id.type != null
-          )
+          const filterbooking_id = Response.data.payment.filter(
+            (item) =>
+              item.booking_id != null &&
+              item.booking_id.member_id != null &&
+              item.booking_id.room_id &&
+              item.booking_id.room_id.partner_id != null &&
+              item.booking_id.room_id.type != null
+          );
 
           item_product.value = filterbooking_id.reverse();
 
@@ -239,7 +253,7 @@ export default {
       try {
         const pay_id = payment_id.value;
         const response = await axios.put(
-          `${process.env.VUE_APP_API}/newbooking/payment/${pay_id}`,
+          `${process.env.VUE_APP_API}newbooking/confirmBookingPayment/${pay_id}`,
           {},
           {
             headers: {
@@ -277,7 +291,7 @@ export default {
       try {
         const pay_id = payment_id.value;
         const response = await axios.put(
-          `${process.env.VUE_APP_API}booking/Unconfirmbookingpayment/${pay_id}`,
+          `${process.env.VUE_APP_API}newbooking/Unconfirmbookingpayment/${pay_id}`,
           {},
           {
             headers: {
@@ -330,7 +344,7 @@ export default {
           year: "numeric",
         });
       price.value = data.booking_id.price;
-      slip_image.value = data.slip_image
+      slip_image.value = data.slip_image;
       //console.log(transformedData[0])
     };
 
@@ -356,7 +370,7 @@ export default {
       payment_id,
       loading,
       searchall,
-      nextSibling:'',
+      nextSibling: "",
       headerTextColor: "rgb(156 163 175)",
     };
   },
@@ -396,7 +410,7 @@ export default {
       //     );
       //   });
       // } else {
-        return this.item_product;
+      return this.item_product;
       // }
     },
   },
