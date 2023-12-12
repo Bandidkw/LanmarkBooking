@@ -126,11 +126,6 @@ export default {
               icon: "pi pi-check-square",
               to: "/managebooking",
             },
-            {
-              label: "อนุมัติการชำระเงิน",
-              icon: "pi pi-dollar",
-              to: "/approvepayment",
-            },
           ],
         },
       ],

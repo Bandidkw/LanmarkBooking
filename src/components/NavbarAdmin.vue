@@ -169,6 +169,11 @@ export default {
               icon: "bi bi-calendar2-check",
               to: "/bookingall",
             },
+            {
+              label: "อนุมัติการชำระเงิน",
+              icon: "pi pi-dollar",
+              to: "/approvepayment",
+            },
           ],
         },
         {

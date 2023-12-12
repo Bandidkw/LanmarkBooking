@@ -111,7 +111,7 @@ export default {
   const pathElement = svgElement.querySelector('path');
 
   // สลับสีเต็มรูปแบบระหว่างค่าสีสองค่า
-  const newColor = pathElement.style.fill === 'rgba(0, 0, 0, 0.5)' ? '#f72585' : 'rgba(0, 0, 0, 0.5)';
+  const newColor = pathElement.style.fill === 'rgb(247, 37, 133)' ? 'rgba(0, 0, 0, 0.5)' : 'rgb(247, 37, 133)';
 
   // เปลี่ยนสีเต็มรูปแบบด้วยการเปลี่ยนสีที่ไล่ลงมา
   pathElement.style.transition = 'fill 0.5s';
@@ -120,8 +120,20 @@ export default {
   // เพิ่ม setTimeout เพื่อลบคุณสมบัติการเปลี่ยนสีหลังจากที่เสร็จสิ้น
   setTimeout(() => {
     pathElement.style.transition = '';
-  }, 300);
+
+    // นำ Grid Item ที่ถูกคลิกขึ้นไปอยู่บนสุดของ Grid Container
+    const parent = svgElement.closest('.grid-item');  // ให้แก้ไขตรงนี้
+    const gridContainer = parent.closest('.grid-container');  // ให้แก้ไขตรงนี้
+
+    // ตรวจสอบว่า Grid Item ถูกคลิกมีใน Grid Container หรือไม่
+    const gridItemIndex = Array.from(gridContainer.children).indexOf(parent);
+    if (gridItemIndex !== -1) {
+      // นำ Grid Item ที่ถูกคลิกขึ้นไปอยู่บนสุดของ Grid Container
+      gridContainer.insertBefore(parent, gridContainer.firstChild);
+    }
+  }, 500);
 },
+
     getPreloadedImages(item) {
       return item.image.map(
         (imageId) => `https://drive.google.com/uc?export=view&id=${imageId}`
