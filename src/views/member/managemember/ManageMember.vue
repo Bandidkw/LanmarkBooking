@@ -70,6 +70,7 @@
         <Column
           field="email"
           header="อีเมล"
+          sortable
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         >

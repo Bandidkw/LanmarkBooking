@@ -46,10 +46,7 @@
         <a class="font-type">ป่า-เขา</a>
       </div>
       <div class="room" @click="emitOption('ริมทะเล')">
-        <img
-          src="https://www.svgrepo.com/show/18600/sea.svg"
-          alt=""
-        />
+        <img src="https://www.svgrepo.com/show/18600/sea.svg" alt="" />
         <a class="font-type">ริมทะเล</a>
       </div>
       <div class="room" @click="emitOption('คฤหาสน์')">

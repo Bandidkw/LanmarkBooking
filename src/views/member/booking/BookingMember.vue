@@ -194,16 +194,43 @@
             disabled
           />
         </div>
-        <div class="col-12">
+        <div
+          class="col-12"
+          v-if="
+            databooking.status[databooking.status.length - 1].statusbooking ===
+            'รอชำระเงิน'
+          "
+        >
           <p>ส่งหลักฐานการชำระเงิน</p>
           <div class="image-container">
-            <div class="text-center" style="display: flex; flex-direction: column; align-items: center;">
+            <div
+              class="text-center"
+              style="display: flex; flex-direction: column; align-items: center"
+            >
               <div class="image-preview">
-                <i class="delete-icon bi bi-x-circle-fill" style="z-index: 100; font-size: 1.5rem; color: #fff;" @click="deleteImage" v-if="imagePreview !== null"></i>
-                <Image :src="imagePreview" v-if="imagePreview !== null" :preview="true" class="rounded"/>
+                <i
+                  class="delete-icon bi bi-x-circle-fill"
+                  style="z-index: 100; font-size: 1.5rem; color: #fff"
+                  @click="deleteImage"
+                  v-if="imagePreview !== null"
+                ></i>
+                <Image
+                  :src="imagePreview"
+                  v-if="imagePreview !== null"
+                  :preview="true"
+                  class="rounded"
+                />
               </div>
-              <FileUpload mode="basic"
-                chooseLabel="เลือกรูปหลักฐานชำระเงิน" :auto="true" @uploader="chooseImg" :customUpload="true" accept="image/png, image/jpeg, image/jpg" :maxFileSize="2097152" nvalidFileSizeMessage="ขนาดรูปภาพจะต้องไม่เกิน 2 mb" :disabled="isDisabled"
+              <FileUpload
+                mode="basic"
+                chooseLabel="เลือกรูปหลักฐานชำระเงิน"
+                :auto="true"
+                @uploader="chooseImg"
+                :customUpload="true"
+                accept="image/png, image/jpeg, image/jpg"
+                :maxFileSize="2097152"
+                nvalidFileSizeMessage="ขนาดรูปภาพจะต้องไม่เกิน 2 mb"
+                :disabled="isDisabled"
               />
               <p><em>(ขนาดจะต้องเป็น 1:1)</em></p>
             </div>

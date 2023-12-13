@@ -96,17 +96,14 @@
           style="width: 10%"
           :headerStyle="{ color: headerTextColor }"
         ></Column>
-        <Column
-          header="รายละเอียด"
-          style="width: 10%"
-          :headerStyle="{ color: headerTextColor }"
-        >
+        <Column style="width: 10%" :headerStyle="{ color: headerTextColor }">
           <template #body="{ data }">
             <Button
               @click="showPartnerDetail(data)"
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2"
-              >รายละเอียด</Button
-            >
+              outlined
+              severity="help "
+              icon="pi pi-info-circle"
+            />
           </template>
         </Column>
       </DataTable>
@@ -174,15 +171,19 @@
           <div v-else>ไม่มีรูปภาพ</div>
         </div>
       </div>
-      <div class="col-12 md:col-12 text-center">
+      <div class="col-12 md:col-12  flex justify-content-center gap-4">
         <Button
           @click="approvepartner()"
-          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2 boeder-none"
+          severity="success"
+          outlined
+          class="hover:bg-green-600 hover:text-white"
           >อนุมัติ</Button
         >
         <Button
           @click="unapprovepartner()"
-          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          severity="danger"
+          outlined
+          class="hover:bg-red-500 hover:text-white"
           >ไม่อนุมัติ</Button
         >
       </div>
