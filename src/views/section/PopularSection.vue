@@ -26,7 +26,8 @@
         </router-link>
 
         <i
-          v-if="isRightArrowClicked" class="left-arrow bi bi-arrow-left-circle-fill text-white"
+          v-if="item.activeIndex > 0 || isRightArrowClicked"
+          class="left-arrow bi bi-arrow-left-circle-fill text-white"
           @click="prev(item)"
         />
         <i
@@ -82,14 +83,14 @@ export default {
       this.$bus.on("search-hotels", this.handleSearchHotels);
     });
     const next = (item) => {
-      item.activeIndex = (item.activeIndex + 1) % item.image.length;
-      this.isRightArrowClicked = true;
-    };
-
+  item.activeIndex = (item.activeIndex + 1) % item.image.length;
+  this.isRightArrowClicked = false;
+};
     const prev = (item) => {
-      item.activeIndex =
-        (item.activeIndex - 1 + item.image.length) % item.image.length;
-    };
+  item.activeIndex = (item.activeIndex - 1 + item.image.length) % item.image.length;
+  this.isRightArrowClicked = false; // Set isRightArrowClicked to false when clicking the "prev" button
+};
+
     return {
       displayBasic,
       gridData,

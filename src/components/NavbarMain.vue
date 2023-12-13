@@ -10,10 +10,13 @@
     <div class="search-box" v-if="isRegisterPage">
       <span class="p-input-icon-right">
         <InputText
-          v-model="searchTerm"
-          placeholder="ค้นหา"
-          class="search-box-input"
-          @keyup.enter="searchHotels"
+        ref="searchInput"
+    v-model="searchTerm"
+    placeholder="ค้นหา"
+    class="search-box-input"
+    @keyup.enter="searchHotels"
+    @keydown="handleKeydown"
+    tabindex="0"
         />
         <i
           @click="searchHotels"
@@ -37,6 +40,15 @@ export default {
   methods: {
     searchHotels() {
       this.$bus.emit("search-hotels", this.searchTerm);
+    },
+    handleKeydown(event) {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+        // หาก Control key (Windows) หรือ Command key (Mac) + 'k' ถูกกด ให้โฟกัสที่ Input
+        this.focusInput();
+      }
+    },
+    focusInput() {
+      this.$refs.searchInput.$el.focus();
     },
   },
   components: {

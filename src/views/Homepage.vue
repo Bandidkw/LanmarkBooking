@@ -122,7 +122,6 @@
           <!-- ช่องเลือกจำนวน -->
           <label class="py-2" for="quantity">จำนวนเข้าพัก</label>
           <div class="card w-full flex justify-content-between">
-            <span class="p-float-label" style="width: 100%">
               <Dropdown
                 v-model="selectedNumber"
                 showClear
@@ -131,14 +130,12 @@
                 placeholder="เลือกจำนวนเข้าพัก"
                 class="w-full"
               />
-            </span>
           </div>
           <label class="py-2" for="quantity">ประเภทผู้ให้เช่า</label>
           <div
-            class="card w-full flex justify-content-between"
+            class="card w-full flex justify-content-between mb-4"
             style="flex-direction: column; width: 100%"
           >
-            <span class="p-float-label mb-4">
               <Dropdown
                 v-model="selectedTypelessor"
                 showClear
@@ -147,9 +144,8 @@
                 placeholder="เลือกประเภทผู้ให้เช่า"
                 class="w-full"
               />
-            </span>
-            <Button @click="filterData" label="ค้นหา" severity="secondary" />
           </div>
+          <Button @click="filterData" label="ค้นหา" severity="secondary" />
         </div>
       </div>
     </div>
