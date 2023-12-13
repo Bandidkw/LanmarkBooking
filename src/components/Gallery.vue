@@ -27,7 +27,10 @@
       </template>
     </Galleria>
 
-    <i class="icon-style pi pi-eye cursor-pointer" @click="displayBasicFunc" />
+    <i
+      class="icon-style pi pi-image cursor-pointer"
+      @click="displayBasicFunc"
+    />
   </div>
 </template>
 

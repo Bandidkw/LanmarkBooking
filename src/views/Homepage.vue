@@ -38,7 +38,7 @@
         <a class="font-type">รีสอร์ท</a>
       </div>
       <div class="room" @click="emitOption('เกาะ')">
-        <img src="https://www.svgrepo.com/show/2812/island.svg" alt="" />
+        <img src="https://www.svgrepo.com/show/154717/island.svg" alt="" />
         <a class="font-type">เกาะ</a>
       </div>
       <div class="room" @click="emitOption('ป่า-เขา')">
@@ -47,7 +47,7 @@
       </div>
       <div class="room" @click="emitOption('ริมทะเล')">
         <img
-          src="https://www.svgrepo.com/show/307553/storm-sea-ocean-waves.svg"
+          src="https://www.svgrepo.com/show/18600/sea.svg"
           alt=""
         />
         <a class="font-type">ริมทะเล</a>

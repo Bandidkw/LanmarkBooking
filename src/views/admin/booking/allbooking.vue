@@ -52,7 +52,6 @@
         </Column>
         <Column
           header="วันที่จะจอง"
-          sortable
           style="width: 10%"
           :headerStyle="{ color: headerTextColor }"
         >
@@ -77,7 +76,6 @@
           </template>
         </Column>
         <Column
-          sortable
           header="จำนวนคืน"
           style="width: 10%"
           :headerStyle="{ color: headerTextColor }"
