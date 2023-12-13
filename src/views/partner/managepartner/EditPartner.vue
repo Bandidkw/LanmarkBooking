@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 60%;">
+  <div style="width: 60%">
     <div class="grid">
       <div class="col-12 text-center">
         <h2>แก้ไขข้อมูลส่วนตัว</h2>
@@ -34,7 +34,7 @@
           <div class="col-12">
             <p>จังหวัด :</p>
             <Dropdown
-              class="appearance-none w-full text-gray-700 border  rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none w-full text-gray-700 border rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
               v-model="province"
               :options="provincedropdown.value"
               optionLabel="name_th"
@@ -46,7 +46,7 @@
           <div class="col-12">
             <p>อำเภอ :</p>
             <Dropdown
-              class="appearance-none w-full text-gray-700 border  rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none w-full text-gray-700 border rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
               v-model="amphure"
               :disabled="!province"
               :options="amphuredropdown.value"
@@ -59,7 +59,7 @@
           <div class="col-12">
             <p>ตำบล :</p>
             <Dropdown
-              class="appearance-none w-full text-gray-700 border  rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
+              class="appearance-none w-full text-gray-700 border rounded py-1 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
               v-model="tambon"
               :disabled="!amphure"
               :options="tambondropdown.value"
@@ -79,13 +79,13 @@
                 v-if="image_card && newimageid_cardpreview === ''"
                 :src="getImage(image_card)"
                 alt="ID Card"
-                width="300"
+                class="image-preview"
               />
               <img
                 v-if="newimageid_cardpreview"
                 :src="newimageid_cardpreview"
                 alt="ID Card"
-                width="300"
+                class="image-preview"
               />
               <FileUpload
                 mode="basic"
@@ -112,13 +112,13 @@
                 v-if="image_bank && newimage_bank === ''"
                 :src="getImage(image_bank)"
                 alt="ID Card"
-                width="300"
+                class="image-preview"
               />
               <img
                 v-if="newimage_bankpreview"
                 :src="newimage_bankpreview"
                 alt="ID Card"
-                width="300"
+                class="image-preview"
               />
               <FileUpload
                 mode="basic"
@@ -464,3 +464,15 @@ export default {
   },
 };
 </script>
+<style scoped>
+@media (max-width: 640px) {
+  .image-preview {
+    width: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .image-preview {
+    width: 300px;
+  }
+}
+</style>
