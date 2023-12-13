@@ -41,7 +41,6 @@
         <Column
           field="telephone"
           sortable
-
           header="เบอร์โทรศัพท์"
           style="width: 20%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
@@ -50,7 +49,6 @@
           field="name"
           class=""
           sortable
-
           header="ชื่อ"
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
@@ -66,7 +64,7 @@
                 outlined
                 severity="help "
                 icon="pi pi-info-circle"
-                @click="showPartnerDetail(item)"
+                @click="showPartnerDetail(item.data)"
               />
               <p style="font-size: 7px">
                 เอาไว้ลบพาร์ทเนอร์ (จริงๆไม่สามารถลบได้)
@@ -271,18 +269,16 @@ export default {
         });
       }
     };
-    const showPartnerDetail = async (data) => {
+    const showPartnerDetail = async (item) => {
       DetailPartner.value = true;
-      image.value = data.image_idcard;
-      name.value = data.name;
-      phone.value = data.telephone;
-      console.log(data);
-      console.log(data.idcard);
-      idcard.value = data.idcard;
-      email.value = data.email;
-      bank.value = data.bank;
-      numberbank.value = data.numberbank;
-      image_bank.value = data.image_bank;
+      image.value = item.image_idcard;
+      name.value = item.name;
+      phone.value = item.telephone;
+      idcard.value = item.idcard;
+      email.value = item.email;
+      bank.value = item.bank;
+      numberbank.value = item.numberbank;
+      image_bank.value = item.image_bank;
     };
     onMounted(() => {
       getData();
