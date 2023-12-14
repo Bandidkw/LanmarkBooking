@@ -95,6 +95,11 @@ export default {
               icon: "pi pi-user-edit",
               to: "/manageadmin",
             },
+            {
+              label: "จัดการโฆษณา",
+              icon: "bi bi-megaphone",
+              to: "/manageAds",
+            },
           ],
         },
         {

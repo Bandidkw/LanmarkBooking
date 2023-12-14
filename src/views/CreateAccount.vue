@@ -68,13 +68,13 @@
           </div>
         </div>
 
-        <label for="email">อีเมล :</label>
+        <label for="email">อีเมล์ :</label>
         <InputText
           class="input-form"
           type="email"
           v-model="member.email"
           @input="validateField('email', 'member')"
-          placeholder="กรอกอีเมล"
+          placeholder="กรอกอีเมล์"
         />
         <span class="error-message">{{ errors.email }}</span>
 
@@ -84,7 +84,7 @@
           type="tel"
           v-model="member.phone"
           @input="validateField('phone', 'member')"
-          placeholder="กรุณากรอกเบอร์โทรศัพท์"
+          placeholder="กรอกเบอร์โทรศัพท์"
         />
         <span class="error-message">{{ errors.phone }}</span>
 
@@ -116,10 +116,11 @@
         <div class="flex justify-content-end">
           <Button
             label="ลงทะเบียน"
+            class="hover:bg-blue-700"
+            style="background-color: #3b82f6"
             icon="pi pi-user-plus"
             :loading="loading"
             @click="register('member')"
-            severity="help"
             rounded
           />
           <ContractMember :datacontract="datacontract" :id="id" />
@@ -140,15 +141,31 @@
       :breakpoints="{ '1199px': '75vw', '640px': '90vw' }"
     >
       <form class="form-control">
-        <label for="name">ชื่อ :</label>
-        <InputText
-          class="input-form"
-          type="text"
-          v-model="partner.name"
-          @input="validateField('name', 'partner')"
-          placeholder="กรอกชื่อ"
-        />
-        <span class="error-message">{{ errors.name }}</span>
+        <div class="input-content">
+          <div class="input-box">
+            <label for="name">ชื่อ :</label>
+            <InputText
+              class="input-form"
+              type="text"
+              v-model="partner.name"
+              @input="validateField('name', 'partner')"
+              placeholder="กรอกชื่อ"
+            />
+            <span class="error-message">{{ errors.name }}</span>
+          </div>
+
+          <div class="input-box">
+            <label for="lname">นามสกุล &nbsp;:</label>
+            <InputText
+              class="input-form"
+              type="text"
+              v-model="partner.lname"
+              @input="validateField('lname', 'partner')"
+              placeholder="กรอกนามสกุล"
+            />
+            <span class="error-message">{{ errors.lname }}</span>
+          </div>
+        </div>
 
         <label for="phone"> เบอร์โทรศัพท์:</label>
         <InputText
@@ -156,43 +173,53 @@
           type="tel"
           v-model="partner.phone"
           @input="validateField('phone', 'partner')"
-          placeholder="กรุณากรอกเบอร์โทรศัพท์"
+          placeholder="กรอกเบอร์โทรศัพท์"
         />
         <span class="error-message">{{ errors.phone }}</span>
 
-        <label for="email">อีเมล :</label>
+        <label for="email">อีเมล์ :</label>
         <InputText
           class="input-form"
           type="email"
           v-model="partner.email"
           @input="validateField('partner', 'member')"
-          placeholder="กรอกอีเมล"
+          placeholder="กรอกอีเมล์"
         />
         <span class="error-message">{{ errors.email }}</span>
 
-        <label for="idcard">รหัสบัตรประชาชน :</label>
+        <label for="idcard">เลขบัตรประจำตัวประชาชน :</label>
         <InputText
           class="input-form"
           type="tel"
           v-model="partner.idcard"
           @input="validateField('idcard', 'partner')"
-          placeholder="กรอกรหัสบัตรประชาชน"
+          placeholder="กรอกเลขบัตรประจำตัวประชาชน"
         />
         <span class="error-message">{{ errors.idcard }}</span>
 
-        <label for="filepic">รูปบัตรประชาชน :</label>
+        <label for="filepic">รูปบัตรประจำตัวประชาชน :</label>
         <div class="card">
           <FileUpload
             name="demo[]"
+            mode="basic"
             id="fileinput"
             ref="fileinput"
             type="file"
             class="custom-file-upload"
+            customUpload
             @change="handleFileChange('filepic')"
             accept="image/*"
+            chooseLabel="แนบรูปภาพ"
           >
-            <template #empty>
-              <p>อัพโหลดรูปบัตรประชาชน</p>
+            <template v-if="partner.filepic">
+              <img
+                :src="partner.filepic"
+                alt="Selected Image"
+                class="selected-image"
+              />
+            </template>
+            <template v-else>
+              <p>แนบรูปบัตรประจำตัวประชาชน</p>
             </template>
           </FileUpload>
           <span class="error-message">{{ errors.filepic }}</span>
@@ -204,7 +231,7 @@
           type="tel"
           v-model="partner.address"
           @input="validateField('address', 'partner')"
-          placeholder="กรอกที่อยู่"
+          placeholder="กรอกที่อยู่ปัจจุบัน"
         />
         <span class="error-message">{{ errors.address }}</span>
 
@@ -252,6 +279,7 @@
         <label for="image_bank">รูปภาพสมุดบัญชี :</label>
         <FileUpload
           mode="basic"
+          chooseLabel="แนบรูปภาพ"
           name="demo[]"
           id="imagebankinput"
           ref="imagebankinput"
@@ -315,11 +343,12 @@
 
         <div class="flex justify-content-end">
           <Button
+            class="hover:bg-blue-700"
+            style="background-color: #3b82f6"
             label="ลงทะเบียน"
             icon="pi pi-user-plus"
             :loading="loading"
             @click="register('partner')"
-            severity="help"
             rounded
           />
         </div>
@@ -394,6 +423,7 @@ export default {
       },
       partner: {
         name: "",
+        lname: "",
         phone: "",
         idcard: "",
         filepic: null,
@@ -438,17 +468,28 @@ export default {
       this.id = data.registerId;
     },
 
-    handleFileChange(fieldName) {
-      const input =
-        fieldName === "filepic"
-          ? this.$refs.fileinput
-          : this.$refs.imagebankinput;
+    handleFileChange(imageKey) {
+      const file = this.$refs.fileinput.files[0];
+      const reader = new FileReader();
 
-      if (input.files && input.files.length > 0) {
-        this.partner[fieldName] = input.files[0];
-        this.validateField(fieldName, "partner");
-      }
+      reader.onload = (e) => {
+        this.partner.filepic[imageKey] = e.target.result;
+      };
+
+      reader.readAsDataURL(file);
     },
+
+    // handleFileChange(fieldName) {
+    //   const input =
+    //     fieldName === "filepic"
+    //       ? this.$refs.fileinput
+    //       : this.$refs.imagebankinput;
+
+    //   if (input.files && input.files.length > 0) {
+    //     this.partner[fieldName] = input.files[0];
+    //     this.validateField(fieldName, "partner");
+    //   }
+    // },
     async getamphure(type) {
       try {
         if (type === "amphure") {
@@ -534,6 +575,7 @@ export default {
               telephone: this.partner.phone,
               password: this.partner.password,
               name: this.partner.name,
+              lname: this.partner.lname,
               idcard: this.partner.idcard,
               address: this.partner.address,
               tambon: this.partner.tambon,
@@ -640,6 +682,7 @@ export default {
     async validatePartnerForm() {
       const PartnerSchema = yup.object({
         name: yup.string().required("* กรุณากรอกชื่อ"),
+        lname: yup.string().required("* กรุณากรอกนามสกุล"),
         phone: yup
           .string()
           .required("* กรุณากรอกเบอร์โทรศัพท์")
@@ -727,6 +770,7 @@ export default {
       };
       this.partner = {
         name: "",
+        lname: "",
         phone: "",
         idcard: "",
         filepic: null,

@@ -207,6 +207,13 @@ const router = createRouter({
       name: "membertimeline",
       component: () => import('@/views/admin/timeLineLogin/memberTimeLine.vue')
     },
+    ////////// ADS ///////////
+    {
+      path: "/manageAds",
+      name: "manageAds",
+      component: () => import('../views/admin/managementAds/ManagementAds.vue')
+    },
+
   ],
 });
 
