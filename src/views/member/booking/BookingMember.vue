@@ -136,7 +136,11 @@
             <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
           </template>
         </Column>
-        <Column header="เวลาคงเหลือ" style="width: 10%"></Column>
+        <Column header="เวลาคงเหลือ" style="width: 10%">
+          <template #body="{ data }">
+            <div>{{ formattedRemainingTime }}</div>
+          </template>
+        </Column>
         <Column header="รายละเอียด" style="width: 10%">
           <template #body="{ data }">
             <Button
@@ -262,18 +266,36 @@ import axios from "axios";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
 import Loading from "../../../components/Loading.vue";
+import { computed } from "vue";
 
 export default {
   components: {
     Loading,
   },
-
   created() {
     document.title = "ข้อมูล partner";
   },
-
   setup() {
-    // const partnerDetail = ref(null);
+    const initialTime = localStorage.getItem("initialTime") || Date.now();
+    const formattedRemainingTime = computed(() => {
+      const hours = Math.floor(remainingTime.value / (60 * 60 * 1000));
+      const minutes = Math.floor(
+        (remainingTime.value % (60 * 60 * 1000)) / (60 * 1000)
+      );
+      const seconds = Math.floor((remainingTime.value % (60 * 1000)) / 1000);
+
+      return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+        2,
+        "0"
+      )}:${String(seconds).padStart(2, "0")}`;
+    });
+    const remainingTime = ref(24 * 60 * 60 * 1000); // 24 ชั่วโมงในมิลลิวินาที
+    const updateRemainingTime = () => {
+      setInterval(() => {
+        remainingTime.value -= 1000; // ลบ 1 วินาที (1000 มิลลิวินาที)
+      }, 1000); // อัปเดตทุก 1 วินาที
+    };
+
     const DetailPartner = ref(false);
     let data_id = ref("");
     let membername = ref("");
@@ -410,12 +432,16 @@ export default {
       price.value = data.price;
       databooking.value = data;
     };
-
     onMounted(() => {
+      if (!localStorage.getItem("initialTime")) {
+        localStorage.setItem("initialTime", Date.now().toString());
+      }
       getData();
+      updateRemainingTime();
     });
 
     return {
+      initialTime,
       item_product,
       approvepartner,
       unapprovepartner,
@@ -435,6 +461,9 @@ export default {
       searchall,
       statusdata,
       selectstatus,
+      remainingTime,
+      updateRemainingTime,
+      formattedRemainingTime,
     };
   },
 
