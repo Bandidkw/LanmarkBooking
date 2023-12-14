@@ -197,33 +197,32 @@
         />
         <span class="error-message">{{ errors.idcard }}</span>
 
-        <label for="filepic">รูปบัตรประจำตัวประชาชน :</label>
-        <div class="card">
-          <FileUpload
-            name="demo[]"
-            mode="basic"
-            id="fileinput"
-            ref="fileinput"
-            type="file"
-            class="custom-file-upload"
-            customUpload
-            @change="handleFileChange('filepic')"
-            accept="image/*"
-            chooseLabel="แนบรูปภาพ"
-          >
-            <template v-if="partner.filepic">
-              <img
-                :src="partner.filepic"
-                alt="Selected Image"
-                class="selected-image"
-              />
-            </template>
-            <template v-else>
-              <p>แนบรูปบัตรประจำตัวประชาชน</p>
-            </template>
-          </FileUpload>
-          <span class="error-message">{{ errors.filepic }}</span>
-        </div>
+        <label for="filepic">แนบรูปบัตรประจำตัวประชาชน :</label>
+        <FileUpload
+          name="demo[]"
+          mode="basic"
+          id="fileinput"
+          ref="fileinput"
+          type="file"
+          class="custom-file-upload"
+          customUpload
+          @change="handleFileChange('filepic')"
+          accept="image/*"
+          chooseLabel="แนบรูปภาพ"
+        >
+        </FileUpload>
+        <span class="error-message">{{ errors.filepic }}</span>
+
+        <img
+          v-if="partner.filepic && !newimage_idcardpreview"
+          :src="getImage(partner.filepic)"
+          class="image-preview"
+        />
+        <img
+          v-if="newimage_idcardpreview"
+          :src="newimage_idcardpreview"
+          class="image-preview"
+        />
 
         <label for="address">ที่อยู่ :</label>
         <InputText
@@ -276,7 +275,7 @@
           </div>
         </div>
 
-        <label for="image_bank">รูปภาพสมุดบัญชี :</label>
+        <label for="image_bank">แนบสำเนา หรือ รูปภาพสมุดบัญชี :</label>
         <FileUpload
           mode="basic"
           chooseLabel="แนบรูปภาพ"
@@ -289,6 +288,17 @@
           @change="handleFileChange('image_bank')"
         />
         <span class="error-message">{{ errors.image_bank }}</span>
+
+        <img
+          v-if="partner.image_bank && !newimage_bankpreview"
+          :src="getImage(partner.image_bank)"
+          class="image-preview"
+        />
+        <img
+          v-if="newimage_bankpreview"
+          :src="newimage_bankpreview"
+          class="image-preview"
+        />
 
         <div class="input-content">
           <div class="input-box">
@@ -457,6 +467,8 @@ export default {
       checked,
       id: null,
       loading,
+      newimage_bankpreview: null,
+      newimage_idcardpreview: null,
     };
   },
   components: {
@@ -468,18 +480,25 @@ export default {
       this.id = data.registerId;
     },
 
-    handleFileChange(imageKey) {
-      const file = this.$refs.fileinput.files[0];
-      const reader = new FileReader();
+    async handleFileChange(fieldName) {
+      const input =
+        fieldName === "filepic"
+          ? this.$refs.fileinput
+          : this.$refs.imagebankinput;
 
-      reader.onload = (e) => {
-        this.partner.filepic[imageKey] = e.target.result;
-      };
+      if (input.files && input.files.length > 0) {
+        if (fieldName === "filepic") {
+          this.newimage_idcardpreview = URL.createObjectURL(input.files[0]);
+          this.partner.filepic = input.files[0];
+        } else if (fieldName === "image_bank") {
+          this.newimage_bankpreview = URL.createObjectURL(input.files[0]);
+          this.partner.image_bank = input.files[0];
+        }
 
-      reader.readAsDataURL(file);
+        await this.validateField(fieldName,"partner");
+      }
     },
-
-    // handleFileChange(fieldName) {
+    // handleFileChangeOld(fieldName) {
     //   const input =
     //     fieldName === "filepic"
     //       ? this.$refs.fileinput
@@ -490,6 +509,25 @@ export default {
     //     this.validateField(fieldName, "partner");
     //   }
     // },
+
+    // handleFileChange(fieldName) {
+    //   const input = this.$refs.imagebankinput;
+
+    //   if (input.files && input.files.length > 0) {
+    //     if (fieldName === "image_bank") {
+    //       this.newimage_bankpreview = URL.createObjectURL(input.files[0]);
+    //       this.partner.image_bank = input.files[0];
+    //     }
+
+    //     this.validateField(fieldName, "partner");
+    //   }
+    // },
+    beforeDestroy() {
+      // Clean up object URL when the component is destroyed
+      if (this.newimage_bankpreview) {
+        URL.revokeObjectURL(this.newimage_bankpreview);
+      }
+    },
     async getamphure(type) {
       try {
         if (type === "amphure") {
@@ -518,6 +556,17 @@ export default {
         }
       } catch (error) {
         console.log(error);
+      }
+    },
+
+    getImage(item) {
+      if (typeof item === "string") {
+        return `https://drive.google.com/uc?export=view&id=${item}`;
+      } else if (Array.isArray(item) && item.length > 0) {
+        const firstImageId = item[0];
+        return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
+      } else {
+        return "";
       }
     },
 
@@ -697,12 +746,10 @@ export default {
         //   /^[0-9]{1}-[0-9]{4}-[0-9]{5}-[0-9]{2}-[0-9]{1}$/,
         //   "Invalid Id Card Number. Please enter a valid Id Card number."
         // )
-        filepic: yup
-          .mixed()
-          .required("* กรุณากรอกอัพโหลดรูปบัตรประชาชน")
-          .test("fileSize", "ไฟล์มีขนาดใหญ่เกินไป", (value) => {
-            return value && value.size <= 1024000; // 1 MB
-          }),
+        filepic: yup.mixed().required("* กรุณากรอกอัพโหลดรูปบัตรประชาชน"),
+        // .test("fileSize", "ไฟล์มีขนาดใหญ่เกินไป", (value) => {
+        //   return value && value.size <= 1024000; // 1 MB
+        // }),
         email: yup
           .string()
           .email("* กรุณากรอกอีเมลให้ถูกต้อง")
@@ -713,12 +760,10 @@ export default {
         province: yup.string().required("* กรุณากรอกจังหวัด"),
         numberbank: yup.string().required("* กรุณากรอกเลขบัญชี"),
         bank: yup.string().required("* กรุณาเลือกบัญชีธนาคาร"),
-        image_bank: yup
-          .mixed()
-          .required("* กรุณาอัพโหลดภาพบัญชี")
-          .test("fileSize", "File size is too large", (value) => {
-            return value && value.size <= 1024000; // 1 MB
-          }),
+        image_bank: yup.mixed().required("* กรุณาอัพโหลดภาพบัญชี"),
+        // .test("fileSize", "File size is too large", (value) => {
+        //   return value && value.size <= 1024000; // 1 MB
+        // }),
         password: yup.string().required("* กรุณากรอกรหัสผ่าน"),
         confirmPassword: yup
           .string()
@@ -815,7 +860,7 @@ export default {
 
 <style scoped>
 .center-container {
-  background-image: url("/public/images/hotel-room/Register_Page.png");
+  background-image: url("/public/images/hotel-room/register2.png");
   display: flex;
   width: 100%;
   background-size: cover;
@@ -828,6 +873,9 @@ export default {
   z-index: 0;
 }
 
+.image-preview{
+  width: 200px;
+}
 .button_selection {
   display: flex;
   justify-content: center;
