@@ -157,7 +157,17 @@
       </DataTable>
     </div>
   </div>
+  <!-- Rating Modal -->
+  <Dialog v-if="ratingModalVisible" v-model:visible="ratingModalVisible" modal>
+    <div class="text-center p-4">
+      <h2>โปรดให้คะแนน</h2>
+      <!-- ใช้ PrimeVue Rating component -->
+      <Rating v-model="ratingValue" class="mb-2" :stars="10" :max="10" />
+      <Button @click="putcheckout(databooking._id)">ส่งคะแนน</Button>
+    </div>
+  </Dialog>
   <Dialog
+    v-if="DetailPartner"
     v-model:visible="DetailPartner"
     modal
     :style="{ width: '50rem', 'z-index': 500 }"
@@ -177,7 +187,7 @@
           "
         >
           <Button
-            @click="putcheckout(databooking._id)"
+            @click="putcheckout2"
             class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-2"
             >เช็คเอาท์</Button
           >
@@ -210,8 +220,63 @@ export default {
   },
 
   setup() {
-    // const partnerDetail = ref(null);
     const DetailPartner = ref(false);
+    const ratingModalVisible = ref(false);
+    const ratingValue = ref(0);
+
+    const showRatingModal = () => {
+      ratingModalVisible.value = true;
+      DetailPartner.value = false;
+    };
+    const putcheckout2 = () => {
+      DetailPartner.value = false;
+      showRatingModal();
+    };
+    const putcheckout = async (id) => {
+      try {
+        const response = await axios.put(
+          `${process.env.VUE_APP_API}checkin/checkout/${id}`,
+          {},
+          {
+            headers: {
+              token: localStorage.getItem("token"),
+            },
+          }
+        );
+        if (response.data.status === true) {
+          DetailPartner.value = false;
+          showRatingModal();
+          Swal.fire({
+            icon: "success",
+            title: "เช็คเอาท์สำเร็จ",
+            text: response.data.message,
+          });
+          getData(); // ใช้ getData() โดยตรง
+        } else {
+          DetailPartner.value = false;
+          await Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด",
+            text: "ไม่สามารถเพิ่มข้อมูลได้",
+          });
+          DetailPartner.value = true;
+        }
+      } catch (error) {
+        console.error("AxiosError:", error);
+        DetailPartner.value = false;
+        await Swal.fire({
+          icon: "error",
+          title: "เกิดข้อผิดพลาด",
+          text: error,
+        });
+        DetailPartner.value = true;
+      }
+      ratingModalVisible.value = false;
+      DetailPartner.value = false;
+      console.log("คะแนนที่ให้:", ratingValue.value, DetailPartner);
+    };
+
+    // const partnerDetail = ref(null);
     let data_id = ref("");
     let membername = ref("");
     let roomname = ref("");
@@ -255,15 +320,32 @@ export default {
       DetailPartner.value = true;
       databooking.value = data;
     };
+    const submitRating = (id) => {
+      console.log("คะแนนที่ให้:", ratingValue.value);
+
+      // ปิดโมดัลทั้งหมด
+      ratingModalVisible.value = false;
+      DetailPartner.value = false;
+
+      // แสดง Swal.fire หลังจากปิดโมดัล
+      Swal.fire({
+        icon: "success",
+        title: "เช็คเอาท์สำเร็จ",
+      });
+    };
 
     onMounted(() => {
       getData();
     });
-
     return {
+      submitRating,
+      putcheckout2,
+      putcheckout,
+      ratingModalVisible,
+      ratingValue,
+      showRatingModal,
       item_product,
       getData,
-      // partnerDetail,
       showPartnerDetail,
       DetailPartner,
       data_id,
@@ -280,7 +362,6 @@ export default {
       selectstatus,
     };
   },
-
   methods: {
     calculateNightStay(dateFrom, dateTo) {
       const startDate = new Date(dateFrom);
@@ -299,44 +380,50 @@ export default {
         return "";
       }
     },
-    async putcheckout(id) {
-      try {
-        const response = await axios.put(
-          `${process.env.VUE_APP_API}checkin/checkout/${id}`,
-          {},
-          {
-            headers: {
-              token: localStorage.getItem("token"),
-            },
-          }
-        );
-        if (response.data.status === true) {
-          this.DetailPartner = false;
-          Swal.fire({
-            icon: "success",
-            title: "เช็คเอาท์สำเร็จ",
-            text: response.data.message,
-          });
-          this.getData();
-        } else {
-          this.DetailPartner = false;
-          await Swal.fire({
-            icon: "error",
-            title: "เกิดข้อผิดพลาด",
-            text: "ไม่สามารถเพิ่มข้อมูลได้",
-          });
-          this.DetailPartner = true;
-        }
-      } catch (error) {
-        this.DetailPartner = false;
-        await Swal.fire({
-          icon: "error",
-          title: "เกิดข้อผิดพลาด",
-          text: error,
-        });
-        this.DetailPartner = true;
-      }
-    },
+    //-------------- checkout----------------
+    // async putcheckout1(id) {
+    //   try {
+    //     const response = await axios.put(
+    //       `${process.env.VUE_APP_API}checkin/checkout/${id}`,
+    //       {},
+    //       {
+    //         headers: {
+    //           token: localStorage.getItem("token"),
+    //         },
+    //       }
+    //     );
+    //     if (response.data.status === true) {
+    //       DetailPartner.value = false;
+    //       showRatingModal();
+    //       Swal.fire({
+    //         icon: "success",
+    //         title: "เช็คเอาท์สำเร็จ",
+    //         text: response.data.message,
+    //       });
+    //       getData();
+    //     } else {
+    //       DetailPartner.value = false;
+    //       await Swal.fire({
+    //         icon: "error",
+    //         title: "เกิดข้อผิดพลาด",
+    //         text: "ไม่สามารถเพิ่มข้อมูลได้",
+    //       });
+    //       DetailPartner.value = true;
+    //     }
+    //   } catch (error) {
+    //     console.error("AxiosError:", error);
+    //     DetailPartner.value = false;
+    //     await Swal.fire({
+    //       icon: "error",
+    //       title: "เกิดข้อผิดพลาด",
+    //       text: error,
+    //     });
+    //     DetailPartner.value = true;
+    //   }
+    //   ratingModalVisible.value = false;
+    //   DetailPartner.value = false;
+    //   console.log("คะแนนที่ให้:", ratingValue.value, DetailPartner);
+    // },
     async putcheckin(id) {
       try {
         const response = await axios.put(

@@ -73,7 +73,7 @@
           </template>
         </Column>
         <Column field="price" header="ราคา" style="width: 10%"></Column>
-        <Column class="text-center" header="สถานะอนุมัติ" style="width: 20%">
+        <Column class="text-center" header="สถานะอนุมัติ" style="width: 10%">
           <template #body="{ data }">
             <div
               class="lg:w-10 xl:w-5 bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
@@ -136,6 +136,7 @@
             <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
           </template>
         </Column>
+        <Column header="เวลาคงเหลือ" style="width: 10%"></Column>
         <Column header="รายละเอียด" style="width: 10%">
           <template #body="{ data }">
             <Button
