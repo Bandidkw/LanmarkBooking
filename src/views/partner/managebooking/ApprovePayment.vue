@@ -38,23 +38,16 @@
         <Column
           field="booking_id.member_id.name"
           header="ชื่อผู้จอง"
-          sortable
-          style="width: 20%"
           :headerStyle="{ color: headerTextColor }"
         ></Column>
+
         <Column
           field="booking_id.room_id.name"
           header="ห้องพัก"
-          sortable
-          style="width: 10%"
           :headerStyle="{ color: headerTextColor }"
         >
         </Column>
-        <Column
-          header="วันที่จะจอง"
-          style="width: 10%"
-          :headerStyle="{ color: headerTextColor }"
-        >
+        <Column header="วันที่จะจอง" :headerStyle="{ color: headerTextColor }">
           <template #body="{ data }">
             {{
               new Date(data.booking_id.date_from).toLocaleDateString("th-TH", {
@@ -75,11 +68,7 @@
             }}
           </template>
         </Column>
-        <Column
-          header="จำนวนคืน"
-          style="width: 10%"
-          :headerStyle="{ color: headerTextColor }"
-        >
+        <Column header="จำนวนคืน" :headerStyle="{ color: headerTextColor }">
           <template #body="{ data }">
             {{
               calculateNightStay(
@@ -92,11 +81,43 @@
         <Column
           field="booking_id.price"
           header="ราคา"
-          sortable
-          style="width: 10%"
           :headerStyle="{ color: headerTextColor }"
         ></Column>
-        <Column style="width: 10%" :headerStyle="{ color: headerTextColor }">
+        <Column :headerStyle="{ color: headerTextColor }">
+          <template #header="{ data }">
+            <div
+              style="
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              สถานะ
+            </div>
+          </template>
+          <template #body="{ data }">
+            <div
+              class="w-full bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
+              style="border-radius: 1rem; padding: 0.5rem"
+              v-if="data.payment_status === 'รอดำเนินการ'"
+            >
+              <div>
+                {{ data.payment_status }}
+              </div>
+            </div>
+            <div
+              class="w-full bg-green-100 text-green-600 font-normal border-2 border-green-300 text-center"
+              style="border-radius: 1rem; padding: 0.5rem"
+              v-if="data.payment_status === 'โอนเรียบร้อย'"
+            >
+              <div>
+                {{ data.payment_status }}
+              </div>
+            </div>
+          </template>
+        </Column>
+        <Column header="รายละเอียด" :headerStyle="{ color: headerTextColor }">
           <template #body="{ data }">
             <Button
               @click="showPartnerDetail(data)"
@@ -110,16 +131,12 @@
     </div>
   </div>
   <Dialog
+    header="ข้อมูลรายละเอียด"
     v-model:visible="DetailPartner"
     modal
     :style="{ width: '50rem' }"
     :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
   >
-    <div class="grid">
-      <div class="col-12 text-center">
-        <h2>ข้อมูลรายละเอียด</h2>
-      </div>
-    </div>
     <div class="grid">
       <div class="col-12 md:col-12">
         <div class="col-12">
@@ -171,7 +188,7 @@
           <div v-else>ไม่มีรูปภาพ</div>
         </div>
       </div>
-      <div class="col-12 md:col-12  flex justify-content-center gap-4">
+      <div class="col-12 md:col-12 flex justify-content-center gap-4">
         <Button
           @click="approvepartner()"
           severity="success"
@@ -330,6 +347,8 @@ export default {
     };
     const showPartnerDetail = async (data) => {
       DetailPartner.value = true;
+      console.log(data, "datatatata");
+      payment_id.value = data._id;
       data_id.value = data.booking_id._id;
       membername.value = data.booking_id.member_id.name;
       roomname.value = data.booking_id.room_id.name;

@@ -69,7 +69,7 @@
             />
           </div>
           <div class="col-12">
-            <p>email :</p>
+            <p>อีเมล :</p>
             <InputText v-model="email" name="email" class="w-full" />
           </div>
           <div class="col-12">

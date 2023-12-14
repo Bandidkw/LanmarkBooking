@@ -41,14 +41,14 @@
         <Column
           field="member_id.name"
           header="ชื่อ"
-          sortable
+          
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         ></Column>
         <Column
           field="createdAt"
           header="ไทม์ไลน์การเข้าใช้งาน"
-          sortable
+          
           style="width: 20%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         >
@@ -59,7 +59,7 @@
         <Column
           field="ipaddress"
           header="เลขเครื่องip"
-          sortable
+          
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         ></Column>

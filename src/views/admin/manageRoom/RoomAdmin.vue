@@ -55,7 +55,6 @@
         <Column
           field="name"
           header="ชื่อ"
-          sortable
           style="width: 10%"
           :headerStyle="{ color: headerTextColor }"
         ></Column>
@@ -69,7 +68,6 @@
         <Column
           field="phone_number"
           header="เบอร์โทรติดต่อ"
-          sortable
           style="width: 10%"
           :headerStyle="{ color: headerTextColor }"
         >
@@ -77,7 +75,6 @@
         <Column
           field="price"
           class=""
-          sortable
           header="ราคา"
           style="width: 5%"
           :headerStyle="{ color: headerTextColor }"

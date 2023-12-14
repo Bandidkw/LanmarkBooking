@@ -557,7 +557,7 @@ export default {
             await this.$router.push("/");
           } else {
             this.loading = false;
-             this.$toast.add({
+            this.$toast.add({
               severity: "error",
               summary: "ลงทะเบียนไม่สำเร็จ",
               detail: res.data.message,
@@ -566,7 +566,6 @@ export default {
             console.error("Data is missing in the API response.");
           }
         }
-
       } catch (error) {
         this.loading = false;
 

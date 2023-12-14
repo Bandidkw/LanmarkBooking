@@ -25,7 +25,13 @@
         </template>
         <template #header>
           <div class="flex justify-content-end">
-            <Calendar v-model="selectdate"  dateFormat="dd/mm/yy" selectionMode="range" showIcon class="mx-3"/>
+            <Calendar
+              v-model="selectdate"
+              dateFormat="dd/mm/yy"
+              selectionMode="range"
+              showIcon
+              class="mx-3"
+            />
             <span class="p-input-icon-left">
               <i class="pi pi-search" />
               <InputText
@@ -41,14 +47,12 @@
         <Column
           field="admin_id.name"
           header="ชื่อ"
-          sortable
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         ></Column>
         <Column
           field="createdAt"
           header="ไทม์ไลน์การเข้าใช้งาน"
-          sortable
           style="width: 20%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         >
@@ -59,7 +63,6 @@
         <Column
           field="ipaddress"
           header="เลขเครื่องip"
-          sortable
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         ></Column>
@@ -88,9 +91,9 @@ export default {
     const getData = async () => {
       try {
         const result = await admin.GetTimeLineAdmin();
-        const clearresult = result.filter(item=>item.admin_id !="")
+        const clearresult = result.filter((item) => item.admin_id != "");
         item_product.value = clearresult;
-        
+
         console.log(item_product.value);
       } catch (error) {
         console.error(error);
@@ -132,26 +135,48 @@ export default {
   },
   computed: {
     Filter() {
-     if(this.selectdate){
+      if (this.selectdate) {
         const searchTerm = this.searchall.toLowerCase();
-        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };        
+        const options = { day: "2-digit", month: "2-digit", year: "numeric" };
         return this.item_product.filter((item) => {
           const itemDate = new Date(item.createdAt);
-          const formattedItemDate = itemDate.toLocaleDateString('th-TH', options);
-          if(this.selectdate[0]!=null&&this.selectdate[0]!="" && this.selectdate[1]===null)
-          {
-            const startdate = this.selectdate[0].toLocaleDateString('th-TH', options)
-            return ((formattedItemDate==startdate)&&(item.admin_id.name.toLowerCase().includes(searchTerm)||item.ipaddress.toLowerCase().includes(searchTerm)));
+          const formattedItemDate = itemDate.toLocaleDateString(
+            "th-TH",
+            options
+          );
+          if (
+            this.selectdate[0] != null &&
+            this.selectdate[0] != "" &&
+            this.selectdate[1] === null
+          ) {
+            const startdate = this.selectdate[0].toLocaleDateString(
+              "th-TH",
+              options
+            );
+            return (
+              formattedItemDate == startdate &&
+              (item.admin_id.name.toLowerCase().includes(searchTerm) ||
+                item.ipaddress.toLowerCase().includes(searchTerm))
+            );
           }
-          if(this.selectdate[1]!=null&&this.selectdate[1]!="")
-          {
-            const startdate = this.selectdate[0].toLocaleDateString('th-TH', options)
-            const enddate =this.selectdate[1].toLocaleDateString('th-TH', options)
-            return ((formattedItemDate>=startdate&&formattedItemDate<=enddate)&&(item.admin_id.name.toLowerCase().includes(searchTerm)||item.ipaddress.toLowerCase().includes(searchTerm)));
+          if (this.selectdate[1] != null && this.selectdate[1] != "") {
+            const startdate = this.selectdate[0].toLocaleDateString(
+              "th-TH",
+              options
+            );
+            const enddate = this.selectdate[1].toLocaleDateString(
+              "th-TH",
+              options
+            );
+            return (
+              formattedItemDate >= startdate &&
+              formattedItemDate <= enddate &&
+              (item.admin_id.name.toLowerCase().includes(searchTerm) ||
+                item.ipaddress.toLowerCase().includes(searchTerm))
+            );
           }
-          
         });
-     }else if (this.searchall) {
+      } else if (this.searchall) {
         const searchTerm = this.searchall.toLowerCase();
         return this.item_product.filter((item) => {
           return (

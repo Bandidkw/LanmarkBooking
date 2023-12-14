@@ -38,14 +38,12 @@
         <Column
           field="member_id.name"
           header="ชื่อผู้จอง"
-          sortable
           style="width: 20%"
           :headerStyle="{ color: headerTextColor }"
         ></Column>
         <Column
           field="room_id.name"
           header="ห้องพัก"
-          sortable
           style="width: 10%"
           :headerStyle="{ color: headerTextColor }"
         >
@@ -87,7 +85,6 @@
         <Column
           field="price"
           header="ราคา"
-          sortable
           style="width: 10%"
           :headerStyle="{ color: headerTextColor }"
         ></Column>

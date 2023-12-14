@@ -52,7 +52,7 @@
         <Column
           field="telephone"
           header="เบอร์โทรศัพท์"
-          sortable
+          
           style="width: 20%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         ></Column>
@@ -60,7 +60,7 @@
           field="name"
           class=""
           header="ชื่อ"
-          sortable
+          
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         ></Column>

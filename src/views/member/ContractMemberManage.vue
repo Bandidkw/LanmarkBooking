@@ -40,14 +40,14 @@
         <Column
           field="member_id.name"
           header="ชื่อพาร์ทเนอร์"
-          sortable
+          
           style="width: 14%"
           :headerStyle="{ color: headerTextColor }"
         ></Column>
         <Column
           field=""
           class=""
-          sortable
+          
           header="เวลาที่ยืนยัน"
           style="width: 14%"
           :headerStyle="{ color: headerTextColor }"

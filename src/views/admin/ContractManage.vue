@@ -43,14 +43,11 @@
         <Column
           field="signature"
           header="ชื่อพาร์ทเนอร์"
-          sortable
-
           style="width: 14%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         ></Column>
         <Column
           field=""
-          sortable
           header="เวลาที่ยืนยัน"
           style="width: 14%; cursor: default"
           :headerStyle="{ color: headerTextColor }"

@@ -131,7 +131,28 @@ export class Admin {
 
     return data;
   };
+  async DeleteMember(_id) {
+    let data;
+    const config = {
+      method: "delete",
+      headers: {
+        "auth-token": this.#token,
+      },
+      url: `${this.#baseUrl}member/${_id}`,
+    };
 
+    await axios(config)
+      .then((result) => {
+        if (result) {
+          data = result.data;
+        }
+      })
+      .catch((error) => {
+        data = error;
+      });
+
+    return data;
+  };
 
 
 

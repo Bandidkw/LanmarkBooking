@@ -38,7 +38,6 @@
 
         <Column
           field="telephone"
-          sortable
           header="เบอร์โทรศัพท์"
           style="width: 20%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
@@ -46,7 +45,6 @@
         <Column
           field="name"
           header="ชื่อ"
-          sortable
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         >
@@ -54,7 +52,6 @@
         <Column
           field="firstname"
           header="ชื่อจริง"
-          sortable
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         >
@@ -62,7 +59,6 @@
         <Column
           field="lastname"
           header="นามสกุล"
-          sortable
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         >
@@ -70,19 +66,19 @@
         <Column
           field="email"
           header="อีเมล"
-          sortable
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         >
         </Column>
-        <!-- <Column :exportable="false" style="width: 10%; cursor: default">
+        <Column :exportable="false" style="width: 10%; cursor: default">
           <template #body="item">
+            <p style="font-size: 7px">test delete for google login</p>
             <i
               class="pi pi-trash cursor-pointer icon-style"
               @click="deleteProduct(item.data._id)"
             />
           </template>
-        </Column> -->
+        </Column>
       </DataTable>
     </div>
   </div>
@@ -93,6 +89,7 @@ import axios from "axios";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
 import Loading from "../../../components/Loading.vue";
+import { Admin } from "../../../router/admin";
 
 export default {
   components: {
@@ -105,6 +102,8 @@ export default {
     const item_product = ref([]);
     const loading = ref(true);
     const searchall = ref("");
+    const admin = new Admin();
+
     const getData = async () => {
       try {
         const productResponse = await axios.get(
@@ -128,78 +127,68 @@ export default {
       }
     };
 
-    // const deleteProduct = async (_id) => {
-    //   try {
-    //     console.log("kim");
-    //     const { value: deletehotel } = await Swal.fire({
-    //       title: "ต้องการลบหรือไม่",
-    //       text: "คุณต้องการลบรายการนี้หรือไม่",
-    //       icon: "warning",
-    //       showCancelButton: true,
-    //       confirmButtonColor: "#3085d6",
-    //       cancelButtonColor: "#d33",
-    //       cancelButtonText: "ยกเลิก",
-    //       confirmButtonText: "ยืนยันลบ",
-    //       // input: "text",
-    //       // inputLabel: "สาเหตุที่ต้องการลบ",
-    //       // inputPlaceholder: "กรุณากรอกสาเหตุ",
-    //       // inputValidator: (value) => {
-    //       //   if (!value) {
-    //       //     return "กรุณากรอกสาเหตุที่ต้องการลบ";
-    //       //   }
-    //       // },
-    //     });
-
-    //     if (deletehotel) {
-    //       console.log("kim1");
-
-    //       const response = await axios.delete(
-    //         `${process.env.VUE_APP_API}member/${_id}`,
-    //         {
-    //           headers: {
-    //             token: localStorage.getItem("token"),
-    //           },
-    //         }
-    //       );
-
-    //       if (response.data) {
-    //         console.log("kim2");
-
-    //         getData();
-    //         await Swal.fire({
-    //           icon: "success",
-    //           title: "ลบรายการสำเร็จ",
-    //         });
-    //       } else {
-    //         console.log("kim3");
-
-    //         await Swal.fire({
-    //           icon: "error",
-    //           title: "เกิดข้อผิดพลาด",
-    //           text: "ไม่สามารถแก้ไขข้อมูลได้",
-    //         });
-    //       }
-    //     }
-    //   } catch (error) {
-    //     console.log("kim4");
-
-    //     await Swal.fire({
-    //       icon: "error",
-    //       title: "เกิดข้อผิดพลาด",
-    //       text: "ไม่สามารถลบข้อมูลได้",
-    //     });
-    //   }
-    // };
+    const deleteProduct = async (_id) => {
+      console.log(_id, "by id");
+      try {
+        // const { value: deletehotel } = await Swal.fire({
+        //   title: "ต้องการลบหรือไม่",
+        //   text: "คุณต้องการลบรายการนี้หรือไม่",
+        //   icon: "warning",
+        //   showCancelButton: true,
+        //   confirmButtonColor: "#3085d6",
+        //   cancelButtonColor: "#d33",
+        //   cancelButtonText: "ยกเลิก",
+        //   confirmButtonText: "ยืนยันลบ",
+        // input: "text",
+        // inputLabel: "สาเหตุที่ต้องการลบ",
+        // inputPlaceholder: "กรุณากรอกสาเหตุ",
+        // inputValidator: (value) => {
+        //   if (!value) {
+        //     return "กรุณากรอกสาเหตุที่ต้องการลบ";
+        //   }
+        // },
+        // });
+        // const response = await axios.delete(
+        //   `${process.env.VUE_APP_API}member/${_id}`,
+        //   {
+        //     headers: {
+        //       token: localStorage.getItem("token"),
+        //     },
+        //   }
+        // );
+        const response = await admin.DeleteMember(_id);
+        if (response) {
+          getData();
+          await Swal.fire({
+            icon: "success",
+            title: "ลบรายการสำเร็จ",
+          });
+        } else {
+          await Swal.fire({
+            icon: "error",
+            title: "เกิดข้อผิดพลาด",
+            text: "ไม่สามารถแก้ไขข้อมูลได้",
+          });
+        }
+      } catch (error) {
+        await Swal.fire({
+          icon: "error",
+          title: "เกิดข้อผิดพลาด",
+          text: "ไม่สามารถลบข้อมูลได้",
+        });
+      }
+    };
     onMounted(() => {
       getData();
     });
     return {
       item_product,
       getData,
-      // deleteProduct,
+      deleteProduct,
       loading,
       searchall,
       headerTextColor: "rgb(156 163 175)",
+      admin,
     };
   },
   computed: {

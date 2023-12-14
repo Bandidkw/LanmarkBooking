@@ -40,7 +40,6 @@
         </template>
         <Column
           field="telephone"
-          sortable
           header="เบอร์โทรศัพท์"
           style="width: 20%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
@@ -48,7 +47,6 @@
         <Column
           field="name"
           class=""
-          sortable
           header="ชื่อ"
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
