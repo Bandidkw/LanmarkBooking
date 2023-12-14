@@ -268,8 +268,12 @@
             @change="handleCheckboxChange('qrcode')"
           />
         </div>
-        <div v-show="qrcode">
-          <img src="../../../public/logo//lanmark-logo-navbar.png" alt="" />
+        <div class="mt-4 flex justify-content-center">
+          <img
+            v-show="qrcode"
+            :src="getImage(imageQrCode)"
+            style="width: 200px"
+          />
         </div>
 
         <div class="mx-auto w-60 my-3 booking-box">
@@ -299,6 +303,7 @@ export default {
   props: ["id"],
   data() {
     const roomdata = ref([]);
+    const imageQrCode = ref([]);
     const visible = ref(false);
     const value = ref(null);
     const credit = ref(false);
@@ -312,6 +317,7 @@ export default {
           `${process.env.VUE_APP_API}room/${id}`
         );
         this.roomdata = response.data;
+        this.imageQrCode = response.data.partner_id.image_bank;
 
         // ตรวจสอบค่า rating และตั้งค่าให้กับ value
         if (this.roomdata.rating) {
@@ -424,6 +430,7 @@ export default {
       credit,
       qrcode,
       addbooking,
+      imageQrCode,
       // isLoggedIn: false,
     };
   },
