@@ -417,6 +417,9 @@ export default {
     });
 
     return {
+      provincedropdown,
+      amphuredropdown,
+      tambondropdown,
       member: {
         name: "",
         fname: "",
@@ -454,9 +457,7 @@ export default {
         { value: "ออมสิน", label: "ออมสิน" },
         { value: "ธกส", label: "ธกส" },
       ],
-      provincedropdown,
-      amphuredropdown,
-      tambondropdown,
+      errors: {},
       showModalPartner: false,
       showModalMember: false,
       showSuccess,
@@ -744,6 +745,56 @@ export default {
         }
       }
     },
+    //// resetform
+    resetForm() {
+      this.member = {
+        name: "",
+        fname: "",
+        lname: "",
+        email: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+      };
+      this.partner = {
+        name: "",
+        lname: "",
+        phone: "",
+        idcard: "",
+        filepic: null,
+        address: "",
+        tambon: "",
+        amphure: "",
+        province: "",
+        password: "",
+        confirmPassword: "",
+        bank: null,
+        numberbank: "",
+        image_bank: "",
+      };
+    },
+
+    /// closemodal
+    close(userType) {
+      this.resetForm();
+      if (userType === "partner") {
+        this.showModalPartner = false;
+      } else if (userType === "member") {
+        this.showModalMember = false;
+      }
+    },
+  },
+  watch: {
+    showModalMember(newValue) {
+      if (newValue === false) {
+        this.close("member");
+      }
+    },
+    showModalPartner(newValue) {
+      if (!newValue) {
+        this.close("partner");
+      }
+    },
   },
 };
 </script>
@@ -766,7 +817,6 @@ export default {
 .image-preview {
   width: 200px;
 }
-
 .button_selection {
   display: flex;
   justify-content: center;
@@ -830,5 +880,9 @@ input {
     display: grid;
     grid-template-columns: repeat(2, auto);
   }
+}
+
+div:where(.swal2-container) {
+  z-index: 9000;
 }
 </style>
