@@ -423,22 +423,39 @@ export default {
       return this.item_payment === "รอดำเนินการ";
     },
     Filter() {
-      // if (this.searchall) {
-      //   const searchTerm = this.searchall.toLowerCase();
-      //   return this.item_product.filter((item) => {
-      //     return (
-      //       (item.member_id &&
-      //         item.member_id.name.toLowerCase().includes(searchTerm)) ||
-      //       (item.room_id &&
-      //         item.room_id.name.toLowerCase().includes(searchTerm)) ||
-      //       (item.date_from && item.date_from.includes(searchTerm)) ||
-      //       (item.date_to && item.date_to.includes(searchTerm)) ||
-      //       String(item.price).includes(searchTerm)
-      //     );
-      //   });
-      // } else {
-      return this.item_product;
-      // }
+      if (this.searchall) {
+        const searchTerm = this.searchall.toLowerCase();
+
+        return this.item_product.filter((item) => {
+          console.log(item.booking_id.date_to, "kim");
+          const dateFrom = new Date(
+            item.booking_id.date_from
+          ).toLocaleDateString("th-TH", {
+            timeZone: "Asia/Bangkok",
+            day: "numeric",
+            month: "numeric",
+            year: "numeric",
+          });
+          const dateTo = new Date(item.booking_id.date_to).toLocaleDateString(
+            "th-TH",
+            {
+              timeZone: "Asia/Bangkok",
+              day: "numeric",
+              month: "numeric",
+              year: "numeric",
+            }
+          );
+          return (
+            item.booking_id.member_id.name.toLowerCase().includes(searchTerm) ||
+            item.booking_id.room_id.name.toLowerCase().includes(searchTerm) ||
+            dateFrom.includes(searchTerm) ||
+            dateTo.includes(searchTerm) ||
+            String(item.booking_id.price).includes(searchTerm)
+          );
+        });
+      } else {
+        return this.item_product;
+      }
     },
   },
 };
