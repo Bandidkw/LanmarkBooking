@@ -16,20 +16,145 @@
       >
         <!-- ตรวจสอบว่ามีข้อมูลสินค้าหรือไม่ -->
 
-        <template #empty>
-          <p class="font-italic text-center text-5xl" style="color: #bd1616">
-            ไม่พบข้อมูลการจอง
-          </p>
-        </template>
-        <template #header>
-          <div class="flex justify-content-end">
-            <div class="mx-2">
-              <Dropdown
-                v-model="selectstatus"
-                :options="statusdata"
-                optionLabel="name"
-                optionValue="name"
-                placeholder="เลือกสถานะการค้นหา"
+          <template #empty>
+            <p class="font-italic text-center text-5xl" style="color: #bd1616">
+              ไม่พบข้อมูลการจอง
+            </p>
+          </template>
+          <template #header>
+            <div class="flex justify-content-end">
+<div class="mx-2">
+  <Dropdown
+    v-model="selectstatus"
+    :options="statusdata"
+    optionLabel="name"
+    optionValue="name"
+    placeholder="เลือกสถานะการค้นหา"
+  />
+</div>
+
+
+              <span class="p-input-icon-left">
+                <i class="pi pi-search" />
+                <InputText
+                  v-model="searchall"
+                  placeholder="ค้นหา"
+                  class="bg-white-500 p-2 m-1 pl-5 border"
+                />
+              </span>
+            </div>
+          </template>
+
+          <Column field="room_id.name" header="ห้องพัก" style="width: 10%">
+          </Column>
+          <Column header="วันที่จะจอง" style="width: 10%">
+            <template #body="{ data }">
+              {{
+                new Date(data.date_from).toLocaleDateString("th-TH", {
+                  timeZone: "Asia/Bangkok",
+                  day: "numeric",
+                  month: "numeric",
+                  year: "numeric",
+                })
+              }}
+              -
+              {{
+                new Date(data.date_to).toLocaleDateString("th-TH", {
+                  timeZone: "Asia/Bangkok",
+                  day: "numeric",
+                  month: "numeric",
+                  year: "numeric",
+                })
+              }}
+            </template>
+          </Column>
+          <Column header="จำนวนคืน" style="width: 10%">
+            <template #body="{ data }">
+              {{ calculateNightStay(data.date_from, data.date_to) }}
+            </template>
+          </Column>
+          <Column field="price" header="ราคา" style="width: 10%"></Column>
+          <Column class="text-center" header="สถานะอนุมัติ" style="width: 10%">
+            <template #body="{ data }">
+              <div
+                class="lg:w-10 xl:w-6 bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
+                style="width: 50%; border-radius: 1rem; padding: 0.5rem"
+                v-if="data.status.slice(-1)[0].statusbooking === 'รออนุมัติห้อง'"
+              >
+                <div>
+                  {{ data.status.slice(-1)[0].statusbooking }}
+                </div>
+              </div>
+              <div
+                class="lg:w-10 xl:w-6 bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
+                style="width: 50%; border-radius: 1rem; padding: 0.5rem"
+                v-if="data.status.slice(-1)[0].statusbooking === 'รอชำระเงิน'"
+              >
+                <div>
+                  {{ data.status.slice(-1)[0].statusbooking }}
+                </div>
+              </div>
+              <div
+                class="wlg:w-10 xl:w-6 bg-blue-100 text-blue-600 font-normal border-2 border-blue-300 text-center"
+                style="width: 50%; border-radius: 1rem; padding: 0.5rem"
+                v-if="
+                  data.status.slice(-1)[0].statusbooking === 'ยีนยันการชำระเงิน'
+                "
+              >
+                <div>
+                  {{ data.status.slice(-1)[0].statusbooking }}
+                </div>
+              </div>
+              <div
+                class=" lg:w-10 xl:w-6 bg-green-100 text-green-600 font-normal border-2 border-green-300 text-center"
+                style="width: 50%; border-radius: 1rem; padding: 0.5rem"
+                v-if="data.status.slice(-1)[0].statusbooking === 'จองห้องสำเร็จ'"
+              >
+                <div>
+                  {{ data.status.slice(-1)[0].statusbooking }}
+                </div>
+              </div>
+              <div
+                class="lg:w-10 xl:w-6 bg-red-100 text-red-600 font-normal border-2 border-red-300 text-center"
+                style="width: 40%; border-radius: 1rem; padding: 0.5rem"
+                v-if="data.status.slice(-1)[0].statusbooking === 'ไม่อนุมัติห้อง'"
+              >
+                <div>
+                  {{ data.status.slice(-1)[0].statusbooking }}
+                </div>
+              </div>
+              <div
+                class="lg:w-10 xl:w-5 bg-red-100 text-red-600 font-normal border-2 border-red-300 text-center"
+                style="width: 40%; border-radius: 1rem; padding: 0.5rem"
+                v-if="
+                  data.status.slice(-1)[0].statusbooking === 'ชำระเงินไม่สำเร็จ'
+                "
+              >
+                <div>
+                  {{ data.status.slice(-1)[0].statusbooking }}
+                </div>
+              </div>
+              <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
+            </template>
+          </Column>
+
+<Column header="ชำระภายใน" style="width: 10%">
+  <template #body="{ data }">
+    <div v-if="data.status.slice(-1)[0].statusbooking === 'รอชำระเงิน'">
+      {{ formattedRemainingTime }}
+    </div>
+    <div v-else>
+    </div>
+  </template>
+</Column>
+
+          <Column header="รายละเอียด" style="width: 10%">
+            <template #body="{ data }">
+              <Button
+                outlined
+                severity="help "
+                icon="pi pi-info-circle"
+                @click="showPartnerDetail(data)"
               />
             </div>
 
@@ -316,17 +441,57 @@ export default {
       { name: "ไม่อนุมัติห้อง" },
     ]);
 
-    const item_product = ref([]);
-    const getData = async () => {
-      try {
-        const Response = await axios.get(
-          `${process.env.VUE_APP_API}booking/member/`,
-          {
-            headers: {
-              token: localStorage.getItem("token"),
-            },
-          }
-        );
+  export default {
+    components: {
+      Loading,
+    },
+    created() {
+      document.title = "ข้อมูล partner";
+    },
+    setup() {
+      const successMessageVisible = ref(true);
+// ...
+const formattedRemainingTime = computed(() => {
+  if (status = "รอชำระเงิน") {
+    const hours = Math.floor(remainingTime.value / (60 * 60 * 1000));
+    const minutes = Math.floor(
+      (remainingTime.value % (60 * 60 * 1000)) / (60 * 1000)
+    );
+    const seconds = Math.floor((remainingTime.value % (60 * 1000)) / 1000);
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0"
+    )}:${String(seconds).padStart(2, "0")}`;
+  } else {
+    console.log('Status:', status); // เพิ่มบรรทัดนี้
+    return "ไม่ต้องนับเวลา";
+  }
+});
+// ...
+
+      const remainingTime = ref(24 * 60 * 60 * 1000);
+      const updateRemainingTime = () => {
+        setInterval(() => {
+          remainingTime.value -= 1000;
+        }, 1000);
+      };
+      const DetailPartner = ref(false);
+      let data_id = ref("");
+      let membername = ref("");
+      let roomname = ref("");
+      let datebooking = ref("");
+      let price = ref("");
+      let databooking = ref("");
+      let imagePreview = ref(null);
+      const loading = ref(true);
+      const searchall = ref("");
+      const selectstatus = ref("");
+      const statusdata = ref([
+        { name: "เลือกสถานะการค้นหา" },
+        { name: "รออนุมัติห้อง" },
+        { name: "จองห้องสำเร็จ" },
+        { name: "ไม่อนุมัติห้อง" },
+      ]);
 
         if (Response.data.status === true) {
           item_product.value = Response.data.data.reverse();
@@ -394,7 +559,54 @@ export default {
             icon: "success",
             title: "ไม่อนุมัติผู้ใช้partner",
           });
-          getData();
+        price.value = data.price;
+        databooking.value = data;
+      };
+      onMounted(() => {
+        getData();
+        updateRemainingTime();
+      });
+      return {
+        item_product,
+        approvepartner,
+        unapprovepartner,
+        getData,
+        // partnerDetail,
+        showPartnerDetail,
+        DetailPartner,
+        data_id,
+        membername,
+        roomname,
+        datebooking,
+        price,
+        databooking,
+        filepic: "",
+        imagePreview,
+        loading,
+        searchall,
+        statusdata,
+        selectstatus,
+        remainingTime,
+        updateRemainingTime,
+        formattedRemainingTime,
+        successMessageVisible,
+      };
+    },
+
+    methods: {
+      calculateNightStay(dateFrom, dateTo) {
+        const startDate = new Date(dateFrom);
+        const endDate = new Date(dateTo);
+        const timeDiff = endDate.getTime() - startDate.getTime();
+        const nights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+        return `${nights + 1} คืน`;
+      },
+      getImage(item) {
+        if (typeof item === "string") {
+          return `https://drive.google.com/uc?export=view&id=${item}`;
+        } else if (Array.isArray(item) && item.length > 0) {
+          const firstImageId = item[0];
+          return `https://drive.google.com/uc?export=view&id=${firstImageId}`;
         } else {
           DetailPartner.value = false;
           await Swal.fire({

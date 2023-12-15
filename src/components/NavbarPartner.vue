@@ -13,9 +13,18 @@
         </router-link>
       </div>
       <div
-        class="order-2 md:order-3 flex flex-wrap items-center justify-end mr-0 md:mr-4"
-        id="nav-content"
+        class="order-2 md:order-3 flex items-center justify-end mr-0 md:mr-4"
+        id="nav-content" style="column-gap: 0.5rem;"
       >
+<div class="notification-box" @click="loadNotifications">
+  <div>
+    <img class="w-full" src="https://www.svgrepo.com/download/133673/notification-bell.svg" alt="" />
+  </div>
+  <div>
+    <span>{{ notificationData.length }}</span>
+  </div>
+</div>
+
         <div class="auth flex items-center w-full md:w-full">
           <div
             v-for="(menu, menuKey) in dropdowns"
@@ -25,7 +34,7 @@
             <button
               @click="toggleMenu(menuKey)"
               type="button"
-              class="mt-4 lg:inline-block lg:mt-0 hover:text-white px-2 py-2 rounded hover:bg-[#007bff]"
+              class=" lg:inline-block lg:mt-0 hover:text-white px-2 py-2 rounded hover:bg-[#007bff]"
             >
               <span class="bi bi-person-fill text-2xl"></span>
               {{ namestore }} <i class="bi bi-caret-down-fill"></i>
@@ -69,10 +78,26 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
+  
   components: {},
   data() {
+      const loadNotifications = async () => {
+      try {
+      const response = await axios.post
+        (`${process.env.VUE_APP_API}notification/partner/`
+      );
+      return response.data;
+    } catch (error) {
+      console.error('ข้อผิดพลาดในการดึงข้อมูลการแจ้งเตือน', error);
+      return []; // หรือค่าเริ่มต้นที่คุณต้องการให้ถ้ามีข้อผิดพลาด
+    }
+  };
     return {
+      loadNotifications,
+      notificationData: [],
+      popupText: "Your notification message here",
       isMobileMenuOpen: false,
       isMenuOpenState: {
         items: false,
@@ -175,6 +200,11 @@ export default {
         Object.keys(this.isMenuOpenState).map((key) => [key, false])
       );
     },
+    mounted() {
+  this.showNotification = true; // ทำให้ Notification ปรากฏทันทีเมื่อโหลดหน้าเว็บ
+  // ... (เหตุการณ์อื่น ๆ)
+},
+
   },
 };
 </script>
@@ -196,5 +226,16 @@ export default {
 .center-nav[data-v-0dda9e98] {
   background-color: #fff;
   box-shadow: rgba(113, 165, 248, 0.226) 0 1px 10px 1px;
+}
+.notification-box {
+  position: relative;
+  width: 25px;
+  cursor: pointer;
+}
+
+.notification-box span {
+  position: absolute;
+  bottom: 10px;
+  left: 15px;
 }
 </style>
