@@ -163,7 +163,6 @@
             <div class="col-12 text-center flex justify-content-end mt-2">
               <Button
                 label="แก้ไข"
-                severity="help"
                 rounded
                 icon="pi pi-file-edit"
                 :loading="loading"

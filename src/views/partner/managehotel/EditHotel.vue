@@ -175,7 +175,6 @@
           <div class="col-12 flex justify-content-end text-center mt-2">
             <Button
               label="แก้ไข"
-              severity="help"
               rounded
               icon="pi pi-file-edit"
               :loading="loading"
@@ -256,7 +255,6 @@ export default {
       provincedropdown,
       amphuredropdown,
       tambondropdown,
-      loading: false,
       sidebar: false,
       name: "",
       description: "",

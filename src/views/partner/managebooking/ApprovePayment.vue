@@ -122,7 +122,6 @@
             <Button
               @click="showPartnerDetail(data)"
               outlined
-              severity="help "
               icon="pi pi-info-circle"
             />
           </template>
@@ -176,7 +175,7 @@
           />
         </div>
         <div class="col-12 text-center">
-          <p>ภาพ :</p>
+          <p>สลิปการโอนเงิน</p>
           <div v-if="slip_image != [] || slip_image != ''">
             <Image
               :src="getImage(slip_image)"
@@ -188,7 +187,10 @@
           <div v-else>ไม่มีรูปภาพ</div>
         </div>
       </div>
-      <div class="col-12 md:col-12 flex justify-content-center gap-4">
+      <div
+        v-if="isPaymentPending"
+        class="col-12 md:col-12 flex justify-content-center gap-4"
+      >
         <Button
           @click="approvepartner()"
           severity="success"
@@ -261,7 +263,6 @@ export default {
           );
 
           item_product.value = filterbooking_id.reverse();
-
           console.log(Response.data.payment);
         } else {
           console.error("Data is missing in the API response.");
@@ -347,8 +348,8 @@ export default {
     };
     const showPartnerDetail = async (data) => {
       DetailPartner.value = true;
-      console.log(data, "datatatata");
       payment_id.value = data._id;
+      item_payment.value = data.payment_status;
       data_id.value = data.booking_id._id;
       membername.value = data.booking_id.member_id.name;
       roomname.value = data.booking_id.room_id.name;
@@ -418,6 +419,9 @@ export default {
     },
   },
   computed: {
+    isPaymentPending() {
+      return this.item_payment === "รอดำเนินการ";
+    },
     Filter() {
       // if (this.searchall) {
       //   const searchTerm = this.searchall.toLowerCase();

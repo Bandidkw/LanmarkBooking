@@ -384,7 +384,6 @@
             <Button
               @click="addRoom"
               label="เพิ่มข้อมูลห้อง"
-              severity="help"
               rounded
               icon="pi pi-cloud-upload"
               :loading="loading"

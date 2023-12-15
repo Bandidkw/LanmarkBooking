@@ -107,7 +107,6 @@
             >
               <Button
                 outlined
-                severity="help "
                 icon="pi pi-info-circle"
                 @click="showPartnerDetail(data)"
               />

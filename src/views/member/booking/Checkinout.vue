@@ -150,7 +150,6 @@
               @click="showPartnerDetail(data)"
               icon="bi bi-clipboard2-check"
               outlined
-              severity="help "
             />
           </template>
         </Column>
