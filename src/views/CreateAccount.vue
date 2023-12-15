@@ -131,9 +131,7 @@
     <!-- Partner Modal -->
     <Dialog
       v-model:visible="showModalPartner"
-      :baseZIndex="3000"
-      @onHide="close"
-      @register-success="handleRegisterSuccess"
+      @onHide="close('partner')"
       maximizable
       modal
       header="สมัครพาร์ทเนอร์"
@@ -419,9 +417,6 @@ export default {
     });
 
     return {
-      provincedropdown,
-      amphuredropdown,
-      tambondropdown,
       member: {
         name: "",
         fname: "",
@@ -459,7 +454,9 @@ export default {
         { value: "ออมสิน", label: "ออมสิน" },
         { value: "ธกส", label: "ธกส" },
       ],
-      errors: {},
+      provincedropdown,
+      amphuredropdown,
+      tambondropdown,
       showModalPartner: false,
       showModalMember: false,
       showSuccess,
@@ -476,10 +473,6 @@ export default {
     ContractMember,
   },
   methods: {
-    handleRegisterSuccess(data) {
-      this.id = data.registerId;
-    },
-
     async handleFileChange(fieldName) {
       const input =
         fieldName === "filepic"
@@ -495,39 +488,19 @@ export default {
           this.partner.image_bank = input.files[0];
         }
 
-        await this.validateField(fieldName,"partner");
+        await this.validateField(fieldName, "partner");
       }
     },
-    // handleFileChangeOld(fieldName) {
-    //   const input =
-    //     fieldName === "filepic"
-    //       ? this.$refs.fileinput
-    //       : this.$refs.imagebankinput;
 
-    //   if (input.files && input.files.length > 0) {
-    //     this.partner[fieldName] = input.files[0];
-    //     this.validateField(fieldName, "partner");
-    //   }
-    // },
-
-    // handleFileChange(fieldName) {
-    //   const input = this.$refs.imagebankinput;
-
-    //   if (input.files && input.files.length > 0) {
-    //     if (fieldName === "image_bank") {
-    //       this.newimage_bankpreview = URL.createObjectURL(input.files[0]);
-    //       this.partner.image_bank = input.files[0];
-    //     }
-
-    //     this.validateField(fieldName, "partner");
-    //   }
-    // },
     beforeDestroy() {
-      // Clean up object URL when the component is destroyed
       if (this.newimage_bankpreview) {
         URL.revokeObjectURL(this.newimage_bankpreview);
       }
+      if (this.newimage_idcardpreview) {
+        URL.revokeObjectURL(this.newimage_idcardpreview);
+      }
     },
+
     async getamphure(type) {
       try {
         if (type === "amphure") {
@@ -535,7 +508,6 @@ export default {
             (province) => province.name_th === this.partner.province
           );
           const id = selectedProvinceObject.id;
-          //
           const amphure = await axios.get(
             `${process.env.VUE_APP_THAILAND}thailand/amphure/by-province-id/${id}`
           );
@@ -545,10 +517,7 @@ export default {
           const selectedAmphureObject = this.amphuredropdown.value.find(
             (amphure) => amphure.name_th === this.partner.amphure
           );
-
           const id = selectedAmphureObject.id;
-
-          //
           const tambon = await axios.get(
             `${process.env.VUE_APP_THAILAND}thailand/tambon/by-amphure-id/${id}`
           );
@@ -569,7 +538,6 @@ export default {
         return "";
       }
     },
-
     /// show modal
     showModal(type) {
       if (type === "partner") {
@@ -580,9 +548,7 @@ export default {
         this.showModalMember = true;
       }
     },
-
     //// register
-
     async register(userType) {
       this.loading = true;
       try {
@@ -636,9 +602,7 @@ export default {
               level: "1",
             }
           );
-          // this.$emit("register-success", {
-          //   registerId: res.data.data._id,
-          // });
+
           if (res.data.status === true) {
             console.log(res.data);
             await this.uploadPicture(res.data.data._id);
@@ -664,38 +628,33 @@ export default {
         console.error("Form validation failed:", error);
       }
     },
-
     //// uploadfile picture
     async uploadPicture(_id) {
+      const uploadImage = async (url, formData, successMessage) => {
+        try {
+          const response = await axios.post(url, formData);
+          console.log(response.data, successMessage);
+        } catch (error) {
+          console.error(
+            `Error uploading pictures for ${successMessage}:`,
+            error
+          );
+        }
+      };
+
       try {
-        const formDataFilepic = new FormData();
-        formDataFilepic.append("imgCollection", this.partner.filepic);
-
-        const formDataImageBank = new FormData();
-        formDataImageBank.append("imgbank", this.partner.image_bank);
-
-        const [upfilePick, upImageBank] = await Promise.all([
-          axios.post(
+        await Promise.all([
+          uploadImage(
             `${process.env.VUE_APP_API}partner/picture/${_id}`,
-            formDataFilepic
+            new FormData().append("imgCollection", this.partner.filepic),
+            "success_Image for upfilePick"
           ),
-          axios.post(
+          uploadImage(
             `${process.env.VUE_APP_API}partner/picturebank/${_id}`,
-            formDataImageBank
+            new FormData().append("imgbank", this.partner.image_bank),
+            "success_Image for upImageBank"
           ),
         ]);
-
-        if (upfilePick.data && upfilePick.data) {
-          console.log(upfilePick.data, "success_Image for upfilePick");
-        } else {
-          console.error("Data is missing in the API response for upfilePick.");
-        }
-
-        if (upImageBank.data && upImageBank.data) {
-          console.log(upImageBank.data, "success_Image for upImageBank");
-        } else {
-          console.error("Data is missing in the API response for upImageBank.");
-        }
       } catch (error) {
         console.error("Error uploading pictures:", error);
       }
@@ -716,10 +675,7 @@ export default {
           .required("* กรุณากรอกเบอร์โทรศัพท์")
           .min(8, "* เบอร์โทรต้องมีอย่างน้อย 8 หลัก")
           .max(10, "* เบอร์โทรต้องมีไม่เกิน 10 หลัก"),
-        // .matches(
-        //   /^[0-9-]+$/,
-        //   "Invalid phone number. Please enter a valid phone number."
-        // ),
+
         password: yup.string().required("* กรุณากรอกรหัสผ่าน"),
         confirmPassword: yup
           .string()
@@ -737,19 +693,8 @@ export default {
           .required("* กรุณากรอกเบอร์โทรศัพท์")
           .min(8, "* เบอร์โทรต้องมีอย่างน้อย 8 หลัก")
           .max(10, "* เบอร์โทรต้องมีไม่เกิน 10 หลัก"),
-        // .matches(
-        //   /^[0-9-]+$/,
-        //   "Invalid phone number. Please enter a valid phone number."
-        // ),
         idcard: yup.string().required("* กรุณากรอกเลขบัตรประชาชน"),
-        // .matches(
-        //   /^[0-9]{1}-[0-9]{4}-[0-9]{5}-[0-9]{2}-[0-9]{1}$/,
-        //   "Invalid Id Card Number. Please enter a valid Id Card number."
-        // )
         filepic: yup.mixed().required("* กรุณากรอกอัพโหลดรูปบัตรประชาชน"),
-        // .test("fileSize", "ไฟล์มีขนาดใหญ่เกินไป", (value) => {
-        //   return value && value.size <= 1024000; // 1 MB
-        // }),
         email: yup
           .string()
           .email("* กรุณากรอกอีเมลให้ถูกต้อง")
@@ -761,9 +706,6 @@ export default {
         numberbank: yup.string().required("* กรุณากรอกเลขบัญชี"),
         bank: yup.string().required("* กรุณาเลือกบัญชีธนาคาร"),
         image_bank: yup.mixed().required("* กรุณาอัพโหลดภาพบัญชี"),
-        // .test("fileSize", "File size is too large", (value) => {
-        //   return value && value.size <= 1024000; // 1 MB
-        // }),
         password: yup.string().required("* กรุณากรอกรหัสผ่าน"),
         confirmPassword: yup
           .string()
@@ -802,58 +744,6 @@ export default {
         }
       }
     },
-    //// resetform
-    resetForm() {
-      this.member = {
-        name: "",
-        fname: "",
-        lname: "",
-        email: "",
-        phone: "",
-        password: "",
-        confirmPassword: "",
-      };
-      this.partner = {
-        name: "",
-        lname: "",
-        phone: "",
-        idcard: "",
-        filepic: null,
-        address: "",
-        tambon: "",
-        amphure: "",
-        province: "",
-        password: "",
-        confirmPassword: "",
-        bank: null,
-        numberbank: "",
-        image_bank: "",
-      };
-      // Clear errors
-      this.errors = {};
-    },
-
-    /// closemodal
-    close(userType) {
-      this.resetForm();
-      if (userType === "partner") {
-        this.showModalPartner = false;
-      } else if (userType === "member") {
-        this.showModalMember = false;
-      }
-    },
-  },
-  watch: {
-    showModalMember(newValue) {
-      if (newValue === false) {
-        this.close("member");
-      }
-    },
-    showModalPartner(newValue) {
-      if (!newValue) {
-        this.close("partner");
-      }
-    },
   },
 };
 </script>
@@ -873,9 +763,10 @@ export default {
   z-index: 0;
 }
 
-.image-preview{
+.image-preview {
   width: 200px;
 }
+
 .button_selection {
   display: flex;
   justify-content: center;
@@ -939,9 +830,5 @@ input {
     display: grid;
     grid-template-columns: repeat(2, auto);
   }
-}
-
-div:where(.swal2-container) {
-  z-index: 9000;
 }
 </style>
