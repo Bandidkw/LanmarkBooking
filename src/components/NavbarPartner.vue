@@ -17,7 +17,7 @@
         id="nav-content"
         style="column-gap: 0.5rem"
       >
-        <div class="notification-box" @click="loadNotifications">
+        <!-- <div class="notification-box">
           <div>
             <img
               class="w-full"
@@ -28,7 +28,39 @@
           <div>
             <span>{{ notificationData.length }}</span>
           </div>
+        </div> -->
+        <!-- <OverlayPanel ref="op">
+          <div class="custom-confirm-popup">
+            <div
+              v-for="(notification, index) in mockupNotification"
+              :key="index"
+            >
+              <h4>{{ notification.title }}</h4>
+              <p>{{ notification.detail }}</p>
+            </div>
+          </div>
+        </OverlayPanel> -->
+
+        <div class="notification-box">
+          <div>
+            <i @click="toggle" class="bi bi-bell" />
+          </div>
+          <div>
+            <span>{{ notificationData.length }}</span>
+          </div>
         </div>
+        <OverlayPanel ref="op">
+          <div class="custom-confirm-popup overflow-y-scroll">
+            <div
+              v-for="(notification, index) in mockupNotification"
+              :key="index"
+              class="notification-item"
+            >
+              <h4>{{ notification.title }}</h4>
+              <p>{{ notification.detail }}</p>
+            </div>
+          </div>
+        </OverlayPanel>
 
         <div class="auth flex items-center w-full md:w-full">
           <div
@@ -84,20 +116,24 @@
 
 <script>
 import axios from "axios";
+import { ref } from "vue";
+
 export default {
-  components: {},
   data() {
+    const mockupNotification = ref([]);
+
     const loadNotifications = async () => {
       try {
         const response = await axios.get(
-          `${process.env.VUE_APP_API}notification/token/`,
+          `${process.env.VUE_APP_API}notification/`,
           {
             headers: {
               token: localStorage.getItem("token"),
             },
           }
         );
-        console.log(response.data, "asdasdas");
+        mockupNotification.value = response.data.data;
+        console.log(response.data.data, "asdasdas");
       } catch (error) {
         console.error("ข้อผิดพลาดในการดึงข้อมูลการแจ้งเตือน", error);
         return []; // หรือค่าเริ่มต้นที่คุณต้องการให้ถ้ามีข้อผิดพลาด
@@ -116,6 +152,7 @@ export default {
       editDataModal: false,
       roomModal: false,
       namestore: `${this.$store.getters.name}`,
+      // id: `${this.$store.getters.id}`,
       dropdowns: {
         items: [{ id: 1, label: "แก้ไขข้อมูล", route: "/editpartner" }],
       },
@@ -163,9 +200,15 @@ export default {
           ],
         },
       ],
+      mockupNotification,
     };
   },
   methods: {
+    toggle(event) {
+      this.$refs.op.toggle(event);
+      this.loadNotifications();
+    },
+
     downloadContract() {
       // สร้าง URL สำหรับไฟล์ PDF
       const pdfUrl = "/pdf/contract_partner.pdf"; // กำหนดเส้นของไฟล์ PDF
@@ -211,7 +254,11 @@ export default {
     },
     mounted() {
       this.showNotification = true; // ทำให้ Notification ปรากฏทันทีเมื่อโหลดหน้าเว็บ
+      this.op = this.$refs.op;
       // ... (เหตุการณ์อื่น ๆ)
+    },
+    toggleNotificationModal() {
+      this.showNotificationModal = !this.showNotificationModal;
     },
   },
 };
@@ -246,5 +293,20 @@ export default {
   position: absolute;
   bottom: 10px;
   left: 15px;
+}
+.custom-confirm-popup {
+  width: 250px;
+  height: 250px;
+}
+
+.notification-item {
+  border: 1px solid #ddd;
+  margin-bottom: 5px;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.notification-item h4 {
+  margin-bottom: 8px;
 }
 </style>

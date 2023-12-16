@@ -50,6 +50,7 @@ import Galleria from 'primevue/galleria';
 import Checkbox from 'primevue/checkbox';
 import SelectButton from 'primevue/selectbutton';
 import InputMask from 'primevue/inputmask';
+import OverlayPanel from 'primevue/overlaypanel';
 
 
 // Attach EventBus to the app instance
@@ -109,6 +110,7 @@ app.component("Image", Image);
 app.component("Galleria", Galleria);
 app.component("Checkbox", Checkbox);
 app.component("InputMask", InputMask);
+app.component('OverlayPanel', OverlayPanel);
 
 
 
