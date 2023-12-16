@@ -157,12 +157,27 @@
     </div>
   </div>
   <!-- Rating Modal -->
-  <Dialog v-if="ratingModalVisible" v-model:visible="ratingModalVisible" modal>
+  <Dialog
+    v-if="ratingModalVisible"
+    header="ให้คะแนนที่พัก"
+    v-model:visible="ratingModalVisible"
+    modal
+  >
     <div class="text-center p-4">
-      <h2>โปรดให้คะแนน</h2>
       <!-- ใช้ PrimeVue Rating component -->
-      <Rating v-model="ratingValue" class="mb-2" :stars="10" :max="10" />
-      <Button @click="putcheckout(databooking._id)">ส่งคะแนน</Button>
+      <form class="flex flex-column gap-2">
+        <Rating v-model="ratingValue" class="mb-4" :stars="10" :max="10" />
+        <span class="p-float-label">
+          <Textarea id="value" v-model="detail" rows="4" cols="30" />
+          <label for="value">อธิบายเพิ่มเติม (ไม่บังคับ)</label>
+        </span>
+        <Button
+          icon="bi bi-star"
+          rounded
+          label="ส่งข้อมูล"
+          @click="putcheckout(databooking)"
+        />
+      </form>
     </div>
   </Dialog>
   <Dialog
@@ -208,6 +223,7 @@ import axios from "axios";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
 import Loading from "../../../components/Loading.vue";
+import { User } from "../../../service/user";
 
 export default {
   components: {
@@ -219,9 +235,11 @@ export default {
   },
 
   setup() {
+    const user = new User();
     const DetailPartner = ref(false);
     const ratingModalVisible = ref(false);
     const ratingValue = ref(0);
+    let detail = ref("");
 
     const showRatingModal = () => {
       ratingModalVisible.value = true;
@@ -231,10 +249,12 @@ export default {
       DetailPartner.value = false;
       showRatingModal();
     };
-    const putcheckout = async (id) => {
+    const putcheckout = async (data) => {
       try {
+        const _id = data._id;
+        const booking_id = data.booking_id._id;
         const response = await axios.put(
-          `${process.env.VUE_APP_API}checkin/checkout/${id}`,
+          `${process.env.VUE_APP_API}checkin/checkout/${_id}`,
           {},
           {
             headers: {
@@ -242,17 +262,33 @@ export default {
             },
           }
         );
+
+        const res = await axios.post(
+          `${process.env.VUE_APP_API}review/`,
+          {
+            booking_id: booking_id,
+            star: ratingValue.value,
+            detail: detail.value,
+          },
+          {
+            headers: {
+              token: localStorage.getItem("token"),
+            },
+          }
+        );
         if (response.data.status === true) {
+          console.log(res, "asdas");
           DetailPartner.value = false;
           showRatingModal();
           Swal.fire({
             icon: "success",
             title: "เช็คเอาท์สำเร็จ",
-            text: response.data.message,
+            // text: response.data.message,
           });
           getData(); // ใช้ getData() โดยตรง
         } else {
           DetailPartner.value = false;
+          console.log("formData:", formData);
           await Swal.fire({
             icon: "error",
             title: "เกิดข้อผิดพลาด",
@@ -272,7 +308,6 @@ export default {
       }
       ratingModalVisible.value = false;
       DetailPartner.value = false;
-      console.log("คะแนนที่ให้:", ratingValue.value, DetailPartner);
     };
 
     // const partnerDetail = ref(null);
@@ -319,25 +354,11 @@ export default {
       DetailPartner.value = true;
       databooking.value = data;
     };
-    const submitRating = (id) => {
-      console.log("คะแนนที่ให้:", ratingValue.value);
-
-      // ปิดโมดัลทั้งหมด
-      ratingModalVisible.value = false;
-      DetailPartner.value = false;
-
-      // แสดง Swal.fire หลังจากปิดโมดัล
-      Swal.fire({
-        icon: "success",
-        title: "เช็คเอาท์สำเร็จ",
-      });
-    };
 
     onMounted(() => {
       getData();
     });
     return {
-      submitRating,
       putcheckout2,
       putcheckout,
       ratingModalVisible,
@@ -359,6 +380,8 @@ export default {
       searchall,
       statusdata,
       selectstatus,
+      detail,
+      user,
     };
   },
   methods: {

@@ -182,46 +182,70 @@
           </div>
         </div>
       </div>
-      <div
-        class="reserve-box w-1/2 text-center border-2 rounded-2xl h-[350px] shadow-md max-[430px]:w-full max-[430px]:my-4 max-[414px]:w-full max-[414px]:my-4"
-      >
-        <div class="rounded">
-          <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
-            <label
-              class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2"
-              for="grid-first-name"
-            >
-              เลือกวันจอง - วันสิ้นสุดการจอง
-            </label>
-            <Calendar
-              v-model="selectedDate"
-              dateFormat="dd/mm/yy"
-              selectionMode="range"
-              :manualInput="false"
-              :numberOfMonths="2"
-              showIcon
-              class="border p-2 rounded bg-white"
-              :minDate="minSelectableDate"
-              :disabled-dates="disabledDates"
-            />
+      <div class="w-1/2 flex flex-col gap-y-16">
+        <div
+          class="reserve-box w-full text-center border-2 rounded-2xl h-[350px] shadow-md max-[430px]:w-full max-[430px]:my-4 max-[414px]:w-full max-[414px]:my-4"
+        >
+          <div class="rounded">
+            <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2"
+                for="grid-first-name"
+              >
+                เลือกวันจอง - วันสิ้นสุดการจอง
+              </label>
+              <Calendar
+                v-model="selectedDate"
+                dateFormat="dd/mm/yy"
+                selectionMode="range"
+                :manualInput="false"
+                :numberOfMonths="2"
+                showIcon
+                class="border p-2 rounded bg-white"
+                :minDate="minSelectableDate"
+                :disabled-dates="disabledDates"
+              />
+            </div>
+            <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2"
+                for="grid-first-name"
+              >
+                ราคา : {{ price.toLocaleString() }} บาท
+              </label>
+            </div>
+            <div class="mx-auto w-60 my-3 booking-box">
+              <Button
+                @click="visible = true"
+                class="booking-btn px-4 py-2 rounded-xl bg-blue-500 text-white text-center hover:bg-blue-700 rounded w-full"
+                type="button"
+                :disabled="!selectedDate"
+                label="จอง"
+              />
+            </div>
           </div>
-          <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
-            <label
-              class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2"
-              for="grid-first-name"
-            >
-              ราคา : {{ price.toLocaleString() }} บาท
-            </label>
-          </div>
-          <div class="mx-auto w-60 my-3 booking-box">
-            <Button
-              @click="visible = true"
-              class="booking-btn px-4 py-2 rounded-xl bg-blue-500 text-white text-center hover:bg-blue-700 rounded w-full"
-              type="button"
-              :disabled="!selectedDate"
-              label="จอง"
-            />
-          </div>
+        </div>
+        <div class="card w-full p-4 overflow-y-scroll">
+          <Card>
+            <template #title> Review </template>
+            <template #content>
+              <div
+                v-for="(item, index) in review"
+                :key="index"
+                class="review-item border-b pb-4 mb-4"
+              >
+                <div class="flex items-center mb-2">
+                  <span v-for="i in item.star" :key="i" class="text-yellow-500"
+                    >&#9733;</span
+                  >
+                </div>
+                <div>
+                  <p class="font-bold">{{ item.name }}</p>
+                  <p class="text-gray-600">{{ item.description }}</p>
+                </div>
+              </div>
+            </template>
+          </Card>
         </div>
       </div>
       <Dialog
@@ -303,6 +327,17 @@ export default {
     const credit = ref(false);
     const qrcode = ref(false);
     const room_id = this.$route.params.id;
+    const review = ref([
+      { star: 0, name: "John Doe", description: "Bad experience!" },
+      { star: 4, name: "John Doe", description: "Great experience!" },
+      { star: 2, name: "John Doe", description: "BAD BAD BAD" },
+      { star: 4, name: "John Doe", description: "Great experience!" },
+      { star: 1, name: "John Doe", description: "SO BAD!" },
+      { star: 6, name: "Alice Smith", description: "Amazing place!" },
+      { star: 7, name: "Alice Smith", description: "Amazing place!" },
+      { star: 5, name: "Alice Smith", description: "Amazing place!" },
+      { star: 10, name: "Alice Smith", description: "Amazing place!" },
+    ]);
 
     const getroom = async (_id) => {
       try {
@@ -312,7 +347,7 @@ export default {
         );
         this.roomdata = response.data;
         this.imageQrCode = response.data.partner_id.image_bank;
-
+        console.log(response);
         // ตรวจสอบค่า rating และตั้งค่าให้กับ value
         if (this.roomdata.rating) {
           this.value = this.roomdata.rating;
@@ -324,6 +359,17 @@ export default {
         // จัดการข้อผิดพลาด, เช่นแสดงข้อความสำหรับผู้ใช้
       }
     };
+
+    // const getReview = async (_id) => {
+    //   try {
+    //     const res = await axios.get(
+    //       `${process.env.VUE_APP_API}review/byid/${_id}`
+    //     );
+    //     this.review = res.data;
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
 
     const addbooking = async () => {
       try {
@@ -409,6 +455,7 @@ export default {
     };
     onMounted(() => {
       getroom();
+      // getReview();
       // this.isLoggedIn = checkLoginStatus();
     });
     return {
@@ -425,6 +472,7 @@ export default {
       qrcode,
       addbooking,
       imageQrCode,
+      review,
       // isLoggedIn: false,
     };
   },
