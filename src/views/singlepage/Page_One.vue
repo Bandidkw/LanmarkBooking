@@ -320,6 +320,19 @@ export default {
   },
   props: ["id"],
   data() {
+    const lockedDates = ref([]);
+let isBookingLocked = ref(false);
+const canBookDate = (date) => {
+  return !lockedDates.value.includes(date) && !isBookingLocked.value;
+};
+
+const lockBooking = () => {
+  isBookingLocked.value = true;
+};
+
+const unlockBooking = () => {
+  isBookingLocked.value = false;
+};
     const roomdata = ref([]);
     const imageQrCode = ref([]);
     const visible = ref(false);
@@ -373,9 +386,8 @@ export default {
 
     const addbooking = async () => {
       try {
+        lockBooking();
         if (localStorage.getItem("token") != null) {
-          // if (this.selectedDate != "") {
-
           if (this.credit === true) {
             const response = await axios.post(
               `${process.env.VUE_APP_API}newbooking/bookingandpayment/`,
@@ -451,7 +463,10 @@ export default {
           title: "เกิดข้อผิดพลาด",
           text: error,
         });
-      }
+      } finally {
+    // ปลดล็อคการจองทุกครั้งที่จบ
+    unlockBooking();
+  }
     };
     onMounted(() => {
       getroom();
@@ -459,6 +474,9 @@ export default {
       // this.isLoggedIn = checkLoginStatus();
     });
     return {
+      canBookDate,
+      isBookingLocked: false,
+      lockedDates: [],
       value,
       room_id,
       selectedDate: "",

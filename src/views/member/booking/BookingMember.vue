@@ -76,7 +76,7 @@
         <Column class="text-center" header="สถานะอนุมัติ" style="width: 10%">
           <template #body="{ data }">
             <div
-              class="lg:w-10 xl:w-5 bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
+              class="lg:w-10 xl:w-6 bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="data.status.slice(-1)[0].statusbooking === 'รออนุมัติห้อง'"
             >
@@ -85,7 +85,7 @@
               </div>
             </div>
             <div
-              class="lg:w-10 xl:w-5 bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
+              class="lg:w-10 xl:w-6 bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="data.status.slice(-1)[0].statusbooking === 'รอชำระเงิน'"
             >
@@ -94,7 +94,7 @@
               </div>
             </div>
             <div
-              class="lg:w-10 xl:w-5 bg-blue-100 text-blue-600 font-normal border-2 border-blue-300 text-center"
+              class="lg:w-10 xl:w-7 bg-blue-100 text-blue-600 font-normal border-2 border-blue-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="
                 data.status.slice(-1)[0].statusbooking === 'ยีนยันการชำระเงิน'
@@ -105,7 +105,7 @@
               </div>
             </div>
             <div
-              class="lg:w-10 xl:w-5 bg-green-100 text-green-600 font-normal border-2 border-green-300 text-center"
+              class="lg:w-10 xl:w-6 bg-green-100 text-green-600 font-normal border-2 border-green-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="data.status.slice(-1)[0].statusbooking === 'จองห้องสำเร็จ'"
             >
@@ -114,7 +114,7 @@
               </div>
             </div>
             <div
-              class="lg:w-10 xl:w-5 bg-red-100 text-red-600 font-normal border-2 border-red-300 text-center"
+              class="lg:w-10 xl:w-6 bg-red-100 text-red-600 font-normal border-2 border-red-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="data.status.slice(-1)[0].statusbooking === 'ไม่อนุมัติห้อง'"
             >
@@ -136,11 +136,11 @@
             <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
           </template>
         </Column>
-        <Column header="ชำระภายใน" style="width: 10%">
-          <template #body="{ data }">
-            <div>{{ formattedRemainingTime }}</div>
-          </template>
-        </Column>
+<Column header="ชำระภายใน" style="width: 10%">
+    <template #body="{  }">
+      <div>{{ formattedRemainingTime }}</div>
+    </template>
+  </Column>
         <Column header="รายละเอียด" style="width: 10%">
           <template #body="{ data }">
             <Button
@@ -281,21 +281,29 @@ export default {
     const successMessageVisible = ref(true);
     const initialTime = ref(localStorage.getItem("initialTime") || Date.now());
     const formattedRemainingTime = computed(() => {
-      const hours = Math.floor(remainingTime.value / (60 * 60 * 1000));
-      const minutes = Math.floor(
-        (remainingTime.value % (60 * 60 * 1000)) / (60 * 1000)
-      );
-      const seconds = Math.floor((remainingTime.value % (60 * 1000)) / 1000);
-      return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
-        2,
-        "0"
-      )}:${String(seconds).padStart(2, "0")}`;
+      if (selectstatus === "รอชำระเงิน") {
+        const hours = Math.floor(remainingTime.value / (60 * 60 * 1000));
+        const minutes = Math.floor((remainingTime.value % (60 * 60 * 1000)) / (60 * 1000));
+        const seconds = Math.floor((remainingTime.value % (60 * 1000)) / 1000);
+
+        if (remainingTime.value <= 0) {
+          // If time has expired, you can handle it accordingly
+          return "เลยเวลาที่กำหนด";
+        }
+
+        return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+      } else {
+        return "ไม่ต้องนับเวลา";
+      }
     });
-    const remainingTime = ref(24 * 60 * 60 * 1000); // 24 ชั่วโมงในมิลลิวินาที
+     const remainingTime = ref(24 * 60 * 60 * 1000);
     const updateRemainingTime = () => {
       setInterval(() => {
-        remainingTime.value -= 1000; // ลบ 1 วินาที (1000 มิลลิวินาที)
-      }, 1000); // อัปเดตทุก 1 วินาที
+        // อัปเดตเวลาที่เหลือเฉพาะสำหรับห้องที่มีสถานะ "รอชำระเงิน"
+        if (selectstatus === "รอชำระเงิน" && remainingTime.value > 0) {
+          remainingTime.value -= 1000; // ลบ 1 วินาที
+        }
+      }, 1000);
     };
     const DetailPartner = ref(false);
     let data_id = ref("");

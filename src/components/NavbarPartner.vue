@@ -14,16 +14,21 @@
       </div>
       <div
         class="order-2 md:order-3 flex items-center justify-end mr-0 md:mr-4"
-        id="nav-content" style="column-gap: 0.5rem;"
+        id="nav-content"
+        style="column-gap: 0.5rem"
       >
-<div class="notification-box" @click="loadNotifications">
-  <div>
-    <img class="w-full" src="https://www.svgrepo.com/download/133673/notification-bell.svg" alt="" />
-  </div>
-  <div>
-    <span>{{ notificationData.length }}</span>
-  </div>
-</div>
+        <div class="notification-box" @click="loadNotifications">
+          <div>
+            <img
+              class="w-full"
+              src="https://www.svgrepo.com/download/133673/notification-bell.svg"
+              alt=""
+            />
+          </div>
+          <div>
+            <span>{{ notificationData.length }}</span>
+          </div>
+        </div>
 
         <div class="auth flex items-center w-full md:w-full">
           <div
@@ -34,7 +39,7 @@
             <button
               @click="toggleMenu(menuKey)"
               type="button"
-              class=" lg:inline-block lg:mt-0 hover:text-white px-2 py-2 rounded hover:bg-[#007bff]"
+              class="lg:inline-block lg:mt-0 hover:text-white px-2 py-2 rounded hover:bg-[#007bff]"
             >
               <span class="bi bi-person-fill text-2xl"></span>
               {{ namestore }} <i class="bi bi-caret-down-fill"></i>
@@ -78,22 +83,26 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 export default {
-  
   components: {},
   data() {
-      const loadNotifications = async () => {
+    const loadNotifications = async () => {
       try {
-      const response = await axios.post
-        (`${process.env.VUE_APP_API}notification/partner/`
-      );
-      return response.data;
-    } catch (error) {
-      console.error('ข้อผิดพลาดในการดึงข้อมูลการแจ้งเตือน', error);
-      return []; // หรือค่าเริ่มต้นที่คุณต้องการให้ถ้ามีข้อผิดพลาด
-    }
-  };
+        const response = await axios.get(
+          `${process.env.VUE_APP_API}notification/token/`,
+          {
+            headers: {
+              token: localStorage.getItem("token"),
+            },
+          }
+        );
+        console.log(response.data, "asdasdas");
+      } catch (error) {
+        console.error("ข้อผิดพลาดในการดึงข้อมูลการแจ้งเตือน", error);
+        return []; // หรือค่าเริ่มต้นที่คุณต้องการให้ถ้ามีข้อผิดพลาด
+      }
+    };
     return {
       loadNotifications,
       notificationData: [],
@@ -132,12 +141,12 @@ export default {
           items: [
             {
               label: "เพิ่มห้อง",
-              icon:"bi bi-house-add",
+              icon: "bi bi-house-add",
               to: "/addhotel",
             },
             {
               label: "จัดการห้อง",
-              icon:"bi bi-house-gear",
+              icon: "bi bi-house-gear",
               to: "/manageroom",
             },
           ],
@@ -201,10 +210,9 @@ export default {
       );
     },
     mounted() {
-  this.showNotification = true; // ทำให้ Notification ปรากฏทันทีเมื่อโหลดหน้าเว็บ
-  // ... (เหตุการณ์อื่น ๆ)
-},
-
+      this.showNotification = true; // ทำให้ Notification ปรากฏทันทีเมื่อโหลดหน้าเว็บ
+      // ... (เหตุการณ์อื่น ๆ)
+    },
   },
 };
 </script>
@@ -234,6 +242,7 @@ export default {
 }
 
 .notification-box span {
+  color: #ff0000;
   position: absolute;
   bottom: 10px;
   left: 15px;
