@@ -138,7 +138,7 @@
         </Column>
         <Column header="ชำระภายใน" style="width: 10%">
           <template #body="{ data }">
-            <div>{{ formattedRemainingTime(data) }}</div>
+            {{ calculateTimeDifference(data.updatedAt) }}
           </template>
         </Column>
         <Column header="รายละเอียด" style="width: 10%">
@@ -265,7 +265,7 @@
 
 <script>
 import axios from "axios";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import Swal from "sweetalert2";
 import Loading from "../../../components/Loading.vue";
 
@@ -299,57 +299,6 @@ export default {
     ]);
     const item_product = ref([]);
     const successMessageVisible = ref(true);
-    const initialTime = ref(localStorage.getItem("initialTime") || Date.now());
-
-    const formattedRemainingTime = (data) => {
-      if (Array.isArray(data)) {
-        const test = data.filter(
-          (res) => res._id === "657d43c52de2f599f19a0267"
-        );
-        console.log(test, "test data");
-      }
-      const itemsWithStatusToCountdown = data;
-      console.log(itemsWithStatusToCountdown, "test data");
-      if (itemsWithStatusToCountdown === "รอชำระเงิน") {
-        console.log("best");
-        if (itemsWithStatusToCountdown.length > 0) {
-          const remainingTime = itemsWithStatusToCountdown[0].remainingTime;
-          const hours = Math.floor(remainingTime / (60 * 60 * 1000));
-          const minutes = Math.floor(
-            (remainingTime % (60 * 60 * 1000)) / (60 * 1000)
-          );
-          const seconds = Math.floor((remainingTime % (60 * 1000)) / 1000);
-
-          if (remainingTime <= 0) {
-            // ในกรณีที่เวลาหมดลง
-            return "เลยเวลาที่กำหนด";
-          }
-
-          return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
-            2,
-            "0"
-          )}:${String(seconds).padStart(2, "0")}`;
-        }
-      }
-
-      return "ไม่ต้องนับเวลา";
-    };
-
-    const remainingTime = ref(24 * 60 * 60 * 1000);
-
-    const updateRemainingTime = () => {
-      setInterval(() => {
-        const itemsWithStatusToCountdown = item_product.value.filter(
-          (item) => item.status.slice(-1)[0].statusbooking === "รอชำระเงิน"
-        );
-
-        itemsWithStatusToCountdown.forEach((item) => {
-          if (item.remainingTime > 0) {
-            item.remainingTime -= 1000; // ลบ 1 วินาที
-          }
-        });
-      }, 1000);
-    };
 
     const getData = async () => {
       try {
@@ -468,18 +417,13 @@ export default {
       price.value = data.price;
       databooking.value = data;
     };
+
     onMounted(() => {
-      const initialTime = localStorage.getItem("initialTime");
-      if (!initialTime) {
-        localStorage.setItem("initialTime", Date.now());
-      }
       getData();
-      formattedRemainingTime();
-      updateRemainingTime();
     });
+
     return {
       statusbooking,
-      initialTime,
       item_product,
       approvepartner,
       unapprovepartner,
@@ -499,15 +443,29 @@ export default {
       searchall,
       statusdata,
       selectstatus,
-      remainingTime,
-      updateRemainingTime,
-      formattedRemainingTime,
       successMessageVisible,
       buttonloading,
     };
   },
 
   methods: {
+    calculateTimeDifference(updatedAt) {
+      const updatedAtDate = new Date(updatedAt);
+      const paymentDueTime = 24 * 60 * 60 * 1000;
+      const currentTime = new Date();
+      const timeDifference = paymentDueTime - (currentTime - updatedAtDate);
+
+      if (timeDifference <= 0) {
+        return "เกินกำหนดการชำระ";
+      }
+      const hours = Math.floor(timeDifference / (60 * 60 * 1000));
+      const minutes = Math.floor(
+        (timeDifference % (60 * 60 * 1000)) / (60 * 1000)
+      );
+      const seconds = Math.floor((timeDifference % (60 * 1000)) / 1000);
+      return ` ${hours} : ${minutes} : ${seconds} `;
+    },
+
     calculateNightStay(dateFrom, dateTo) {
       const startDate = new Date(dateFrom);
       const endDate = new Date(dateTo);
