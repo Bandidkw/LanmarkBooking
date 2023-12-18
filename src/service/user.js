@@ -27,6 +27,51 @@ export class User {
 
     return data;
   };
+  async GetReview() {
+    let data;
+    const config = {
+      method: "get",
+      headers: {
+        token: this.#token,
+      },
+      url: `${this.#baseUrl}review/token`,
+    };
+
+    await axios(config)
+      .then((result) => {
+        if (result) {
+          data = result.data;
+        }
+      })
+      .catch((error) => {
+        data = error;
+      });
+
+    return data;
+  };
+
+  async DeleteReview(id) {
+    let data;
+    const config = {
+      method: "delete",
+      headers: {
+        token: this.#token,
+      },
+      url: `${this.#baseUrl}review/${id}`,
+    };
+
+    await axios(config)
+      .then((result) => {
+        if (result) {
+          data = result.data;
+        }
+      })
+      .catch((error) => {
+        data = error;
+      });
+
+    return data;
+  };
 
 
 

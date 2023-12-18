@@ -231,9 +231,11 @@
             </div>
           </div>
         </div>
-        <div class="card w-full p-4 overflow-y-scroll">
+        <div
+          class="card reserve-box w-full border-2 rounded-2xl h-[350px] shadow-md max-[430px]:w-full max-[430px]:my-4 max-[414px]:w-full max-[414px]:my-4 overflow-y-scroll"
+        >
           <Card>
-            <template #title> Review </template>
+            <template #title> Mockup Review </template>
             <template #content>
               <div
                 v-for="(item, index) in review"
@@ -366,8 +368,6 @@ export default {
         );
         this.roomdata = response.data;
         this.imageQrCode = response.data.partner_id.image_bank;
-        console.log(response);
-        // ตรวจสอบค่า rating และตั้งค่าให้กับ value
         if (this.roomdata.rating) {
           this.value = this.roomdata.rating;
         }

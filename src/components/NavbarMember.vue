@@ -86,6 +86,11 @@ export default {
           icon: "pi pi-send",
           to: "/bookingmember",
         },
+        {
+          label: "จัดการรีวิว",
+          icon: "bi bi-star-half",
+          to: "/manageReview",
+        },
       ],
     };
   },

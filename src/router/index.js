@@ -213,6 +213,12 @@ const router = createRouter({
       name: "manageAds",
       component: () => import('../views/admin/managementAds/ManagementAds.vue')
     },
+    ////////// Review ///////////
+    {
+      path: "/manageReview",
+      name: "managereviw",
+      component: () => import('../views/member/manageReview/ManageReview.vue')
+    },
 
   ],
 });
