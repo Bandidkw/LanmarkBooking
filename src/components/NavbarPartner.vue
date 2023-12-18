@@ -17,42 +17,25 @@
         id="nav-content"
         style="column-gap: 0.5rem"
       >
-        <!-- <div class="notification-box">
-          <div>
-            <img
-              class="w-full"
-              src="https://www.svgrepo.com/download/133673/notification-bell.svg"
-              alt=""
-            />
-          </div>
-          <div>
-            <span>{{ notificationData.length }}</span>
-          </div>
-        </div> -->
-        <!-- <OverlayPanel ref="op">
-          <div class="custom-confirm-popup">
-            <div
-              v-for="(notification, index) in mockupNotification"
-              :key="index"
-            >
-              <h4>{{ notification.title }}</h4>
-              <p>{{ notification.detail }}</p>
-            </div>
-          </div>
-        </OverlayPanel> -->
-
+        <i
+          v-badge="notificationData.length"
+          class="pi pi-bell p-overlay-badge"
+          style="font-size: 1.5rem"
+        />
         <div class="notification-box">
           <div>
             <i @click="toggle" class="bi bi-bell" />
           </div>
           <div>
-            <span>{{ notificationData.length }}</span>
+            <span class="notification-count" style="font-size: 0.8rem">{{
+              notificationData.length
+            }}</span>
           </div>
         </div>
         <OverlayPanel ref="op">
           <div class="custom-confirm-popup overflow-y-scroll">
             <div
-              v-for="(notification, index) in mockupNotification"
+              v-for="(notification, index) in notificationData"
               :key="index"
               class="notification-item"
             >
@@ -132,11 +115,11 @@ export default {
             },
           }
         );
-        mockupNotification.value = response.data.data;
-        console.log(response.data.data, "asdasdas");
+        this.notificationData = response.data.data;
+        console.log(this.notificationData.length, "asdasdas");
       } catch (error) {
         console.error("ข้อผิดพลาดในการดึงข้อมูลการแจ้งเตือน", error);
-        return []; // หรือค่าเริ่มต้นที่คุณต้องการให้ถ้ามีข้อผิดพลาด
+        return [];
       }
     };
     return {
@@ -202,6 +185,9 @@ export default {
       ],
       mockupNotification,
     };
+  },
+  created() {
+    this.loadNotifications();
   },
   methods: {
     toggle(event) {
@@ -289,10 +275,14 @@ export default {
 }
 
 .notification-box span {
-  color: #ff0000;
+  color: #fff;
   position: absolute;
-  bottom: 10px;
-  left: 15px;
+  bottom: 9px;
+  left: 7px;
+  border-radius: 50%;
+  padding: 0.1rem;
+  font-size: 0.8rem;
+  background-color: black;
 }
 .custom-confirm-popup {
   width: 250px;

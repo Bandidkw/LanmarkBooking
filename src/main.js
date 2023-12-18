@@ -51,6 +51,9 @@ import Checkbox from 'primevue/checkbox';
 import SelectButton from 'primevue/selectbutton';
 import InputMask from 'primevue/inputmask';
 import OverlayPanel from 'primevue/overlaypanel';
+import Badge from "primevue/badge";
+import BadgeDirective from "primevue/badgedirective";
+
 
 
 // Attach EventBus to the app instance
@@ -60,6 +63,8 @@ app.use(PrimeVue);
 app.use(ToastService);
 app.use(ConfirmationService);
 app.use(store);
+
+app.directive("badge", BadgeDirective);
 
 
 try {
@@ -111,6 +116,7 @@ app.component("Galleria", Galleria);
 app.component("Checkbox", Checkbox);
 app.component("InputMask", InputMask);
 app.component('OverlayPanel', OverlayPanel);
+app.component("Badge", Badge);
 
 
 
