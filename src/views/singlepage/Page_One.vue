@@ -504,7 +504,7 @@ export default {
   watch: {
     selectedDate: {
       handler(date) {
-        console.log("ใช้");
+        // console.log("ใช้");
         if (this.selectedDate[0]) {
           this.price = this.roomdata.price;
         }

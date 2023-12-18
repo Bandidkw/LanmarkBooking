@@ -295,6 +295,7 @@ export default {
       { name: "รออนุมัติห้อง" },
       { name: "จองห้องสำเร็จ" },
       { name: "ไม่อนุมัติห้อง" },
+      { name: "รอชำระเงิน" },
     ]);
     const item_product = ref([]);
     const successMessageVisible = ref(true);
@@ -616,7 +617,9 @@ export default {
             (selectstatus === "จองห้องสำเร็จ" &&
               item.status.slice(-1)[0].statusbooking === "จองห้องสำเร็จ") ||
             (selectstatus === "ไม่อนุมัติห้อง" &&
-              item.status.slice(-1)[0].statusbooking === "ไม่อนุมัติห้อง");
+              item.status.slice(-1)[0].statusbooking === "ไม่อนุมัติห้อง") ||
+            (selectstatus === "รอชำระเงิน" &&
+              item.status.slice(-1)[0].statusbooking === "รอชำระเงิน");
 
           const matchesSearch =
             (item.room_id &&
