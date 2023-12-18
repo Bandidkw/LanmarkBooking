@@ -322,79 +322,7 @@ export default {
         console.error(error);
       }
     };
-    const approvepartner = async (_id) => {
-      try {
-        const response = await axios.put(
-          `${process.env.VUE_APP_API}booking/AcceptBooking/${_id}`,
-          {},
-          {
-            headers: {
-              token: localStorage.getItem("token"),
-            },
-          }
-        );
-        if (response.data) {
-          // แสดงข้อความสำเร็จ (ตัวเลือก)
-          DetailPartner.value = false;
-          Swal.fire({
-            icon: "success",
-            title: "อนุมัติผู้ใช้partner",
-          });
 
-          getData();
-        } else {
-          DetailPartner.value = false;
-          await Swal.fire({
-            icon: "error",
-            title: "เกิดข้อผิดพลาด",
-            text: "ไม่สามารถทำตามข้อมูลได้",
-          });
-        }
-      } catch (error) {
-        DetailPartner.value = false;
-        await Swal.fire({
-          icon: "error",
-          title: "เกิดข้อผิดพลาด",
-          text: error,
-        });
-      }
-    };
-    const unapprovepartner = async (_id) => {
-      try {
-        const response = await axios.put(
-          `${process.env.VUE_APP_API}booking/UnacceptBooking/${_id}`,
-          {},
-          {
-            headers: {
-              token: localStorage.getItem("token"),
-            },
-          }
-        );
-        if (response.data) {
-          // แสดงข้อความสำเร็จ (ตัวเลือก)
-          DetailPartner.value = false;
-          Swal.fire({
-            icon: "success",
-            title: "ไม่อนุมัติผู้ใช้partner",
-          });
-          getData();
-        } else {
-          DetailPartner.value = false;
-          await Swal.fire({
-            icon: "error",
-            title: "เกิดข้อผิดพลาด",
-            text: "ไม่สามารถทำตามข้อมูลได้",
-          });
-        }
-      } catch (error) {
-        DetailPartner.value = false;
-        await Swal.fire({
-          icon: "error",
-          title: "เกิดข้อผิดพลาด",
-          text: "ไม่สามารถทำตามข้อมูลได้",
-        });
-      }
-    };
     const showPartnerDetail = async (data) => {
       DetailPartner.value = true;
       data_id.value = data._id;
@@ -417,16 +345,37 @@ export default {
       price.value = data.price;
       databooking.value = data;
     };
+    const calculateTimeDifference = (updatedAt) => {
+      const updatedAtDate = new Date(updatedAt);
+      const paymentDueTime = 24 * 60 * 60 * 1000;
+      const currentTime = new Date();
+      const timeDifference = paymentDueTime - (currentTime - updatedAtDate);
+
+      if (timeDifference <= 0) {
+        return "เกินกำหนดการชำระ";
+      }
+      const hours = Math.floor(timeDifference / (60 * 60 * 1000));
+      const minutes = Math.floor(
+        (timeDifference % (60 * 60 * 1000)) / (60 * 1000)
+      );
+      const seconds = Math.floor((timeDifference % (60 * 1000)) / 1000);
+      return ` ${hours} : ${minutes} : ${seconds} `;
+    };
+
+    const updateTimes = () => {
+      item_product.value.forEach((item) => {
+        item.calculatedTimeDifference = calculateTimeDifference(item.updatedAt);
+      });
+    };
 
     onMounted(() => {
       getData();
+      setInterval(updateTimes, 1000);
     });
 
     return {
       statusbooking,
       item_product,
-      approvepartner,
-      unapprovepartner,
       getData,
       // partnerDetail,
       showPartnerDetail,
@@ -445,27 +394,11 @@ export default {
       selectstatus,
       successMessageVisible,
       buttonloading,
+      calculateTimeDifference,
     };
   },
 
   methods: {
-    calculateTimeDifference(updatedAt) {
-      const updatedAtDate = new Date(updatedAt);
-      const paymentDueTime = 24 * 60 * 60 * 1000;
-      const currentTime = new Date();
-      const timeDifference = paymentDueTime - (currentTime - updatedAtDate);
-
-      if (timeDifference <= 0) {
-        return "เกินกำหนดการชำระ";
-      }
-      const hours = Math.floor(timeDifference / (60 * 60 * 1000));
-      const minutes = Math.floor(
-        (timeDifference % (60 * 60 * 1000)) / (60 * 1000)
-      );
-      const seconds = Math.floor((timeDifference % (60 * 1000)) / 1000);
-      return ` ${hours} : ${minutes} : ${seconds} `;
-    },
-
     calculateNightStay(dateFrom, dateTo) {
       const startDate = new Date(dateFrom);
       const endDate = new Date(dateTo);
