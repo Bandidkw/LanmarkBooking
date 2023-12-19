@@ -3,6 +3,9 @@ import PrimeVue from 'primevue/config';
 import { createApp } from 'vue';
 import App from './App.vue';
 
+// store/index.js
+
+
 //import routerAdmin from './router/admin.js'; // นำมาใช้ Router ที่เราสร้าง
 import router from './router/index.js'; // นำมาใช้ Router ที่เราสร้าง
 

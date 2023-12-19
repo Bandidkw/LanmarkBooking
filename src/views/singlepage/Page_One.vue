@@ -210,6 +210,7 @@
                 class="border p-2 rounded bg-white"
                 :minDate="minSelectableDate"
                 :disabled-dates="disabledDates"
+                :options="flatpickrOptions"
               />
             </div>
             <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
@@ -321,6 +322,8 @@ import axios from "axios";
 import Rating from "primevue/rating";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
+import FlatPickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
 
 export default {
   components: {
@@ -328,19 +331,7 @@ export default {
   },
   props: ["id"],
   data() {
-    const lockedDates = ref([]);
-    let isBookingLocked = ref(false);
-    const canBookDate = (date) => {
-      return !lockedDates.value.includes(date) && !isBookingLocked.value;
-    };
-
-    const lockBooking = () => {
-      isBookingLocked.value = true;
-    };
-
-    const unlockBooking = () => {
-      isBookingLocked.value = false;
-    };
+    // การกำหนดตัวแปรที่ใช้ร่วมกันระหว่างฟังก์ชัน
     const roomdata = ref([]);
     const imageQrCode = ref([]);
     const visible = ref(false);
@@ -349,17 +340,12 @@ export default {
     const qrcode = ref(false);
     const room_id = this.$route.params.id;
     const review = ref([
+      // ตัวอย่างข้อมูลรีวิว
       { star: 0, name: "John Doe", description: "Bad experience!" },
-      { star: 4, name: "John Doe", description: "Great experience!" },
-      { star: 2, name: "John Doe", description: "BAD BAD BAD" },
-      { star: 4, name: "John Doe", description: "Great experience!" },
-      { star: 1, name: "John Doe", description: "SO BAD!" },
-      { star: 6, name: "Alice Smith", description: "Amazing place!" },
-      { star: 7, name: "Alice Smith", description: "Amazing place!" },
-      { star: 5, name: "Alice Smith", description: "Amazing place!" },
-      { star: 10, name: "Alice Smith", description: "Amazing place!" },
+      // ...
     ]);
 
+    // ฟังก์ชันสำหรับดึงข้อมูลห้องพัก
     const getroom = async (_id) => {
       try {
         const id = this.$route.params.id;
@@ -371,14 +357,13 @@ export default {
         if (this.roomdata.rating) {
           this.value = this.roomdata.rating;
         }
-
         this.price = this.roomdata.price;
       } catch (error) {
         console.error("Error fetching room data:", error);
         // จัดการข้อผิดพลาด, เช่นแสดงข้อความสำหรับผู้ใช้
       }
     };
-
+    // ฟังก์ชันสำหรับดึงข้อมูลรีวิว
     const getReview = async (_id) => {
       try {
         const res = await axios.get(
@@ -390,11 +375,15 @@ export default {
       }
     };
 
+    // ฟังก์ชันสำหรับการทำการจองห้อง
     const addbooking = async () => {
       try {
-        lockBooking();
+        // ตรวจสอบการล็อคอิน
         if (localStorage.getItem("token") != null) {
+          console.log("วันที่เริ่มจอง:", this.selectedDate[0]);
+          console.log("จองถึงวันที่:", this.selectedDate[1]);
           if (this.credit === true) {
+            // ทำการจองพร้อมการชำระเงิน
             const response = await axios.post(
               `${process.env.VUE_APP_API}newbooking/bookingandpayment/`,
               {
@@ -409,9 +398,8 @@ export default {
                 },
               }
             );
-            // if (response.data.status === true) {
             if (response) {
-              console.log(response, "res test");
+              // แสดงข้อความสำเร็จ
               Swal.fire({
                 icon: "success",
                 title: "จองสำเร็จ",
@@ -419,6 +407,7 @@ export default {
               });
               await this.$router.push("/bookingmember");
             } else {
+              // แสดงข้อความผิดพลาด
               await Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด",
@@ -426,6 +415,7 @@ export default {
               });
             }
           } else {
+            // ทำการจองโดยปกติ
             const response = await axios.post(
               `${process.env.VUE_APP_API}newbooking/`,
               {
@@ -441,7 +431,7 @@ export default {
               }
             );
             if (response.data.status === true) {
-              console.log(response, "response test");
+              // แสดงข้อความสำเร็จ
               Swal.fire({
                 icon: "success",
                 title: "จองสำเร็จ",
@@ -449,6 +439,7 @@ export default {
               });
               await this.$router.push("/bookingmember");
             } else {
+              // แสดงข้อความผิดพลาด
               await Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด",
@@ -457,6 +448,7 @@ export default {
             }
           }
         } else {
+          // แสดงข้อความให้ผู้ใช้ล็อคอินก่อนจอง
           await Swal.fire({
             icon: "error",
             title: "กรุณาล็อคอิน",
@@ -464,6 +456,7 @@ export default {
           });
         }
       } catch (error) {
+        // แสดงข้อความผิดพลาด
         await Swal.fire({
           icon: "error",
           title: "เกิดข้อผิดพลาด",
@@ -471,25 +464,29 @@ export default {
         });
       } finally {
         // ปลดล็อคการจองทุกครั้งที่จบ
-        unlockBooking();
       }
     };
+    
+    // เมื่อ Component ถูกติดตั้ง ให้ดึงข้อมูลห้องและรีวิว
     onMounted(() => {
       getroom();
       getReview();
-      // this.isLoggedIn = checkLoginStatus();
     });
+
+    // คืนค่าข้อมูลที่จะถูกใช้ใน Template
     return {
-      canBookDate,
-      isBookingLocked: false,
-      lockedDates: [],
+      flatpickrOptions: {
+      enableTime: true,
+      altInput: true,
+      altFormat: 'F j, Y H:i',
+      dateFormat: 'Y-m-d H:i',
+      timezone: 'Asia/Bangkok',},
       value,
       room_id,
       selectedDate: "",
       roomdata,
       price: "0",
       minSelectableDate: new Date(),
-      //โค้ดปิดวัน
       disabledDates: [new Date(2023, 10, 29), new Date(2023, 10, 30)],
       visible,
       credit,
@@ -497,27 +494,26 @@ export default {
       addbooking,
       imageQrCode,
       review,
-      // isLoggedIn: false,
     };
   },
-
   watch: {
-    selectedDate: {
-      handler(date) {
-        // console.log("ใช้");
-        if (this.selectedDate[0]) {
-          this.price = this.roomdata.price;
-        }
-        if (this.selectedDate[1]) {
-          const startDate = new Date(this.selectedDate[0]);
-          const endDate = new Date(this.selectedDate[1]);
-          // คำนวณจำนวนวัน
-          const timeDiff = endDate.getTime() - startDate.getTime();
-          const nights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-          this.price = this.roomdata.price * (nights + 1);
-        }
-      },
+     selectedDate: {
+    handler(date) {
+      // คำนวณราคาใหม่เมื่อเลือกวันที่เปลี่ยน
+      if (this.selectedDate[0]) {
+        this.price = this.roomdata.price;
+        console.log("Date From:", this.selectedDate[0].toLocaleString("en-TH", { timeZone: "Asia/Bangkok" }));
+      }
+      if (this.selectedDate[1]) {
+        const startDate = new Date(this.selectedDate[0]);
+        const endDate = new Date(this.selectedDate[1]);
+        const timeDiff = endDate.getTime() - startDate.getTime();
+        const nights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+        this.price = this.roomdata.price * (nights + 1);
+        console.log("Date To:", this.selectedDate[1].toLocaleString("en-TH", { timeZone: "Asia/Bangkok" }));
+      }
     },
+  },
   },
   methods: {
     handleCheckboxChange(checkboxName) {
@@ -527,7 +523,6 @@ export default {
         this.credit = false;
       }
     },
-
     chooseImg(event) {
       this.imagePreview = event.files[0].objectURL;
       this.SlipImage = event.files[0];
@@ -559,15 +554,14 @@ export default {
       return formattedDate;
     },
   },
+  // Computed properties ที่ใช้คำนวณค่าเฉลี่ยของรีวิวและสถานะปุ่ม
   computed: {
     averageRating() {
       if (this.value && this.value.length > 0) {
-        // คำนวณค่าเฉลี่ยเมื่อมีคะแนน
         const sum = this.value.reduce((total, rating) => total + rating, 0);
         const average = sum / this.value.length;
-        return average.toFixed(1); // คืนค่าค่าเฉลี่ยที่ถูกปัดเศษเป็นทศนิยม 1 ตำแหน่ง
+        return average.toFixed(1);
       } else {
-        // คืน "N/A" ถ้าไม่มีคะแนน
         return "ยังไม่มีคะแนน";
       }
     },
