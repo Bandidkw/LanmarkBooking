@@ -13,6 +13,12 @@
         currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords} สินค้าทั้งหมด"
         responsiveLayout="stack"
       >
+        <template #empty>
+          <p class="font-italic text-center text-5xl" style="color: #bd1616">
+            ไม่พบข้อมูลสินค้า
+          </p>
+        </template>
+
         <Column field="booking_id.room_id.name" header="Room Name"></Column>
         <Column field="star" header="Star">
           <template #body="item">
@@ -80,6 +86,7 @@ export default {
     return {
       allReview,
       deleteReview,
+      loading,
     };
   },
 };
