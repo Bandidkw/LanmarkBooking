@@ -75,7 +75,7 @@
                 </router-link>
                 <button
                   @click="triggerDownload"
-                  class="text-sm w-full block px-4 py-2 hover:text-white hover:bg-[#004e98]"
+                  class="text-normal w-full block px-2 py-2 hover:text-white hover:bg-[#004e98]"
                 >
                   ดาวน์โหลดสัญญา
                 </button>
@@ -102,11 +102,11 @@ import axios from "axios";
 import { ref } from "vue";
 // อย่าลืม import ตัวแปร bus จากไลบรารี mitt
 import mitt from 'mitt';
+import html2pdf from 'html2pdf.js';
 
 export default {
-    created() {
-    this.$bus.on('download-contract', this.handleDownloadContract);
-    
+  created() {
+    this.$bus.on('download-contract', this.downloadContract);
     this.loadNotifications();
   },
   data() {
@@ -194,19 +194,52 @@ export default {
     };
   },
   methods: {
-  handleDownloadContract() {
-    // เพิ่มเงื่อนไขเพื่อหยุดการเรียกตัวเอง
-    if (!this.downloadingContract) {
-      this.downloadingContract = true;
-      // เรียกใช้งาน event bus เพื่อให้ Component 2 ทำการดาวน์โหลด PDF
-      this.$bus.emit('download-contract');
-      // หลังจากเสร็จสิ้นใน Component 2 ต้อง reset ค่า
-      this.downloadingContract = false;
-    }
-  },
     triggerDownload() {
-    this.handleDownloadContract();
-  },
+      this.$bus.emit('download-contract');
+    },
+    handleDownloadContract() {
+      if (!this.downloadingContract) {
+        this.downloadingContract = true;
+        
+        // Log the message before emitting the event
+        console.log('Emitting contractContent event');
+
+        // Emit the 'contractContent' event
+        this.$bus.emit('contractContent');
+
+        // Log a message after emitting the event
+        console.log('contractContent event emitted');
+
+        this.downloadingContract = false;
+      }
+    },
+    downloadContract() {
+      if (!this.downloadingContract) {
+        this.downloadingContract = true;
+        const htmlContent = document.getElementById('contractContent');
+        const pdfOptions = {
+          margin: 10,
+          filename: 'contract.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        };
+
+        // ใช้ html2pdf เพื่อแปลงเนื้อหา HTML เป็น PDF
+        html2pdf().from(htmlContent).set(pdfOptions).outputPdf(pdf => {
+          const blob = new Blob([pdf], { type: 'application/pdf' });
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = 'contract.pdf';
+          link.click();
+          
+          // Log message to indicate that the download is complete
+          console.log('Contract downloaded');
+
+          this.downloadingContract = false;
+        });
+      }
+    },
     toggle(event) {
       this.$refs.op.toggle(event);
       this.loadNotifications();
