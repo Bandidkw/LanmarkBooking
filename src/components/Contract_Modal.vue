@@ -1,5 +1,5 @@
 <template>
-  <div id="pdf-content" ref="content">
+  <div id="contractContent" ref="content">
     <!-- <div>
       <Button label="Contract Electronic" icon="pi pi-external-link" @click="sidebar = true" />
     </div> -->
@@ -120,9 +120,13 @@ lanmark.online  แล้วส่งมอบเงินให้แก่ผ�
 </template>
 <script>
 import axios from "axios";
+import html2pdf from 'html2pdf.js';
+import mitt from 'mitt'; 
+
 export default {
   data() {
     return {
+      bus: mitt(), 
       prop: {
         // datacontract: String,
         id: String,
@@ -130,6 +134,10 @@ export default {
       sidebar: true,
       // datacontract: ""
     };
+  },
+    created() {
+    // ตรวจสอบการ import mitt และการรับ Event Bus
+    this.bus.on('download-contract', this.downloadContract);
   },
   watch: {
     prop: {
@@ -144,6 +152,32 @@ export default {
     this.getcontract();
   },
   methods: {
+downloadContract() {
+    // รับเนื้อหา HTML ที่คุณต้องการแปลงเป็น PDF
+    const htmlContent = document.getElementById('contractContent');
+    // ตั้งค่าการใช้งานสำหรับ html2pdf
+    const pdfOptions = {
+      margin: 10,
+      filename: 'contract.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    };
+    // ใช้ html2pdf เพื่อแปลงเนื้อหา HTML เป็น PDF
+    html2pdf().from(htmlContent).set(pdfOptions).outputPdf(pdf => {
+      // สร้าง Blob จากข้อมูล PDF
+      const blob = new Blob([pdf], { type: 'application/pdf' });
+      // สร้างลิงก์ดาวน์โหลดและเริ่มดาวน์โหลด
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'contract.pdf';
+      link.click();
+      // แก้ไข: ไม่ต้องส่ง EventBus ที่นี่
+      // this.$bus.emit('download-contract');
+    });
+      // แก้ไข: เรียกใช้งาน Event Bus เพื่อให้ Component ที่รับ Event ทำงาน
+  // this.$bus.emit('download-contract');
+  },
     async getcontract() {
       try {
         const Response = await axios.get(

@@ -268,6 +268,7 @@ import axios from "axios";
 import { onMounted, ref, watch } from "vue";
 import Swal from "sweetalert2";
 import Loading from "../../../components/Loading.vue";
+import { onUnmounted } from "vue";
 
 export default {
   components: {
@@ -277,6 +278,47 @@ export default {
     document.title = "ข้อมูล partner";
   },
   setup() {
+    const fetchData = async () => {
+  try {
+    const Response = await axios.get(`${process.env.VUE_APP_API}booking/member/`, {
+      headers: {
+        token: localStorage.getItem("token"),
+      },
+    });
+    if (Response.data.status === true) {
+      item_product.value = Response.data.data.reverse();
+      console.log(Response.data.data);
+    } else {
+      console.error("ข้อมูลขาดหายในการตอบสนอง API.");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+    const pollingInterval = 5000;
+    const startPolling = () => {
+    setInterval(async () => {
+      await fetchData();
+    }, updateExpiredStatus, pollingInterval);
+    console.log('Fetching data...');
+  };
+    const updateTimes = () => {
+      item_product.value.forEach((item) => {
+        item.calculatedTimeDifference = calculateTimeDifference(item.updatedAt);
+      });
+      console.log('Updating times...');
+    };
+    const updateExpiredStatus = () => {
+  item_product.value.forEach((item) => {
+    if (
+      item.status.slice(-1)[0].statusbooking === "รอชำระเงิน" &&
+      calculateTimeDifference(item.updatedAt) === "เกินกำหนดการชำระ"
+    ) {
+      // อัปเดตสถานะเป็น "ไม่อนุมัติห้อง"
+      item.status.push({ statusbooking: "ไม่อนุมัติห้อง", timestamp: new Date() });
+    }
+  });
+};
     let data_id = ref("");
     let membername = ref("");
     let roomname = ref("");
@@ -299,7 +341,6 @@ export default {
     ]);
     const item_product = ref([]);
     const successMessageVisible = ref(true);
-
     const getData = async () => {
       try {
         const Response = await axios.get(
@@ -345,35 +386,42 @@ export default {
       price.value = data.price;
       databooking.value = data;
     };
-    const calculateTimeDifference = (updatedAt) => {
-      const updatedAtDate = new Date(updatedAt);
-      const paymentDueTime = 24 * 60 * 60 * 1000;
-      const currentTime = new Date();
-      const timeDifference = paymentDueTime - (currentTime - updatedAtDate);
+const calculateTimeDifference = (updatedAt, selectstatus) => {
+  if (selectstatus === 'จองห้องสำเร็จ') {
+    return '0';
+  }
 
-      if (timeDifference <= 0) {
-        return "เกินกำหนดการชำระ";
-      }
-      const hours = Math.floor(timeDifference / (60 * 60 * 1000));
-      const minutes = Math.floor(
-        (timeDifference % (60 * 60 * 1000)) / (60 * 1000)
-      );
-      const seconds = Math.floor((timeDifference % (60 * 1000)) / 1000);
-      return ` ${hours} : ${minutes} : ${seconds} `;
-    };
+  const updatedAtDate = new Date(updatedAt);
+  const paymentDueTime = 24 * 60 * 60 * 1000;
+  const currentTime = new Date();
+  const timeDifference = paymentDueTime - (currentTime - updatedAtDate);
 
-    const updateTimes = () => {
-      item_product.value.forEach((item) => {
-        item.calculatedTimeDifference = calculateTimeDifference(item.updatedAt);
-      });
-    };
+  if (timeDifference <= 0) {
+    return 'เกินกำหนดการชำระ';
+  }
+
+  const hours = Math.floor(timeDifference / (60 * 60 * 1000));
+  const minutes = Math.floor((timeDifference % (60 * 60 * 1000)) / (60 * 1000));
+  const seconds = Math.floor((timeDifference % (60 * 1000)) / 1000);
+
+  return ` ${hours} : ${minutes} : ${seconds} `;
+};
 
     onMounted(() => {
-      getData();
-      setInterval(updateTimes, 1000);
+    getData(); // ดึงข้อมูลเริ่มต้น
+    startPolling();
+    // อัพเดทต่างหากเวลาทุกวินาที
+    const intervalId = setInterval(updateTimes, 1000);
+
+    // ทำความสะอาด interval เมื่อคอมโพเนนต์ถูกยกเลิก
+    onUnmounted(() => {
+      clearInterval(intervalId);
+    });
     });
 
     return {
+      startPolling,
+      pollingInterval,
       statusbooking,
       item_product,
       getData,

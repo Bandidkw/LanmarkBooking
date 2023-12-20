@@ -74,7 +74,7 @@
                   {{ item.label }}
                 </router-link>
                 <button
-                  @click="downloadContract"
+                  @click="triggerDownload"
                   class="text-sm w-full block px-4 py-2 hover:text-white hover:bg-[#004e98]"
                 >
                   ดาวน์โหลดสัญญา
@@ -100,11 +100,17 @@
 <script>
 import axios from "axios";
 import { ref } from "vue";
+// อย่าลืม import ตัวแปร bus จากไลบรารี mitt
+import mitt from 'mitt';
 
 export default {
+    created() {
+    this.$bus.on('download-contract', this.handleDownloadContract);
+    
+    this.loadNotifications();
+  },
   data() {
     const mockupNotification = ref([]);
-
     const loadNotifications = async () => {
       try {
         const response = await axios.get(
@@ -123,6 +129,7 @@ export default {
       }
     };
     return {
+      bus: mitt(),
       loadNotifications,
       notificationData: [],
       popupText: "Your notification message here",
@@ -186,24 +193,23 @@ export default {
       mockupNotification,
     };
   },
-  created() {
-    this.loadNotifications();
-  },
   methods: {
+  handleDownloadContract() {
+    // เพิ่มเงื่อนไขเพื่อหยุดการเรียกตัวเอง
+    if (!this.downloadingContract) {
+      this.downloadingContract = true;
+      // เรียกใช้งาน event bus เพื่อให้ Component 2 ทำการดาวน์โหลด PDF
+      this.$bus.emit('download-contract');
+      // หลังจากเสร็จสิ้นใน Component 2 ต้อง reset ค่า
+      this.downloadingContract = false;
+    }
+  },
+    triggerDownload() {
+    this.handleDownloadContract();
+  },
     toggle(event) {
       this.$refs.op.toggle(event);
       this.loadNotifications();
-    },
-
-    downloadContract() {
-      // สร้าง URL สำหรับไฟล์ PDF
-      const pdfUrl = "/pdf/contract_partner.pdf"; // กำหนดเส้นของไฟล์ PDF
-
-      // สร้าง Element <a> เพื่อทำการดาวน์โหลด
-      const link = document.createElement("a");
-      link.href = pdfUrl;
-      link.setAttribute("target", "_blank");
-      link.click();
     },
     logout() {
       localStorage.clear();
