@@ -18,7 +18,8 @@
             :changeItemOnIndicatorHover="true"
             :showIndicatorsOnItem="true"
             :indicatorsPosition="position"
-            :activeIndex.sync="item.activeIndex">
+            :activeIndex.sync="item.activeIndex"
+          >
             <template v-slot:item="{ item }">
               <img :src="item" :alt="item && item.alt ? item.alt : ''" />
             </template>
@@ -34,7 +35,34 @@
           class="right-arrow bi bi-arrow-right-circle-fill text-white"
           @click="next(item)"
         />
-        <svg :id="`your-svg-id-${index}`" @click="changeFill(index)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="position: absolute; transform: translateY(-50%); top: 12%; right: 5%; display: block; fill: rgba(0, 0, 0, 0.5); height: 24px; width: 24px; stroke: #fff; stroke-width: 2; overflow: visible; cursor: pointer; z-index: 9999;"><path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"></path></svg>
+        <svg
+          :id="`your-svg-id-${index}`"
+          @click="changeFill(index)"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+          role="presentation"
+          focusable="false"
+          style="
+            position: absolute;
+            transform: translateY(-50%);
+            top: 12%;
+            right: 5%;
+            display: block;
+            fill: rgba(0, 0, 0, 0.5);
+            height: 24px;
+            width: 24px;
+            stroke: #fff;
+            stroke-width: 2;
+            overflow: visible;
+            cursor: pointer;
+            z-index: 9999;
+          "
+        >
+          <path
+            d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"
+          ></path>
+        </svg>
       </div>
       <div class="details-container px-2">
         <h2 class="text-lg font-semibold pt-1 m-0">{{ item.name }}</h2>
@@ -57,39 +85,41 @@ export default {
   },
   data() {
     function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
     const displayBasic = ref(true);
     const originalGridData = ref([]);
     const gridData = ref([]);
     const position = "bottom";
     const searchTerm = ref("");
     const getroom = async () => {
-  const Response = await axios.get(`${process.env.VUE_APP_API}room/`);
-  const filteredstatus = Response.data.filter(
-    (item) => item.statusbooking === true && item.status === true
-  );
-  this.originalGridData = shuffleArray(
-    filteredstatus.map((item) => ({ ...item, activeIndex: 0 }))
-  );
-  this.gridData = [...this.originalGridData];
-};
+      const Response = await axios.get(`${process.env.VUE_APP_API}room/`);
+      const filteredstatus = Response.data.filter(
+        (item) => item.statusbooking === true && item.status === true
+      );
+      console.log(filteredstatus);
+      this.originalGridData = shuffleArray(
+        filteredstatus.map((item) => ({ ...item, activeIndex: 0 }))
+      );
+      this.gridData = [...this.originalGridData];
+    };
     onMounted(() => {
       getroom();
       this.$bus.on("search-hotels", this.handleSearchHotels);
     });
     const next = (item) => {
-  item.activeIndex = (item.activeIndex + 1) % item.image.length;
-  this.isRightArrowClicked = false;
-};
+      item.activeIndex = (item.activeIndex + 1) % item.image.length;
+      this.isRightArrowClicked = false;
+    };
     const prev = (item) => {
-  item.activeIndex = (item.activeIndex - 1 + item.image.length) % item.image.length;
-  this.isRightArrowClicked = false; // Set isRightArrowClicked to false when clicking the "prev" button
-};
+      item.activeIndex =
+        (item.activeIndex - 1 + item.image.length) % item.image.length;
+      this.isRightArrowClicked = false; // Set isRightArrowClicked to false when clicking the "prev" button
+    };
 
     return {
       displayBasic,
@@ -105,35 +135,40 @@ export default {
   },
   methods: {
     changeFill(index) {
-  // ค้นหาองค์ประกอบ SVG ด้วย ID
-  const svgElement = document.getElementById(`your-svg-id-${index}`);
-  
-  // ค้นหาองค์ประกอบ path ภายใน SVG
-  const pathElement = svgElement.querySelector('path');
+      // ค้นหาองค์ประกอบ SVG ด้วย ID
+      const svgElement = document.getElementById(`your-svg-id-${index}`);
 
-  // สลับสีเต็มรูปแบบระหว่างค่าสีสองค่า
-  const newColor = pathElement.style.fill === 'rgb(247, 37, 133)' ? 'rgba(0, 0, 0, 0.5)' : 'rgb(247, 37, 133)';
+      // ค้นหาองค์ประกอบ path ภายใน SVG
+      const pathElement = svgElement.querySelector("path");
 
-  // เปลี่ยนสีเต็มรูปแบบด้วยการเปลี่ยนสีที่ไล่ลงมา
-  pathElement.style.transition = 'fill 0.5s';
-  pathElement.style.fill = newColor;
+      // สลับสีเต็มรูปแบบระหว่างค่าสีสองค่า
+      const newColor =
+        pathElement.style.fill === "rgb(247, 37, 133)"
+          ? "rgba(0, 0, 0, 0.5)"
+          : "rgb(247, 37, 133)";
 
-  // เพิ่ม setTimeout เพื่อลบคุณสมบัติการเปลี่ยนสีหลังจากที่เสร็จสิ้น
-  setTimeout(() => {
-    pathElement.style.transition = '';
+      // เปลี่ยนสีเต็มรูปแบบด้วยการเปลี่ยนสีที่ไล่ลงมา
+      pathElement.style.transition = "fill 0.5s";
+      pathElement.style.fill = newColor;
 
-    // นำ Grid Item ที่ถูกคลิกขึ้นไปอยู่บนสุดของ Grid Container
-    const parent = svgElement.closest('.grid-item');  // ให้แก้ไขตรงนี้
-    const gridContainer = parent.closest('.grid-container');  // ให้แก้ไขตรงนี้
+      // เพิ่ม setTimeout เพื่อลบคุณสมบัติการเปลี่ยนสีหลังจากที่เสร็จสิ้น
+      setTimeout(() => {
+        pathElement.style.transition = "";
 
-    // ตรวจสอบว่า Grid Item ถูกคลิกมีใน Grid Container หรือไม่
-    const gridItemIndex = Array.from(gridContainer.children).indexOf(parent);
-    if (gridItemIndex !== -1) {
-      // นำ Grid Item ที่ถูกคลิกขึ้นไปอยู่บนสุดของ Grid Container
-      gridContainer.insertBefore(parent, gridContainer.firstChild);
-    }
-  }, 500);
-},
+        // นำ Grid Item ที่ถูกคลิกขึ้นไปอยู่บนสุดของ Grid Container
+        const parent = svgElement.closest(".grid-item"); // ให้แก้ไขตรงนี้
+        const gridContainer = parent.closest(".grid-container"); // ให้แก้ไขตรงนี้
+
+        // ตรวจสอบว่า Grid Item ถูกคลิกมีใน Grid Container หรือไม่
+        const gridItemIndex = Array.from(gridContainer.children).indexOf(
+          parent
+        );
+        if (gridItemIndex !== -1) {
+          // นำ Grid Item ที่ถูกคลิกขึ้นไปอยู่บนสุดของ Grid Container
+          gridContainer.insertBefore(parent, gridContainer.firstChild);
+        }
+      }, 500);
+    },
 
     getPreloadedImages(item) {
       return item.image.map(
@@ -201,7 +236,7 @@ export default {
   border-radius: 50%;
   padding: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.5s , opacity 0.5s;
+  transition: background-color 0.5s, opacity 0.5s;
   opacity: 0;
 }
 .image-container:hover .left-arrow,
@@ -245,7 +280,7 @@ export default {
   position: relative;
   height: 70%;
 }
-.image-container svg{
+.image-container svg {
   font-size: 2rem;
 }
 .image-container img {

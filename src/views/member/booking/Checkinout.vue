@@ -277,7 +277,6 @@ export default {
           }
         );
         if (response.data.status === true) {
-          console.log(res, "asdas");
           DetailPartner.value = false;
           showRatingModal();
           Swal.fire({
@@ -288,7 +287,6 @@ export default {
           getData(); // ใช้ getData() โดยตรง
         } else {
           DetailPartner.value = false;
-          console.log("formData:", formData);
           await Swal.fire({
             icon: "error",
             title: "เกิดข้อผิดพลาด",
@@ -342,7 +340,6 @@ export default {
         if (Response.data.status === true) {
           item_product.value = Response.data.data.reverse();
           loading.value = false;
-          console.log(Response.data.data);
         } else {
           console.error("Data is missing in the API response.");
         }

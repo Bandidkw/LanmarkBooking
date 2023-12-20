@@ -239,8 +239,6 @@ export default {
     const loading = ref(true);
 
     const getData = async () => {
-      console.log(DetailPartner, "status dialog before click button ");
-
       try {
         const Response = await axios.get(
           `${process.env.VUE_APP_API}newbooking/payment`,
@@ -250,7 +248,6 @@ export default {
             },
           }
         );
-
         if (Response.data.status === true) {
           loading.value = false;
           const filterbooking_id = Response.data.payment.filter(
@@ -263,7 +260,6 @@ export default {
           );
 
           item_product.value = filterbooking_id.reverse();
-          console.log(Response.data.payment);
         } else {
           console.error("Data is missing in the API response.");
         }
@@ -369,7 +365,6 @@ export default {
         });
       price.value = data.booking_id.price;
       slip_image.value = data.slip_image;
-      //console.log(transformedData[0])
     };
 
     onMounted(() => {
@@ -427,7 +422,6 @@ export default {
         const searchTerm = this.searchall.toLowerCase();
 
         return this.item_product.filter((item) => {
-          console.log(item.booking_id.date_to, "kim");
           const dateFrom = new Date(
             item.booking_id.date_from
           ).toLocaleDateString("th-TH", {

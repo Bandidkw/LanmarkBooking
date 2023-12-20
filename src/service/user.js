@@ -73,6 +73,28 @@ export class User {
     return data;
   };
 
+ async GetBooking() {
+    let data;
+    const config = {
+      method: "get",
+      headers: {
+        token: this.#token,
+      },
+      url: `${this.#baseUrl}booking/`,
+    };
+
+    await axios(config)
+      .then((result) => {
+        if (result) {
+          data = result.data;
+        }
+      })
+      .catch((error) => {
+        data = error;
+      });
+
+    return data;
+  };
 
 
 }

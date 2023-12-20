@@ -4,9 +4,6 @@
       <div class="px-40 text-center head-info">
         <h1 class="text-2xl">{{ roomdata.name }}</h1>
       </div>
-      <!-- <div class="flex flex-col justify-content-start">
-        <Rating v-model="value" :stars="10" />
-      </div> -->
     </div>
     <div class="image-box py-2 w-full h-[31.25rem] flex gap-x-2">
       <div class="w-2/4 large-box">
@@ -210,8 +207,16 @@
                 class="border p-2 rounded bg-white"
                 :minDate="minSelectableDate"
                 :disabled-dates="disabledDates"
-                :options="flatpickrOptions"
-              />
+              >
+                <template #date="slotProps">
+                  <strong
+                    v-if="isDateInCombinedRange(slotProps.date)"
+                    style="text-decoration: line-through; color: red"
+                  >
+                    {{ slotProps.date.day }}
+                  </strong>
+                </template>
+              </Calendar>
             </div>
             <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
               <label
@@ -322,8 +327,7 @@ import axios from "axios";
 import Rating from "primevue/rating";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
-import FlatPickr from 'vue-flatpickr-component';
-import 'flatpickr/dist/flatpickr.css';
+import { User } from "../../service/user";
 
 export default {
   components: {
@@ -331,7 +335,7 @@ export default {
   },
   props: ["id"],
   data() {
-    // การกำหนดตัวแปรที่ใช้ร่วมกันระหว่างฟังก์ชัน
+    const user = new User();
     const roomdata = ref([]);
     const imageQrCode = ref([]);
     const visible = ref(false);
@@ -340,9 +344,14 @@ export default {
     const qrcode = ref(false);
     const room_id = this.$route.params.id;
     const review = ref([
-      // ตัวอย่างข้อมูลรีวิว
       { star: 0, name: "John Doe", description: "Bad experience!" },
-      // ...
+      { star: 2, name: "John Doe", description: "Bad experience!" },
+      { star: 5, name: "John Doe", description: "Bad experience!" },
+      { star: 6, name: "John Doe", description: "Bad experience!" },
+      { star: 9, name: "John Doe", description: "Bad experience!" },
+      { star: 10, name: "John Doe", description: "Bad experience!" },
+      { star: 7, name: "John Doe", description: "Bad experience!" },
+      { star: 3, name: "John Doe", description: "Bad experience!" },
     ]);
 
     // ฟังก์ชันสำหรับดึงข้อมูลห้องพัก
@@ -360,25 +369,67 @@ export default {
         this.price = this.roomdata.price;
       } catch (error) {
         console.error("Error fetching room data:", error);
-        // จัดการข้อผิดพลาด, เช่นแสดงข้อความสำหรับผู้ใช้
-      }
-    };
-    // ฟังก์ชันสำหรับดึงข้อมูลรีวิว
-    const getReview = async (_id) => {
-      try {
-        const res = await axios.get(
-          `${process.env.VUE_APP_API}review/byid/${_id}`
-        );
-        this.review = res.data;
-      } catch (error) {
-        console.log(error);
       }
     };
 
-    // ฟังก์ชันสำหรับการทำการจองห้อง
+    const combinedDates = ref([]);
+
+    const isDateInCombinedRange = (date) => {
+      const currentDate = new Date(date.year, date.month, date.day);
+      for (const combinedDateRange of combinedDates.value) {
+        const [startDate, endDate] = combinedDateRange.split(" - ");
+        const startDateObj = new Date(startDate);
+        const endDateObj = new Date(endDate);
+
+        if (currentDate >= startDateObj && currentDate <= endDateObj) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    const validateDate = async () => {
+      try {
+        const id = this.$route.params.id;
+        const result = await user.GetBooking();
+        const matchingBookings = result.data.filter(
+          (item) => item.room_id && item.room_id._id === id
+        );
+
+        if (matchingBookings.length > 0) {
+          const Dates = matchingBookings.map((booking) => {
+            const dateFrom = new Date(booking.date_from);
+            const dateTo = new Date(booking.date_to);
+
+            return `${
+              dateFrom.getMonth() + 1
+            }/${dateFrom.getDate()}/${dateFrom.getFullYear()} - ${
+              dateTo.getMonth() + 1
+            }/${dateTo.getDate()}/${dateTo.getFullYear()}`;
+          });
+
+          combinedDates.value = Dates;
+        } else {
+          console.log("No bookings found for room_id:", id);
+        }
+      } catch (error) {
+        console.error("Error validating date:", error);
+      }
+    };
+
+    // const getReview = async (_id) => {
+    //   try {
+    //     const res = await axios.get(
+    //       `${process.env.VUE_APP_API}review/byid/${_id}`
+    //     );
+    //     this.review = res.data;
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+
     const addbooking = async () => {
       try {
-        // ตรวจสอบการล็อคอิน
         if (localStorage.getItem("token") != null) {
           console.log("วันที่เริ่มจอง:", this.selectedDate[0]);
           console.log("จองถึงวันที่:", this.selectedDate[1]);
@@ -399,7 +450,6 @@ export default {
               }
             );
             if (response) {
-              // แสดงข้อความสำเร็จ
               Swal.fire({
                 icon: "success",
                 title: "จองสำเร็จ",
@@ -431,7 +481,6 @@ export default {
               }
             );
             if (response.data.status === true) {
-              // แสดงข้อความสำเร็จ
               Swal.fire({
                 icon: "success",
                 title: "จองสำเร็จ",
@@ -462,25 +511,18 @@ export default {
           title: "เกิดข้อผิดพลาด",
           text: error,
         });
-      } finally {
-        // ปลดล็อคการจองทุกครั้งที่จบ
       }
     };
-    
+
     // เมื่อ Component ถูกติดตั้ง ให้ดึงข้อมูลห้องและรีวิว
     onMounted(() => {
       getroom();
-      getReview();
+      // getReview();
+      validateDate();
     });
 
     // คืนค่าข้อมูลที่จะถูกใช้ใน Template
     return {
-      flatpickrOptions: {
-      enableTime: true,
-      altInput: true,
-      altFormat: 'F j, Y H:i',
-      dateFormat: 'Y-m-d H:i',
-      timezone: 'Asia/Bangkok',},
       value,
       room_id,
       selectedDate: "",
@@ -494,27 +536,28 @@ export default {
       addbooking,
       imageQrCode,
       review,
+      combinedDates,
+      isDateInCombinedRange,
     };
   },
   watch: {
-     selectedDate: {
-    handler(date) {
-      // คำนวณราคาใหม่เมื่อเลือกวันที่เปลี่ยน
-      if (this.selectedDate[0]) {
-        this.price = this.roomdata.price;
-        console.log("Date From:", this.selectedDate[0].toLocaleString("en-TH", { timeZone: "Asia/Bangkok" }));
-      }
-      if (this.selectedDate[1]) {
-        const startDate = new Date(this.selectedDate[0]);
-        const endDate = new Date(this.selectedDate[1]);
-        const timeDiff = endDate.getTime() - startDate.getTime();
-        const nights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-        this.price = this.roomdata.price * (nights + 1);
-        console.log("Date To:", this.selectedDate[1].toLocaleString("en-TH", { timeZone: "Asia/Bangkok" }));
-      }
+    selectedDate: {
+      handler(date) {
+        if (this.selectedDate[0]) {
+          this.price = this.roomdata.price;
+        }
+        if (this.selectedDate[1]) {
+          const startDate = new Date(this.selectedDate[0]);
+          const endDate = new Date(this.selectedDate[1]);
+          // คำนวณจำนวนวัน
+          const timeDiff = endDate.getTime() - startDate.getTime();
+          const nights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+          this.price = this.roomdata.price * (nights + 1);
+        }
+      },
     },
   },
-  },
+
   methods: {
     handleCheckboxChange(checkboxName) {
       if (checkboxName === "credit" && this.qrcode) {
@@ -543,9 +586,6 @@ export default {
         year: "numeric",
         month: "long",
         day: "numeric",
-        // hour: "numeric",
-        // minute: "numeric",
-        // second: "numeric",
       };
       const formattedDate = new Date(dateString).toLocaleDateString(
         "th-TH",
@@ -586,7 +626,6 @@ export default {
 .img-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  /* grid-template-rows: repeat(1, 500px); */
 }
 
 .img-grid img {
