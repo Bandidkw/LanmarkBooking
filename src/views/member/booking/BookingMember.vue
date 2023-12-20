@@ -279,46 +279,53 @@ export default {
   },
   setup() {
     const fetchData = async () => {
-  try {
-    const Response = await axios.get(`${process.env.VUE_APP_API}booking/member/`, {
-      headers: {
-        token: localStorage.getItem("token"),
-      },
-    });
-    if (Response.data.status === true) {
-      item_product.value = Response.data.data.reverse();
-      console.log(Response.data.data);
-    } else {
-      console.error("ข้อมูลขาดหายในการตอบสนอง API.");
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};
-    const pollingInterval = 5000;
+      try {
+        const Response = await axios.get(
+          `${process.env.VUE_APP_API}booking/member/`,
+          {
+            headers: {
+              token: localStorage.getItem("token"),
+            },
+          }
+        );
+        if (Response.data.status === true) {
+          item_product.value = Response.data.data.reverse();
+          // console.log(Response.data.data);
+        } else {
+          console.error("ข้อมูลขาดหายในการตอบสนอง API.");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    const pollingInterval = 1000;
     const startPolling = () => {
-    setInterval(async () => {
-      await fetchData();
-    }, updateExpiredStatus, pollingInterval);
-    console.log('Fetching data...');
-  };
+      setInterval(async () => {
+        await fetchData();
+        updateExpiredStatus();
+      }, pollingInterval);
+      // console.log("Fetching data...");
+    };
     const updateTimes = () => {
       item_product.value.forEach((item) => {
         item.calculatedTimeDifference = calculateTimeDifference(item.updatedAt);
       });
-      console.log('Updating times...');
+      // console.log("Updating times...");
     };
     const updateExpiredStatus = () => {
-  item_product.value.forEach((item) => {
-    if (
-      item.status.slice(-1)[0].statusbooking === "รอชำระเงิน" &&
-      calculateTimeDifference(item.updatedAt) === "เกินกำหนดการชำระ"
-    ) {
-      // อัปเดตสถานะเป็น "ไม่อนุมัติห้อง"
-      item.status.push({ statusbooking: "ไม่อนุมัติห้อง", timestamp: new Date() });
-    }
-  });
-};
+      item_product.value.forEach((item) => {
+        if (
+          item.status.slice(-1)[0].statusbooking === "รอชำระเงิน" &&
+          calculateTimeDifference(item.updatedAt) === "เกินกำหนดการชำระ"
+        ) {
+          // อัปเดตสถานะเป็น "ไม่อนุมัติห้อง"
+          item.status.push({
+            statusbooking: "ไม่อนุมัติห้อง",
+            timestamp: new Date(),
+          });
+        }
+      });
+    };
     let data_id = ref("");
     let membername = ref("");
     let roomname = ref("");
@@ -355,7 +362,7 @@ export default {
         if (Response.data.status === true) {
           item_product.value = Response.data.data.reverse();
           loading.value = false;
-          console.log(Response.data.data);
+          // console.log(Response.data.data);
         } else {
           console.error("Data is missing in the API response.");
         }
@@ -386,37 +393,39 @@ export default {
       price.value = data.price;
       databooking.value = data;
     };
-const calculateTimeDifference = (updatedAt, selectstatus) => {
-  if (selectstatus === 'จองห้องสำเร็จ') {
-    return '0';
-  }
+    const calculateTimeDifference = (updatedAt, selectstatus) => {
+      if (selectstatus === "จองห้องสำเร็จ") {
+        return "0";
+      }
 
-  const updatedAtDate = new Date(updatedAt);
-  const paymentDueTime = 24 * 60 * 60 * 1000;
-  const currentTime = new Date();
-  const timeDifference = paymentDueTime - (currentTime - updatedAtDate);
+      const updatedAtDate = new Date(updatedAt);
+      const paymentDueTime = 24 * 60 * 60 * 1000;
+      const currentTime = new Date();
+      const timeDifference = paymentDueTime - (currentTime - updatedAtDate);
 
-  if (timeDifference <= 0) {
-    return 'เกินกำหนดการชำระ';
-  }
+      if (timeDifference <= 0) {
+        return "เกินกำหนดการชำระ";
+      }
 
-  const hours = Math.floor(timeDifference / (60 * 60 * 1000));
-  const minutes = Math.floor((timeDifference % (60 * 60 * 1000)) / (60 * 1000));
-  const seconds = Math.floor((timeDifference % (60 * 1000)) / 1000);
+      const hours = Math.floor(timeDifference / (60 * 60 * 1000));
+      const minutes = Math.floor(
+        (timeDifference % (60 * 60 * 1000)) / (60 * 1000)
+      );
+      const seconds = Math.floor((timeDifference % (60 * 1000)) / 1000);
 
-  return ` ${hours} : ${minutes} : ${seconds} `;
-};
+      return ` ${hours} : ${minutes} : ${seconds} `;
+    };
 
     onMounted(() => {
-    getData(); // ดึงข้อมูลเริ่มต้น
-    startPolling();
-    // อัพเดทต่างหากเวลาทุกวินาที
-    const intervalId = setInterval(updateTimes, 1000);
+      getData(); // ดึงข้อมูลเริ่มต้น
+      startPolling();
+      // อัพเดทต่างหากเวลาทุกวินาที
+      const intervalId = setInterval(updateTimes, 1000);
 
-    // ทำความสะอาด interval เมื่อคอมโพเนนต์ถูกยกเลิก
-    onUnmounted(() => {
-      clearInterval(intervalId);
-    });
+      // ทำความสะอาด interval เมื่อคอมโพเนนต์ถูกยกเลิก
+      onUnmounted(() => {
+        clearInterval(intervalId);
+      });
     });
 
     return {
@@ -465,22 +474,22 @@ const calculateTimeDifference = (updatedAt, selectstatus) => {
       }
     },
     deleteImage() {
-      console.log("Deleting image");
+      // console.log("Deleting image");
       this.imagePreview = null;
       this.filepic = null;
     },
     chooseImg(event) {
-      console.log("Choosing image");
+      // console.log("Choosing image");
 
       if (this.filepic) {
-        console.log("Clearing existing file");
+        // console.log("Clearing existing file");
         this.deleteImage();
       }
 
       this.imagePreview = event.files[0].objectURL;
       this.filepic = event.files[0];
 
-      console.log("Image chosen:", this.filepic);
+      // console.log("Image chosen:", this.filepic);
     },
     async addpayment(id) {
       if (this.filepic != "") {
