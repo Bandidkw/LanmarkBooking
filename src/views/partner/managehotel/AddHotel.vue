@@ -258,7 +258,7 @@
                 class="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
                 id="distance-location"
                 type="text"
-                v-model="distancelocation"
+                v-model="distancenearlocation"
                 placeholder="ระยะทาง"
               />
             </div>
@@ -484,7 +484,7 @@ export default {
       timebookingstart: "",
       timebookingend: "",
       nearlocation: "",
-      distancelocation: "",
+      distancenearlocation: "",
       selectpartnertype: [
         { label: "เจ้าของปล่อยเช่า", value: "เจ้าของปล่อยเช่า" },
         { label: "ผู้เช่าปล่อยเช่า", value: "ผู้เช่าปล่อยเช่า" },
@@ -589,7 +589,7 @@ export default {
             typehotelbed: typehotelbed,
             typehotelroom: this.inputlevelroom,
             nearlocation: this.nearlocation,
-            distancelocation: this.distancelocation,
+            distancenearlocation: this.distancelocation,
             timebookingstart: this.selectedDate[0],
             timebookingend: this.selectedDate[1],
             partnertype: this.partnertype,

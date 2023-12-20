@@ -22,7 +22,8 @@
           <div class="grid grid-cols-2 justify-content-between">
             <div class="flex" style="align-items: center">
               <p class="w-40 text-center text-sm m-0 mr-4">
-                เปิด-ปิดการจองห้อง: {{ reservationEnabled ? "เปิด" : "ปิด" }}
+                เปิด-ปิดการจองห้องทั้งหมด:
+                {{ reservationEnabled ? "เปิด" : "ปิด" }}
               </p>
               <InputSwitch
                 v-model="reservationEnabled"
