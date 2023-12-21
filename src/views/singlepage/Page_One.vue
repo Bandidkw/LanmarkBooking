@@ -109,7 +109,7 @@
           <div>
             <img
               class="w-16 h-16 rounded-full object-cover overflow-hidden"
-              :src="getImage(roomdata?.partner_id?.image_idcard)"
+              :src="getImage(roomdata?.partner_id?.image)"
               alt=""
             />
           </div>
