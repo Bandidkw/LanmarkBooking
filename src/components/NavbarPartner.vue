@@ -194,53 +194,17 @@ export default {
   },
   methods: {
     triggerDownload() {
-      this.$bus.emit("download-contract");
+      this.$bus.emit("contractContent");
     },
-    handleDownloadContract() {
-      if (!this.downloadingContract) {
-        this.downloadingContract = true;
+    async handleDownload() {
+      const content = this.$refs.content;
+      const canvas = await html2canvas(content);
+      const pdf = await canvas.toDataURL("image/png");
 
-        // Log the message before emitting the event
-        console.log("Emitting contractContent event");
-
-        // Emit the 'contractContent' event
-        this.$bus.emit("contractContent");
-
-        // Log a message after emitting the event
-        console.log("contractContent event emitted");
-
-        this.downloadingContract = false;
-      }
-    },
-    downloadContract() {
-      if (!this.downloadingContract) {
-        this.downloadingContract = true;
-        const htmlContent = document.getElementById("contractContent");
-        const pdfOptions = {
-          margin: 10,
-          filename: "contract.pdf",
-          image: { type: "jpeg", quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-        };
-
-        // ใช้ html2pdf เพื่อแปลงเนื้อหา HTML เป็น PDF
-        html2pdf()
-          .from(htmlContent)
-          .set(pdfOptions)
-          .outputPdf((pdf) => {
-            const blob = new Blob([pdf], { type: "application/pdf" });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "contract.pdf";
-            link.click();
-
-            // Log message to indicate that the download is complete
-            console.log("Contract downloaded");
-
-            this.downloadingContract = false;
-          });
-      }
+      const link = document.createElement("a");
+      link.href = pdf;
+      link.download = "ContractPartner.png";
+      link.click();
     },
     toggle(event) {
       this.$refs.op.toggle(event);

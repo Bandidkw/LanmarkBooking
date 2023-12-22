@@ -1,9 +1,4 @@
 <template>
-  <!-- <div id="contractContent" ref="content"> -->
-  <!-- <div>
-      <Button label="Contract Electronic" icon="pi pi-external-link" @click="sidebar = true" />
-    </div> -->
-
   <Dialog
     v-model:visible="sidebar"
     modal
@@ -17,7 +12,7 @@
         สัญญาการใช้งาน lanmark ของ partner
       </div>
     </template>
-    <div class="grid mt-2" style="border: 1px solid #ccc" ref="content">
+    <div class="grid mt-2 px-4" style="border: 1px solid #ccc" ref="content" id="contractContent">
       <div class="col-12 md:col-12 text-center">
         <h2>สัญญาการใช้งาน lanmark ของ partner</h2>
       </div>
@@ -45,7 +40,7 @@
           สิบเปอร์เซ็นต์)ของยอดเงินการจองจำนวนเงินทั้งหมดที่ 10%
           สำหรับการให้บริการบนแพลตฟอร์มจองที่พักออนไลน์ ในแต่ละคราวการจอง
         </h4>
-        <h4 style="text-indent: 2.5em">
+        <h4 style="text-indent: 2.5em;">
           ข้อ 2. ผู้ให้เช่าตกลงยินยอม
           หากผู้เช่าจองล่วงหน้าโดยไม่ต้องว่างเงินประกันยกเลิกการจองได้ก่อนถึงกำหนดระยะเวลาก่อนวันที่จอง
           ภายใน 24 ช.ม. ผู้ให้เช่ายินยอมและรับความเสี่ยงเสียหายแก่ผู้ให้เช่าเอง
@@ -128,10 +123,10 @@
           >ไม่ยืนยันสัญญา</Button
         >
         <Button
-          severity="danger"
+          
           outlined
           @click="handleDownload"
-          class="hover:bg-red-500 hover:text-white"
+          class="hover:bg-blue-500 hover:text-white"
         >
           โหลดสัญญา</Button
         >
@@ -144,7 +139,7 @@
 </template>
 <script>
 import axios from "axios";
-import html2pdf from "html2pdf.js";
+import html2canvas from 'html2canvas';
 import mitt from "mitt";
 
 export default {
@@ -173,38 +168,21 @@ export default {
   },
   created() {
     // ตั้งค่ารับ event bus
-    // this.$bus.on("contractContent", this.handleContractContent);
+    this.$bus.on("contractContent", this.handleDownload);
   },
   methods: {
-    // handleContractContent() {
-    //   this.sidebar = true;
-    // },
-
+    
     async handleDownload() {
+      // รับ Event และดำเนินการดาวน์โหลดสัญญา
       const content = this.$refs.content;
-      console.log("🚀 :", content);
+      const canvas = await html2canvas(content);
+      const pdf = canvas.toDataURL("image/pdf");
 
-      const options = {
-        margin: 10,
-        filename: "ContractPartner.pdf",
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-      };
-
-      try {
-        const pdf = await html2pdf().from(content).set(options).outputPdf();
-
-        const blob = new Blob([pdf], { type: "application/pdf" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = options.filename;
-        link.click();
-      } catch (error) {
-        console.error("Error generating PDF:", error);
-      }
+      const link = document.createElement("a");
+      link.href = pdf;
+      link.download = "ContractPartner.pdf";
+      link.click();
     },
-
     async getcontract() {
       try {
         const Response = await axios.get(

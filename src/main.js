@@ -2,6 +2,7 @@ import jwtDecode from "jwt-decode";
 import PrimeVue from 'primevue/config';
 import { createApp } from 'vue';
 import App from './App.vue';
+// import html2canvas from 'html2canvas';
 
 // store/index.js
 
@@ -17,6 +18,7 @@ import InputNumber from 'primevue/inputnumber';
 import InputSwitch from 'primevue/inputswitch';
 import Rating from 'primevue/rating';
 import mitt from 'mitt';
+import html2pdf from "html2pdf.js";
 
 const bus = mitt();
 

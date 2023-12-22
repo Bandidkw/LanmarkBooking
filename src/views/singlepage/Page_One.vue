@@ -621,11 +621,13 @@ export default {
     },
 
     openImagePopup() {
-      console.log("Show all images:", this.roomdata.image);
-      this.popupVisible = true;
-      this.popupImage = this.allImages;
-    },
-
+  console.log("Show all images:", this.roomdata.image);
+  // เปิด Popup แสดงรูปภาพ
+  this.popupVisible = true;
+  // กำหนดรูปภาพที่จะแสดงใน Popup
+  this.popupImage = this.allImages;
+  console.log(this.popupImage, "test image");
+},
     closeImagePopup() {
       this.popupVisible = false;
       this.popupImage = null;
