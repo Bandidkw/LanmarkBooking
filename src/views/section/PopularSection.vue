@@ -318,7 +318,6 @@ export default {
   }
 
   .image-container img {
-    width: 200px;
     height: 200px;
     object-fit: cover;
     border-radius: 1.5rem;
