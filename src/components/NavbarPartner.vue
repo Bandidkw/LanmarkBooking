@@ -16,10 +16,11 @@
         id="nav-content"
         style="column-gap: 0.5rem"
       >
-        <i @click="toggle"
+        <i
+          @click="toggle"
           v-badge="notificationData.length"
           class="pi pi-bell p-overlay-badge"
-          style="font-size: 1.5rem; cursor: pointer;"
+          style="font-size: 1.5rem; cursor: pointer"
         />
         <!-- <div class="notification-box">
           <div>

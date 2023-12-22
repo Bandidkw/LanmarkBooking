@@ -33,20 +33,30 @@
               />
             </div>
 
-            <span class="p-input-icon-left">
+            <div class="p-input-icon-left">
               <i class="pi pi-search" />
               <InputText
                 v-model="searchall"
                 placeholder="ค้นหา"
-                class="bg-white-500 p-2 m-1 pl-5 border"
+                class="bg-white-500 border"
+                style="height: 48px"
               />
-            </span>
+            </div>
           </div>
         </template>
 
-        <Column field="room_id.name" header="ห้องพัก" style="width: 10%">
+        <Column
+          field="room_id.name"
+          header="ห้องพัก"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        >
         </Column>
-        <Column header="วันที่จะจอง" style="width: 10%">
+        <Column
+          header="วันที่จะจอง"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             {{
               new Date(data.date_from).toLocaleDateString("th-TH", {
@@ -67,13 +77,27 @@
             }}
           </template>
         </Column>
-        <Column header="จำนวนคืน" style="width: 10%">
+        <Column
+          header="จำนวนคืน"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             {{ calculateNightStay(data.date_from, data.date_to) }}
           </template>
         </Column>
-        <Column field="price" header="ราคา" style="width: 10%"></Column>
-        <Column class="text-center" header="สถานะอนุมัติ" style="width: 15%">
+        <Column
+          field="price"
+          header="ราคา"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        ></Column>
+        <Column
+          class="text-center"
+          header="สถานะอนุมัติ"
+          style="width: 15%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             <div
               class="lg:w-10 xl:w-6 bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
@@ -136,12 +160,20 @@
             <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
           </template>
         </Column>
-        <Column header="ชำระภายใน" style="width: 10%">
+        <Column
+          header="ชำระภายใน"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             {{ calculateTimeDifference(data.updatedAt) }}
           </template>
         </Column>
-        <Column header="รายละเอียด" style="width: 10%">
+        <Column
+          header="รายละเอียด"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             <Button
               outlined
@@ -292,10 +324,10 @@ export default {
           item_product.value = Response.data.data.reverse();
           // console.log(Response.data.data);
           item_product.value.forEach((item) => {
-        if (calculateTimeDifference(item.updatedAt) === "0 : 0 : 0") {
-          this.deleteBooking(item._id);
-        }
-      });
+            if (calculateTimeDifference(item.updatedAt) === "0 : 0 : 0") {
+              this.deleteBooking(item._id);
+            }
+          });
         } else {
           console.error("ข้อมูลขาดหายในการตอบสนอง API.");
         }
@@ -398,10 +430,9 @@ export default {
       databooking.value = data;
     };
     const calculateTimeDifference = (updatedAt, selectstatus) => {
-      
       if (selectstatus === "จองห้องสำเร็จ") {
-    return "0"; // ไม่นับเวลาถอยหลัง
-  }
+        return "0"; // ไม่นับเวลาถอยหลัง
+      }
       const updatedAtDate = new Date(updatedAt);
       const paymentDueTime = 24 * 60 * 60 * 1000;
       const currentTime = new Date();
@@ -456,31 +487,32 @@ export default {
       successMessageVisible,
       buttonloading,
       calculateTimeDifference,
+      headerTextColor: "rgb(156 163 175)",
     };
   },
 
   methods: {
     async deleteBooking(id) {
-  try {
-    const response = await axios.delete(
-      `${process.env.VUE_APP_API}newbooking/${id}`,
-      {
-        headers: {
-          token: localStorage.getItem("token"),
-        },
+      try {
+        const response = await axios.delete(
+          `${process.env.VUE_APP_API}newbooking/${id}`,
+          {
+            headers: {
+              token: localStorage.getItem("token"),
+            },
+          }
+        );
+        if (response.data.status === true) {
+          // ลบข้อมูลจาก data หรือทำการ Fetch ข้อมูลใหม่
+          this.getData();
+          console.log("Booking deleted successfully");
+        } else {
+          console.error("Failed to delete booking:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Error deleting booking:", error);
       }
-    );
-    if (response.data.status === true) {
-      // ลบข้อมูลจาก data หรือทำการ Fetch ข้อมูลใหม่
-      this.getData();
-      console.log("Booking deleted successfully");
-    } else {
-      console.error("Failed to delete booking:", response.data.message);
-    }
-  } catch (error) {
-    console.error("Error deleting booking:", error);
-  }
-},
+    },
     calculateNightStay(dateFrom, dateTo) {
       const startDate = new Date(dateFrom);
       const endDate = new Date(dateTo);

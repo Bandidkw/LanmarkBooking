@@ -33,14 +33,15 @@
               />
             </div>
 
-            <span class="p-input-icon-left">
+            <div class="p-input-icon-left">
               <i class="pi pi-search" />
               <InputText
                 v-model="searchall"
                 placeholder="ค้นหา"
-                class="bg-white-500 p-2 m-1 pl-5 border"
+                class="bg-white-500 border"
+                style="height: 48px"
               />
-            </span>
+            </div>
           </div>
         </template>
 
@@ -48,9 +49,14 @@
           field="booking_id.room_id.name"
           header="ห้องพัก"
           style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
         >
         </Column>
-        <Column header="วันที่จะจอง" style="width: 10%">
+        <Column
+          header="วันที่จะจอง"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             {{
               new Date(data.booking_id.date_from).toLocaleDateString("th-TH", {
@@ -71,7 +77,11 @@
             }}
           </template>
         </Column>
-        <Column header="จำนวนคืน" style="width: 10%">
+        <Column
+          header="จำนวนคืน"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             {{
               calculateNightStay(
@@ -81,7 +91,11 @@
             }}
           </template>
         </Column>
-        <Column header="วันที่จะจอง" style="width: 10%">
+        <Column
+          header="วันที่จะจอง"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             <div
               v-if="data.check_in_date == null && data.check_out_date == null"
@@ -118,7 +132,12 @@
             <div v-else-if="data.check_out_date != null"></div>
           </template>
         </Column>
-        <Column class="text-center" header="สถานะอนุมัติ" style="width: 20%">
+        <Column
+          class="text-center"
+          header="สถานะอนุมัติ"
+          style="width: 20%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             <div
               class="lg:w-10 xl:w-5 bg-blue-100 text-blue-600 font-normal border-2 border-blue-300 text-center"
@@ -144,7 +163,7 @@
           </template>
         </Column>
         <!-- <Column header="เช็คอิน - เช็คเอาท์" style="width: 10%"> -->
-        <Column style="width: 10%">
+        <Column style="width: 10%" :headerStyle="{ color: headerTextColor }">
           <template #body="{ data }">
             <Button
               @click="showPartnerDetail(data)"
@@ -379,6 +398,7 @@ export default {
       selectstatus,
       detail,
       user,
+      headerTextColor: "rgb(156 163 175)",
     };
   },
   methods: {

@@ -535,6 +535,11 @@ export default {
     width: 100%;
   }
 }
+@media (min-width: 640px) {
+  .image-preview {
+    width: 100%;
+  }
+}
 @media (min-width: 768px) {
   .image-preview {
     width: 300px;
