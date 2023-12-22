@@ -16,12 +16,12 @@
         id="nav-content"
         style="column-gap: 0.5rem"
       >
-        <i
+        <i @click="toggle"
           v-badge="notificationData.length"
           class="pi pi-bell p-overlay-badge"
-          style="font-size: 1.5rem"
+          style="font-size: 1.5rem; cursor: pointer;"
         />
-        <div class="notification-box">
+        <!-- <div class="notification-box">
           <div>
             <i @click="toggle" class="bi bi-bell" />
           </div>
@@ -30,7 +30,7 @@
               notificationData.length
             }}</span>
           </div>
-        </div>
+        </div> -->
         <OverlayPanel ref="op">
           <div class="custom-confirm-popup overflow-y-scroll">
             <div
@@ -53,7 +53,7 @@
             <button
               @click="toggleMenu(menuKey)"
               type="button"
-              class="lg:inline-block lg:mt-0 hover:text-white px-2 py-2 rounded hover:bg-[#007bff]"
+              class="lg:inline-block lg:mt-0 hover:text-white px-2 py-2 rounded hover:bg-[#007bff] ml-2"
             >
               <span class="bi bi-person-fill text-2xl"></span>
               {{ namestore }} <i class="bi bi-caret-down-fill"></i>

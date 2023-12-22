@@ -5,7 +5,7 @@
         <h1 class="text-2xl">{{ roomdata.name }}</h1>
       </div>
     </div>
-    <div class="image-box py-2 w-full h-[31.25rem] flex gap-x-2">
+    <div class="image-box py-2 w-full h-[31.25rem] flex gap-x-2" style="position: relative;">
       <div class="w-2/4 large-box">
         <img
           v-if="roomdata && roomdata.image && roomdata.image.length > 0"
@@ -84,6 +84,34 @@
           <p class="text-xl font-semibold">ไม่มีรูปภาพ</p>
         </div>
       </div>
+      <div class="flex items-center justify-center rounded-[15px]" style="padding: 0.3rem;
+    background: white;
+    right: 15px;
+    bottom: 15px;
+    position: absolute;">
+    <button @click="openImagePopup" class="text-sm font-normal">แสดงรูปทั้งหมด</button>
+  </div>
+
+  <!-- Popup แสดงรูปภาพ -->
+
+<div v-if="popupVisible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100] scroll-auto" style="border-radius: 15px;">
+  <div class="w-2/4 h-3/4 bg-white py-4 px-4 rounded-lg relative scroll-auto" style="overflow: auto;">
+    <!-- ปุ่มปิด Popup -->
+    <button @click="closeImagePopup" class="absolute top-4 bg-black rounded-[50%] right-4 p-1 text-xl hover:text-white text-white" style="    display: flex;
+    align-items: center;
+    justify-content: center;">
+      <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    
+    <!-- รูปภาพทั้งหมดใน Popup -->
+    <div>
+      <img v-for="(img, index) in roomdata.image" :key="index" :src="getImage(img)" alt="Room Image" class="w-full h-auto mt-2 rounded-lg">
+    </div>
+  </div>
+</div>
+
     </div>
     <div
       class="flex pt-4 px-5 justify-between border h-[850px] rounded-2xl gap-x-8 max-[430px]:flex-col max-[430px]:h-auto max-[414px]:flex-col max-[414px]:h-auto"
@@ -363,6 +391,9 @@ export default {
         );
         this.roomdata = response.data;
         this.imageQrCode = response.data.partner_id.image_bank;
+        this.allImages = response.data.image.map((img) => {
+      return `https://drive.google.com/uc?export=view&id=${img}`;
+    });
         if (this.roomdata.rating) {
           this.value = this.roomdata.rating;
         }
@@ -523,6 +554,7 @@ export default {
 
     // คืนค่าข้อมูลที่จะถูกใช้ใน Template
     return {
+      allImages: [],
       value,
       room_id,
       selectedDate: "",
@@ -538,6 +570,8 @@ export default {
       review,
       combinedDates,
       isDateInCombinedRange,
+      popupVisible: false,
+      popupImage: null,
     };
   },
   watch: {
@@ -559,6 +593,21 @@ export default {
   },
 
   methods: {
+    openImagePopup() {
+  console.log("Show all images:", this.roomdata.image);
+  // เปิด Popup แสดงรูปภาพ
+  this.popupVisible = true;
+  // กำหนดรูปภาพที่จะแสดงใน Popup
+  this.popupImage = this.allImages;
+  console.log(this.popupImage, "hhhhhhhhh");
+},
+
+    closeImagePopup() {
+      // ปิด Popup
+      this.popupVisible = false;
+      // รีเซ็ตรูปภาพที่แสดงใน Popup
+      this.popupImage = null;
+    },
     handleCheckboxChange(checkboxName) {
       if (checkboxName === "credit" && this.qrcode) {
         this.qrcode = false;

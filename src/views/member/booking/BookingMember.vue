@@ -73,7 +73,7 @@
           </template>
         </Column>
         <Column field="price" header="ราคา" style="width: 10%"></Column>
-        <Column class="text-center" header="สถานะอนุมัติ" style="width: 10%">
+        <Column class="text-center" header="สถานะอนุมัติ" style="width: 15%">
           <template #body="{ data }">
             <div
               class="lg:w-10 xl:w-6 bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
@@ -291,6 +291,11 @@ export default {
         if (Response.data.status === true) {
           item_product.value = Response.data.data.reverse();
           // console.log(Response.data.data);
+          item_product.value.forEach((item) => {
+        if (calculateTimeDifference(item.updatedAt) === "0 : 0 : 0") {
+          this.deleteBooking(item._id);
+        }
+      });
         } else {
           console.error("ข้อมูลขาดหายในการตอบสนอง API.");
         }
@@ -310,7 +315,6 @@ export default {
       item_product.value.forEach((item) => {
         item.calculatedTimeDifference = calculateTimeDifference(item.updatedAt);
       });
-      // console.log("Updating times...");
     };
     const updateExpiredStatus = () => {
       item_product.value.forEach((item) => {
@@ -394,10 +398,10 @@ export default {
       databooking.value = data;
     };
     const calculateTimeDifference = (updatedAt, selectstatus) => {
+      
       if (selectstatus === "จองห้องสำเร็จ") {
-        return "0";
-      }
-
+    return "0"; // ไม่นับเวลาถอยหลัง
+  }
       const updatedAtDate = new Date(updatedAt);
       const paymentDueTime = 24 * 60 * 60 * 1000;
       const currentTime = new Date();
@@ -456,6 +460,27 @@ export default {
   },
 
   methods: {
+    async deleteBooking(id) {
+  try {
+    const response = await axios.delete(
+      `${process.env.VUE_APP_API}newbooking/${id}`,
+      {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      }
+    );
+    if (response.data.status === true) {
+      // ลบข้อมูลจาก data หรือทำการ Fetch ข้อมูลใหม่
+      this.getData();
+      console.log("Booking deleted successfully");
+    } else {
+      console.error("Failed to delete booking:", response.data.message);
+    }
+  } catch (error) {
+    console.error("Error deleting booking:", error);
+  }
+},
     calculateNightStay(dateFrom, dateTo) {
       const startDate = new Date(dateFrom);
       const endDate = new Date(dateTo);
