@@ -102,9 +102,9 @@ import axios from "axios";
 import { ref } from "vue";
 // อย่าลืม import ตัวแปร bus จากไลบรารี mitt
 import mitt from "mitt";
-import html2pdf from "html2pdf.js";
 
 export default {
+  components: {},
   created() {
     this.$bus.on("download-contract", this.downloadContract);
     this.loadNotifications();
@@ -190,22 +190,14 @@ export default {
         },
       ],
       mockupNotification,
+      modalDownload: false,
     };
   },
   methods: {
     triggerDownload() {
-      this.$bus.emit("contractContent");
+      this.$bus.emit("contractContent", this.downloadPdf);
     },
-    async handleDownload() {
-      const content = this.$refs.content;
-      const canvas = await html2canvas(content);
-      const pdf = await canvas.toDataURL("image/png");
 
-      const link = document.createElement("a");
-      link.href = pdf;
-      link.download = "ContractPartner.png";
-      link.click();
-    },
     toggle(event) {
       this.$refs.op.toggle(event);
       this.loadNotifications();

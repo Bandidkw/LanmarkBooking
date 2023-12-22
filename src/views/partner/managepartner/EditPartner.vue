@@ -345,7 +345,7 @@ export default {
           this.loading = true;
           const id = this._id;
           let changeimage_bank = false;
-          if (this.newimageid_card != "" && this.image_card != []) {
+          if (this.newimageid_card != "" && this.image_card != "") {
             const res = await axios.delete(
               `${process.env.VUE_APP_API}partner/${id}/picture/${this.image_card}`
             );

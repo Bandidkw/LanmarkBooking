@@ -632,31 +632,35 @@ export default {
     },
     //// uploadfile picture
     async uploadPicture(_id) {
-      const uploadImage = async (url, formData, successMessage) => {
-        try {
-          const response = await axios.post(url, formData);
-          console.log(response.data, successMessage);
-        } catch (error) {
-          console.error(
-            `Error uploading pictures for ${successMessage}:`,
-            error
-          );
-        }
-      };
-
       try {
-        await Promise.all([
-          uploadImage(
+        const formDataFilepic = new FormData();
+        formDataFilepic.append("imgCollection", this.partner.filepic);
+
+        const formDataImageBank = new FormData();
+        formDataImageBank.append("imgbank", this.partner.image_bank);
+
+        const [upfilePick, upImageBank] = await Promise.all([
+          axios.post(
             `${process.env.VUE_APP_API}partner/picture/${_id}`,
-            new FormData().append("imgCollection", this.partner.filepic),
-            "success_Image for upfilePick"
+            formDataFilepic
           ),
-          uploadImage(
+          axios.post(
             `${process.env.VUE_APP_API}partner/picturebank/${_id}`,
-            new FormData().append("imgbank", this.partner.image_bank),
-            "success_Image for upImageBank"
+            formDataImageBank
           ),
         ]);
+
+        if (upfilePick.data && upfilePick.data) {
+          console.log(upfilePick.data, "success_Image for upfilePick");
+        } else {
+          console.error("Data is missing in the API response for upfilePick.");
+        }
+
+        if (upImageBank.data && upImageBank.data) {
+          console.log(upImageBank.data, "success_Image for upImageBank");
+        } else {
+          console.error("Data is missing in the API response for upImageBank.");
+        }
       } catch (error) {
         console.error("Error uploading pictures:", error);
       }
