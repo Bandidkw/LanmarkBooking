@@ -33,14 +33,15 @@
               />
             </div>
 
-            <span class="p-input-icon-left">
+            <div class="p-input-icon-left">
               <i class="pi pi-search" />
               <InputText
                 v-model="searchall"
                 placeholder="ค้นหา"
-                class="bg-white-500 p-2 m-1 pl-5 border"
+                class="bg-white-500 border"
+                style="height: 48px"
               />
-            </span>
+            </div>
           </div>
         </template>
 
@@ -48,9 +49,14 @@
           field="booking_id.room_id.name"
           header="ห้องพัก"
           style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
         >
         </Column>
-        <Column header="วันที่จะจอง" style="width: 10%">
+        <Column
+          header="วันที่จะจอง"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             {{
               new Date(data.booking_id.date_from).toLocaleDateString("th-TH", {
@@ -71,7 +77,11 @@
             }}
           </template>
         </Column>
-        <Column header="จำนวนคืน" style="width: 10%">
+        <Column
+          header="จำนวนคืน"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             {{
               calculateNightStay(
@@ -81,7 +91,11 @@
             }}
           </template>
         </Column>
-        <Column header="วันที่จะจอง" style="width: 10%">
+        <Column
+          header="วันที่จะจอง"
+          style="width: 10%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             <div
               v-if="data.check_in_date == null && data.check_out_date == null"
@@ -118,7 +132,12 @@
             <div v-else-if="data.check_out_date != null"></div>
           </template>
         </Column>
-        <Column class="text-center" header="สถานะอนุมัติ" style="width: 20%">
+        <Column
+          class="text-center"
+          header="สถานะอนุมัติ"
+          style="width: 20%"
+          :headerStyle="{ color: headerTextColor }"
+        >
           <template #body="{ data }">
             <div
               class="lg:w-10 xl:w-5 bg-blue-100 text-blue-600 font-normal border-2 border-blue-300 text-center"
@@ -144,13 +163,12 @@
           </template>
         </Column>
         <!-- <Column header="เช็คอิน - เช็คเอาท์" style="width: 10%"> -->
-        <Column style="width: 10%">
+        <Column style="width: 10%" :headerStyle="{ color: headerTextColor }">
           <template #body="{ data }">
             <Button
               @click="showPartnerDetail(data)"
               icon="bi bi-clipboard2-check"
               outlined
-              severity="help "
             />
           </template>
         </Column>
@@ -158,12 +176,27 @@
     </div>
   </div>
   <!-- Rating Modal -->
-  <Dialog v-if="ratingModalVisible" v-model:visible="ratingModalVisible" modal>
+  <Dialog
+    v-if="ratingModalVisible"
+    header="ให้คะแนนที่พัก"
+    v-model:visible="ratingModalVisible"
+    modal
+  >
     <div class="text-center p-4">
-      <h2>โปรดให้คะแนน</h2>
       <!-- ใช้ PrimeVue Rating component -->
-      <Rating v-model="ratingValue" class="mb-2" :stars="10" :max="10" />
-      <Button @click="putcheckout(databooking._id)">ส่งคะแนน</Button>
+      <form class="flex flex-column gap-2">
+        <Rating v-model="ratingValue" class="mb-4" :stars="10" :max="10" />
+        <span class="p-float-label">
+          <Textarea id="value" v-model="detail" rows="4" cols="30" />
+          <label for="value">อธิบายเพิ่มเติม (ไม่บังคับ)</label>
+        </span>
+        <Button
+          icon="bi bi-star"
+          rounded
+          label="ส่งข้อมูล"
+          @click="putcheckout(databooking)"
+        />
+      </form>
     </div>
   </Dialog>
   <Dialog
@@ -209,6 +242,7 @@ import axios from "axios";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
 import Loading from "../../../components/Loading.vue";
+import { User } from "../../../service/user";
 
 export default {
   components: {
@@ -220,9 +254,11 @@ export default {
   },
 
   setup() {
+    const user = new User();
     const DetailPartner = ref(false);
     const ratingModalVisible = ref(false);
     const ratingValue = ref(0);
+    let detail = ref("");
 
     const showRatingModal = () => {
       ratingModalVisible.value = true;
@@ -232,11 +268,27 @@ export default {
       DetailPartner.value = false;
       showRatingModal();
     };
-    const putcheckout = async (id) => {
+    const putcheckout = async (data) => {
       try {
+        const _id = data._id;
+        const booking_id = data.booking_id._id;
         const response = await axios.put(
-          `${process.env.VUE_APP_API}checkin/checkout/${id}`,
+          `${process.env.VUE_APP_API}checkin/checkout/${_id}`,
           {},
+          {
+            headers: {
+              token: localStorage.getItem("token"),
+            },
+          }
+        );
+
+        const res = await axios.post(
+          `${process.env.VUE_APP_API}review/`,
+          {
+            booking_id: booking_id,
+            star: ratingValue.value,
+            detail: detail.value,
+          },
           {
             headers: {
               token: localStorage.getItem("token"),
@@ -249,7 +301,7 @@ export default {
           Swal.fire({
             icon: "success",
             title: "เช็คเอาท์สำเร็จ",
-            text: response.data.message,
+            // text: response.data.message,
           });
           getData(); // ใช้ getData() โดยตรง
         } else {
@@ -273,7 +325,6 @@ export default {
       }
       ratingModalVisible.value = false;
       DetailPartner.value = false;
-      console.log("คะแนนที่ให้:", ratingValue.value, DetailPartner);
     };
 
     // const partnerDetail = ref(null);
@@ -308,7 +359,6 @@ export default {
         if (Response.data.status === true) {
           item_product.value = Response.data.data.reverse();
           loading.value = false;
-          console.log(Response.data.data);
         } else {
           console.error("Data is missing in the API response.");
         }
@@ -320,25 +370,11 @@ export default {
       DetailPartner.value = true;
       databooking.value = data;
     };
-    const submitRating = (id) => {
-      console.log("คะแนนที่ให้:", ratingValue.value);
-
-      // ปิดโมดัลทั้งหมด
-      ratingModalVisible.value = false;
-      DetailPartner.value = false;
-
-      // แสดง Swal.fire หลังจากปิดโมดัล
-      Swal.fire({
-        icon: "success",
-        title: "เช็คเอาท์สำเร็จ",
-      });
-    };
 
     onMounted(() => {
       getData();
     });
     return {
-      submitRating,
       putcheckout2,
       putcheckout,
       ratingModalVisible,
@@ -360,6 +396,9 @@ export default {
       searchall,
       statusdata,
       selectstatus,
+      detail,
+      user,
+      headerTextColor: "rgb(156 163 175)",
     };
   },
   methods: {

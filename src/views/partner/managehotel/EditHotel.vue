@@ -126,7 +126,7 @@
             <p>สถานที่ใกล้เคียง:</p>
             <div class="flex gap-2">
               <InputText v-model="nearlocation" class="w-full" />
-              <InputText v-model="distancelocation" class="w-full" />
+              <InputText v-model="distancenearlocation" class="w-full" />
             </div>
           </div>
 
@@ -175,7 +175,6 @@
           <div class="col-12 flex justify-content-end text-center mt-2">
             <Button
               label="แก้ไข"
-              severity="help"
               rounded
               icon="pi pi-file-edit"
               :loading="loading"
@@ -256,7 +255,6 @@ export default {
       provincedropdown,
       amphuredropdown,
       tambondropdown,
-      loading: false,
       sidebar: false,
       name: "",
       description: "",
@@ -278,7 +276,7 @@ export default {
       timebookingstart: "",
       timebookingend: "",
       nearlocation: "",
-      distancelocation: "",
+      distancenearlocation: "",
       selectpartnertype: [
         { label: "เจ้าของปล่อยเช่า", value: "เจ้าของปล่อยเช่า" },
         { label: "ผู้เช่าปล่อยเช่า", value: "ผู้เช่าปล่อยเช่า" },
@@ -350,7 +348,7 @@ export default {
         this.address = response.data?.address;
         this.province = response.data?.province;
         this.nearlocation = response.data?.nearlocation;
-        this.distancelocation = response.data?.distancelocation;
+        this.distancenearlocation = response.data?.distancenearlocation;
         this.selectedDate = [
           new Date(response.data.timebookingstart),
           new Date(response.data.timebookingend),
@@ -411,7 +409,7 @@ export default {
               typehotelbed: typehotelbed,
               typehotelroom: this.inputlevelroom,
               nearlocation: this.nearlocation,
-              distancelocation: this.distancelocation,
+              distancenearlocation: this.distancenearlocation,
               timebookingstart: this.selectedDate[0],
               timebookingend: this.selectedDate[1],
               partnertype: this.partnertype,

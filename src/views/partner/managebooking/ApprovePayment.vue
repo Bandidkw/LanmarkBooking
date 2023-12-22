@@ -122,7 +122,6 @@
             <Button
               @click="showPartnerDetail(data)"
               outlined
-              severity="help "
               icon="pi pi-info-circle"
             />
           </template>
@@ -176,7 +175,7 @@
           />
         </div>
         <div class="col-12 text-center">
-          <p>ภาพ :</p>
+          <p>สลิปการโอนเงิน</p>
           <div v-if="slip_image != [] || slip_image != ''">
             <Image
               :src="getImage(slip_image)"
@@ -188,7 +187,10 @@
           <div v-else>ไม่มีรูปภาพ</div>
         </div>
       </div>
-      <div class="col-12 md:col-12 flex justify-content-center gap-4">
+      <div
+        v-if="isPaymentPending"
+        class="col-12 md:col-12 flex justify-content-center gap-4"
+      >
         <Button
           @click="approvepartner()"
           severity="success"
@@ -237,8 +239,6 @@ export default {
     const loading = ref(true);
 
     const getData = async () => {
-      console.log(DetailPartner, "status dialog before click button ");
-
       try {
         const Response = await axios.get(
           `${process.env.VUE_APP_API}newbooking/payment`,
@@ -248,7 +248,6 @@ export default {
             },
           }
         );
-
         if (Response.data.status === true) {
           loading.value = false;
           const filterbooking_id = Response.data.payment.filter(
@@ -261,8 +260,6 @@ export default {
           );
 
           item_product.value = filterbooking_id.reverse();
-
-          console.log(Response.data.payment);
         } else {
           console.error("Data is missing in the API response.");
         }
@@ -347,8 +344,8 @@ export default {
     };
     const showPartnerDetail = async (data) => {
       DetailPartner.value = true;
-      console.log(data, "datatatata");
       payment_id.value = data._id;
+      item_payment.value = data.payment_status;
       data_id.value = data.booking_id._id;
       membername.value = data.booking_id.member_id.name;
       roomname.value = data.booking_id.room_id.name;
@@ -368,7 +365,6 @@ export default {
         });
       price.value = data.booking_id.price;
       slip_image.value = data.slip_image;
-      //console.log(transformedData[0])
     };
 
     onMounted(() => {
@@ -418,23 +414,42 @@ export default {
     },
   },
   computed: {
+    isPaymentPending() {
+      return this.item_payment === "รอดำเนินการ";
+    },
     Filter() {
-      // if (this.searchall) {
-      //   const searchTerm = this.searchall.toLowerCase();
-      //   return this.item_product.filter((item) => {
-      //     return (
-      //       (item.member_id &&
-      //         item.member_id.name.toLowerCase().includes(searchTerm)) ||
-      //       (item.room_id &&
-      //         item.room_id.name.toLowerCase().includes(searchTerm)) ||
-      //       (item.date_from && item.date_from.includes(searchTerm)) ||
-      //       (item.date_to && item.date_to.includes(searchTerm)) ||
-      //       String(item.price).includes(searchTerm)
-      //     );
-      //   });
-      // } else {
-      return this.item_product;
-      // }
+      if (this.searchall) {
+        const searchTerm = this.searchall.toLowerCase();
+
+        return this.item_product.filter((item) => {
+          const dateFrom = new Date(
+            item.booking_id.date_from
+          ).toLocaleDateString("th-TH", {
+            timeZone: "Asia/Bangkok",
+            day: "numeric",
+            month: "numeric",
+            year: "numeric",
+          });
+          const dateTo = new Date(item.booking_id.date_to).toLocaleDateString(
+            "th-TH",
+            {
+              timeZone: "Asia/Bangkok",
+              day: "numeric",
+              month: "numeric",
+              year: "numeric",
+            }
+          );
+          return (
+            item.booking_id.member_id.name.toLowerCase().includes(searchTerm) ||
+            item.booking_id.room_id.name.toLowerCase().includes(searchTerm) ||
+            dateFrom.includes(searchTerm) ||
+            dateTo.includes(searchTerm) ||
+            String(item.booking_id.price).includes(searchTerm)
+          );
+        });
+      } else {
+        return this.item_product;
+      }
     },
   },
 };

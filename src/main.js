@@ -2,6 +2,10 @@ import jwtDecode from "jwt-decode";
 import PrimeVue from 'primevue/config';
 import { createApp } from 'vue';
 import App from './App.vue';
+// import html2canvas from 'html2canvas';
+
+// store/index.js
+
 
 //import routerAdmin from './router/admin.js'; // นำมาใช้ Router ที่เราสร้าง
 import router from './router/index.js'; // นำมาใช้ Router ที่เราสร้าง
@@ -14,6 +18,7 @@ import InputNumber from 'primevue/inputnumber';
 import InputSwitch from 'primevue/inputswitch';
 import Rating from 'primevue/rating';
 import mitt from 'mitt';
+import html2pdf from "html2pdf.js";
 
 const bus = mitt();
 
@@ -50,6 +55,10 @@ import Galleria from 'primevue/galleria';
 import Checkbox from 'primevue/checkbox';
 import SelectButton from 'primevue/selectbutton';
 import InputMask from 'primevue/inputmask';
+import OverlayPanel from 'primevue/overlaypanel';
+import Badge from "primevue/badge";
+import BadgeDirective from "primevue/badgedirective";
+
 
 
 // Attach EventBus to the app instance
@@ -59,6 +68,8 @@ app.use(PrimeVue);
 app.use(ToastService);
 app.use(ConfirmationService);
 app.use(store);
+
+app.directive("badge", BadgeDirective);
 
 
 try {
@@ -109,6 +120,8 @@ app.component("Image", Image);
 app.component("Galleria", Galleria);
 app.component("Checkbox", Checkbox);
 app.component("InputMask", InputMask);
+app.component('OverlayPanel', OverlayPanel);
+app.component("Badge", Badge);
 
 
 

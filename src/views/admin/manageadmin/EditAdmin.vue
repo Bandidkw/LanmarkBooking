@@ -43,7 +43,6 @@
           <div class="col-12 flex justify-content-end">
             <Button
               label="แก้ไข"
-              severity="help"
               rounded
               icon="pi pi-file-edit"
               :loading="loading"

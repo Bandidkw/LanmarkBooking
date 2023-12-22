@@ -4,11 +4,11 @@
       <div class="px-40 text-center head-info">
         <h1 class="text-2xl">{{ roomdata.name }}</h1>
       </div>
-      <!-- <div class="flex flex-col justify-content-start">
-        <Rating v-model="value" :stars="10" />
-      </div> -->
     </div>
-    <div class="image-box py-2 w-full h-[31.25rem] flex gap-x-2">
+    <div
+      class="image-box py-2 w-full h-[31.25rem] flex gap-x-2"
+      style="position: relative"
+    >
       <div class="w-2/4 large-box">
         <img
           v-if="roomdata && roomdata.image && roomdata.image.length > 0"
@@ -87,6 +87,52 @@
           <p class="text-xl font-semibold">ไม่มีรูปภาพ</p>
         </div>
       </div>
+      <div
+        class="flex items-center justify-center rounded-[15px]"
+        style="
+          padding: 0.3rem;
+          background: white;
+          right: 15px;
+          bottom: 15px;
+          position: absolute;
+        "
+      >
+        <button @click="openImagePopup" class="text-sm font-normal">
+          แสดงรูปทั้งหมด
+        </button>
+      </div>
+
+      <!-- Popup แสดงรูปภาพ -->
+
+      <div
+        v-if="popupVisible"
+        @click="closeModal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100] scroll-auto"
+      >
+        <div
+          class="w-2/4 h-3/4 bg-white py-4 px-4 rounded-lg relative scroll-auto"
+          style="overflow: auto"
+        >
+          <!-- ปุ่มปิด Popup -->
+          <Button
+            @click="closeImagePopup"
+            class="top-1 right-1 absolute rounded-[50%] p-1"
+            style="width: 1.5rem; height: 1.5rem"
+            icon="bi bi-x-circle-fill"
+          />
+
+          <!-- รูปภาพทั้งหมดใน Popup -->
+          <div>
+            <img
+              v-for="(img, index) in roomdata.image"
+              :key="index"
+              :src="getImage(img)"
+              alt="Room Image"
+              class="w-full h-auto mt-2 rounded-lg"
+            />
+          </div>
+        </div>
+      </div>
     </div>
     <div
       class="flex pt-4 px-5 justify-between border h-[850px] rounded-2xl gap-x-8 max-[430px]:flex-col max-[430px]:h-auto max-[414px]:flex-col max-[414px]:h-auto"
@@ -107,12 +153,12 @@
           <!-- รายละเอียดเพิ่มเติม -->
         </div>
         <div
-          class="host-info flex h-24 gap-x-6 py-4 w-full border-b-2 border-[#3b82f6] max-[430px]:justify-between max-[414px]:py-2 max-[414px]:px-4 max-[414px]:justify-between"
+          class="host-info flex h-28 gap-x-6 py-4 w-full border-b-2 border-[#3b82f6] max-[430px]:justify-between max-[414px]:py-2 max-[414px]:px-4 max-[414px]:justify-between"
         >
-          <div class="host-img">
+          <div>
             <img
-              class="w-full h-full rounded-full"
-              src="/images/host-img/person.jpg"
+              class="w-16 h-16 rounded-full object-cover overflow-hidden"
+              :src="getImage(roomdata?.partner_id?.image)"
               alt=""
             />
           </div>
@@ -188,46 +234,81 @@
           </div>
         </div>
       </div>
-      <div
-        class="reserve-box w-1/2 text-center border-2 rounded-2xl h-[350px] shadow-md max-[430px]:w-full max-[430px]:my-4 max-[414px]:w-full max-[414px]:my-4"
-      >
-        <div class="rounded">
-          <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
-            <label
-              class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2"
-              for="grid-first-name"
-            >
-              เลือกวันจอง - วันสิ้นสุดการจอง
-            </label>
-            <Calendar
-              v-model="selectedDate"
-              dateFormat="dd/mm/yy"
-              selectionMode="range"
-              :manualInput="false"
-              :numberOfMonths="2"
-              showIcon
-              class="border p-2 rounded bg-white"
-              :minDate="minSelectableDate"
-              :disabled-dates="disabledDates"
-            />
+      <div class="w-1/2 flex flex-col gap-y-16">
+        <div
+          class="reserve-box w-full text-center border-2 rounded-2xl h-[350px] shadow-md max-[430px]:w-full max-[430px]:my-4 max-[414px]:w-full max-[414px]:my-4"
+        >
+          <div class="rounded">
+            <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2"
+                for="grid-first-name"
+              >
+                เลือกวันจอง - วันสิ้นสุดการจอง
+              </label>
+              <Calendar
+                v-model="selectedDate"
+                dateFormat="dd/mm/yy"
+                selectionMode="range"
+                :manualInput="false"
+                :numberOfMonths="2"
+                showIcon
+                class="border p-2 rounded bg-white"
+                :minDate="minSelectableDate"
+                :disabled-dates="disabledDates"
+              >
+                <template #date="slotProps">
+                  <strong
+                    v-if="isDateInCombinedRange(slotProps.date)"
+                    style="text-decoration: line-through; color: red"
+                  >
+                    {{ slotProps.date.day }}
+                  </strong>
+                </template>
+              </Calendar>
+            </div>
+            <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2"
+                for="grid-first-name"
+              >
+                ราคา : {{ price.toLocaleString() }} บาท
+              </label>
+            </div>
+            <div class="mx-auto w-60 my-3 booking-box">
+              <Button
+                @click="visible = true"
+                class="booking-btn px-4 py-2 rounded-xl bg-blue-500 text-white text-center hover:bg-blue-700 rounded w-full"
+                type="button"
+                :disabled="!selectedDate"
+                label="จอง"
+              />
+            </div>
           </div>
-          <div class="w-full md:w-1/2 mb-6 md:mb-0 mt-3">
-            <label
-              class="block uppercase tracking-wide text-gray-700 text-base font-bold mb-2"
-              for="grid-first-name"
-            >
-              ราคา : {{ price.toLocaleString() }} บาท
-            </label>
-          </div>
-          <div class="mx-auto w-60 my-3 booking-box">
-            <Button
-              @click="visible = true"
-              class="booking-btn px-4 py-2 rounded-xl bg-blue-500 text-white text-center hover:bg-blue-700 rounded w-full"
-              type="button"
-              :disabled="!selectedDate"
-              label="จอง"
-            />
-          </div>
+        </div>
+        <div
+          class="card reserve-box w-full border-2 rounded-2xl h-[350px] shadow-md max-[430px]:w-full max-[430px]:my-4 max-[414px]:w-full max-[414px]:my-4 overflow-y-scroll"
+        >
+          <Card>
+            <template #title> Mockup Review </template>
+            <template #content>
+              <div
+                v-for="(item, index) in review"
+                :key="index"
+                class="review-item border-b pb-4 mb-4"
+              >
+                <div class="flex items-center mb-2">
+                  <span v-for="i in item.star" :key="i" class="text-yellow-500"
+                    >&#9733;</span
+                  >
+                </div>
+                <div>
+                  <p class="font-bold">{{ item.name }}</p>
+                  <p class="text-gray-600">{{ item.description }}</p>
+                </div>
+              </div>
+            </template>
+          </Card>
         </div>
       </div>
       <Dialog
@@ -295,6 +376,7 @@ import axios from "axios";
 import Rating from "primevue/rating";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
+import { User } from "../../service/user";
 
 export default {
   components: {
@@ -302,6 +384,7 @@ export default {
   },
   props: ["id"],
   data() {
+    const user = new User();
     const roomdata = ref([]);
     const imageQrCode = ref([]);
     const visible = ref(false);
@@ -309,7 +392,18 @@ export default {
     const credit = ref(false);
     const qrcode = ref(false);
     const room_id = this.$route.params.id;
+    const review = ref([
+      { star: 0, name: "John Doe", description: "Bad experience!" },
+      { star: 2, name: "John Doe", description: "Bad experience!" },
+      { star: 5, name: "John Doe", description: "Bad experience!" },
+      { star: 6, name: "John Doe", description: "Bad experience!" },
+      { star: 9, name: "John Doe", description: "Bad experience!" },
+      { star: 10, name: "John Doe", description: "Bad experience!" },
+      { star: 7, name: "John Doe", description: "Bad experience!" },
+      { star: 3, name: "John Doe", description: "Bad experience!" },
+    ]);
 
+    // ฟังก์ชันสำหรับดึงข้อมูลห้องพัก
     const getroom = async (_id) => {
       try {
         const id = this.$route.params.id;
@@ -318,25 +412,81 @@ export default {
         );
         this.roomdata = response.data;
         this.imageQrCode = response.data.partner_id.image_bank;
-
-        // ตรวจสอบค่า rating และตั้งค่าให้กับ value
+        this.allImages = response.data.image.map((img) => {
+          return `https://drive.google.com/uc?export=view&id=${img}`;
+        });
         if (this.roomdata.rating) {
           this.value = this.roomdata.rating;
         }
-
         this.price = this.roomdata.price;
       } catch (error) {
         console.error("Error fetching room data:", error);
-        // จัดการข้อผิดพลาด, เช่นแสดงข้อความสำหรับผู้ใช้
       }
     };
+
+    const combinedDates = ref([]);
+
+    const isDateInCombinedRange = (date) => {
+      const currentDate = new Date(date.year, date.month, date.day);
+      for (const combinedDateRange of combinedDates.value) {
+        const [startDate, endDate] = combinedDateRange.split(" - ");
+        const startDateObj = new Date(startDate);
+        const endDateObj = new Date(endDate);
+
+        if (currentDate >= startDateObj && currentDate <= endDateObj) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    const validateDate = async () => {
+      try {
+        const id = this.$route.params.id;
+        const result = await user.GetBooking();
+        const matchingBookings = result.data.filter(
+          (item) => item.room_id && item.room_id._id === id
+        );
+
+        if (matchingBookings.length > 0) {
+          const Dates = matchingBookings.map((booking) => {
+            const dateFrom = new Date(booking.date_from);
+            const dateTo = new Date(booking.date_to);
+
+            return `${
+              dateFrom.getMonth() + 1
+            }/${dateFrom.getDate()}/${dateFrom.getFullYear()} - ${
+              dateTo.getMonth() + 1
+            }/${dateTo.getDate()}/${dateTo.getFullYear()}`;
+          });
+
+          combinedDates.value = Dates;
+        } else {
+          console.log("No bookings found for room_id:", id);
+        }
+      } catch (error) {
+        console.error("Error validating date:", error);
+      }
+    };
+
+    // const getReview = async (_id) => {
+    //   try {
+    //     const res = await axios.get(
+    //       `${process.env.VUE_APP_API}review/byid/${_id}`
+    //     );
+    //     this.review = res.data;
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
 
     const addbooking = async () => {
       try {
         if (localStorage.getItem("token") != null) {
-          // if (this.selectedDate != "") {
-
+          console.log("วันที่เริ่มจอง:", this.selectedDate[0]);
+          console.log("จองถึงวันที่:", this.selectedDate[1]);
           if (this.credit === true) {
+            // ทำการจองพร้อมการชำระเงิน
             const response = await axios.post(
               `${process.env.VUE_APP_API}newbooking/bookingandpayment/`,
               {
@@ -351,9 +501,7 @@ export default {
                 },
               }
             );
-            // if (response.data.status === true) {
             if (response) {
-              console.log(response, "res test");
               Swal.fire({
                 icon: "success",
                 title: "จองสำเร็จ",
@@ -361,6 +509,7 @@ export default {
               });
               await this.$router.push("/bookingmember");
             } else {
+              // แสดงข้อความผิดพลาด
               await Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด",
@@ -368,6 +517,7 @@ export default {
               });
             }
           } else {
+            // ทำการจองโดยปกติ
             const response = await axios.post(
               `${process.env.VUE_APP_API}newbooking/`,
               {
@@ -383,7 +533,6 @@ export default {
               }
             );
             if (response.data.status === true) {
-              console.log(response, "response test");
               Swal.fire({
                 icon: "success",
                 title: "จองสำเร็จ",
@@ -391,6 +540,7 @@ export default {
               });
               await this.$router.push("/bookingmember");
             } else {
+              // แสดงข้อความผิดพลาด
               await Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด",
@@ -399,6 +549,7 @@ export default {
             }
           }
         } else {
+          // แสดงข้อความให้ผู้ใช้ล็อคอินก่อนจอง
           await Swal.fire({
             icon: "error",
             title: "กรุณาล็อคอิน",
@@ -406,6 +557,7 @@ export default {
           });
         }
       } catch (error) {
+        // แสดงข้อความผิดพลาด
         await Swal.fire({
           icon: "error",
           title: "เกิดข้อผิดพลาด",
@@ -413,32 +565,39 @@ export default {
         });
       }
     };
+
+    // เมื่อ Component ถูกติดตั้ง ให้ดึงข้อมูลห้องและรีวิว
     onMounted(() => {
       getroom();
-      // this.isLoggedIn = checkLoginStatus();
+      // getReview();
+      validateDate();
     });
+
+    // คืนค่าข้อมูลที่จะถูกใช้ใน Template
     return {
+      allImages: [],
       value,
       room_id,
       selectedDate: "",
       roomdata,
       price: "0",
       minSelectableDate: new Date(),
-      //โค้ดปิดวัน
       disabledDates: [new Date(2023, 10, 29), new Date(2023, 10, 30)],
       visible,
       credit,
       qrcode,
       addbooking,
       imageQrCode,
-      // isLoggedIn: false,
+      review,
+      combinedDates,
+      isDateInCombinedRange,
+      popupVisible: false,
+      popupImage: null,
     };
   },
-
   watch: {
     selectedDate: {
       handler(date) {
-        console.log("ใช้");
         if (this.selectedDate[0]) {
           this.price = this.roomdata.price;
         }
@@ -453,7 +612,26 @@ export default {
       },
     },
   },
+
   methods: {
+    closeModal(event) {
+      if (event.target.classList.contains("bg-black")) {
+        this.closeImagePopup();
+      }
+    },
+
+    openImagePopup() {
+  console.log("Show all images:", this.roomdata.image);
+  // เปิด Popup แสดงรูปภาพ
+  this.popupVisible = true;
+  // กำหนดรูปภาพที่จะแสดงใน Popup
+  this.popupImage = this.allImages;
+  console.log(this.popupImage, "test image");
+},
+    closeImagePopup() {
+      this.popupVisible = false;
+      this.popupImage = null;
+    },
     handleCheckboxChange(checkboxName) {
       if (checkboxName === "credit" && this.qrcode) {
         this.qrcode = false;
@@ -461,7 +639,6 @@ export default {
         this.credit = false;
       }
     },
-
     chooseImg(event) {
       this.imagePreview = event.files[0].objectURL;
       this.SlipImage = event.files[0];
@@ -482,9 +659,6 @@ export default {
         year: "numeric",
         month: "long",
         day: "numeric",
-        // hour: "numeric",
-        // minute: "numeric",
-        // second: "numeric",
       };
       const formattedDate = new Date(dateString).toLocaleDateString(
         "th-TH",
@@ -493,6 +667,7 @@ export default {
       return formattedDate;
     },
   },
+  // Computed properties ที่ใช้คำนวณค่าเฉลี่ยของรีวิวและสถานะปุ่ม
   computed: {
     averageRating() {
       if (this.value && this.value.length > 0) {
@@ -500,7 +675,7 @@ export default {
         const average = sum / this.value.length;
         return average.toFixed(1);
       } else {
-        return "N/A";
+        return "ยังไม่มีคะแนน";
       }
     },
     isButtonDisabled() {
@@ -524,7 +699,6 @@ export default {
 .img-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  /* grid-template-rows: repeat(1, 500px); */
 }
 
 .img-grid img {

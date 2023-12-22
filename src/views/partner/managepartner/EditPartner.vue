@@ -7,7 +7,36 @@
     </div>
     <div class="grid">
       <div class="col-12 md:col-12">
-        <form class="">
+        <form>
+          <div class="col-12">
+            <p>รูปโปรไฟล์ :</p>
+            <div class="text-center">
+              <img
+                v-if="image_profile && newimage_profile === ''"
+                :src="getImage(image_profile)"
+                alt="ID Card"
+                class="image-preview"
+              />
+              <img
+                v-if="newimage_profilepreview"
+                :src="newimage_profilepreview"
+                alt="ID Card"
+                class="image-preview"
+              />
+              <FileUpload
+                mode="basic"
+                name="demo[]"
+                id="imageprofileinput"
+                ref="imageprofileinput"
+                type="file"
+                accept="image/*"
+                customUpload
+                @change="handleFileChange('profile')"
+                chooseLabel="เปลี่ยนรูป"
+                class="mt-3"
+              />
+            </div>
+          </div>
           <div class="col-12">
             <p>เบอร์โทรศัพท์ :</p>
             <InputText
@@ -24,6 +53,15 @@
               v-model="name"
               name="name"
               placeholder="กรุณากรอกชื่อ"
+              class="w-full"
+            />
+          </div>
+          <div class="col-12">
+            <p>นามสกุล :</p>
+            <InputText
+              v-model="lastname"
+              name="lastname"
+              placeholder="กรุณากรอกนาสกุล"
               class="w-full"
             />
           </div>
@@ -95,7 +133,7 @@
                 type="file"
                 accept="image/*"
                 customUpload
-                @change="handleFileChange('image_bank')"
+                @change="handleFileChange('idcard')"
                 chooseLabel="เปลี่ยนรูป"
                 class="mt-3"
               />
@@ -128,7 +166,7 @@
                 type="file"
                 accept="image/*"
                 customUpload
-                @change="handleFileChangebank('image_bank')"
+                @change="handleFileChange('bank')"
                 chooseLabel="เปลี่ยนรูป"
                 class="mt-3"
               />
@@ -163,7 +201,6 @@
             <div class="col-12 text-center flex justify-content-end mt-2">
               <Button
                 label="แก้ไข"
-                severity="help"
                 rounded
                 icon="pi pi-file-edit"
                 :loading="loading"
@@ -224,14 +261,17 @@ export default {
           this._id = partnerData._id;
           this.telephone = partnerData.telephone;
           this.name = partnerData.name;
+          this.lastname = partnerData.lastname;
           this.idcard = partnerData.idcard;
           this.address = partnerData.address;
           this.image_card = partnerData.image_idcard;
           this.image_bank = partnerData.image_bank;
+          this.image_profile = partnerData.image;
           this.province = partnerData.province;
           this.email = partnerData.email;
           this.bank = partnerData.bank;
           this.numberbank = partnerData.numberbank;
+
           const getamphure = await this.getamphure("amphure");
           if (getamphure === true) {
             console.log(this.amphuredropdown);
@@ -260,20 +300,25 @@ export default {
       telephone: "",
       password: "",
       name: "",
+      lastname: "",
       address: "",
       province: "",
       tambon: "",
       amphure: "",
       idcard: "",
-      image_card: "",
       email: "",
       bank: "",
       numberbank: "",
+      image_card: "",
       newimageid_card: "",
       newimageid_cardpreview: "",
       image_bank: "",
       newimage_bank: "",
       newimage_bankpreview: "",
+      image_profile: "",
+      newimage_profile: "",
+      newimage_profilepreview: "",
+
       banks: [
         { value: "กรุงเทพ", label: "กรุงเทพ" },
         { value: "กสิกร", label: "กสิกร" },
@@ -300,7 +345,7 @@ export default {
           this.loading = true;
           const id = this._id;
           let changeimage_bank = false;
-          if (this.newimageid_card != "" && this.image_card != []) {
+          if (this.newimageid_card != "" && this.image_card != "") {
             const res = await axios.delete(
               `${process.env.VUE_APP_API}partner/${id}/picture/${this.image_card}`
             );
@@ -315,6 +360,7 @@ export default {
               telephone: this.telephone,
               password: this.password,
               name: this.name,
+              lastname: this.lastname,
               idcard: this.idcard,
               address: this.address,
               tambon: this.tambon,
@@ -333,7 +379,11 @@ export default {
             }
           );
           if (res.data.status === true) {
-            if (this.newimageid_card != "" || this.newimage_bank != "") {
+            if (
+              this.newimageid_card != "" ||
+              this.newimage_bank != "" ||
+              this.newimage_profile != ""
+            ) {
               await this.uploadPicture(id);
             }
             this.loading = false;
@@ -407,25 +457,27 @@ export default {
     },
 
     handleFileChange(fieldName) {
-      const input =
-        fieldName === "filepic"
-          ? this.$refs.fileinput
-          : this.$refs.imageidcardinput;
+      const inputRef =
+        this.$refs[
+          fieldName === "filepic" ? "fileinput" : "image" + fieldName + "input"
+        ];
 
-      if (input.files && input.files.length > 0) {
-        this.newimageid_card = input.files[0];
-        this.newimageid_cardpreview = input.files[0].objectURL;
-      }
-    },
-    handleFileChangebank(fieldName) {
-      const input =
-        fieldName === "filepic2"
-          ? this.$refs.fileinput
-          : this.$refs.imagebankinput;
-
-      if (input.files && input.files.length > 0) {
-        this.newimage_bank = input.files[0];
-        this.newimage_bankpreview = input.files[0].objectURL;
+      if (inputRef.files && inputRef.files.length > 0) {
+        switch (fieldName) {
+          case "idcard":
+            this.newimageid_card = inputRef.files[0];
+            this.newimageid_cardpreview = inputRef.files[0].objectURL;
+            break;
+          case "profile":
+            this.newimage_profile = inputRef.files[0];
+            this.newimage_profilepreview = inputRef.files[0].objectURL;
+            break;
+          case "bank":
+            this.newimage_bank = inputRef.files[0];
+            this.newimage_bankpreview = inputRef.files[0].objectURL;
+            break;
+          // Add more cases if needed
+        }
       }
     },
     //// uploadfile picture
@@ -452,7 +504,20 @@ export default {
             formDataImageBank
           );
           if (res.data.status === true) {
-            console.log("อัพโหลดรูปบัตรประชาชนสำเร็จ");
+            console.log("อัพโหลดรูปบัญชีธนาคารสำเร็จ");
+          } else {
+            console.log("error");
+          }
+        }
+        if (this.newimage_profile != "") {
+          const formDataImageProfile = new FormData();
+          formDataImageProfile.append("img", this.newimage_profile);
+          const res = await axios.post(
+            `${process.env.VUE_APP_API}partner/image/${_id}`,
+            formDataImageProfile
+          );
+          if (res.data.status === true) {
+            console.log("อัพโหลดรูปโปรไฟล์สำเร็จ");
           } else {
             console.log("error");
           }
@@ -466,6 +531,11 @@ export default {
 </script>
 <style scoped>
 @media (max-width: 640px) {
+  .image-preview {
+    width: 100%;
+  }
+}
+@media (min-width: 640px) {
   .image-preview {
     width: 100%;
   }
