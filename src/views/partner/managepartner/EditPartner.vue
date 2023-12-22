@@ -57,6 +57,15 @@
             />
           </div>
           <div class="col-12">
+            <p>นามสกุล :</p>
+            <InputText
+              v-model="lastname"
+              name="lastname"
+              placeholder="กรุณากรอกนาสกุล"
+              class="w-full"
+            />
+          </div>
+          <div class="col-12">
             <p>ที่อยู่ :</p>
             <InputText v-model="address" name="address" class="w-full" />
           </div>
@@ -252,6 +261,7 @@ export default {
           this._id = partnerData._id;
           this.telephone = partnerData.telephone;
           this.name = partnerData.name;
+          this.lastname = partnerData.lastname;
           this.idcard = partnerData.idcard;
           this.address = partnerData.address;
           this.image_card = partnerData.image_idcard;
@@ -290,6 +300,7 @@ export default {
       telephone: "",
       password: "",
       name: "",
+      lastname: "",
       address: "",
       province: "",
       tambon: "",
@@ -349,6 +360,7 @@ export default {
               telephone: this.telephone,
               password: this.password,
               name: this.name,
+              lastname: this.lastname,
               idcard: this.idcard,
               address: this.address,
               tambon: this.tambon,

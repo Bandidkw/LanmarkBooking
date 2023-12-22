@@ -157,11 +157,11 @@
             <InputText
               class="input-form"
               type="text"
-              v-model="partner.lname"
-              @input="validateField('lname', 'partner')"
+              v-model="partner.lastname"
+              @input="validateField('lastname', 'partner')"
               placeholder="กรอกนามสกุล"
             />
-            <span class="error-message">{{ errors.lname }}</span>
+            <span class="error-message">{{ errors.lastname }}</span>
           </div>
         </div>
 
@@ -431,7 +431,7 @@ export default {
       },
       partner: {
         name: "",
-        lname: "",
+        lastname: "",
         phone: "",
         idcard: "",
         filepic: null,
@@ -591,7 +591,7 @@ export default {
               telephone: this.partner.phone,
               password: this.partner.password,
               name: this.partner.name,
-              lname: this.partner.lname,
+              lastname: this.partner.lastname,
               idcard: this.partner.idcard,
               address: this.partner.address,
               tambon: this.partner.tambon,
@@ -688,7 +688,7 @@ export default {
     async validatePartnerForm() {
       const PartnerSchema = yup.object({
         name: yup.string().required("* กรุณากรอกชื่อ"),
-        lname: yup.string().required("* กรุณากรอกนามสกุล"),
+        lastname: yup.string().required("* กรุณากรอกนามสกุล"),
         phone: yup
           .string()
           .required("* กรุณากรอกเบอร์โทรศัพท์")
@@ -758,7 +758,7 @@ export default {
       };
       this.partner = {
         name: "",
-        lname: "",
+        lastname: "",
         phone: "",
         idcard: "",
         filepic: null,
