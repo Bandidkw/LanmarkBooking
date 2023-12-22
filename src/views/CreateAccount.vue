@@ -1,8 +1,9 @@
 <template>
   <div class="center-container">
     <div class="grid-cols-1">
-      <div class="register-text">
-        <h1>ยินดีต้อนรับ</h1>
+      <div class="register-text flex items-center justify-center" style="flex-direction: column;">
+        <h1 class="m-0 p-0 text-center">ร่วมงานกับเรา</h1>
+        <h1 class="m-0 p-0 text-center">lanmark.online</h1>
       </div>
       <div class="button_selection">
         <Button
@@ -801,7 +802,7 @@ export default {
 
 <style scoped>
 .center-container {
-  background-image: url("/public/images/hotel-room/register2.png");
+  background-image: url("/public/images/hotel-room/register3.jpg");
   display: flex;
   width: 100%;
   background-size: cover;

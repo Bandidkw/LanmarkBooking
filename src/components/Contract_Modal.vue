@@ -173,14 +173,13 @@ export default {
   methods: {
     
     async handleDownload() {
-      // รับ Event และดำเนินการดาวน์โหลดสัญญา
       const content = this.$refs.content;
       const canvas = await html2canvas(content);
-      const pdf = canvas.toDataURL("image/pdf");
+      const pdf = canvas.toDataURL("image/png");
 
       const link = document.createElement("a");
       link.href = pdf;
-      link.download = "ContractPartner.pdf";
+      link.download = "ContractPartner.png";
       link.click();
     },
     async getcontract() {
