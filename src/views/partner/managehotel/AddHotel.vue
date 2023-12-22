@@ -550,17 +550,7 @@ export default {
     handleFileChange(event) {
       const input = this.$refs.fileinput;
       const selectedFiles = Array.from(input.files);
-      if (selectedFiles.length > 5 || this.image.length > 16) {
-        this.clearFileInput();
-        this.image = selectedFiles;
-      } else {
-        this.image = this.image.concat(selectedFiles);
-      }
-    },
-
-    clearFileInput() {
-      this.$refs.fileinput.clear();
-      this.image = [];
+      this.image = selectedFiles;
     },
 
     async addRoom() {

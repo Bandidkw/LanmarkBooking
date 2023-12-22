@@ -171,10 +171,14 @@ export default {
     },
 
     getPreloadedImages(item) {
-  return item.image.slice(0, 5).map(
-    (imageId) => `https://drive.google.com/uc?export=view&id=${imageId}`
-  );
-},
+      return (
+        item.image
+          // .slice(0, 5)
+          .map(
+            (imageId) => `https://drive.google.com/uc?export=view&id=${imageId}`
+          )
+      );
+    },
 
     getImage(item) {
       if (typeof item === "string") {
