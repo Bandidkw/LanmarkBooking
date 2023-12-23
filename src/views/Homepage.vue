@@ -2,7 +2,7 @@
 <template>
   <div class="invitatain lg:py-0 lg:px-2 sm:px-1">
     <!------------------------------- choose-room ------------------------>
-    <div class="choose-room">
+    <div class="choose-room px-4">
       <div class="overflow-x-auto hide-scrollbar flex gap-4">
         <div class="room" @click="emitOption('')">
           <img
@@ -96,104 +96,106 @@
             src="https://www.svgrepo.com/show/429803/guide-human.svg"
             alt=""
           />
-          <a class="font-type">เพื่อนนำเที่ยว (ไกด์)</a>
+          <a class="font-type">เพื่อนนำเที่ยว</a>
         </div>
       </div>
+      <!----------------------------------------- Button-box ------------------------------->
+      <div class="flex gap-2">
+        <Button
+          class="filter"
+          outlined
+          label="รูมเมท"
+          icon="bi bi-person-arms-up icon"
+        />
+        <Button
+          icon="bi bi-droplet-half"
+          class="filter"
+          label="แม่บ้าน"
+          outlined
+        />
+        <Button
+          icon="bi bi-filter-circle"
+          class="filter"
+          label="ตัวกรอง"
+          outlined
+          @click="showFilter"
+        />
+      </div>
+      <!----------------------------------------- Button-box ------------------------------->
+
       <!----------------------------------------- Filter-box ------------------------------->
-      <div class="filter cursor-pointer" @click="showFilter">
-        <div class="filter-btn">
-          <img
-            style="width: 1.6rem"
-            src="https://www.svgrepo.com/show/365734/sliders-thin.svg"
-            alt=""
+      <Dialog
+        v-model:visible="isFilterVisible"
+        modal
+        header="ประเภทที่พัก"
+        :style="{ width: '50rem' }"
+        :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
+      >
+        <label class="py-2" for="category">ประเภท</label>
+        <div class="card flex justify-content-start">
+          <Dropdown
+            v-model="selectedType"
+            showClear
+            :options="roomtype"
+            optionLabel="name"
+            placeholder="เลือกประเภท"
+            class="w-full"
           />
-          <span>ตัวกรอง</span>
         </div>
+
+        <!-- ช่องเลือกราคา -->
+        <label class="py-2" for="price">ช่วงราคา</label>
+        <div class="card flex justify-content-start">
+          <Dropdown
+            v-model="selectedPriceRange"
+            showClear
+            :options="pricerange"
+            optionLabel="name"
+            placeholder="เลือกช่วงราคา"
+            class="w-full"
+          />
+        </div>
+
+        <label class="py-2" for="bed">ประเภทเตียง</label>
+        <div class="card flex justify-content-start">
+          <Dropdown
+            v-model="selectedBed"
+            showClear
+            :options="bedtype"
+            optionLabel="name"
+            placeholder="เลือกประเภทเตียง"
+            class="w-full"
+          />
+          <!-- <div>{{ selectedBed }}</div> -->
+        </div>
+        <!-- ช่องเลือกจำนวน -->
+        <label class="py-2" for="quantity">จำนวนเข้าพัก</label>
+        <div class="card w-full flex justify-content-between">
+          <Dropdown
+            v-model="selectedNumber"
+            showClear
+            :options="numberValue"
+            optionLabel="name"
+            placeholder="เลือกจำนวนเข้าพัก"
+            class="w-full"
+          />
+        </div>
+        <label class="py-2" for="quantity">ประเภทผู้ให้เช่า</label>
         <div
-          class="filter-popup"
-          v-if="isFilterVisible"
-          :class="{ open: isFilterVisible }"
-          @click.stop
+          class="card w-full flex justify-content-between mb-4"
+          style="flex-direction: column; width: 100%"
         >
-          <div class="top-filter">
-            <div>
-              <h2>ประเภทที่พัก</h2>
-            </div>
-            <Button
-              @click="closeFilter"
-              icon="pi pi-times"
-              severity="secondary"
-              text
-              rounded
-              aria-label="Cancel"
-            />
-          </div>
-          <label class="py-2" for="category">ประเภท</label>
-          <div class="card flex justify-content-start">
-            <Dropdown
-              v-model="selectedType"
-              showClear
-              :options="roomtype"
-              optionLabel="name"
-              placeholder="เลือกประเภท"
-              class="w-full"
-            />
-          </div>
-
-          <!-- ช่องเลือกราคา -->
-          <label class="py-2" for="price">ช่วงราคา</label>
-          <div class="card flex justify-content-start">
-            <Dropdown
-              v-model="selectedPriceRange"
-              showClear
-              :options="pricerange"
-              optionLabel="name"
-              placeholder="เลือกช่วงราคา"
-              class="w-full"
-            />
-          </div>
-
-          <label class="py-2" for="bed">ประเภทเตียง</label>
-          <div class="card flex justify-content-start">
-            <Dropdown
-              v-model="selectedBed"
-              showClear
-              :options="bedtype"
-              optionLabel="name"
-              placeholder="เลือกประเภทเตียง"
-              class="w-full"
-            />
-            <!-- <div>{{ selectedBed }}</div> -->
-          </div>
-          <!-- ช่องเลือกจำนวน -->
-          <label class="py-2" for="quantity">จำนวนเข้าพัก</label>
-          <div class="card w-full flex justify-content-between">
-            <Dropdown
-              v-model="selectedNumber"
-              showClear
-              :options="numberValue"
-              optionLabel="name"
-              placeholder="เลือกจำนวนเข้าพัก"
-              class="w-full"
-            />
-          </div>
-          <label class="py-2" for="quantity">ประเภทผู้ให้เช่า</label>
-          <div
-            class="card w-full flex justify-content-between mb-4"
-            style="flex-direction: column; width: 100%"
-          >
-            <Dropdown
-              v-model="selectedTypelessor"
-              showClear
-              :options="typelessor"
-              optionLabel="name"
-              placeholder="เลือกประเภทผู้ให้เช่า"
-              class="w-full"
-            />
-          </div>
-          <Button @click="filterData" label="ค้นหา" severity="secondary" />
+          <Dropdown
+            v-model="selectedTypelessor"
+            showClear
+            :options="typelessor"
+            optionLabel="name"
+            placeholder="เลือกประเภทผู้ให้เช่า"
+            class="w-full"
+          />
         </div>
-      </div>
+        <Button @click="filterData" label="ค้นหา" severity="secondary" />
+      </Dialog>
     </div>
 
     <!-------------------------- popular-section --------------------------->
@@ -283,22 +285,8 @@ export default {
   methods: {
     showFilter() {
       this.isFilterVisible = true;
-
-      document.body.classList.add("filter-popup-open");
     },
-    closeFilter() {
-      this.isFilterVisible = false;
 
-      document.body.classList.remove("filter-popup-open");
-
-      this.selectedType = "";
-      this.selectedCategory = "";
-      this.selectedPriceRange = "";
-      this.selectedQuantity = "";
-      this.selectedBedtype = "";
-      this.selectedTypelessor = "";
-      this.value = "";
-    },
     createaccount() {
       if (this.selectedType) {
         console.log("Selected type:", this.selectedType);
@@ -437,17 +425,13 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.room i {
-  font-size: 1.6rem;
-}
-.room img {
-  width: 1.6rem;
-}
-.room {
   position: relative;
   color: #000;
   text-decoration: none;
+}
+
+.room img {
+  width: 1.4rem;
 }
 
 .room:hover {
@@ -471,84 +455,19 @@ export default {
 .room:hover::before {
   transform: scaleX(1);
 }
-.room i,
-a,
-img {
-  color: #494949;
-  transition: all 0.2s ease-in-out;
-}
+
 .room a {
+  font-size: 12px;
   padding-bottom: 0.5rem;
 }
 .filter {
-  cursor: default;
-  border: #494949 1px solid;
-  padding: 8px;
-  border-radius: 0.5rem;
-  column-gap: 5px;
   color: #494949;
-  display: none;
-  transition: all 0.2s ease-in-out;
-}
-
-.filter a,
-i {
-  font-size: 1rem;
-  color: #252525;
-}
-
-/*-------------------------------- filter-popup ----------------------*/
-
-.filter-btn {
   display: flex;
-  column-gap: 0.3rem;
-  cursor: pointer;
+  height: 50px;
+  width: 110px;
+  font-size: 14px;
 }
-.filter-popup {
-  display: flex;
-  flex-direction: column;
-  z-index: 9999;
-  position: fixed;
-  width: 40%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  transition: transform 0.5s ease-in-out;
-  transform-origin: bottom;
-}
-.filter-popup.open {
-  transform: translate(-50%, -50%);
-}
-.filter-popup button {
-  cursor: pointer;
-}
-
-.top-filter {
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 /*---------------------------- popular-style ----------------------*/
-.poppular-box {
-  position: relative;
-  z-index: 0;
-}
-
-.poppular-box h3 {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-.poppular-info {
-  align-items: center;
-  column-gap: 0.5rem;
-  display: flex;
-}
 
 .content {
   width: 100%;
@@ -669,9 +588,6 @@ p {
   }
   .room {
     display: none;
-  }
-  .filter-popup {
-    width: 300px;
   }
 }
 </style>
