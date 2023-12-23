@@ -487,7 +487,7 @@ img {
   border-radius: 0.5rem;
   column-gap: 5px;
   color: #494949;
-  display: flex;
+  display: none;
   transition: all 0.2s ease-in-out;
 }
 

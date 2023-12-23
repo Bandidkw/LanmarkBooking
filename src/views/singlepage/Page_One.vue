@@ -12,7 +12,7 @@
       <div class="w-2/4 large-box">
         <img
           v-if="roomdata && roomdata.image && roomdata.image.length > 0"
-          class="w-full h-full rounded-s-2xl"
+          class="w-full rounded-s-2xl"
           :src="getImage(roomdata.image)"
           alt="Large Image"
         />
@@ -710,7 +710,9 @@ export default {
 .small-box {
   display: grid;
 }
-
+.large-box img{
+  height: 100%;
+}
 .small-images {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -798,6 +800,7 @@ export default {
   }
 
   .large-box img {
+    height: 250px;
     border-radius: 0;
     margin: 0;
     padding: 0;
