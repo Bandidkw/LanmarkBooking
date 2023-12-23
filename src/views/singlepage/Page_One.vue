@@ -88,7 +88,7 @@
         </div>
       </div>
       <div
-        class="flex items-center justify-center rounded-[15px]"
+        class="flex items-center justify-center rounded-[10px] gap-x-1 p-2"
         style="
           padding: 0.3rem;
           background: white;
@@ -97,6 +97,7 @@
           position: absolute;
         "
       >
+      <i class="pi pi-clone"></i>
         <button @click="openImagePopup" class="text-sm font-normal">
           แสดงรูปทั้งหมด
         </button>

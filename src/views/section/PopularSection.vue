@@ -84,6 +84,7 @@ export default {
     filterValue: String,
   },
   data() {
+    const touchStartX = ref(0);
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -110,6 +111,14 @@ export default {
     onMounted(() => {
       getroom();
       this.$bus.on("search-hotels", this.handleSearchHotels);
+      this.$nextTick(() => {
+      const galleryItems = document.querySelectorAll(".p-galleria-item");
+
+      galleryItems.forEach((item, index) => {
+        item.addEventListener("touchstart", (event) => this.handleTouchStart(event, this.filteredGridData[index]));
+        item.addEventListener("touchmove", (event) => this.handleTouchMove(event, this.filteredGridData[index]));
+      });
+    });
     });
     const next = (item) => {
       item.activeIndex = (item.activeIndex + 1) % item.image.length;
@@ -122,6 +131,7 @@ export default {
     };
 
     return {
+      touchStartX,
       displayBasic,
       gridData,
       position,
@@ -134,6 +144,26 @@ export default {
     };
   },
   methods: {
+    handleTouchStart(event, item) {
+    // เก็บตำแหน่งสัมผัสเริ่มต้น
+    this.touchStartX = event.touches[0].clientX;
+  },
+  handleTouchMove(event, item) {
+    // คำนวณระยะทางแนวนอนที่เคลื่อนไหว
+    const touchEndX = event.touches[0].clientX;
+    const deltaX = touchEndX - this.touchStartX;
+
+    // ตั้งค่าค่าย่านสำหรับระยะทางขั้นต่ำเพื่อกระตุ้นการนำทาง
+    const threshold = 50;
+
+    if (deltaX > threshold) {
+      this.prev(item);
+      this.isRightArrowClicked = false;
+    } else if (deltaX < -threshold) {
+      this.next(item);
+      this.isRightArrowClicked = false;
+    }
+  },
     changeFill(index) {
       // ค้นหาองค์ประกอบ SVG ด้วย ID
       const svgElement = document.getElementById(`your-svg-id-${index}`);
@@ -370,8 +400,8 @@ export default {
   .grid-container {
     grid-template-columns: repeat(1, 1fr);
   }
-
   .p-galleria-item {
+    touch-action: pan-x;
     width: 100%;
     justify-content: center;
   }

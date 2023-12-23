@@ -2,8 +2,8 @@
   <div class="center-container">
     <div class="grid-cols-1">
       <div class="register-text flex items-center justify-center" style="flex-direction: column;">
-        <h1 class="m-0 p-0 text-center">ร่วมงานกับเรา</h1>
-        <h1 class="m-0 p-0 text-center">lanmark.online</h1>
+        <h1 class="text-center">ร่วมงานกับเรา</h1>
+        <h1 class="text-center">lanmark.online</h1>
       </div>
       <div class="button_selection">
         <Button
@@ -857,6 +857,8 @@ input {
 }
 
 .register-text h1 {
+  margin: 0;
+  padding: 0;
   color: #fff;
   font-size: 6rem;
 }
@@ -877,6 +879,8 @@ input {
   }
 
   .register-text h1 {
+    margin: 0;
+    padding: 0;
     color: #fff;
     font-size: 4rem;
   }
@@ -885,6 +889,17 @@ input {
     display: grid;
     grid-template-columns: repeat(2, auto);
   }
+}
+@media (max-width: 576px) {
+  .button_selection{
+    margin-top: 0.5rem;
+    row-gap: 1rem;
+  }
+  .register-text h1{
+    margin: 0.5rem;
+    font-size: 2rem;
+  }
+  
 }
 
 div:where(.swal2-container) {
