@@ -3,55 +3,101 @@
   <div class="invitatain lg:py-0 lg:px-2 sm:px-1">
     <!------------------------------- choose-room ------------------------>
     <div class="choose-room">
-      <div class="room" @click="emitOption('')">
-        <img
-          src="https://www.svgrepo.com/show/404610/global-globe-planet-space-world.svg"
-          alt=""
-        />
-        <a class="font-type">ทั้งหมด</a>
-      </div>
-      <div class="room" @click="emitOption('บ้าน')">
-        <img src="https://www.svgrepo.com/download/70465/house.svg" alt="" />
-        <a class="font-type">บ้าน</a>
-      </div>
-      <div class="room" @click="emitOption('อพาร์ทเม้นท์')">
-        <img src="https://www.svgrepo.com/show/187290/apartment.svg" alt="" />
-        <a class="font-type">อพาร์ทเม้นท์</a>
-      </div>
-      <div class="room" @click="emitOption('ห้องพักทั่วไป')">
-        <img src="https://www.svgrepo.com/show/149612/hotel-room.svg" alt="" />
-        <a class="font-type">ห้องพักทั่วไป</a>
-      </div>
-      <div class="room" @click="emitOption('โรงแรม')">
-        <img src="https://www.svgrepo.com/show/288092/hotel.svg" alt="" />
-        <a class="font-type">โรงแรม</a>
-      </div>
-      <div class="room" @click="emitOption('คอนโด')">
-        <img src="https://www.svgrepo.com//show/187275/apartment.svg" alt="" />
-        <a class="font-type">คอนโด</a>
-      </div>
-      <div class="room" @click="emitOption('รีสอร์ท')">
-        <img
-          src="https://www.svgrepo.com/show/204714/sun-bath-resort.svg"
-          alt=""
-        />
-        <a class="font-type">รีสอร์ท</a>
-      </div>
-      <div class="room" @click="emitOption('เกาะ')">
-        <img src="https://www.svgrepo.com/show/154717/island.svg" alt="" />
-        <a class="font-type">เกาะ</a>
-      </div>
-      <div class="room" @click="emitOption('ป่า-เขา')">
-        <img src="https://www.svgrepo.com/show/88715/forest.svg" alt="" />
-        <a class="font-type">ป่า-เขา</a>
-      </div>
-      <div class="room" @click="emitOption('ริมทะเล')">
-        <img src="https://www.svgrepo.com/show/18600/sea.svg" alt="" />
-        <a class="font-type">ริมทะเล</a>
-      </div>
-      <div class="room" @click="emitOption('คฤหาสน์')">
-        <img src="https://www.svgrepo.com/download/51006/mansion.svg" alt="" />
-        <a class="font-type">คฤหาสน์</a>
+      <div class="overflow-x-auto hide-scrollbar flex gap-4">
+        <div class="room" @click="emitOption('')">
+          <img
+            src="https://www.svgrepo.com/show/404610/global-globe-planet-space-world.svg"
+            alt=""
+          />
+          <a class="font-type">ทั้งหมด</a>
+        </div>
+        <div class="room" @click="emitOption('บ้าน')">
+          <img src="https://www.svgrepo.com/download/70465/house.svg" alt="" />
+          <a class="font-type">บ้าน</a>
+        </div>
+        <div class="room" @click="emitOption('อพาร์ทเม้นท์')">
+          <img src="https://www.svgrepo.com/show/187290/apartment.svg" alt="" />
+          <a class="font-type">อพาร์ทเม้นท์</a>
+        </div>
+        <div class="room" @click="emitOption('ห้องพักทั่วไป')">
+          <img
+            src="https://www.svgrepo.com/show/149612/hotel-room.svg"
+            alt=""
+          />
+          <a class="font-type">ห้องพักทั่วไป</a>
+        </div>
+        <div class="room" @click="emitOption('โรงแรม')">
+          <img src="https://www.svgrepo.com/show/288092/hotel.svg" alt="" />
+          <a class="font-type">โรงแรม</a>
+        </div>
+        <div class="room" @click="emitOption('คอนโด')">
+          <img
+            src="https://www.svgrepo.com//show/187275/apartment.svg"
+            alt=""
+          />
+          <a class="font-type">คอนโด</a>
+        </div>
+        <div class="room" @click="emitOption('รีสอร์ท')">
+          <img
+            src="https://www.svgrepo.com/show/204714/sun-bath-resort.svg"
+            alt=""
+          />
+          <a class="font-type">รีสอร์ท</a>
+        </div>
+        <div class="room" @click="emitOption('เกาะ')">
+          <img src="https://www.svgrepo.com/show/154717/island.svg" alt="" />
+          <a class="font-type">เกาะ</a>
+        </div>
+        <div class="room" @click="emitOption('ป่า-เขา')">
+          <img src="https://www.svgrepo.com/show/88715/forest.svg" alt="" />
+          <a class="font-type">ป่า-เขา</a>
+        </div>
+        <div class="room" @click="emitOption('ริมทะเล')">
+          <img src="https://www.svgrepo.com/show/18600/sea.svg" alt="" />
+          <a class="font-type">ริมทะเล</a>
+        </div>
+        <div class="room" @click="emitOption('คฤหาสน์')">
+          <img
+            src="https://www.svgrepo.com/download/51006/mansion.svg"
+            alt=""
+          />
+          <a class="font-type">คฤหาสน์</a>
+        </div>
+        <div class="room" @click="emitOption('หาดท้องถิ่น')">
+          <img
+            src="https://www.svgrepo.com/show/490550/beach-umbrella.svg"
+            alt=""
+          />
+          <a class="font-type">หาดท้องถิ่น</a>
+        </div>
+        <div class="room" @click="emitOption('เช่าออฟฟิศ')">
+          <img
+            src="https://www.svgrepo.com/show/251705/office-studio.svg"
+            alt=""
+          />
+          <a class="font-type">เช่าออฟฟิศ</a>
+        </div>
+        <div class="room" @click="emitOption('เช่าห้องประชุม')">
+          <img
+            src="https://www.svgrepo.com/show/450753/conference-room.svg"
+            alt=""
+          />
+          <a class="font-type">เช่าห้องประชุม</a>
+        </div>
+        <div class="room" @click="emitOption('เช่าพื้นที่ครัว')">
+          <img
+            src="https://www.svgrepo.com/show/490818/kitchen-room.svg"
+            alt=""
+          />
+          <a class="font-type">เช่าพื้นที่ครัว</a>
+        </div>
+        <div class="room" @click="emitOption('เพื่อนนำเที่ยว')">
+          <img
+            src="https://www.svgrepo.com/show/429803/guide-human.svg"
+            alt=""
+          />
+          <a class="font-type">เพื่อนนำเที่ยว (ไกด์)</a>
+        </div>
       </div>
       <!----------------------------------------- Filter-box ------------------------------->
       <div class="filter cursor-pointer" @click="showFilter">
@@ -122,28 +168,28 @@
           <!-- ช่องเลือกจำนวน -->
           <label class="py-2" for="quantity">จำนวนเข้าพัก</label>
           <div class="card w-full flex justify-content-between">
-              <Dropdown
-                v-model="selectedNumber"
-                showClear
-                :options="numberValue"
-                optionLabel="name"
-                placeholder="เลือกจำนวนเข้าพัก"
-                class="w-full"
-              />
+            <Dropdown
+              v-model="selectedNumber"
+              showClear
+              :options="numberValue"
+              optionLabel="name"
+              placeholder="เลือกจำนวนเข้าพัก"
+              class="w-full"
+            />
           </div>
           <label class="py-2" for="quantity">ประเภทผู้ให้เช่า</label>
           <div
             class="card w-full flex justify-content-between mb-4"
             style="flex-direction: column; width: 100%"
           >
-              <Dropdown
-                v-model="selectedTypelessor"
-                showClear
-                :options="typelessor"
-                optionLabel="name"
-                placeholder="เลือกประเภทผู้ให้เช่า"
-                class="w-full"
-              />
+            <Dropdown
+              v-model="selectedTypelessor"
+              showClear
+              :options="typelessor"
+              optionLabel="name"
+              placeholder="เลือกประเภทผู้ให้เช่า"
+              class="w-full"
+            />
           </div>
           <Button @click="filterData" label="ค้นหา" severity="secondary" />
         </div>
@@ -292,6 +338,19 @@ export default {
 </script>
 
 <style scoped>
+.hide-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0.4rem;
+}
+
+.hide-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
 .invitatain {
   width: 100%;
   padding: 0 3rem 1rem 3rem;
@@ -364,15 +423,15 @@ export default {
 }
 
 /*---------------------------- choose-style ------------------------*/
+
 .choose-room {
   margin: 1rem;
   padding: 10px;
   display: flex;
   align-items: center;
-  column-gap: 3.5rem;
   justify-content: center;
+  column-gap: 1.5rem;
 }
-
 .room {
   cursor: pointer;
   display: flex;
