@@ -350,6 +350,36 @@
               filter
             />
           </div>
+          <div class="w-full md:w-1/2 px-4 mb-2">
+            <label
+              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              for="grid-first-name"
+            >
+              ละติจูด :
+            </label>
+            <InputText
+              class="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
+              id="grid-first-name"
+              type="text"
+              v-model="latitude"
+              placeholder="กรอกพิกัดละติจูด"
+            />
+          </div>
+          <div class="w-full md:w-1/2 px-4 mb-2">
+            <label
+              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              for="grid-first-name"
+            >
+              ลองจิจูด :
+            </label>
+            <InputText
+              class="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
+              id="grid-first-name"
+              type="text"
+              v-model="longitude"
+              placeholder="กรอกพิกัดลองจิจูด"
+            />
+          </div>
 
           <div class="w-full md:w-1/2 px-4 mb-2">
             <label
@@ -570,8 +600,8 @@ export default {
             bedroom: this.bedroom,
             bed: this.bed,
             bathroom: this.bathroom,
-            latitude: "1",
-            longitude: "1",
+            latitude: this.latitude,
+            longitude: this.longitude,
             address: this.address,
             tambon: this.tambon,
             amphure: this.amphure,

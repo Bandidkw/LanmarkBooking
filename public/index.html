@@ -10,48 +10,58 @@
     <!-- font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@600&display=swap"rel="stylesheet"/>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@600&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- icon -->
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"/>
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+
+    <!-- google map  -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
+      async
+      defer
+    ></script>
 
     <title>lanmark | เช่าที่พัก หารูมเมท</title>
   </head>
   <body>
     <div id="app">
-
-      <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999;">
-        <button v-show="showScrollButton" @click="scrollToTop">Go to Top</button>
+      <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999">
+        <button v-show="showScrollButton" @click="scrollToTop">
+          Go to Top
+        </button>
       </div>
-
     </div>
     <script>
-
-new Vue({
-  el: '#app',
-  data: {
-    showScrollButton: false
-  },
-  methods: {
-    scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+      new Vue({
+        el: "#app",
+        data: {
+          showScrollButton: false,
+        },
+        methods: {
+          scrollToTop() {
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          },
+          handleScroll() {
+            this.showScrollButton = window.scrollY > 20;
+          },
+        },
+        mounted() {
+          window.addEventListener("scroll", this.handleScroll);
+        },
+        beforeDestroy() {
+          window.removeEventListener("scroll", this.handleScroll);
+        },
       });
-    },
-    handleScroll() {
-      this.showScrollButton = window.scrollY > 20;
-    }
-  },
-  mounted() {
-    window.addEventListener('scroll', this.handleScroll);
-  },
-  beforeDestroy() {
-    window.removeEventListener('scroll', this.handleScroll);
-  }
-});
     </script>
     <!-- built files will be auto injected -->
   </body>
@@ -60,9 +70,10 @@ new Vue({
       /* z-index: 0; */
       width: 100%;
     }
-    body, html {
-    min-height: 100%;
-    margin: 0;
-  }
+    body,
+    html {
+      min-height: 100%;
+      margin: 0;
+    }
   </style>
 </html>

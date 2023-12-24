@@ -172,6 +172,16 @@
               filter
             />
           </div>
+          <div class="col-12">
+            <p>ละติจูด :</p>
+            <InputText v-model="latitude" name="latitude" class="w-full" />
+          </div>
+          <div class="col-12">
+            <p>ลองจิจูด :</p>
+            <InputText v-model="longitude" name="longitude" class="w-full" />
+          </div>
+
+          <div id="map" class="w-full" style="height: 400px"></div>
           <div class="col-12 flex justify-content-end text-center mt-2">
             <Button
               label="แก้ไข"
@@ -265,6 +275,8 @@ export default {
       bedroom: "",
       bed: "",
       bathroom: "",
+      latitude: "",
+      longitude: "",
       address: "",
       tambon: "",
       amphure: "",
@@ -349,6 +361,8 @@ export default {
         this.province = response.data?.province;
         this.nearlocation = response.data?.nearlocation;
         this.distancenearlocation = response.data?.distancenearlocation;
+        this.latitude = response.data?.latitude;
+        this.longitude = response.data?.longitude;
         this.selectedDate = [
           new Date(response.data.timebookingstart),
           new Date(response.data.timebookingend),
@@ -400,8 +414,8 @@ export default {
               bedroom: this.bedroom,
               bed: this.bed,
               bathroom: this.bathroom,
-              latitude: "1",
-              longitude: "1",
+              latitude: this.latitude,
+              longitude: this.longitude,
               address: this.address,
               tambon: this.tambon,
               amphure: this.amphure,
@@ -481,6 +495,25 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    initMap() {
+      const map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: this.latitude, lng: this.longitude },
+        zoom: 8,
+      });
+      new google.maps.Marker({
+        position: { lat: this.latitude, lng: this.longitude },
+        map: map,
+        title: "Location",
+      });
+    },
+  },
+  watch: {
+    latitude() {
+      this.initMap();
+    },
+    longitude() {
+      this.initMap();
     },
   },
 };

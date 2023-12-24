@@ -97,7 +97,7 @@
           position: absolute;
         "
       >
-      <i class="pi pi-clone"></i>
+        <i class="pi pi-clone"></i>
         <button @click="openImagePopup" class="text-sm font-normal">
           แสดงรูปทั้งหมด
         </button>
@@ -276,7 +276,7 @@
                 ราคา : {{ price.toLocaleString() }} บาท
               </label>
             </div>
-            <div class="mx-auto w-60 my-3 booking-box">
+            <div class="mx-auto px-4 my-3 booking-box">
               <Button
                 @click="visible = true"
                 class="booking-btn px-4 py-2 rounded-xl bg-blue-500 text-white text-center hover:bg-blue-700 rounded w-full"
@@ -358,7 +358,7 @@
           />
         </div>
 
-        <div class="mx-auto w-60 my-3 booking-box">
+        <div class="mx-auto px-4 my-3 booking-box">
           <Button
             @click="addbooking"
             label="จอง"
@@ -622,13 +622,13 @@ export default {
     },
 
     openImagePopup() {
-  console.log("Show all images:", this.roomdata.image);
-  // เปิด Popup แสดงรูปภาพ
-  this.popupVisible = true;
-  // กำหนดรูปภาพที่จะแสดงใน Popup
-  this.popupImage = this.allImages;
-  console.log(this.popupImage, "test image");
-},
+      console.log("Show all images:", this.roomdata.image);
+      // เปิด Popup แสดงรูปภาพ
+      this.popupVisible = true;
+      // กำหนดรูปภาพที่จะแสดงใน Popup
+      this.popupImage = this.allImages;
+      console.log(this.popupImage, "test image");
+    },
     closeImagePopup() {
       this.popupVisible = false;
       this.popupImage = null;
@@ -710,7 +710,7 @@ export default {
 .small-box {
   display: grid;
 }
-.large-box img{
+.large-box img {
   height: 100%;
 }
 .small-images {
