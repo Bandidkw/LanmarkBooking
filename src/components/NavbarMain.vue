@@ -125,7 +125,11 @@ export default {
     display: none;
   }
 }
-@media screen and (max-width: 1024px) {
+/* เมื่อขนาดหน้าจอมากกว่าหรือเท่ากับ 1024px */
+@media screen and (min-width: 1024px) {
+  .logo-main {
+    display: block;
+  }
   .logo-mobile {
     display: none;
   }
@@ -137,13 +141,6 @@ export default {
 }
 /* เมื่อขนาดหน้าจอมากกว่าหรือเท่ากับ 768px */
 @media screen and (min-width: 768px) {
-  .logo-main {
-    display: none;
-  }
-  .logo-mobile {
-    display: block;
-  }
-
   // .search-box {
   //   display: none;
   // }
