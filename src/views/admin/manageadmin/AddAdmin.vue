@@ -1,7 +1,7 @@
 <template>
-  <div class="grid px-24 py-4 mt-3">
+  <div class="mt-6" style="width: 60%">
     <div class="col-12 lg:col-12">
-      <center class="text-xl">เพิ่มข้อมูล admin</center>
+      <div class="text-xl text-center mb-4">เพิ่มข้อมูล admin</div>
       <form class="w-full">
         <div class="flex flex-wrap -mx-3 mb-0 sm:mb-3 w-full">
           <div class="w-full md:w-1/2 px-3 mb-3 sm:mb-6 md:mb-0">
@@ -38,12 +38,28 @@
               *กรุณากรอกเลขโทรศัพท์ที่ถูกต้อง (8-10 ตัว)
             </p>
           </div>
+          <div class="w-full md:w-1/2 px-3 md:mb-0">
+            <label
+              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              for="grid-first-name"
+            >
+              ตำแหน่ง :
+            </label>
+            <Dropdown
+              class="w-full text-gray-700 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+              v-model="levelPosition"
+              :options="level"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="เลือกตำแหน่ง"
+            />
+          </div>
           <div class="w-full px-3">
             <label
               class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
               for="grid-password"
             >
-              Password :
+              รหัสผ่าน :
             </label>
             <InputText
               class="appearance-none block w-full text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -84,6 +100,11 @@ export default {
       password: "",
       name: "",
       loading,
+      levelPosition: "",
+      level: [
+        { label: "ผู้จัดการ", value: "1" },
+        { label: "ผู้ช่วยผู้จัดการ", value: "2" },
+      ],
       showValidationError: false,
     };
   },
@@ -112,7 +133,7 @@ export default {
               password: this.password,
               name: this.name,
               roles: "admin",
-              level: "1",
+              level: this.level.toString(),
             },
             {
               headers: {
@@ -120,6 +141,7 @@ export default {
               },
             }
           );
+          console.log(res, "res res res");
           if (res.data) {
             this.loading = false;
             Swal.fire({
@@ -133,7 +155,7 @@ export default {
             await Swal.fire({
               icon: "error",
               title: "เกิดข้อผิดพลาด",
-              text: "ไม่สามารถลบข้อมูลได้",
+              text: "ไม่สามารถเพิ่มข้อมูลได้",
             });
           }
         } catch (error) {
@@ -141,7 +163,7 @@ export default {
           await Swal.fire({
             icon: "error",
             title: "เกิดข้อผิดพลาด",
-            text: "ไม่สามารถลบข้อมูลได้",
+            text: "ไม่สามารถเพิ่มข้อมูลได้",
           });
         }
       }

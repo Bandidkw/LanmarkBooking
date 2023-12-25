@@ -60,7 +60,7 @@
 
         <Column :exportable="false" class="lg:w-4 xl:w-3 2xl:w-0">
           <template #body="item">
-            <div class="flex justify-content-around">
+            <div class="flex justify-content-around gap-6">
               <updatetype :data="item.data" @typeAdded="getData" />
               <i
                 class="pi pi-trash cursor-pointer icon-style"

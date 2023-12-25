@@ -102,7 +102,7 @@
         <Column style="width: 10%; cursor: default">
           <template #body="{ data }">
             <div
-              class="flex justify-content-around"
+              class="flex justify-content-around gap-6"
               style="align-items: center"
             >
               <Button

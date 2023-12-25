@@ -52,7 +52,6 @@
         <Column
           field="telephone"
           header="เบอร์โทรศัพท์"
-          
           style="width: 20%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         ></Column>
@@ -60,7 +59,6 @@
           field="name"
           class=""
           header="ชื่อ"
-          
           style="width: 10%; cursor: default"
           :headerStyle="{ color: headerTextColor }"
         ></Column>
@@ -70,7 +68,7 @@
           :headerStyle="{ color: headerTextColor }"
         >
           <template #body="item">
-            <div class="flex justify-content-around">
+            <div class="flex justify-content-around gap-6">
               <updateadmin :data="item.data" />
               <i
                 class="pi pi-trash cursor-pointer icon-style"
