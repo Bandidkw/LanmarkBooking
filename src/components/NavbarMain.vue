@@ -4,25 +4,24 @@
     class="nav-bar w-full"
     style="box-shadow: rgba(59, 131, 246, 0.712) 0 1px 10px 1px"
   >
-    <router-link to="/" class="topweb-left">
-      <img src="/logo/lanmark-logo-navbar.png" alt="" />
+    <router-link to="/" class="topweb-left flex">
+      <img class="logo-main" src="/logo/lanmark-logo-navbar.png" alt="" />
+      <img class="logo-mobile" style="display: none;" src="/logo/lanmark-logo.png" alt="">
     </router-link>
     <div class="search-box" v-if="isRegisterPage">
       <span class="p-input-icon-right">
         <InputText
         ref="searchInput"
-    v-model="searchTerm"
-    placeholder="ค้นหา"
-    class="search-box-input"
-    @keyup.enter="searchHotels"
-    @keydown="handleKeydown"
-    tabindex="0"
-        />
+        v-model="searchTerm"
+        placeholder="ค้นหา"
+        class="search-box-input"
+        @keyup.enter="searchHotels"
+        @keydown="handleKeydown"
+        tabindex="0"/>
         <i
           @click="searchHotels"
-          class="pi pi-search pr-2 cursor-pointer pl-2 mb-4 active:bg-blue-700 log-icon"
-          style="
-          font-size: 0.8rem; justify-content: center; margin: 0; display: flex; align-items: center; background-color: #3b82f6; height: 2rem; width: 2rem; border-radius: 50%; top: 8px; right: 8px; color: #fff;"/>
+          class="pi pi-search pr-2 cursor-pointer pl-2 active:bg-blue-700 search-icon"
+          style="font-size: 0.8rem; justify-content: center; margin: 0; display: flex; align-items: center; background-color: #3b82f6; height: 2rem; width: 2rem; border-radius: 50%; top: 8px; right: 8px; color: #fff;"/>
       </span>
     </div>
     <LoginUser />
@@ -97,33 +96,38 @@ export default {
   margin: 0;
 }
 
-.log-icon:hover {
+.search-icon:hover {
   background: #fff;
   box-shadow: 0px 1px 8px 1px #3b82f6;
   color: #000;
 }
 
 @media screen and (max-width: 820px) {
-  .search-box {
-    display: none;
-  }
+  // .search-box {
+  //   display: none;
+  // }
 }
 @media screen and (max-width: 768px) {
-  .search-box {
-    display: none;
-  }
+  // .search-box {
+  //   display: none;
+  // }
 }
 @media screen and (max-width: 640px) {
-  .search-box {
-    display: none;
-  }
+  // .search-box {
+  //   display: none;
+  // }
 }
 
 @media screen and (max-width: 414px) {
+  .logo-main{
+    display: none;
+  }
+  .logo-mobile{
+    display: block;
+  }
   .nav-bar {
     padding: 0 1rem;
     display: flex;
-    gap: 5rem;
   }
 }
 </style>

@@ -4,8 +4,8 @@
     <!------------------------------- choose-room ------------------------>
     <div class="choose-room px-4">
       <div class="overflow-x-auto hide-scrollbar flex gap-4" ref="menuContainer" @scroll="handleScroll" style="position: relative;">
-        <button @click="scrollMenu('left')" style="position: absolute; right: 0; z-index: 5;">Scroll Left</button>
-<button @click="scrollMenu('right')" style="position: absolute; z-index: 5;">Scroll Right</button>
+        <!-- <button @click="scrollMenu('left')" style="position: absolute; right: 0; z-index: 5;">Scroll Left</button>
+<button @click="scrollMenu('right')" style="position: absolute; z-index: 5;">Scroll Right</button> -->
         <div class="room" @click="emitOption('')">
           <img
             src="https://www.svgrepo.com/show/404610/global-globe-planet-space-world.svg"
