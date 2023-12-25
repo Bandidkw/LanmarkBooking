@@ -69,9 +69,14 @@
         </svg>
       </div>
       <div class="details-container px-2">
-        <i class="pi pi-star-fill">
-          <span class="text-sm text-red-600"> *test</span></i
-        >
+        <div class="flex gap-1">
+          <div v-for="starIndex in 10" :key="starIndex">
+            <i
+              :class="getStarIconClass(starIndex, item.starall)"
+              :style="getStarIconStyle(starIndex, item.starall)"
+            ></i>
+          </div>
+        </div>
         <h2 class="text-lg font-semibold pt-1 m-0">{{ item.name }}</h2>
         <p class="text-base my-1">{{ item.description }}</p>
         <p class="text-base font-semibold m-0 max-[414px]:my-2">
@@ -155,6 +160,16 @@ export default {
       } else if (deltaX < -threshold) {
         this.next(item);
       }
+    },
+    getStarIconClass(starIndex, starCount) {
+      return {
+        pi: true,
+        "pi-star-fill": starIndex <= starCount,
+        "pi-star": starIndex > starCount,
+      };
+    },
+    getStarIconStyle(starIndex, starCount) {
+      return starIndex <= starCount ? { color: "#fdc500" } : {};
     },
     changeFill(index) {
       // ค้นหาองค์ประกอบ SVG ด้วย ID

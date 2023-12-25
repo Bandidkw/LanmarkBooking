@@ -300,16 +300,19 @@
               <div
                 v-for="(item, index) in review"
                 :key="index"
-                class="review-item border-b pb-4 mb-4"
+                class="review-item border-b py-2"
               >
-                <div class="flex items-center mb-2">
+                <div class="flex items-center">
                   <span v-for="i in item.star" :key="i" class="text-yellow-500"
                     >&#9733;</span
                   >
                 </div>
                 <div>
-                  <p class="font-bold">{{ item.name }}</p>
-                  <p class="text-gray-600">{{ item.description }}</p>
+                  <p class="font-bold py-2 flex justify-content-between" style="align-items: end;">
+                    {{ item.booking_id.member_id.name }}
+                     <p class="text-xs font-light text-gray-400"> {{ formatDate(item.booking_id.date_to, "dd/MM/yy") }} </p>
+                  </p>
+                  <p class="text-gray-600">{{ item.detail }}</p>
                 </div>
               </div>
             </template>
@@ -397,16 +400,7 @@ export default {
     const credit = ref(false);
     const qrcode = ref(false);
     const room_id = this.$route.params.id;
-    const review = ref([
-      { star: 0, name: "John Doe", description: "Bad experience!" },
-      { star: 2, name: "John Doe", description: "Bad experience!" },
-      { star: 5, name: "John Doe", description: "Bad experience!" },
-      { star: 6, name: "John Doe", description: "Bad experience!" },
-      { star: 9, name: "John Doe", description: "Bad experience!" },
-      { star: 10, name: "John Doe", description: "Bad experience!" },
-      { star: 7, name: "John Doe", description: "Bad experience!" },
-      { star: 3, name: "John Doe", description: "Bad experience!" },
-    ]);
+    const review = ref([]);
 
     // ฟังก์ชันสำหรับดึงข้อมูลห้องพัก
     const getroom = async (_id) => {
@@ -417,6 +411,7 @@ export default {
         );
         this.roomdata = response.data;
         this.imageQrCode = response.data.partner_id.image_bank;
+        getReview();
         this.allImages = response.data.image.map((img) => {
           return `https://drive.google.com/uc?export=view&id=${img}`;
         });
@@ -427,6 +422,19 @@ export default {
       } catch (error) {
         console.error("Error fetching room data:", error);
       }
+    };
+    const getReview = async (_id) => {
+      const id = this.$route.params.id;
+      const response = await axios.get(
+        `${process.env.VUE_APP_API}review/byroom/${id}`,
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      );
+      console.log(response.data.data);
+      review.value = response.data.data;
     };
 
     const combinedDates = ref([]);
