@@ -6,22 +6,37 @@
   >
     <router-link to="/" class="topweb-left flex">
       <img class="logo-main" src="/logo/lanmark-logo-navbar.png" alt="" />
-      <img class="logo-mobile" style="display: none;" src="/logo/lanmark-logo.png" alt="">
+      <img class="logo-mobile" src="/logo/lanmark-logo.png" alt="" />
     </router-link>
     <div class="search-box" v-if="isRegisterPage">
       <span class="p-input-icon-right">
         <InputText
-        ref="searchInput"
-        v-model="searchTerm"
-        placeholder="ค้นหา"
-        class="search-box-input"
-        @keyup.enter="searchHotels"
-        @keydown="handleKeydown"
-        tabindex="0"/>
+          ref="searchInput"
+          v-model="searchTerm"
+          placeholder="ค้นหา"
+          class="search-box-input"
+          @keyup.enter="searchHotels"
+          @keydown="handleKeydown"
+          tabindex="0"
+        />
         <i
           @click="searchHotels"
           class="pi pi-search pr-2 cursor-pointer pl-2 active:bg-blue-700 search-icon"
-          style="font-size: 0.8rem; justify-content: center; margin: 0; display: flex; align-items: center; background-color: #3b82f6; height: 2rem; width: 2rem; border-radius: 50%; top: 8px; right: 8px; color: #fff;"/>
+          style="
+            font-size: 0.8rem;
+            justify-content: center;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            background-color: #3b82f6;
+            height: 2rem;
+            width: 2rem;
+            border-radius: 50%;
+            top: 8px;
+            right: 8px;
+            color: #fff;
+          "
+        />
       </span>
     </div>
     <LoginUser />
@@ -41,7 +56,7 @@ export default {
       this.$bus.emit("search-hotels", this.searchTerm);
     },
     handleKeydown(event) {
-      if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+      if ((event.ctrlKey || event.metaKey) && event.key === "k") {
         // หาก Control key (Windows) หรือ Command key (Mac) + 'k' ถูกกด ให้โฟกัสที่ Input
         this.focusInput();
       }
@@ -95,35 +110,84 @@ export default {
 .topweb-right p {
   margin: 0;
 }
-
 .search-icon:hover {
   background: #fff;
   box-shadow: 0px 1px 8px 1px #3b82f6;
   color: #000;
 }
-
-@media screen and (max-width: 820px) {
-  // .search-box {
-  //   display: none;
-  // }
-}
-@media screen and (max-width: 768px) {
-  // .search-box {
-  //   display: none;
-  // }
-}
-@media screen and (max-width: 640px) {
-  // .search-box {
-  //   display: none;
-  // }
-}
-
-@media screen and (max-width: 414px) {
-  .logo-main{
+@media screen and (max-width: 1536px) {
+  .logo-mobile {
     display: none;
   }
-  .logo-mobile{
+}
+@media screen and (max-width: 1280px) {
+  .logo-mobile {
+    display: none;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .logo-mobile {
+    display: none;
+  }
+}
+@media screen and (max-width: 820px) {
+  .logo-mobile {
+    display: none;
+  }
+}
+/* เมื่อขนาดหน้าจอมากกว่าหรือเท่ากับ 768px */
+@media screen and (min-width: 768px) {
+  .logo-main {
+    display: none;
+  }
+  .logo-mobile {
     display: block;
+  }
+
+  // .search-box {
+  //   display: none;
+  // }
+}
+
+@media screen and (max-width: 640px) {
+  .logo-mobile {
+    display: none;
+  }
+  // .search-box {
+  //   display: none;
+  // }
+}
+/* เมื่อขนาดหน้าจอไม่เกิน 414px */
+@media screen and (max-width: 430px) {
+  .search-box {
+    width: 30%;
+  }
+  .logo-mobile {
+    display: block;
+  }
+  .logo-main {
+    display: none;
+  }
+  .search-box-input {
+    width: 100%;
+  }
+  .nav-bar {
+    padding: 0 0.5rem;
+    display: flex;
+  }
+}
+@media screen and (max-width: 414px) {
+  .search-box {
+    width: 30%;
+  }
+  .logo-mobile {
+    display: block;
+  }
+  .logo-main {
+    display: none;
+  }
+  .search-box-input {
+    width: 100%;
   }
   .nav-bar {
     padding: 0 1rem;

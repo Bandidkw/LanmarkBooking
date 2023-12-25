@@ -3,9 +3,7 @@
   <div class="invitatain lg:py-0 lg:px-2 sm:px-1">
     <!------------------------------- choose-room ------------------------>
     <div class="choose-room px-4">
-      <div class="overflow-x-auto hide-scrollbar flex gap-4" ref="menuContainer" @scroll="handleScroll" style="position: relative;">
-        <!-- <button @click="scrollMenu('left')" style="position: absolute; right: 0; z-index: 5;">Scroll Left</button>
-<button @click="scrollMenu('right')" style="position: absolute; z-index: 5;">Scroll Right</button> -->
+      <div class="filter-type overflow-x-auto hide-scrollbar flex gap-4" ref="menuContainer" style="position: relative; overflow-x: auto;">
         <div class="room" @click="emitOption('')">
           <img
             src="https://www.svgrepo.com/show/404610/global-globe-planet-space-world.svg"
@@ -589,6 +587,10 @@ p {
   }
   .choose-room {
     column-gap: 1rem;
+  }
+  .filter-type{
+    column-gap: 2rem;
+    max-width: 400px;
   }
 }
 @media screen and (max-width: 768px) {

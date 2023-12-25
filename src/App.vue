@@ -192,6 +192,11 @@ export default {
   }
 }
 
+@media screen and (max-width: 430px) {
+  .nav-bar {
+    padding: 0 1rem;
+  }
+}
 @media screen and (max-width: 414px) {
   .nav-bar {
     padding: 0 1rem;
