@@ -3,7 +3,9 @@
   <div class="invitatain lg:py-0 lg:px-2 sm:px-1">
     <!------------------------------- choose-room ------------------------>
     <div class="choose-room px-4">
-      <div class="overflow-x-auto hide-scrollbar flex gap-4">
+      <div class="overflow-x-auto hide-scrollbar flex gap-4" ref="menuContainer" @scroll="handleScroll" style="position: relative;">
+        <button @click="scrollMenu('left')" style="position: absolute; right: 0; z-index: 5;">Scroll Left</button>
+<button @click="scrollMenu('right')" style="position: absolute; z-index: 5;">Scroll Right</button>
         <div class="room" @click="emitOption('')">
           <img
             src="https://www.svgrepo.com/show/404610/global-globe-planet-space-world.svg"
@@ -105,10 +107,10 @@
           class="filter"
           outlined
           label="รูมเมท"
-          icon="bi bi-person-arms-up icon"
+          icon="bi bi-people icon"
         />
         <Button
-          icon="bi bi-droplet-half"
+          icon="bi bi-bucket"
           class="filter"
           label="แม่บ้าน"
           outlined
@@ -283,6 +285,41 @@ export default {
     };
   },
   methods: {
+      // เพิ่มฟังก์ชัน scrollLeft
+  scrollLeft() {
+    const container = this.$refs.menuContainer;
+    container.scrollBy({
+      left: -100, // ปรับตามความเหมาะสม
+      behavior: 'smooth',
+    });
+  },
+
+  // เพิ่มฟังก์ชัน scrollRight
+  scrollRight() {
+    const container = this.$refs.menuContainer;
+    container.scrollBy({
+      left: 100, // ปรับตามความเหมาะสม
+      behavior: 'smooth',
+    });
+  },
+// ฟังก์ชัน handleScroll
+handleScroll() {
+  const container = this.$refs.menuContainer;
+  const scrollLeft = container.scrollLeft;
+  const menuCount = container.children.length;
+  const menuWidth = container.children[0].clientWidth;
+
+  console.log("scrollLeft:", scrollLeft);
+  console.log("menuCount:", menuCount);
+  console.log("menuWidth:", menuWidth);
+
+  if (scrollLeft + container.clientWidth >= container.scrollWidth) {
+    container.scrollTo({
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+},
     showFilter() {
       this.isFilterVisible = true;
     },

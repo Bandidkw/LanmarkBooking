@@ -308,7 +308,7 @@ export default {
   gap: 0.5rem;
 }
 .grid-item {
-  padding: 0 1rem;
+  padding:1rem;
 }
 
 .image-container {

@@ -22,7 +22,6 @@
           class="w-full h-full flex items-center justify-center bg-gray-300 rounded-s-2xl"
         >
           <p class="text-xl font-semibold">ไม่มีรูปภาพ</p>
-          <!-- แสดงข้อมูลรูปภาพ (หากต้องการ) -->
         </div>
       </div>
       <!-- ตรวจสอบว่ามีรูปภาพหรือไม่ และแสดงรูปภาพทีละรูป -->
@@ -111,7 +110,7 @@
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100] scroll-auto"
       >
         <div
-          class="w-2/4 h-3/4 bg-white py-4 px-4 rounded-lg relative scroll-auto"
+          class="img-all w-2/4 h-3/4 bg-white py-4 px-4 rounded-lg relative scroll-auto"
           style="overflow: auto"
         >
           <!-- ปุ่มปิด Popup -->
@@ -136,13 +135,13 @@
       </div>
     </div>
     <div
-      class="flex pt-4 px-5 justify-between border h-[850px] rounded-2xl gap-x-8 max-[430px]:flex-col max-[430px]:h-auto max-[414px]:flex-col max-[414px]:h-auto"
+      class="detail-box-2 flex pt-4 px-5 justify-between border h-[850px] gap-y-4 rounded-2xl gap-x-8 max-[430px]:flex-col max-[430px]:h-auto max-[414px]:flex-col max-[414px]:h-auto max-[768px]:gap-x-4"
     >
       <!-- รายละเอียด -->
       <div class="w-1/2 max-[414px]:w-full max-[430px]:w-full">
         <div class="details m-0 p-2 border-b-2 border-[#3b82f6]">
-          <div class="flex justify-between mb-4">
-            <h1 class="text-2xl font-bold">{{ roomdata.name }}</h1>
+          <div class="flex justify-between mb-4" style="align-items: center;">
+            <h1 class="text-2xl font-bold max-[768px]:text-xs max-[768px]:leading-8">{{ roomdata.name }}</h1>
             <div class="flex flex-col justify-content-start">
               <p class="text-base font-semibold">รีวิว {{ averageRating }}</p>
             </div>
@@ -175,12 +174,11 @@
           </div>
         </div>
         <div
-          class="sleep-place h-[253px] py-12 max-[414px]:py-4 max-[430px]:py-4"
+          class="sleep-place h-[253px] pt-10 pb-12 max-[414px]:py-4 max-[430px]:py-4"
         >
           <h2 class="pb-3">สถานที่นอน</h2>
           <div
-            class="flex flex-col gap-y-1 sleep-box border-2 border-black rounded-2xl w-[207px] h-[143px]"
-          >
+            class="w-1/2 flex flex-col gap-y-1 sleep-box border-2 border-black rounded-2xl w-[207px] h-[143px] max-[414px]:w-1/2" style="align-items: flex-start; justify-content: start;">
             <div class="gap-x-3 flex">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -199,31 +197,18 @@
                   d="M28 2a2 2 0 0 1 2 1.85v9.99l1.85 5.54a3 3 0 0 1 .11.46l.03.24.01.24V30h-2v-2H2v2H0v-9.68a3 3 0 0 1 .09-.71l.06-.23L2 13.84V4a2 2 0 0 1 1.7-1.98L3.85 2H4zm2 20H2v4h28zm-1.39-6H3.4l-1.34 4h27.9zM28 4H4v10h2v-4a2 2 0 0 1 1.85-2H24a2 2 0 0 1 2 1.85V14h2zm-13 6H8v4h7zm9 0h-7v4h7z"
                 ></path>
               </svg>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 32 32"
-                aria-hidden="true"
-                role="presentation"
-                focusable="false"
-                style="
-                  display: block;
-                  height: 24px;
-                  width: 24px;
-                  fill: currentcolor;
-                "
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"  aria-hidden="true"  role="presentation"  focusable="false"  style="display: block;  height: 24px;  width: 24px;  fill: currentcolor;">
                 <path
                   d="M28 2a2 2 0 0 1 2 1.85v9.99l1.85 5.54a3 3 0 0 1 .11.46l.03.24.01.24V30h-2v-2H2v2H0v-9.68a3 3 0 0 1 .09-.71l.06-.23L2 13.84V4a2 2 0 0 1 1.7-1.98L3.85 2H4zm2 20H2v4h28zm-1.39-6H3.4l-1.34 4h27.9zM28 4H4v10h2v-4a2 2 0 0 1 1.85-2H24a2 2 0 0 1 2 1.85V14h2zm-13 6H8v4h7zm9 0h-7v4h7z"
                 ></path>
               </svg>
             </div>
-            <div>
+              <div>
               <p class="font-bold">ห้องนอน</p>
             </div>
             <div>
-              <p>
-                {{ roomdata.bedroom }} เตียงนอน {{ roomdata.bathroom }} ห้องน้ำ
-              </p>
+              <p>{{ roomdata.bedroom }} เตียงนอน</p>
+              <p>{{ roomdata.bathroom }} ห้องน้ำ</p>
             </div>
           </div>
           <div class="hotel-info-b border-t-2 mt-3 border-[#3b82f6]">
@@ -235,7 +220,7 @@
           </div>
         </div>
       </div>
-      <div class="w-1/2 flex flex-col gap-y-16">
+      <div class="w-1/2 flex flex-col gap-y-16 booking-box">
         <div
           class="reserve-box w-full text-center border-2 rounded-2xl h-[350px] shadow-md max-[430px]:w-full max-[430px]:my-4 max-[414px]:w-full max-[414px]:my-4"
         >
@@ -778,8 +763,29 @@ export default {
     padding: 0 5rem;
   }
 }
-
+@media screen and (max-width: 1024px) {
+  .image-box {
+    height: 25em;
+  }
+}
+@media (max-width: 768px){
+  .sleep-box{
+    width: 50%;
+}
+  .detail-box-2{
+    height: 900px;
+  }
+}
 @media screen and (max-width: 430px) {
+  .sleep-box{
+    width: 50%;
+}
+  .img-all{
+    width: 300px;
+  }
+  .booking-btn-box{
+    widows: 100%;
+  }
   .container {
     padding: 0 1rem;
   }
@@ -808,7 +814,7 @@ export default {
 
   .small-box {
     width: 100%;
-    height: 100%;
+    height: 300px;
   }
 
   .small-box img {
@@ -866,11 +872,6 @@ export default {
     border-radius: 0;
     margin: 0;
     padding: 0;
-  }
-
-  .small-box {
-    width: 100%;
-    height: 100%;
   }
 
   .small-box img {
