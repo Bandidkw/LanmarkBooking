@@ -131,7 +131,6 @@
         <Column :exportable="false" style="width: 16%">
           <template #body="item">
             <div class="flex justify-content-between">
-              <Gallery :data="item.data" />
               <DialogImage :data="item.data" />
 
               <div class="xl:flex mx-2" v-if="item.data.status === true">
@@ -156,13 +155,11 @@ import axios from "axios";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
 import EditHotel from "./EditHotel.vue";
-import Gallery from "../../../components/Gallery.vue";
 import Loading from "../../../components/Loading.vue";
 import DialogImage from "../../../components/dialogImage/DialogImage.vue";
 export default {
   components: {
     EditHotel,
-    Gallery,
     Loading,
     DialogImage,
   },

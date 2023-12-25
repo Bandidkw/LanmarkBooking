@@ -215,9 +215,8 @@ import axios from "axios";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
 import Loading from "../../../components/Loading.vue";
-import Gallery from "../../../components/Gallery.vue";
 export default {
-  components: { Loading, Gallery },
+  components: { Loading },
 
   created() {
     document.title = "ข้อมูล partner";

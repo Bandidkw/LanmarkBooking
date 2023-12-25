@@ -1,6 +1,6 @@
 <template>
   <div>
-    <i class="bi bi-8-circle-fill cursor-pointer icon-style" @click="getdata" />
+    <i class="pi pi-image cursor-pointer icon-style" @click="getdata" />
 
     <Dialog
       v-model:visible="sidebar"
