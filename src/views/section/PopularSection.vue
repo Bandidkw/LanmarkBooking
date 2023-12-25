@@ -60,7 +60,7 @@
             stroke-width: 2;
             overflow: visible;
             cursor: pointer;
-            z-index: 9999;
+            z-index: 1;
           "
         >
           <path
