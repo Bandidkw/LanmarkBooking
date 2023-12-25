@@ -69,13 +69,16 @@
         </svg>
       </div>
       <div class="details-container px-2">
-        <div class="flex gap-1">
-          <div v-for="starIndex in 10" :key="starIndex">
-            <i
-              :class="getStarIconClass(starIndex, item.starall)"
-              :style="getStarIconStyle(starIndex, item.starall)"
-            ></i>
+        <div>
+          <div v-if="item.starall" class="flex gap-1">
+            <div v-for="starIndex in 10" :key="starIndex">
+              <i
+                :class="getStarIconClass(starIndex, item.starall)"
+                :style="getStarIconStyle(starIndex, item.starall)"
+              ></i>
+            </div>
           </div>
+          <div v-else class="text-sm text-gray-600">ยังไม่มีรีวิว</div>
         </div>
         <h2 class="text-lg font-semibold pt-1 m-0">{{ item.name }}</h2>
         <p class="text-base my-1">{{ item.description }}</p>
@@ -165,7 +168,7 @@ export default {
       return {
         pi: true,
         "pi-star-fill": starIndex <= starCount,
-        "pi-star": starIndex > starCount,
+        "pi-star text-gray-400": starIndex > starCount,
       };
     },
     getStarIconStyle(starIndex, starCount) {
