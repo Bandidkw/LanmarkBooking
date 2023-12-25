@@ -6,7 +6,11 @@
       :key="index"
       class="grid-item"
     >
-      <div class="image-container">
+      <div
+        class="image-container"
+        @touchstart="handleTouchStart($event, item)"
+        @touchmove="handleTouchMove($event, item)"
+      >
         <router-link :to="{ name: 'hotel', params: { id: item._id } }">
           <Galleria
             v-model:visible="displayBasic"
@@ -65,6 +69,9 @@
         </svg>
       </div>
       <div class="details-container px-2">
+        <i class="pi pi-star-fill">
+          <span class="text-sm text-red-600"> *test</span></i
+        >
         <h2 class="text-lg font-semibold pt-1 m-0">{{ item.name }}</h2>
         <p class="text-base my-1">{{ item.description }}</p>
         <p class="text-base font-semibold m-0 max-[414px]:my-2">
@@ -84,7 +91,6 @@ export default {
     filterValue: String,
   },
   data() {
-    const touchStartX = ref(0);
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -111,14 +117,6 @@ export default {
     onMounted(() => {
       getroom();
       this.$bus.on("search-hotels", this.handleSearchHotels);
-      this.$nextTick(() => {
-      const galleryItems = document.querySelectorAll(".p-galleria-item");
-
-      galleryItems.forEach((item, index) => {
-        item.addEventListener("touchstart", (event) => this.handleTouchStart(event, this.filteredGridData[index]));
-        item.addEventListener("touchmove", (event) => this.handleTouchMove(event, this.filteredGridData[index]));
-      });
-    });
     });
     const next = (item) => {
       item.activeIndex = (item.activeIndex + 1) % item.image.length;
@@ -131,7 +129,6 @@ export default {
     };
 
     return {
-      touchStartX,
       displayBasic,
       gridData,
       position,
@@ -145,25 +142,20 @@ export default {
   },
   methods: {
     handleTouchStart(event, item) {
-    // เก็บตำแหน่งสัมผัสเริ่มต้น
-    this.touchStartX = event.touches[0].clientX;
-  },
-  handleTouchMove(event, item) {
-    // คำนวณระยะทางแนวนอนที่เคลื่อนไหว
-    const touchEndX = event.touches[0].clientX;
-    const deltaX = touchEndX - this.touchStartX;
+      this.touchStartX = event.touches[0].clientX;
+    },
 
-    // ตั้งค่าค่าย่านสำหรับระยะทางขั้นต่ำเพื่อกระตุ้นการนำทาง
-    const threshold = 50;
+    handleTouchMove(event, item) {
+      this.touchEndX = event.touches[0].clientX;
+      const deltaX = this.touchEndX - this.touchStartX;
+      const threshold = 50;
 
-    if (deltaX > threshold) {
-      this.prev(item);
-      this.isRightArrowClicked = false;
-    } else if (deltaX < -threshold) {
-      this.next(item);
-      this.isRightArrowClicked = false;
-    }
-  },
+      if (deltaX > threshold) {
+        this.prev(item);
+      } else if (deltaX < -threshold) {
+        this.next(item);
+      }
+    },
     changeFill(index) {
       // ค้นหาองค์ประกอบ SVG ด้วย ID
       const svgElement = document.getElementById(`your-svg-id-${index}`);
@@ -308,7 +300,7 @@ export default {
   gap: 0.5rem;
 }
 .grid-item {
-  padding:1rem;
+  padding: 1rem;
 }
 
 .image-container {
