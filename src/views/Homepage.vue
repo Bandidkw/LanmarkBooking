@@ -611,21 +611,6 @@ p {
     max-width: 400px;
   }
 }
-@media (min-width: 600px) and (max-width: 1440px){
-  .filter-type{
-    column-gap: 4rem;
-    max-width: 800px;
-  }
-  .room img{
-    padding: 0.5em;
-    width: 3.3em;
-  }
-  .room a {
-    display: block;
-    font-size: 8px;
-  }
-
-}
 @media screen and (max-width: 768px) {
   .search-box-cus {
     display: none;

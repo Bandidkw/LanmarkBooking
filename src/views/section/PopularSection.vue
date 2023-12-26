@@ -1,6 +1,6 @@
 <!-- popularSection -->
 <template>
-  <div class="grid-container px-4 gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3">
+  <div class="grid-container px-4 gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3 md:p-0">
     <div
       v-for="(item, index) in filteredGridData"
       :key="index"
@@ -377,18 +377,16 @@ export default {
 
 @media screen and (max-width: 768px) {
   .grid-container {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
-}
-@media (min-width: 640px) and (max-width:1280px) {
-  .grid-container {
-    grid-template-columns: repeat(3, 180px);
+  .image-container img {
+    width: 100%;
   }
 }
 
 @media screen and (max-width: 640px) {
   .grid-container {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .p-galleria-item {
@@ -400,22 +398,58 @@ export default {
   }
 
   .image-container img {
-    width: 150px;
-    height: 150px;
+    width: 100%;
   }
 }
 
-@media screen and (max-width: 430px) {
+/* @media screen and (max-width: 576px) {
   .grid-container {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
   }
 
   .image-container img {
-    width: 150px;
-    height: 150px;
+    width: 100%;
+  }
+} */
+/* @media screen and (max-width: 430px) {
+  .grid-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .image-container img {
+    width: 100%;
+  }
+} */
+
+@media screen and (max-width: 578px) {
+  .rating {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+  }
+  .grid-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .p-galleria-item {
+    touch-action: pan-x;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .image-container {
+    margin-bottom: 1rem;
+  }
+
+  .grid-item {
+    text-align: center;
+    padding: 0.5rem;
+  }
+
+  .image-container img {
+    width: 100%;
+    height: 250px;
   }
 }
-
 @media screen and (max-width: 414px) {
   .rating {
     display: flex;
@@ -443,6 +477,17 @@ export default {
   .image-container img {
     width: 100%;
     height: 250px;
+  }
+}
+@media screen and (max-width: 321px) {
+  .grid-container {
+    grid-template-columns: repeat(1,180px);
+  }
+  .image-container img {
+    width: 100%;
+  }
+  .rating{
+    justify-content: center;
   }
 }
 </style>

@@ -143,21 +143,37 @@ export default {
   }
 }
 /* เมื่อขนาดหน้าจอมากกว่าหรือเท่ากับ 768px */
-@media screen and (min-width: 768px) {
-  // .search-box {
-  //   display: none;
-  // }
+@media screen and (max-width: 768px) {
+  .nav-bar {
+    padding: 0 1rem;
+  }
+  .topweb-right p{
+    display: none;
+  }
 }
 
 @media screen and (max-width: 640px) {
+  .topweb-left{
+    width: 50px;
+  }
+  .search-box {
+    width: 30%;
+  }
   .logo-mobile {
+    display: block;
+  }
+  .logo-main {
     display: none;
   }
-  // .search-box {
-  //   display: none;
-  // }
+  .search-box-input {
+    width: 100%;
+  }
+  .nav-bar {
+    padding: 0 0.5rem;
+    display: flex;
 }
-/* เมื่อขนาดหน้าจอไม่เกิน 414px */
+}
+/* เมื่อขนาดหน้าจอไม่เกิน 430px */
 @media screen and (max-width: 430px) {
   .topweb-left{
     width: 50px;
@@ -195,6 +211,19 @@ export default {
   .nav-bar {
     padding: 0 1rem;
     display: flex;
+  }
+}
+@media screen and (max-width: 321px) {
+  .nav-bar {
+    padding: 0;
+  }
+  .search-box{
+    display: none;
+  }
+  .nav{
+    padding: 1rem 1.5rem 0 1.5rem;
+    align-items: center;
+    justify-content: space-between;
   }
 }
 </style>
