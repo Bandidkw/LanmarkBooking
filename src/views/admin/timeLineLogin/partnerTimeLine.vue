@@ -91,7 +91,9 @@ export default {
     const getData = async () => {
       try {
         const result = await admin.GetTimeLinePartner();
-        item_product.value = result;
+        item_product.value = result.filter((item) => item.partner_id != "" && item.partner_id !=null
+         && item.partner_id != undefined && item.ipaddress != '' && item.ipaddress != null 
+         && item.ipaddress != undefined).reverse();
         console.log(item_product.value);
       } catch (error) {
         console.error(error);
@@ -153,8 +155,13 @@ export default {
             );
             return (
               formattedItemDate == startdate &&
-              (item.admin_id.name.toLowerCase().includes(searchTerm) ||
-                item.ipaddress.toLowerCase().includes(searchTerm))
+              (
+                ( item.partner_id != "" && item.partner_id !=null && item.partner_id != undefined ?
+                item.partner_id.name.toLowerCase().includes(searchTerm):'') ||
+                
+                (item.addressipaddress != ''&& item.ipaddress != null  && item.ipaddress != undefined? 
+                item.ipaddress.toLowerCase().includes(searchTerm):'')
+              )
             );
           }
           if (this.selectdate[1] != null && this.selectdate[1] != "") {
@@ -169,8 +176,14 @@ export default {
             return (
               formattedItemDate >= startdate &&
               formattedItemDate <= enddate &&
-              (item.admin_id.name.toLowerCase().includes(searchTerm) ||
-                item.ipaddress.toLowerCase().includes(searchTerm))
+              (
+                ( item.partner_id != "" && item.partner_id !=null && item.partner_id != undefined ?
+                item.partner_id.name.toLowerCase().includes(searchTerm):'') ||
+                
+                (item.ipaddress != ''&& item.ipaddress != null  && item.ipaddress != undefined? 
+                item.ipaddress.toLowerCase().includes(searchTerm):'')
+
+              )
             );
           }
         });
@@ -178,8 +191,11 @@ export default {
         const searchTerm = this.searchall.toLowerCase();
         return this.item_product.filter((item) => {
           return (
-            item.admin_id.name.toLowerCase().includes(searchTerm) ||
-            item.ipaddress.toLowerCase().includes(searchTerm)
+            ( item.partner_id != "" && item.partner_id !=null && item.partner_id != undefined ?
+                item.partner_id.name.toLowerCase().includes(searchTerm):'') ||
+                
+                (item.ipaddress != ''&& item.ipaddress != null  && item.ipaddress != undefined? 
+                item.ipaddress.toLowerCase().includes(searchTerm):'')
           );
         });
       } else {

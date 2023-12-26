@@ -187,7 +187,7 @@ export default {
         });
 
         if (Response.data.status === true) {
-          item_product.value = Response.data.data.reverse();
+          item_product.value = Response.data.data.filter((item)=> item.member_id !=null && item.member_id != undefined && item.member_id !='' && item.room_id != null).reverse();
           loading.value = false;
           console.log(Response.data.data);
         } else {

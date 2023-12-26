@@ -88,7 +88,7 @@ export default {
     const getData = async () => {
       try {
         const result = await admin.GetTimeLineMember();
-        item_product.value = result;
+        item_product.value = result.filter((item) => item.member_id != "" && item.member_id!=null && item.ipaddress !=null && item.ipaddress !=undefined && item.ipaddress !='').reverse();
         console.log(item_product.value);
       } catch (error) {
         console.error(error);
@@ -139,13 +139,16 @@ export default {
           if(this.selectdate[0]!=null&&this.selectdate[0]!="" && this.selectdate[1]===null)
           {
             const startdate = this.selectdate[0].toLocaleDateString('th-TH', options)
-            return ((formattedItemDate==startdate)&&(item.admin_id.name.toLowerCase().includes(searchTerm)||item.ipaddress.toLowerCase().includes(searchTerm)));
+            return ((formattedItemDate==startdate)&&((item.member_id!=null && item.member_id !=undefined && item.member_id!='' ? item.member_id.name.toLowerCase().includes(searchTerm):'') ||
+            ( item.ipaddress!=null && item.ipaddress != undefined && item.ipaddress !=''? item.ipaddress.toLowerCase().includes(searchTerm):'')));
           }
           if(this.selectdate[1]!=null&&this.selectdate[1]!="")
           {
             const startdate = this.selectdate[0].toLocaleDateString('th-TH', options)
             const enddate =this.selectdate[1].toLocaleDateString('th-TH', options)
-            return ((formattedItemDate>=startdate&&formattedItemDate<=enddate)&&(item.admin_id.name.toLowerCase().includes(searchTerm)||item.ipaddress.toLowerCase().includes(searchTerm)));
+            return ((formattedItemDate>=startdate&&formattedItemDate<=enddate)&&
+            ((item.member_id!=null && item.member_id !=undefined && item.member_id!='' ? item.member_id.name.toLowerCase().includes(searchTerm):'') ||
+            ( item.ipaddress!=null && item.ipaddress != undefined && item.ipaddress !=''? item.ipaddress.toLowerCase().includes(searchTerm):'')));
           }
           
         });
@@ -153,8 +156,8 @@ export default {
         const searchTerm = this.searchall.toLowerCase();
         return this.item_product.filter((item) => {
           return (
-            item.admin_id.name.toLowerCase().includes(searchTerm) ||
-            item.ipaddress.toLowerCase().includes(searchTerm)
+            (item.member_id!=null && item.member_id !=undefined && item.member_id!='' ? item.member_id.name.toLowerCase().includes(searchTerm):'') ||
+            ( item.ipaddress!=null && item.ipaddress != undefined && item.ipaddress !=''? item.ipaddress.toLowerCase().includes(searchTerm):'')
           );
         });
       } else {
