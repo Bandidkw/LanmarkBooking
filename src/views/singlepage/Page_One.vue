@@ -146,12 +146,12 @@
             >
               {{ roomdata.name }}
             </h1>
-            <div class="flex flex-col">
+            <div class="flex">
               <p
                 class="flex text-base gap-1 font-thin"
                 style="align-items: baseline"
               >
-                รีวิว :
+                รีวิว:
                 <i
                   v-if="roomdata.starall >= 0"
                   class="flex pi pi-star-fill text-[#fdc500] gap-1"
