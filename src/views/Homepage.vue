@@ -3,7 +3,7 @@
   <div class="invitatain lg:py-0 lg:px-2 sm:px-1">
     <!------------------------------- choose-room ------------------------>
     <div class="choose-room px-4">
-      <div class="filter-type overflow-x-auto hide-scrollbar flex gap-5" ref="menuContainer" style="position: relative; overflow-x: auto;">
+      <div class="filter-type overflow-x-auto hide-scrollbar flex" ref="menuContainer" style="position: relative; overflow-x: auto; align-items: center;">
         <div class="room" @click="emitOption('')">
           <img
             src="https://www.svgrepo.com/show/404610/global-globe-planet-space-world.svg"
@@ -99,7 +99,9 @@
           <a class="font-type">เพื่อนนำเที่ยว</a>
         </div>
       </div>
+
       <!----------------------------------------- Button-box ------------------------------->
+      
       <div class="flex gap-2">
         <Button
           class="filter filter-mate"
@@ -115,7 +117,7 @@
         />
         <Button
           icon="bi bi-filter-circle"
-          class="filter"
+          class="filter filter-btn"
           label="ตัวกรอง"
           outlined
           @click="showFilter"
@@ -389,6 +391,9 @@ handleScroll() {
   height: 2.5rem;
   justify-content: center;
 }
+.filter-type{
+  gap: 1.25rem;
+}
 /*------------------------- search-box-style -------------------------*/
 .search-box-cus {
   width: 30%;
@@ -578,7 +583,16 @@ p {
 .grid-img:hover .hidden {
   opacity: 1;
 }
-@media screen and (max-width: 1280px) {
+@media (max-width:1440px) {
+  .filter-type{
+    column-gap: 2rem;
+    max-width: 800px;
+  }
+  .room a{
+    font-size: 0.5em;
+  }
+}
+@media (max-width: 1280px) {
   .search-box-cus {
     display: none;
   }
@@ -636,9 +650,19 @@ p {
   .filter-type{
     padding-top: 1em;
     max-width: 150px;
+    gap: 0.8rem;
   }
-  .room {
+  .filter-btn{
+    width: 80px;
+    padding: 0.3em;
+  }
+  .room img{
+    padding: 0.5em;
+    width: 2.6em;
+  }
+  .room a {
     display: block;
+    font-size: 7px;
   }
 }
 </style>

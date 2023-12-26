@@ -1,7 +1,7 @@
 <!-- Navbar.vue -->
 <template>
   <nav
-    class="nav-bar w-full"
+    class="nav-bar flex w-full"
     style="box-shadow: rgba(59, 131, 246, 0.712) 0 1px 10px 1px"
   >
     <router-link to="/" class="topweb-left flex">
@@ -91,13 +91,12 @@ export default {
 .nav-bar {
   width: 100%;
   height: 80px;
-  display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .topweb-left img {
-  width: 100%;
+  width: 178px;
   height: 3rem;
 }
 
@@ -121,6 +120,10 @@ export default {
   }
 }
 @media screen and (max-width: 1280px) {
+  .topweb-left{
+    width: 178px;
+    height: 48px;
+  }
   .logo-mobile {
     display: none;
   }
@@ -156,6 +159,9 @@ export default {
 }
 /* เมื่อขนาดหน้าจอไม่เกิน 414px */
 @media screen and (max-width: 430px) {
+  .topweb-left{
+    width: 50px;
+  }
   .search-box {
     width: 30%;
   }

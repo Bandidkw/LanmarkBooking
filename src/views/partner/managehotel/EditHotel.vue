@@ -496,25 +496,25 @@ export default {
         console.log(error);
       }
     },
-    initMap() {
-      const map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: this.latitude, lng: this.longitude },
-        zoom: 8,
-      });
-      new google.maps.Marker({
-        position: { lat: this.latitude, lng: this.longitude },
-        map: map,
-        title: "Location",
-      });
-    },
+    // initMap() {
+    //   const map = new google.maps.Map(document.getElementById("map"), {
+    //     center: { lat: this.latitude, lng: this.longitude },
+    //     zoom: 8,
+    //   });
+    //   new google.maps.Marker({
+    //     position: { lat: this.latitude, lng: this.longitude },
+    //     map: map,
+    //     title: "Location",
+    //   });
+    // },
   },
-  watch: {
-    latitude() {
-      this.initMap();
-    },
-    longitude() {
-      this.initMap();
-    },
-  },
+  // watch: {
+  //   latitude() {
+  //     this.initMap();
+  //   },
+  //   longitude() {
+  //     this.initMap();
+  //   },
+  // },
 };
 </script>
