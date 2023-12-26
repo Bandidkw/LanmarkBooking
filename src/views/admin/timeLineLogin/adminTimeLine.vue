@@ -91,7 +91,7 @@ export default {
     const getData = async () => {
       try {
         const result = await admin.GetTimeLineAdmin();
-        const clearresult = result.filter((item) => item.admin_id != "");
+        const clearresult = result.filter((item) => item.admin_id != "" && item.admin_id !=null && item.admin_id != undefined && item.ipaddress !='' && item.ipaddress !=null && item.ipaddress != undefined).reverse();
         item_product.value = clearresult;
 
         console.log(item_product.value);
@@ -155,8 +155,13 @@ export default {
             );
             return (
               formattedItemDate == startdate &&
-              (item.admin_id.name.toLowerCase().includes(searchTerm) ||
-                item.ipaddress.toLowerCase().includes(searchTerm))
+              (
+                (
+                  item.admin_id != "" && item.admin_id !=null && item.admin_id != undefined && item.ipaddress !='' && item.ipaddress !=null && item.ipaddress != undefined ?
+                  item.admin_id.name.toLowerCase().includes(searchTerm) || item.ipaddress.toLowerCase().includes(searchTerm):''
+                )
+                
+                )
             );
           }
           if (this.selectdate[1] != null && this.selectdate[1] != "") {
@@ -171,17 +176,21 @@ export default {
             return (
               formattedItemDate >= startdate &&
               formattedItemDate <= enddate &&
-              (item.admin_id.name.toLowerCase().includes(searchTerm) ||
-                item.ipaddress.toLowerCase().includes(searchTerm))
+              (
+                (
+                  item.admin_id != "" && item.admin_id !=null && item.admin_id != undefined && item.ipaddress !='' && item.ipaddress !=null && item.ipaddress != undefined ?
+                  item.admin_id.name.toLowerCase().includes(searchTerm) || item.ipaddress.toLowerCase().includes(searchTerm):''
+                )
+              )
             );
           }
         });
       } else if (this.searchall) {
         const searchTerm = this.searchall.toLowerCase();
         return this.item_product.filter((item) => {
-          return (
-            item.admin_id.name.toLowerCase().includes(searchTerm) ||
-            item.ipaddress.toLowerCase().includes(searchTerm)
+          return(
+                  item.admin_id != "" && item.admin_id !=null && item.admin_id != undefined && item.ipaddress !='' && item.ipaddress !=null && item.ipaddress != undefined ?
+                  item.admin_id.name.toLowerCase().includes(searchTerm) || item.ipaddress.toLowerCase().includes(searchTerm):''
           );
         });
       } else {

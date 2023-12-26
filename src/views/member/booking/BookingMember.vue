@@ -166,7 +166,8 @@
           :headerStyle="{ color: headerTextColor }"
         >
           <template #body="{ data }">
-            {{ calculateTimeDifference(data.updatedAt) }}
+            {{data.calculatedTimeDifference}}
+            <!-- {{ calculateTimeDifference(data.updatedAt) }} -->
           </template>
         </Column>
         <Column
@@ -322,12 +323,14 @@ export default {
         );
         if (Response.data.status === true) {
           item_product.value = Response.data.data.reverse();
+        
           // console.log(Response.data.data);
           item_product.value.forEach((item) => {
             if (calculateTimeDifference(item.updatedAt) === "0 : 0 : 0") {
               this.deleteBooking(item._id);
             }
           });
+          loading.value = false;
         } else {
           console.error("ข้อมูลขาดหายในการตอบสนอง API.");
         }
@@ -338,7 +341,8 @@ export default {
     const pollingInterval = 1000;
     const startPolling = () => {
       setInterval(async () => {
-        await fetchData();
+        // await fetchData();
+       
         updateExpiredStatus();
       }, pollingInterval);
       // console.log("Fetching data...");
@@ -384,7 +388,9 @@ export default {
     ]);
     const item_product = ref([]);
     const successMessageVisible = ref(true);
+    //ไม่ได้ใช้
     const getData = async () => {
+      
       try {
         const Response = await axios.get(
           `${process.env.VUE_APP_API}booking/member/`,
@@ -452,8 +458,10 @@ export default {
     };
 
     onMounted(() => {
-      getData(); // ดึงข้อมูลเริ่มต้น
+      fetchData();
+      //getData(); // ดึงข้อมูลเริ่มต้น
       startPolling();
+
       // อัพเดทต่างหากเวลาทุกวินาที
       const intervalId = setInterval(updateTimes, 1000);
 
