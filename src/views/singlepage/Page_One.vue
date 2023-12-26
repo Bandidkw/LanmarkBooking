@@ -1,9 +1,9 @@
 <template>
   <div class="container flex flex-col px-40 white-container">
     <div class="container px-20 py-4">
-      <div class="px-40 text-center head-info">
+      <!-- <div class="px-40 text-center head-info">
         <h1 class="text-2xl">{{ roomdata.name }}</h1>
-      </div>
+      </div> -->
     </div>
     <div
       class="image-box py-2 w-full h-[31.25rem] flex gap-x-2"
@@ -146,8 +146,13 @@
             >
               {{ roomdata.name }}
             </h1>
-            <div class="flex flex-col justify-content-start">
-              <p class="text-base font-semibold">รีวิว {{ averageRating }}</p>
+             <div class="flex flex-col ">
+              <p class="flex text-base  gap-1 font-thin" style="align-items: baseline;">รีวิว :
+                <i v-if="roomdata.starall >= 0" class="flex pi pi-star-fill text-[#fdc500] gap-1">
+                  <span class="text-black">{{ roomdata.starall }}</span>
+                </i>
+                <span v-else class="text-sm text-gray-600">ยังไม่มีรีวิว</span>
+              </p>
             </div>
           </div>
           <p>
@@ -682,15 +687,6 @@ export default {
   },
   // Computed properties ที่ใช้คำนวณค่าเฉลี่ยของรีวิวและสถานะปุ่ม
   computed: {
-    averageRating() {
-      if (this.value && this.value.length > 0) {
-        const sum = this.value.reduce((total, rating) => total + rating, 0);
-        const average = sum / this.value.length;
-        return average.toFixed(1);
-      } else {
-        return "ยังไม่มีคะแนน";
-      }
-    },
     isButtonDisabled() {
       return !(this.qrcode || this.credit);
     },
