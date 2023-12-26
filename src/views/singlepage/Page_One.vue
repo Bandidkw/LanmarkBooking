@@ -140,15 +140,22 @@
       <!-- รายละเอียด -->
       <div class="w-1/2 max-[414px]:w-full max-[430px]:w-full">
         <div class="details m-0 p-2 border-b-2 border-[#3b82f6]">
-          <div class="flex justify-between mb-4" style="align-items: center">
+          <div class="flex justify-between mb-4" style="align-items: baseline">
             <h1
               class="text-2xl font-bold max-[768px]:text-xs max-[768px]:leading-8"
             >
               {{ roomdata.name }}
             </h1>
-             <div class="flex flex-col ">
-              <p class="flex text-base  gap-1 font-thin" style="align-items: baseline;">รีวิว :
-                <i v-if="roomdata.starall >= 0" class="flex pi pi-star-fill text-[#fdc500] gap-1">
+            <div class="flex flex-col">
+              <p
+                class="flex text-base gap-1 font-thin"
+                style="align-items: baseline"
+              >
+                รีวิว :
+                <i
+                  v-if="roomdata.starall >= 0"
+                  class="flex pi pi-star-fill text-[#fdc500] gap-1"
+                >
                   <span class="text-black">{{ roomdata.starall }}</span>
                 </i>
                 <span v-else class="text-sm text-gray-600">ยังไม่มีรีวิว</span>
@@ -296,10 +303,10 @@
             </div>
           </div>
         </div>
-        <div
-          class="card reserve-box w-full border-2 rounded-2xl h-[350px] shadow-md max-[430px]:w-full max-[430px]:my-4 max-[414px]:w-full max-[414px]:my-4 overflow-y-scroll"
-        >
-          <Card>
+        <div>
+          <Card
+            class="card reserve-box w-full border-2 rounded-2xl h-[350px] shadow-md max-[430px]:w-full max-[430px]:my-4 max-[414px]:w-full max-[414px]:my-4 overflow-y-scroll"
+          >
             <template #title> Mockup Review </template>
             <template #content>
               <div
@@ -313,10 +320,15 @@
                   >
                 </div>
                 <div>
-                  <p class="font-bold py-2 flex justify-content-between" style="align-items: end;">
+                  <div
+                    class="font-bold py-2 flex justify-content-between"
+                    style="align-items: end"
+                  >
                     {{ item.booking_id.member_id.name }}
-                     <p class="text-xs font-light text-gray-400"> {{ formatDate(item.booking_id.date_to, "dd/MM/yy") }} </p>
-                  </p>
+                    <p class="text-xs font-light text-gray-400">
+                      {{ formatDate(item.booking_id.date_to, "dd/MM/yy") }}
+                    </p>
+                  </div>
                   <p class="text-gray-600">{{ item.detail }}</p>
                 </div>
               </div>
@@ -718,9 +730,11 @@ export default {
 .small-box {
   display: grid;
 }
+
 .large-box img {
   height: 100%;
 }
+
 .small-images {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -777,38 +791,44 @@ export default {
 .hotel-info-b {
   padding: 1.25rem 0;
 }
+
 .reserve-box {
   box-shadow: 0px 1px 10px 2px #3b82f6;
 }
 
 @media screen and (max-width: 1024px) {
+  .image-box {
+    height: 25em;
+  }
+
   .white-container {
     padding: 0 5rem;
   }
 }
-@media screen and (max-width: 1024px) {
-  .image-box {
-    height: 25em;
-  }
-}
+
 @media (max-width: 768px) {
   .sleep-box {
     width: 50%;
   }
+
   .detail-box-2 {
     height: 900px;
   }
 }
+
 @media screen and (max-width: 430px) {
   .sleep-box {
     width: 50%;
   }
+
   .img-all {
     width: 300px;
   }
+
   .booking-btn-box {
     widows: 100%;
   }
+
   .container {
     padding: 0 1rem;
   }
@@ -867,10 +887,12 @@ export default {
     width: 100%;
     height: auto;
   }
+
   .hotel-info-b {
     margin-top: 1rem;
   }
 }
+
 @media screen and (max-width: 414px) {
   .container {
     padding: 0 1rem;
@@ -924,6 +946,7 @@ export default {
     width: 100%;
     height: auto;
   }
+
   .hotel-info-b {
     margin-top: 1rem;
   }
