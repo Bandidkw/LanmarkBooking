@@ -3,7 +3,7 @@
   <div class="invitatain lg:py-0 lg:px-2 sm:px-1">
     <!------------------------------- choose-room ------------------------>
     <div class="choose-room px-4">
-      <div class="filter-type overflow-x-auto hide-scrollbar flex gap-4" ref="menuContainer" style="position: relative; overflow-x: auto;">
+      <div class="filter-type overflow-x-auto hide-scrollbar flex gap-5" ref="menuContainer" style="position: relative; overflow-x: auto;">
         <div class="room" @click="emitOption('')">
           <img
             src="https://www.svgrepo.com/show/404610/global-globe-planet-space-world.svg"
@@ -635,6 +635,7 @@ p {
   }
   .filter-type{
     padding-top: 1em;
+    max-width: 150px;
   }
   .room {
     display: block;

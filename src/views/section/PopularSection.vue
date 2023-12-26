@@ -12,22 +12,22 @@
         @touchmove="handleTouchMove($event, item)"
       >
         <router-link :to="{ name: 'hotel', params: { id: item._id } }">
-          <Galleria
-            v-model:visible="displayBasic"
-            :value="getPreloadedImages(item)"
-            :numVisible="5"
-            containerStyle="max-width: 640px; position: relative;"
-            :showThumbnails="false"
-            :showIndicators="true"
-            :changeItemOnIndicatorHover="true"
-            :showIndicatorsOnItem="true"
-            :indicatorsPosition="position"
-            :activeIndex.sync="item.activeIndex"
-          >
-            <template v-slot:item="{ item }">
-              <img :src="item" :alt="item && item.alt ? item.alt : ''" />
-            </template>
-          </Galleria>
+<Galleria
+  v-model:visible="displayBasic"
+  :value="getPreloadedImages(item)"
+  :numVisible="5"
+  containerStyle="max-width: 640px; position: relative;"
+  :showThumbnails="false"
+  :showIndicators="true"
+  :changeItemOnIndicatorHover="true"
+  :showIndicatorsOnItem="true"
+  :indicatorsPosition="position"
+  v-model:activeIndex="item.activeIndex"
+>
+  <template v-slot:item="{ item }">
+    <img :src="item" :alt="item && item.alt ? item.alt : ''" />
+  </template>
+</Galleria>
         </router-link>
 
         <i
