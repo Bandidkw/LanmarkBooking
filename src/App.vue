@@ -21,8 +21,7 @@
           align-items: center;
           border-radius: 1rem;
           width: 400px;
-        "
-      >
+        ">
         <img
           src="https://quaysidehotel.co.uk/wp-content/uploads/2022/09/Reasons-to-a-room-direct-with-hotel-over-booking-via-third-party-travel-agency-1024x657.jpg"
           alt="Popup Image"

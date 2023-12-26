@@ -1,5 +1,5 @@
 <template>
-  <div class="container flex flex-col px-40 white-container">
+  <div class="container flex flex-col px-40 white-container" style="row-gap: 1rem;">
     <div class="container px-20 py-4">
       <!-- <div class="px-40 text-center head-info">
         <h1 class="text-2xl">{{ roomdata.name }}</h1>
@@ -142,7 +142,7 @@
         <div class="details m-0 p-2 border-b-2 border-[#3b82f6]">
           <div class="flex justify-between mb-4" style="align-items: baseline">
             <h1
-              class="text-2xl font-bold max-[768px]:text-xs max-[768px]:leading-8"
+              class="text-main font-bold max-[768px]:text-xs max-[768px]:leading-8 max-[414px]:text-xl"
             >
               {{ roomdata.name }}
             </h1>
@@ -251,7 +251,7 @@
           </div>
         </div>
       </div>
-      <div class="w-1/2 flex flex-col gap-y-16 booking-box">
+      <div class="w-1/2 flex flex-col gap-y-16 booking-box max-[414px]:gap-y-2">
         <div
           class="reserve-box w-full text-center border-2 rounded-2xl h-[350px] shadow-md max-[430px]:w-full max-[430px]:my-4 max-[414px]:w-full max-[414px]:my-4"
         >
@@ -393,6 +393,9 @@
         </div>
       </Dialog>
     </div>
+    <div class="footer-box w-full">
+      <Footer/>
+    </div>
   </div>
 </template>
 
@@ -402,10 +405,11 @@ import Rating from "primevue/rating";
 import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
 import { User } from "../../service/user";
+import Footer from "@/components/Footer/footer.vue";
 
 export default {
   components: {
-    Rating,
+    Rating,Footer
   },
   props: ["id"],
   data() {
@@ -721,7 +725,9 @@ export default {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
-
+.text-main{
+  font-size: 1.5em;
+}
 .img-grid img {
   padding: 0.5rem;
   height: 100%;

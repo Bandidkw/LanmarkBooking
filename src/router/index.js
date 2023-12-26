@@ -4,6 +4,7 @@ import Home from '@/views/Homepage.vue';
 import About from '@/views/Aboutpage.vue';
 import DashBoard from '@/views/DashBoardPage.vue'
 import PopularSection from '@/views/section/PopularSection.vue'
+import Footer from "@/components/Footer/footer.vue"
 import DashBoardAdmin from '@/views/admin/DashBoardAdmin'
 import ManageAdmin from '@/views/admin/manageadmin/ManageAdmin.vue'
 import CreateAccount from "@/views/CreateAccount.vue";
@@ -30,6 +31,11 @@ const router = createRouter({
       path: '/popular',
       name: 'popular',
       component: PopularSection,
+    },
+    {
+      path: '/footer',
+      name: 'footer',
+      component: Footer,
     },
     {
       path: '/dashboardadmin',

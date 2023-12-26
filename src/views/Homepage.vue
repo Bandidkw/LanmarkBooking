@@ -1,6 +1,6 @@
 <!-- Content.vue -->
 <template>
-  <div class="invitatain lg:py-0 lg:px-2 sm:px-1">
+  <div class="invitatain lg:py-0 lg:px-2 sm:px-1" style="row-gap: 1rem;">
     <!------------------------------- choose-room ------------------------>
     <div class="choose-room px-4">
       <div class="filter-type overflow-x-auto hide-scrollbar flex" ref="menuContainer" style="position: relative; overflow-x: auto; align-items: center;">
@@ -204,6 +204,9 @@
     <div class="poppular-box">
       <PopularSection :filterValue="selectedValue" />
     </div>
+    <div class="footer-box w-full">
+      <Footer/>
+    </div>
   </div>
 </template>
 
@@ -211,10 +214,11 @@
 import axios from "axios";
 import { ref } from "vue";
 import PopularSection from "@/views/section/PopularSection.vue";
+import Footer from "@/components/Footer/footer.vue";
 
 export default {
   components: {
-    PopularSection,
+    PopularSection,Footer
   },
   created() {
     axios
@@ -607,6 +611,21 @@ p {
     max-width: 400px;
   }
 }
+@media (min-width: 600px) and (max-width: 1440px){
+  .filter-type{
+    column-gap: 4rem;
+    max-width: 800px;
+  }
+  .room img{
+    padding: 0.5em;
+    width: 3.3em;
+  }
+  .room a {
+    display: block;
+    font-size: 8px;
+  }
+
+}
 @media screen and (max-width: 768px) {
   .search-box-cus {
     display: none;
@@ -649,7 +668,7 @@ p {
   }
   .filter-type{
     padding-top: 1em;
-    max-width: 150px;
+    max-width: 220px;
     gap: 0.8rem;
   }
   .filter-btn{

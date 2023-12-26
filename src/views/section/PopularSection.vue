@@ -380,6 +380,11 @@ export default {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+@media (min-width: 640px) and (max-width:1280px) {
+  .grid-container {
+    grid-template-columns: repeat(3, 180px);
+  }
+}
 
 @media screen and (max-width: 640px) {
   .grid-container {
