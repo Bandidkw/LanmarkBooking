@@ -102,14 +102,14 @@
       <!----------------------------------------- Button-box ------------------------------->
       <div class="flex gap-2">
         <Button
-          class="filter"
+          class="filter filter-mate"
           outlined
           label="รูมเมท"
           icon="bi bi-people icon"
         />
         <Button
           icon="bi bi-bucket"
-          class="filter"
+          class="filter filter-mate"
           label="แม่บ้าน"
           outlined
         />
@@ -619,14 +619,25 @@ p {
   }
 }
 @media screen and (max-width: 414px) {
+  .filter-mate{
+    display: none;
+  }
   .invitatain {
     padding: 0 2rem 1rem 2rem;
   }
   .choose-room {
     column-gap: 1rem;
   }
+  .choose-room{
+    margin: 0;
+    padding: 1rem 0 0 0;
+    align-items: center;
+  }
+  .filter-type{
+    padding-top: 1em;
+  }
   .room {
-    display: none;
+    display: block;
   }
 }
 </style>

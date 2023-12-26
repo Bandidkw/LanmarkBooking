@@ -70,7 +70,7 @@
       </div>
       <div class="details-container px-2">
         <div>
-          <div v-if="item.starall" class="flex gap-1">
+          <div v-if="item.starall" class="rating flex gap-1">
             <div v-for="starIndex in 10" :key="starIndex">
               <i
                 :class="getStarIconClass(starIndex, item.starall)"
@@ -407,6 +407,11 @@ export default {
 }
 
 @media screen and (max-width: 414px) {
+  .rating{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+  }
   .grid-container {
     grid-template-columns: repeat(1, 1fr);
   }

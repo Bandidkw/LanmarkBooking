@@ -11,26 +11,29 @@
         สัญญาการใช้งาน lanmark ของ partner
       </div>
     </template>
-    <div class="grid m-0 px-4" style="border: 1px solid #ccc">
+    <div
+      class="main-con"
+      style="border: 1px solid #ccc"
+    >
       <div ref="content" id="contractContent">
         <div class="col-12 md:col-12 text-center">
           <h2>สัญญาการใช้งาน lanmark ของ partner</h2>
         </div>
-        <div class="col-12 md:col-12 px-3">
+        <div class="col-12 md:col-12 px-3 max-[414px]:px-0">
           <!--สัญญา-->
           <p style="text-align: end">วันที่ 14 ธันวาคม 2566</p>
-          <p style="text-indent: 2.5em">
+          <p class="text-m">
             สัญญาฉบับนี้ทำขึ้นระหว่าง นาย กรวิทย์ บัวครื้น
             บัตรประจำตัวประชาชนเลขที่ 1929900543262 อยู่บ้านที่ 15/330 ตึก the
             memory aparment ซอยรัชดาภิเษก36 แยก9-11 แขวงจันเกษม เขตจัตุจักร
             จังหวัดกรุงเทพมหานคร รหัสไบรษณี 10900
             ซึ่งต่อไปนี้ในสัญญานี้จะเรียกว่า “landmark.online” ฝ่ายหนึ่ง
           </p>
-          <p style="text-indent: 2.5em">
-            กับ......ชื่อ.................................
+          <p class="text-m">
+            กับ......ชื่อ....................
             (รายละเอียดที่พักอย่างละเอียด)หมายเลขโทรศัพท์........จำนวน............ห้อง
             ในวันที่ทำสัญญาฉบับนี้เป็นต้นไป
-            ในราคาค่าเช่า................บาท.....(....................................)
+            ในราคาค่าเช่า........บาท.....(.......................)
             ซึ่งต่อไปนี้ในสัญญานี้จะเรียกว่า“ผู้ให้เช่า”
             ทั้งสองฝ่ายได้อ่านและตกลงกันดังมีข้อความดังต่อไปนี้
           </p>
@@ -92,13 +95,13 @@
           <p style="text-indent: 2.5em; text-align: right">
             (........................................)
           </p>
-          <p style="text-indent: 2.5em; text-align: right">
+          <p class="text-p" style="text-align: right">
             ลงชื่อ........................................พยาน
           </p>
           <p style="text-indent: 2.5em; text-align: right">
             (........................................)
           </p>
-          <p style="text-indent: 2.5em; text-align: right">
+          <p class="text-p" style="text-align: right">
             ลงชื่อ........................................พยาน
           </p>
           <p style="text-indent: 2.5em; text-align: right">
@@ -279,4 +282,27 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+.main-con{
+  margin: 0;
+  padding: 0 1em;
+}
+.text-m {
+  text-indent: 2.5em;
+}
+.text-p {
+  text-indent: 2.5em;
+}
+@media (max-width: 414px) {
+  .main-con{
+  padding: 0;
+}
+  .text-p {
+    text-indent: 1rem;
+    /* background: red; */
+  }
+  .text-m {
+    text-align: justify;
+  }
+}
+</style>
