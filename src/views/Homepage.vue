@@ -385,9 +385,9 @@
     <div class="poppular-box">
       <PopularSection :filterValue="selectedValue" />
     </div>
-    <div class="footer-box w-full">
-      <Footer />
-    </div>
+    <!-- <div class="footer-box w-full">
+      <Footer/>
+    </div> -->
   </div>
 </template>
 

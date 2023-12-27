@@ -99,58 +99,136 @@
           :headerStyle="{ color: headerTextColor }"
         >
           <template #body="{ data }">
+            <!-- หากสถานะการจองห้องเป็น 'รออนุมัติห้อง' -->
             <div
               class="lg:w-10 xl:w-6 bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
-              style="width: 40%; border-radius: 1rem; padding: 0.5rem"
-              v-if="data.status.slice(-1)[0].statusbooking === 'รออนุมัติห้อง'"
-            >
-              <div>
-                {{ data.status.slice(-1)[0].statusbooking }}
-              </div>
-            </div>
-            <div
-              class="lg:w-10 xl:w-6 bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
-              style="width: 40%; border-radius: 1rem; padding: 0.5rem"
-              v-if="data.status.slice(-1)[0].statusbooking === 'รอชำระเงิน'"
-            >
-              <div>
-                {{ data.status.slice(-1)[0].statusbooking }}
-              </div>
-            </div>
-            <div
-              class="lg:w-10 xl:w-7 bg-blue-100 text-blue-600 font-normal border-2 border-blue-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="
-                data.status.slice(-1)[0].statusbooking === 'ยีนยันการชำระเงิน'
+                data.status.slice(-1)[0].statusbooking === 'รออนุมัติห้อง' &&
+                data.status.slice(-1)[0].statusbooking !== 'รอชำระเงิน' &&
+                calculateTimeDifference(data.updatedAt) !== 'เกินกำหนดการชำระ'
               "
             >
               <div>
                 {{ data.status.slice(-1)[0].statusbooking }}
               </div>
             </div>
+            <!-- สิ้นสุดการตรวจสอบเงื่อนไข -->
+
+            <!-- หากสถานะการจองห้องเป็น 'รอชำระเงิน' -->
+            <div
+              class="lg:w-10 xl:w-6 bg-orange-100 text-orange-600 font-normal border-2 border-orange-300 text-center"
+              style="width: 40%; border-radius: 1rem; padding: 0.5rem"
+              v-if="
+                data.status.slice(-1)[0].statusbooking === 'รอชำระเงิน' &&
+                data.status.slice(-1)[0].statusbooking !== 'รออนุมัติห้อง' &&
+                calculateTimeDifference(data.updatedAt) !== 'เกินกำหนดการชำระ'
+              "
+            >
+              <div>
+                {{ data.status.slice(-1)[0].statusbooking }}
+              </div>
+            </div>
+            <!-- สิ้นสุดการตรวจสอบเงื่อนไข -->
+
+            <!-- หากสถานะการจองห้องเป็น 'ยีนยันการชำระเงิน' -->
+            <div
+              class="lg:w-10 xl:w-7 bg-blue-100 text-blue-600 font-normal border-2 border-blue-300 text-center"
+              style="width: 40%; border-radius: 1rem; padding: 0.5rem"
+              v-if="
+                data.status.slice(-1)[0].statusbooking ===
+                  'ยีนยันการชำระเงิน' &&
+                data.status.slice(-1)[0].statusbooking !== 'รออนุมัติห้อง' &&
+                data.status.slice(-1)[0].statusbooking !== 'รอชำระเงิน' &&
+                calculateTimeDifference(data.updatedAt) !== 'เกินกำหนดการชำระ'
+              "
+            >
+              <div>
+                {{ data.status.slice(-1)[0].statusbooking }}
+              </div>
+            </div>
+            <!-- สิ้นสุดการตรวจสอบเงื่อนไข -->
+
+            <!-- เงื่อนไขเพื่อแสดงสถานะ 'จองห้องสำเร็จ' และไม่แสดงนับเวลาถอยหลัง -->
             <div
               class="lg:w-10 xl:w-6 bg-green-100 text-green-600 font-normal border-2 border-green-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
-              v-if="data.status.slice(-1)[0].statusbooking === 'จองห้องสำเร็จ'"
+              v-if="
+                data.status.slice(-1)[0].statusbooking === 'จองห้องสำเร็จ' &&
+                calculateTimeDifference(data.updatedAt) !==
+                  'เกินกำหนดการชำระ' &&
+                data.status.slice(-1)[0].statusbooking !== 'รออนุมัติห้อง' &&
+                data.status.slice(-1)[0].statusbooking !== 'รอชำระเงิน'
+              "
             >
               <div>
                 {{ data.status.slice(-1)[0].statusbooking }}
               </div>
             </div>
+            <!-- สิ้นสุดการตรวจสอบเงื่อนไข -->
+
+            <!-- หากสถานะการจองห้องเป็น 'ไม่อนุมัติห้อง' -->
             <div
               class="lg:w-10 xl:w-6 bg-red-100 text-red-600 font-normal border-2 border-red-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
-              v-if="data.status.slice(-1)[0].statusbooking === 'ไม่อนุมัติห้อง'"
+              v-if="
+                data.status.slice(-1)[0].statusbooking === 'ไม่อนุมัติห้อง' &&
+                data.status.slice(-1)[0].statusbooking !== 'รออนุมัติห้อง' &&
+                data.status.slice(-1)[0].statusbooking !== 'รอชำระเงิน' &&
+                calculateTimeDifference(data.updatedAt) !== 'เกินกำหนดการชำระ'
+              "
             >
               <div>
                 {{ data.status.slice(-1)[0].statusbooking }}
               </div>
             </div>
+            <!-- สิ้นสุดการตรวจสอบเงื่อนไข -->
+
+            <!-- หากสถานะการจองห้องเป็น 'ชำระเงินไม่สำเร็จ' -->
             <div
               class="lg:w-10 xl:w-5 bg-red-100 text-red-600 font-normal border-2 border-red-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="
-                data.status.slice(-1)[0].statusbooking === 'ชำระเงินไม่สำเร็จ'
+                data.status.slice(-1)[0].statusbooking ===
+                  'ชำระเงินไม่สำเร็จ' &&
+                data.status.slice(-1)[0].statusbooking !== 'รออนุมัติห้อง' &&
+                data.status.slice(-1)[0].statusbooking !== 'รอชำระเงิน' &&
+                calculateTimeDifference(data.updatedAt) !== 'เกินกำหนดการชำระ'
+              "
+            >
+              <div>
+                {{ data.status.slice(-1)[0].statusbooking }}
+              </div>
+            </div>
+            <!-- สิ้นสุดการตรวจสอบเงื่อนไข -->
+
+            <!-- หาก calculateTimeDifference(data.updatedAt) เป็น 'เกินกำหนดการชำระ' และสถานะ 'จองห้องสำเร็จ' -->
+            <div
+              class="lg:w-10 xl:w-6 bg-green-100 text-green-600 font-normal border-2 border-green-300 text-center"
+              style="width: 40%; border-radius: 1rem; padding: 0.5rem"
+              v-if="
+                calculateTimeDifference(data.updatedAt) ===
+                  'เกินกำหนดการชำระ' &&
+                data.status.slice(-1)[0].statusbooking === 'จองห้องสำเร็จ' &&
+                data.status.slice(-1)[0].statusbooking !== 'รออนุมัติห้อง' &&
+                data.status.slice(-1)[0].statusbooking !== 'รอชำระเงิน'
+              "
+            >
+              <div>
+                {{ data.status.slice(-1)[0].statusbooking }}
+              </div>
+            </div>
+            <!-- สิ้นสุดการตรวจสอบเงื่อนไข -->
+            <!-- หาก calculateTimeDifference(data.updatedAt) เป็น 'เกินกำหนดการชำระ' และสถานะ 'ไม่อนุมัติห้อง' -->
+            <div
+              class="lg:w-10 xl:w-6 bg-red-100 text-red-600 font-normal border-2 border-red-300 text-center"
+              style="width: 40%; border-radius: 1rem; padding: 0.5rem"
+              v-if="
+                calculateTimeDifference(data.updatedAt) ===
+                  'เกินกำหนดการชำระ' &&
+                data.status.slice(-1)[0].statusbooking === 'ไม่อนุมัติห้อง' &&
+                data.status.slice(-1)[0].statusbooking !== 'รออนุมัติห้อง' &&
+                data.status.slice(-1)[0].statusbooking !== 'รอชำระเงิน'
               "
             >
               <div>
@@ -166,7 +244,7 @@
           :headerStyle="{ color: headerTextColor }"
         >
           <template #body="{ data }">
-            {{data.calculatedTimeDifference}}
+            {{ data.calculatedTimeDifference }}
             <!-- {{ calculateTimeDifference(data.updatedAt) }} -->
           </template>
         </Column>
@@ -250,7 +328,8 @@
                   style="z-index: 100; font-size: 1.5rem; color: #fff"
                   @click="deleteImage"
                   v-if="imagePreview !== null"
-                ></i>
+                >
+                </i>
                 <Image
                   :src="imagePreview"
                   v-if="imagePreview !== null"
@@ -274,7 +353,6 @@
           </div>
         </div>
       </div>
-
       <div class="col-12 md:col-12 text-center">
         <div
           v-if="
@@ -323,7 +401,7 @@ export default {
         );
         if (Response.data.status === true) {
           item_product.value = Response.data.data.reverse();
-        
+
           // console.log(Response.data.data);
           item_product.value.forEach((item) => {
             if (calculateTimeDifference(item.updatedAt) === "0 : 0 : 0") {
@@ -342,7 +420,7 @@ export default {
     const startPolling = () => {
       setInterval(async () => {
         // await fetchData();
-       
+
         updateExpiredStatus();
       }, pollingInterval);
       // console.log("Fetching data...");
@@ -354,6 +432,7 @@ export default {
     };
     const updateExpiredStatus = () => {
       item_product.value.forEach((item) => {
+        console.log("Item:", item); // ใส่ console.log เพื่อดูข้อมูล item ทั้งหมด
         if (
           item.status.slice(-1)[0].statusbooking === "รอชำระเงิน" &&
           calculateTimeDifference(item.updatedAt) === "เกินกำหนดการชำระ"
@@ -390,7 +469,6 @@ export default {
     const successMessageVisible = ref(true);
     //ไม่ได้ใช้
     const getData = async () => {
-      
       try {
         const Response = await axios.get(
           `${process.env.VUE_APP_API}booking/member/`,
@@ -435,6 +513,7 @@ export default {
       price.value = data.price;
       databooking.value = data;
     };
+
     const calculateTimeDifference = (updatedAt, selectstatus) => {
       if (selectstatus === "จองห้องสำเร็จ") {
         return "0"; // ไม่นับเวลาถอยหลัง

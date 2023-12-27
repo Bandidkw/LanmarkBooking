@@ -36,6 +36,9 @@
         >
       </div>
     </div>
+        <div class="footer-box w-full bg-sky-300">
+      <Footer></Footer>
+      </div>
   </div>
 </template>
 <script>
@@ -45,6 +48,7 @@ import Navbar from "./components/NavbarMain.vue";
 import NavbarAdmin from "./components/NavbarAdmin.vue";
 import NavbarPartner from "./components/NavbarPartner.vue";
 import NavbarMember from "./components/NavbarMember.vue";
+import Footer from "@/components/Footer/footer.vue";
 export default {
   data() {
     return {
@@ -66,6 +70,7 @@ export default {
     NavbarMember,
     NavbarPartner,
     NavbarAdmin,
+    Footer,
   },
   async beforeCreate() {
     this.$store.commit("setLoading", true);
@@ -128,6 +133,7 @@ export default {
 
 <style scoped>
 .body-container {
+  row-gap: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;

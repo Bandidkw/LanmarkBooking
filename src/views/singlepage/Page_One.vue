@@ -1,10 +1,5 @@
 <template>
   <div class="container flex flex-col px-40 white-container" style="row-gap: 1rem;">
-    <div class="container px-20 py-4">
-      <!-- <div class="px-40 text-center head-info">
-        <h1 class="text-2xl">{{ roomdata.name }}</h1>
-      </div> -->
-    </div>
     <div
       class="image-box py-2 w-full h-[31.25rem] flex gap-x-2"
       style="position: relative"
@@ -393,9 +388,9 @@
         </div>
       </Dialog>
     </div>
-    <div class="footer-box w-full">
+    <!-- <div class="footer-box w-full">
       <Footer/>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -600,6 +595,7 @@ export default {
       }
     };
 
+    
     // เมื่อ Component ถูกติดตั้ง ให้ดึงข้อมูลห้องและรีวิว
     onMounted(() => {
       getroom();

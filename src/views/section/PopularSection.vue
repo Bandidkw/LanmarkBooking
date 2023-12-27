@@ -78,7 +78,7 @@
               ></i>
             </div>
           </div>
-          <div v-else-if="item.starall === 0" class="flex gap-1">
+          <div v-else-if="item.starall === 0" class="rating flex gap-1">
             <div v-for="starIndex in 10" :key="starIndex">
               <i class="pi pi-star text-gray-400"></i>
             </div>
