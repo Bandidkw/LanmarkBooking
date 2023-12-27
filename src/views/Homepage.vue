@@ -1,9 +1,13 @@
 <!-- Content.vue -->
 <template>
-  <div class="invitatain lg:py-0 lg:px-2 sm:px-1" style="row-gap: 1rem;">
+  <div class="invitatain lg:py-0 lg:px-2 sm:px-1" style="row-gap: 1rem">
     <!------------------------------- choose-room ------------------------>
     <div class="choose-room px-4">
-      <div class="filter-type overflow-x-auto hide-scrollbar flex" ref="menuContainer" style="position: relative; overflow-x: auto; align-items: center;">
+      <div
+        class="filter-type overflow-x-auto hide-scrollbar flex gap-5"
+        ref="menuContainer"
+        style="position: relative; overflow-x: auto"
+      >
         <div class="room" @click="emitOption('')">
           <img
             src="https://www.svgrepo.com/show/404610/global-globe-planet-space-world.svg"
@@ -101,7 +105,7 @@
       </div>
 
       <!----------------------------------------- Button-box ------------------------------->
-      
+
       <div class="flex gap-2">
         <Button
           class="filter filter-mate"
@@ -129,74 +133,251 @@
       <Dialog
         v-model:visible="isFilterVisible"
         modal
-        header="ประเภทที่พัก"
+        header="ตัวกรอง"
         :style="{ width: '50rem' }"
         :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
       >
-        <label class="py-2" for="category">ประเภท</label>
-        <div class="card flex justify-content-start">
-          <Dropdown
-            v-model="selectedType"
-            showClear
-            :options="roomtype"
-            optionLabel="name"
-            placeholder="เลือกประเภท"
-            class="w-full"
+        <div class="flex justify-content-center py-2 gap-4">
+          <Button
+            label="room"
+            severity="secondary"
+            text
+            raised
+            @click="toggleCard('normal')"
+          />
+          <Button
+            label="roommate"
+            severity="secondary"
+            text
+            raised
+            @click="toggleCard('roommate')"
           />
         </div>
 
-        <!-- ช่องเลือกราคา -->
-        <label class="py-2" for="price">ช่วงราคา</label>
-        <div class="card flex justify-content-start">
-          <Dropdown
-            v-model="selectedPriceRange"
-            showClear
-            :options="pricerange"
-            optionLabel="name"
-            placeholder="เลือกช่วงราคา"
-            class="w-full"
-          />
-        </div>
+        <Card v-if="activeCard === 'normal'">
+          <template #title> <div class="text-center">Normal</div></template>
+          <template #content>
+            <div class="grid">
+              <div class="col-12 flex justify-content-center gap-4">
+                <Button
+                  class="w-full"
+                  label="ทั่วไป"
+                  severity="secondary"
+                  text
+                  raised
+                />
+                <Button
+                  class="w-full"
+                  label="รูมเมท"
+                  severity="secondary"
+                  text
+                  raised
+                />
+              </div>
+              <div class="col-12">
+                <p>TypeRoom :</p>
+                <div class="flex gap-2 overflow-x-auto">
+                  <div
+                    v-for="(type, index) in roomtype"
+                    :key="index"
+                    class="py-3 px-1"
+                    style="width: auto; font-size: 16px"
+                  >
+                    <Button
+                      :label="type.name"
+                      class="button-filter"
+                      text
+                      severity="secondary"
+                      raised
+                      :class="{
+                        'button-filter-clicked':
+                          clickedButtons['roomType'] === type.name,
+                      }"
+                      @click="handleButtonClick('roomType', type.name)"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="flex gap-4">
+                  <Dropdown
+                    class="appearance-none w-full text-gray-700 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+                    v-model="clickedButtons.province"
+                    :options="provincedropdown.value"
+                    optionLabel="name_th"
+                    optionValue="name_th"
+                    placeholder="เลือกจังหวัด"
+                    @change="getamphure('amphure')"
+                    filter
+                  />
+                  <Dropdown
+                    class="appearance-none w-full text-gray-700 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
+                    v-model="clickedButtons.amphure"
+                    :options="amphuredropdown.value"
+                    optionLabel="name_th"
+                    optionValue="name_th"
+                    placeholder="เลือกอำเภอ"
+                    @change="getamphure('tambon')"
+                    filter
+                  />
+                </div>
+              </div>
+              <div class="col-12">
+                <p>ช่วงราคา :</p>
+                <InputText v-model.number="priceRange" class="w-full" />
+                <Slider
+                  :min="200"
+                  :max="15000"
+                  v-model="priceRange"
+                  range
+                  class="w-full"
+                />
+              </div>
+              <div class="col-12">
+                <p>จำนวนผู้เข้าพัก :</p>
+                <div class="flex justify-content-between overflow-x-auto">
+                  <div
+                    v-for="(type, index) in 8"
+                    :key="index"
+                    class="py-3 px-1"
+                    style="width: auto; font-size: 16px"
+                  >
+                    <Button
+                      :label="
+                        index === 0
+                          ? 'ทั้งหมด'
+                          : index === 7
+                          ? '7+'
+                          : index.toString()
+                      "
+                      class="button-filter-child"
+                      text
+                      severity="secondary"
+                      raised
+                      :class="{
+                        'button-filter-clicked':
+                          clickedButtons['guests'] === index,
+                      }"
+                      @click="handleButtonClick('guests', index)"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <p>ห้องนอน :</p>
+                <div class="flex justify-content-between overflow-x-auto">
+                  <div
+                    v-for="(type, index) in 8"
+                    :key="index"
+                    class="py-3 px-1"
+                    style="width: auto; font-size: 16px"
+                  >
+                    <Button
+                      :label="
+                        index === 0
+                          ? 'ทั้งหมด'
+                          : index === 7
+                          ? '7+'
+                          : index.toString()
+                      "
+                      class="button-filter-child"
+                      text
+                      severity="secondary"
+                      raised
+                      :class="{
+                        'button-filter-clicked':
+                          clickedButtons['bedrooms'] === index,
+                      }"
+                      @click="handleButtonClick('bedrooms', index)"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <p>เตียง :</p>
+                <div class="flex justify-content-between overflow-x-auto">
+                  <div
+                    v-for="(type, index) in 8"
+                    :key="index"
+                    class="py-3 px-1"
+                    style="width: auto; font-size: 16px"
+                  >
+                    <Button
+                      :label="
+                        index === 0
+                          ? 'ทั้งหมด'
+                          : index === 7
+                          ? '7+'
+                          : index.toString()
+                      "
+                      class="button-filter-child"
+                      text
+                      severity="secondary"
+                      raised
+                      :class="{
+                        'button-filter-clicked':
+                          clickedButtons['beds'] === index,
+                      }"
+                      @click="handleButtonClick('beds', index)"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <p>ห้องน้ำ :</p>
+                <div class="flex justify-content-between overflow-x-auto">
+                  <div
+                    v-for="(type, index) in 8"
+                    :key="index"
+                    class="py-3 px-1"
+                    style="width: auto; font-size: 16px"
+                  >
+                    <Button
+                      :label="
+                        index === 0
+                          ? 'ทั้งหมด'
+                          : index === 7
+                          ? '7+'
+                          : index.toString()
+                      "
+                      class="button-filter-child"
+                      text
+                      severity="secondary"
+                      raised
+                      :class="{
+                        'button-filter-clicked':
+                          clickedButtons['bathrooms'] === index,
+                      }"
+                      @click="handleButtonClick('bathrooms', index)"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-content-end">
+              <Button
+                icon="bi bi-filter-circle"
+                label="FILTER"
+                severity="secondary"
+                @click="test"
+              />
+            </div>
+          </template>
+        </Card>
 
-        <label class="py-2" for="bed">ประเภทเตียง</label>
-        <div class="card flex justify-content-start">
-          <Dropdown
-            v-model="selectedBed"
-            showClear
-            :options="bedtype"
-            optionLabel="name"
-            placeholder="เลือกประเภทเตียง"
-            class="w-full"
-          />
-          <!-- <div>{{ selectedBed }}</div> -->
-        </div>
-        <!-- ช่องเลือกจำนวน -->
-        <label class="py-2" for="quantity">จำนวนเข้าพัก</label>
-        <div class="card w-full flex justify-content-between">
-          <Dropdown
-            v-model="selectedNumber"
-            showClear
-            :options="numberValue"
-            optionLabel="name"
-            placeholder="เลือกจำนวนเข้าพัก"
-            class="w-full"
-          />
-        </div>
-        <label class="py-2" for="quantity">ประเภทผู้ให้เช่า</label>
-        <div
-          class="card w-full flex justify-content-between mb-4"
-          style="flex-direction: column; width: 100%"
-        >
-          <Dropdown
-            v-model="selectedTypelessor"
-            showClear
-            :options="typelessor"
-            optionLabel="name"
-            placeholder="เลือกประเภทผู้ให้เช่า"
-            class="w-full"
-          />
-        </div>
-        <Button @click="filterData" label="ค้นหา" severity="secondary" />
+        <Card v-else-if="activeCard === 'roommate'">
+          <template #title> <div class="text-center">RoomMate</div></template>
+          <template #content>
+            <p class="m-0">
+              ROOMMATEEEEEEEE ipsum dolor sit amet, consectetur adipisicing
+              elit. Inventore sed consequuntur error repudiandae numquam
+              deserunt quisquam repellat libero asperiores earum nam nobis,
+              culpa ratione quam perferendis esse, cupiditate neque quas!
+            </p>
+          </template>
+        </Card>
+
+        <!-- <Button @click="filterData" label="ค้นหา" severity="secondary" /> -->
       </Dialog>
     </div>
 
@@ -205,26 +386,28 @@
       <PopularSection :filterValue="selectedValue" />
     </div>
     <div class="footer-box w-full">
-      <Footer/>
+      <Footer />
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import PopularSection from "@/views/section/PopularSection.vue";
 import Footer from "@/components/Footer/footer.vue";
 
 export default {
   components: {
-    PopularSection,Footer
+    PopularSection,
+    Footer,
   },
   created() {
     axios
       .get(`${process.env.VUE_APP_API}room/type`)
       .then((response) => {
         this.roomtype = response.data;
+        console.log(this.roomtype, "kkkk");
       })
       .catch((error) => {
         console.error("Error fetching room types", error);
@@ -232,141 +415,164 @@ export default {
   },
   name: "HomepageMain",
   data() {
-    const selectedType = ref();
+    const cities = ref([]);
+    const provincedropdown = ref([]);
+    const amphuredropdown = ref([null]);
+    const tambondropdown = ref([null]);
+    const priceRange = ref([200 + " - " + 15000 + "+"]);
     const selectedTypelessor = ref();
     const typelessor = ref([
       { name: "เจ้าของปล่อยเช่า", code: "" },
       { name: "ผู้เช่าปล่อยเช่า", code: "" },
     ]);
-    const selectedPriceRange = ref();
-    const pricerange = ref([
-      { name: "0-500", code: "" },
-      { name: "501-1,000", code: "" },
-      { name: "1,001-3,000", code: "" },
-      { name: "3,001-5,000", code: "" },
-      { name: "มากกว่า 5,000", code: "" },
-    ]);
-    const selectedNumber = ref();
-    const numberValue = ref([
-      { name: "1", code: "" },
-      { name: "2", code: "" },
-      { name: "3", code: "" },
-      { name: "4", code: "" },
-      { name: "5", code: "" },
-      { name: "6", code: "" },
-      { name: "7", code: "" },
-      { name: "8+", code: "" },
-    ]);
-    const selectedBed = ref();
-    const bedtype = ref([
-      { name: "Single Bed", code: "เตียงเดี่ยว ขนาด 3 ฟุต" },
-      { name: "Twin Bed", code: "เตียงเดี่ยว ขนาด 3.5 ฟุต" },
-      { name: "Double Bed", code: "เตียงคู่ขนาดใหญ่ 1 เตียง" },
-      { name: "Hollywood Twin", code: "เตียงเดี่ยว 2 เตียงติดกัน" },
-      { name: "Queen Size", code: "เตียงเดี่ยว ขนาด 5 ฟุต" },
-      { name: "King Size", code: "เตียงเดี่ยว ขนาด 6 ฟุต" },
-      { name: "Triple Bed", code: "เตียงเดี่ยวจำนวน 3 เตียง" },
-      { name: "Extra Bed", code: "เตียงเสริม" },
-      { name: "Mattress", code: "ฟูกนอนพื้น" },
-      { name: "Murphy Bed", code: "เตียงแบบพับเก็บได้" },
-      { name: "Bunk Bed", code: "เตียง 2 ชั้น" },
-    ]);
+
     const value = ref();
+    const getprovince = async () => {
+      try {
+        const province = await axios.get(
+          `${process.env.VUE_APP_THAILAND}thailand/province`
+        );
+        this.provincedropdown.value = province.data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    onMounted(() => {
+      getprovince();
+    });
     return {
-      isFilterVisible: false,
+      // isFilterVisible: false,
+      isFilterVisible: true,
       roomtype: [],
-      selectedType,
-      selectedPriceRange,
       selectedTypelessor,
-      pricerange,
-      selectedBed,
-      bedtype,
+      priceRange,
       value,
-      selectedNumber,
-      numberValue,
       typelessor,
       selectedValue: "",
+      activeCard: null,
+      cities,
+      provincedropdown,
+      amphuredropdown,
+      tambondropdown,
+
+      clickedButtons: [
+        {
+          amphure: "",
+          province: "",
+          roomType: null,
+          guests: null,
+          bedrooms: null,
+          beds: null,
+          bathrooms: null,
+        },
+      ],
     };
   },
   methods: {
-      // เพิ่มฟังก์ชัน scrollLeft
-  scrollLeft() {
-    const container = this.$refs.menuContainer;
-    container.scrollBy({
-      left: -100, // ปรับตามความเหมาะสม
-      behavior: 'smooth',
-    });
-  },
+    test() {
+      console.log(this.clickedButtons, "test");
+    },
 
-  // เพิ่มฟังก์ชัน scrollRight
-  scrollRight() {
-    const container = this.$refs.menuContainer;
-    container.scrollBy({
-      left: 100, // ปรับตามความเหมาะสม
-      behavior: 'smooth',
-    });
-  },
-// ฟังก์ชัน handleScroll
-handleScroll() {
-  const container = this.$refs.menuContainer;
-  const scrollLeft = container.scrollLeft;
-  const menuCount = container.children.length;
-  const menuWidth = container.children[0].clientWidth;
+    handleButtonClick(column, index) {
+      const label = index === 0 ? " " : index === 7 ? "7+" : index.toString();
+      this.clickedButtons[column] =
+        this.clickedButtons[column] === index ? null : index;
+    },
 
-  console.log("scrollLeft:", scrollLeft);
-  console.log("menuCount:", menuCount);
-  console.log("menuWidth:", menuWidth);
+    // เพิ่มฟังก์ชัน scrollLeft
+    scrollLeft() {
+      const container = this.$refs.menuContainer;
+      container.scrollBy({
+        left: -100, // ปรับตามความเหมาะสม
+        behavior: "smooth",
+      });
+    },
 
-  if (scrollLeft + container.clientWidth >= container.scrollWidth) {
-    container.scrollTo({
-      left: 0,
-      behavior: 'smooth'
-    });
-  }
-},
+    // เพิ่มฟังก์ชัน scrollRight
+    scrollRight() {
+      const container = this.$refs.menuContainer;
+      container.scrollBy({
+        left: 100, // ปรับตามความเหมาะสม
+        behavior: "smooth",
+      });
+    },
+    // ฟังก์ชัน handleScroll
+    handleScroll() {
+      const container = this.$refs.menuContainer;
+      const scrollLeft = container.scrollLeft;
+      const menuCount = container.children.length;
+      const menuWidth = container.children[0].clientWidth;
+
+      console.log("scrollLeft:", scrollLeft);
+      console.log("menuCount:", menuCount);
+      console.log("menuWidth:", menuWidth);
+
+      if (scrollLeft + container.clientWidth >= container.scrollWidth) {
+        container.scrollTo({
+          left: 0,
+          behavior: "smooth",
+        });
+      }
+    },
     showFilter() {
       this.isFilterVisible = true;
     },
-
-    createaccount() {
-      if (this.selectedType) {
-        console.log("Selected type:", this.selectedType);
-      } else {
-        console.log("Please select a type");
-      }
-    },
     filterData() {
-      this.fetchFilteredData();
+      // this.fetchFilteredData();
+      console.log("kim");
     },
 
     emitOption(selectedValue) {
       this.selectedValue = selectedValue;
     },
-    fetchFilteredData() {
-      axios
-        .get(`${process.env.VUE_APP_API}room/type`, {
-          params: {
-            type: this.selectedType,
-            priceRange: this.selectedPriceRange,
-            bedType: this.selectedBed,
-            occupancy: this.value,
-          },
-        })
-        .then((response) => {
-          const filteredData = response.data.filter(
-            (room) => room.occupancy <= 10
+    toggleCard(cardType) {
+      if (this.activeCard === cardType) {
+        this.activeCard = null;
+      } else {
+        this.activeCard = cardType;
+      }
+    },
+
+    async getamphure(type) {
+      try {
+        if (type === "amphure") {
+          const selectedProvinceObject = this.provincedropdown.value.find(
+            (province) => province.name_th === this.clickedButtons.province
           );
-          this.$emit("filteredData", filteredData);
-        })
-        .catch((error) => {
-          console.error("Error fetching filtered data", error);
-        });
+          const id = selectedProvinceObject.id;
+          //
+          const amphure = await axios.get(
+            `${process.env.VUE_APP_THAILAND}thailand/amphure/by-province-id/${id}`
+          );
+          this.amphuredropdown.value = amphure.data;
+        }
+        if (type === "tambon") {
+          const selectedAmphureObject = this.amphuredropdown.value.find(
+            (amphure) => amphure.name_th === this.clickedButtons.amphure
+          );
+
+          const id = selectedAmphureObject.id;
+
+          //
+          const tambon = await axios.get(
+            `${process.env.VUE_APP_THAILAND}thailand/tambon/by-amphure-id/${id}`
+          );
+          this.tambondropdown.value = tambon.data;
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
 </script>
 
 <style scoped>
+.button-filter-clicked {
+  background-color: #3b82f6;
+  color: white;
+}
 .hide-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
@@ -395,7 +601,7 @@ handleScroll() {
   height: 2.5rem;
   justify-content: center;
 }
-.filter-type{
+.filter-type {
   gap: 1.25rem;
 }
 /*------------------------- search-box-style -------------------------*/
@@ -510,6 +716,7 @@ handleScroll() {
   height: 50px;
   width: 110px;
   font-size: 14px;
+  border-radius: 12px;
 }
 /*---------------------------- popular-style ----------------------*/
 
@@ -587,16 +794,35 @@ p {
 .grid-img:hover .hidden {
   opacity: 1;
 }
-@media (max-width:1440px) {
-  .filter-type{
+@media (max-width: 1440px) {
+  .filter-type {
     column-gap: 2rem;
     max-width: 800px;
   }
-  .room a{
+  .room a {
     font-size: 0.5em;
   }
 }
-@media (max-width: 1280px) {
+/*--------filter---------*/
+.button-filter {
+  font-size: 10px;
+  height: 30px;
+  width: 80px;
+  border-radius: 0.5rem;
+  border: none;
+}
+
+.button-filter-child {
+  font-size: 10px;
+  height: 38px;
+  width: 70px;
+  border-radius: 0.5rem;
+  justify-content: center;
+  border: none;
+}
+/*-----------------*/
+
+@media screen and (max-width: 1280px) {
   .search-box-cus {
     display: none;
   }
@@ -606,7 +832,7 @@ p {
   .choose-room {
     column-gap: 1rem;
   }
-  .filter-type{
+  .filter-type {
     column-gap: 2rem;
     max-width: 400px;
   }
@@ -637,7 +863,7 @@ p {
   }
 }
 @media screen and (max-width: 414px) {
-  .filter-mate{
+  .filter-mate {
     display: none;
   }
   .invitatain {
@@ -646,21 +872,21 @@ p {
   .choose-room {
     column-gap: 1rem;
   }
-  .choose-room{
+  .choose-room {
     margin: 0;
     padding: 1rem 0 0 0;
     align-items: center;
   }
-  .filter-type{
+  .filter-type {
     padding-top: 1em;
     max-width: 220px;
     gap: 0.8rem;
   }
-  .filter-btn{
+  .filter-btn {
     width: 80px;
     padding: 0.3em;
   }
-  .room img{
+  .room img {
     padding: 0.5em;
     width: 2.6em;
   }
