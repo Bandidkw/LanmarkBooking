@@ -224,7 +224,11 @@
               </div>
               <div class="col-12">
                 <p>ช่วงราคา :</p>
-                <InputText v-model.number="priceRange" class="w-full" />
+                <InputText
+                  v-model.number="priceRange"
+                  placeholder="200 - 15000+"
+                  class="w-full"
+                />
                 <Slider
                   :min="200"
                   :max="15000"
@@ -359,7 +363,7 @@
                 icon="bi bi-filter-circle"
                 label="FILTER"
                 severity="secondary"
-                @click="test"
+                @click="filterData"
               />
             </div>
           </template>
@@ -407,7 +411,6 @@ export default {
       .get(`${process.env.VUE_APP_API}room/type`)
       .then((response) => {
         this.roomtype = response.data;
-        console.log(this.roomtype, "kkkk");
       })
       .catch((error) => {
         console.error("Error fetching room types", error);
@@ -419,7 +422,6 @@ export default {
     const provincedropdown = ref([]);
     const amphuredropdown = ref([null]);
     const tambondropdown = ref([null]);
-    const priceRange = ref([200 + " - " + 15000 + "+"]);
     const selectedTypelessor = ref();
     const typelessor = ref([
       { name: "เจ้าของปล่อยเช่า", code: "" },
@@ -445,41 +447,43 @@ export default {
       // isFilterVisible: false,
       isFilterVisible: true,
       roomtype: [],
+      priceRange: [],
       selectedTypelessor,
-      priceRange,
       value,
       typelessor,
-      selectedValue: "",
+      selectedValue: null,
       activeCard: null,
       cities,
       provincedropdown,
       amphuredropdown,
       tambondropdown,
 
-      clickedButtons: [
-        {
-          amphure: "",
-          province: "",
-          roomType: null,
-          guests: null,
-          bedrooms: null,
-          beds: null,
-          bathrooms: null,
-        },
-      ],
+      clickedButtons: {
+        amphure: "",
+        // priceRange: null,
+        province: "",
+        roomType: null,
+        guests: null,
+        bedrooms: null,
+        beds: null,
+        bathrooms: null,
+      },
     };
   },
   methods: {
-    test() {
-      console.log(this.clickedButtons, "test");
+    filterData() {
+      this.clickedButtons.priceRange = this.priceRange;
+      this.selectedValue = this.clickedButtons;
+      console.log("testsent Value", this.clickedButtons);
+      // this.isFilterVisible = false; // ไม่ต้องการปิด Dialog ทันที
     },
 
     handleButtonClick(column, index) {
-      const label = index === 0 ? " " : index === 7 ? "7+" : index.toString();
+      console.log(" Value", this.clickedButtons);
+      // this.clickedButtons[column] = index === 0 ? "" : index;
       this.clickedButtons[column] =
         this.clickedButtons[column] === index ? null : index;
     },
-
     // เพิ่มฟังก์ชัน scrollLeft
     scrollLeft() {
       const container = this.$refs.menuContainer;
@@ -518,10 +522,10 @@ export default {
     showFilter() {
       this.isFilterVisible = true;
     },
-    filterData() {
-      // this.fetchFilteredData();
-      console.log("kim");
-    },
+    // filterData() {
+    //   // this.fetchFilteredData();
+    //   console.log("kim");
+    // },
 
     emitOption(selectedValue) {
       this.selectedValue = selectedValue;
