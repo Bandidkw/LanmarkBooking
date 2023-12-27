@@ -106,7 +106,7 @@
               v-if="
                 data.status.slice(-1)[0].statusbooking === 'รออนุมัติห้อง' &&
                 data.status.slice(-1)[0].statusbooking !== 'รอชำระเงิน' &&
-                calculateTimeDifference(data.updatedAt) !== 'เกินกำหนดการชำระ'
+                calculateTimeDifference(data.updatedAt,data.status) !== 'เกินกำหนดการชำระ'
               "
             >
               <div>
@@ -122,7 +122,7 @@
               v-if="
                 data.status.slice(-1)[0].statusbooking === 'รอชำระเงิน' &&
                 data.status.slice(-1)[0].statusbooking !== 'รออนุมัติห้อง' &&
-                calculateTimeDifference(data.updatedAt) !== 'เกินกำหนดการชำระ'
+                calculateTimeDifference(data.updatedAt,data.stats) !== 'เกินกำหนดการชำระ'
               "
             >
               <div>
@@ -140,7 +140,7 @@
                   'ยีนยันการชำระเงิน' &&
                 data.status.slice(-1)[0].statusbooking !== 'รออนุมัติห้อง' &&
                 data.status.slice(-1)[0].statusbooking !== 'รอชำระเงิน' &&
-                calculateTimeDifference(data.updatedAt) !== 'เกินกำหนดการชำระ'
+                calculateTimeDifference(data.updatedAt,data.status) !== 'เกินกำหนดการชำระ'
               "
             >
               <div>
@@ -175,7 +175,7 @@
                 data.status.slice(-1)[0].statusbooking === 'ไม่อนุมัติห้อง' &&
                 data.status.slice(-1)[0].statusbooking !== 'รออนุมัติห้อง' &&
                 data.status.slice(-1)[0].statusbooking !== 'รอชำระเงิน' &&
-                calculateTimeDifference(data.updatedAt) !== 'เกินกำหนดการชำระ'
+                calculateTimeDifference(data.updatedAt,data.status) !== 'เกินกำหนดการชำระ'
               "
             >
               <div>
@@ -193,7 +193,7 @@
                   'ชำระเงินไม่สำเร็จ' &&
                 data.status.slice(-1)[0].statusbooking !== 'รออนุมัติห้อง' &&
                 data.status.slice(-1)[0].statusbooking !== 'รอชำระเงิน' &&
-                calculateTimeDifference(data.updatedAt) !== 'เกินกำหนดการชำระ'
+                calculateTimeDifference(data.updatedAt,data.status) !== 'เกินกำหนดการชำระ'
               "
             >
               <div>
@@ -207,7 +207,7 @@
               class="lg:w-10 xl:w-6 bg-green-100 text-green-600 font-normal border-2 border-green-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="
-                calculateTimeDifference(data.updatedAt) ===
+                calculateTimeDifference(data.updatedAt,data.status) ===
                   'เกินกำหนดการชำระ' &&
                 data.status.slice(-1)[0].statusbooking === 'จองห้องสำเร็จ' &&
                 data.status.slice(-1)[0].statusbooking !== 'รออนุมัติห้อง' &&
@@ -224,7 +224,7 @@
               class="lg:w-10 xl:w-6 bg-red-100 text-red-600 font-normal border-2 border-red-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="
-                calculateTimeDifference(data.updatedAt) ===
+                calculateTimeDifference(data.updatedAt,data.status) ===
                   'เกินกำหนดการชำระ' &&
                 data.status.slice(-1)[0].statusbooking === 'ไม่อนุมัติห้อง' &&
                 data.status.slice(-1)[0].statusbooking !== 'รออนุมัติห้อง' &&
@@ -238,6 +238,9 @@
             <!-- ให้แสดงค่า statusapprove ของแต่ละ Item ใน Column -->
           </template>
         </Column>
+
+
+
         <Column
           header="ชำระภายใน"
           style="width: 10%"
@@ -245,9 +248,14 @@
         >
           <template #body="{ data }">
             {{ data.calculatedTimeDifference }}
+            <!-- {{data.updatedAt}} -->
             <!-- {{ calculateTimeDifference(data.updatedAt) }} -->
           </template>
         </Column>
+
+
+
+
         <Column
           header="รายละเอียด"
           style="width: 10%"
@@ -401,10 +409,10 @@ export default {
         );
         if (Response.data.status === true) {
           item_product.value = Response.data.data.reverse();
-
+console.log(item_product,"sadasd");
           // console.log(Response.data.data);
           item_product.value.forEach((item) => {
-            if (calculateTimeDifference(item.updatedAt) === "0 : 0 : 0") {
+            if (calculateTimeDifference(item.updatedAt,item.status) === "0 : 0 : 0") {
               this.deleteBooking(item._id);
             }
           });
@@ -427,15 +435,15 @@ export default {
     };
     const updateTimes = () => {
       item_product.value.forEach((item) => {
-        item.calculatedTimeDifference = calculateTimeDifference(item.updatedAt);
+        item.calculatedTimeDifference = calculateTimeDifference(item.updatedAt,item.status);
       });
     };
     const updateExpiredStatus = () => {
       item_product.value.forEach((item) => {
-        console.log("Item:", item); // ใส่ console.log เพื่อดูข้อมูล item ทั้งหมด
+        // console.log("Item:", item); // ใส่ console.log เพื่อดูข้อมูล item ทั้งหมด
         if (
           item.status.slice(-1)[0].statusbooking === "รอชำระเงิน" &&
-          calculateTimeDifference(item.updatedAt) === "เกินกำหนดการชำระ"
+          calculateTimeDifference(item.updatedAt,item.status) === "เกินกำหนดการชำระ"
         ) {
           // อัปเดตสถานะเป็น "ไม่อนุมัติห้อง"
           item.status.push({
@@ -478,9 +486,10 @@ export default {
             },
           }
         );
-
+      
         if (Response.data.status === true) {
           item_product.value = Response.data.data.reverse();
+          console.log(item_product,"sajknxksancka");
           loading.value = false;
           // console.log(Response.data.data);
         } else {
@@ -514,27 +523,33 @@ export default {
       databooking.value = data;
     };
 
-    const calculateTimeDifference = (updatedAt, selectstatus) => {
-      if (selectstatus === "จองห้องสำเร็จ") {
-        return "0"; // ไม่นับเวลาถอยหลัง
-      }
-      const updatedAtDate = new Date(updatedAt);
-      const paymentDueTime = 24 * 60 * 60 * 1000;
-      const currentTime = new Date();
-      const timeDifference = paymentDueTime - (currentTime - updatedAtDate);
+      // ฟังก์ชันคำนวณต่างหากของเวลา
+      const calculateTimeDifference = (updatedAt, status) => {
+  // ตรวจสอบว่ามีสถานะ "จองห้องสำเร็จ" ในอาเรย์ status หรือไม่
+  const isBookingSuccessful = Array.isArray(status) && status.some(item => item.statusbooking === 'จองห้องสำเร็จ');
 
-      if (timeDifference <= 0) {
-        return "เกินกำหนดการชำระ";
-      }
+  if (isBookingSuccessful) {
+    // console.log('มีสถานะ "จองห้องสำเร็จ"');
+    return "สำเร็จ"; // ไม่นับเวลาถอยหลัง
+  }
+  // ต่อไปคือส่วนที่เหมือนเดิม
+  const updatedAtDate = new Date(updatedAt);
+  const paymentDueTime = 24 * 60 * 60 * 1000;
+  const currentTime = new Date();
+  const timeDifference = paymentDueTime - (currentTime - updatedAtDate);
 
-      const hours = Math.floor(timeDifference / (60 * 60 * 1000));
-      const minutes = Math.floor(
-        (timeDifference % (60 * 60 * 1000)) / (60 * 1000)
-      );
-      const seconds = Math.floor((timeDifference % (60 * 1000)) / 1000);
+  if (timeDifference <= 0) {
+    return "เกินกำหนดการชำระ";
+  }
 
-      return ` ${hours} : ${minutes} : ${seconds} `;
-    };
+  const hours = Math.floor(timeDifference / (60 * 60 * 1000));
+  const minutes = Math.floor((timeDifference % (60 * 60 * 1000)) / (60 * 1000));
+  const seconds = Math.floor((timeDifference % (60 * 1000)) / 1000);
+
+  return ` ${hours} : ${minutes} : ${seconds} `;
+};
+
+
 
     onMounted(() => {
       fetchData();

@@ -14,7 +14,7 @@
             </div>
             <div>
             <p class="footer-text font-semibold">Lanmark</p>
-            <p class="footer-text">นักลงทุน</p>
+            <p class="footer-text">พาร์ทเนอร์</p>
             <p class="footer-text">ที่พัก Lanmark.online</p>
             </div>
         </div>

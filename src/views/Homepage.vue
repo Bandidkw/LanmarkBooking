@@ -587,6 +587,7 @@ export default {
   background-color: transparent;
 }
 .invitatain {
+  height: 100vh;
   width: 100%;
   padding: 0 3rem 1rem 3rem;
   display: flex;
@@ -821,12 +822,18 @@ p {
   border: none;
 }
 /*-----------------*/
-
-@media screen and (max-width: 1280px) {
-  .search-box-cus {
-    display: none;
+@media screen and (max-width:1536px) {
+  .room img {
+    padding: 0.5em;
+    width: 2.6em;
   }
   .room a {
+    display: block;
+    font-size: 7px;
+  }
+}
+@media screen and (max-width: 1280px) {
+  .search-box-cus {
     display: none;
   }
   .choose-room {
@@ -843,6 +850,17 @@ p {
   }
   .room a {
     display: none;
+  }
+  .filter-mate {
+    display: none;
+  }
+  .room img {
+    padding: 0.5em;
+    width: 2.6em;
+  }
+  .room a {
+    display: block;
+    font-size: 7px;
   }
 }
 
