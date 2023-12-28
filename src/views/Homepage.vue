@@ -535,7 +535,10 @@ export default {
         bathrooms: null,
       };
     },
-
+    // filterData() {
+    //   // this.fetchFilteredData();
+    //   console.log("kim");
+    // },
     emitOption(selectedValue) {
       this.clickedButtons.roomType = selectedValue;
       this.clickedButtons.filterType = "icon";
@@ -603,11 +606,14 @@ export default {
   background-color: transparent;
 }
 .invitatain {
-  height: 100vh;
+  /* height: 100vh; */
   width: 100%;
   padding: 0 3rem 1rem 3rem;
   display: flex;
   flex-direction: column;
+}
+.poppular-box{
+  height: 100%;
 }
 .font-type {
   font-size: 0.8rem;

@@ -94,6 +94,10 @@
         </p>
       </div>
     </div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999; border: none;">
+        <button class="flex pi pi-chevron-circle-up bg-green-300" v-show="showScrollButton" @click="scrollToTop">
+        </button>
+      </div>
     <!-- <div class="footer-box w-full bg-sky-300">
       <Footer></Footer>
     </div> -->
@@ -102,7 +106,7 @@
 
 <script>
 import axios from "axios";
-import { onMounted, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import Footer from "@/components/Footer/footer.vue";
 
 export default {
@@ -113,6 +117,7 @@ export default {
     filterValue: Object,
   },
   data() {
+    const state = reactive({showScrollButton: false,});
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -151,6 +156,7 @@ export default {
     };
 
     return {
+      showScrollButton: false,
       displayBasic,
       gridData,
       position,
@@ -163,6 +169,23 @@ export default {
     };
   },
   methods: {
+
+        scrollToTop() {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      },
+      handleScroll() {
+        this.showScrollButton = window.scrollY > 20;
+      },
+    mounted() {
+      window.addEventListener("scroll", this.handleScroll);
+    },
+    beforeDestroy() {
+      window.removeEventListener("scroll", this.handleScroll);
+    },
+
     handleTouchStart(event, item) {
       this.touchStartX = event.touches[0].clientX;
     },

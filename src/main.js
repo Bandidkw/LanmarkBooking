@@ -15,7 +15,8 @@ import InputNumber from "primevue/inputnumber";
 import InputSwitch from "primevue/inputswitch";
 import Rating from "primevue/rating";
 import mitt from "mitt";
-import html2pdf from "html2pdf.js";
+import { gapi } from 'gapi-script';
+// import html2pdf from "html2pdf.js";
 
 const bus = mitt();
 
@@ -24,6 +25,7 @@ import "primevue/resources/primevue.min.css"; //core css
 import "primevue/resources/themes/lara-light-blue/theme.css"; //theme
 
 const app = createApp(App); // สร้างแอปพลิเคชัน Vue ที่เป็นที่ต้องการ
+app.config.globalProperties.$gapi = gapi;
 
 import Button from "primevue/button";
 import Calendar from "primevue/calendar";

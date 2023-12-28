@@ -57,7 +57,7 @@
           style="background-color: #3b82f6"
         />
         <div>
-    <div id="google-signin-button"></div>
+    <div id="google-signin-button">googel login</div>
   </div>
         <span class="flex justify-content-center"
           >ยังไม่มีบัญชี ผู้ใช้งาน
@@ -77,6 +77,8 @@
 import axios from "axios";
 import { useToast } from "primevue/usetoast";
 import { ref } from "vue";
+import { gapi } from 'gapi-script';
+
 export default {
   data() {
     const loading = ref(false);
@@ -111,36 +113,37 @@ export default {
     };
   },
   mounted() {
-    // this.initializeGoogleSignIn();
+    this.initializeGoogleSignIn();
   },
   methods: {
-    // initializeGoogleSignIn() {
-    //   gapi.load('auth2', () => {
-    //     gapi.auth2.init({
-    //       client_id: 'YOUR_CLIENT_ID',
-    //     });
-    //     this.renderGoogleSignInButton();
-    //   });
-    // },
-    // renderGoogleSignInButton() {
-    //   gapi.signin2.render('google-signin-button', {
-    //     scope: 'profile email',
-    //     width: 200,
-    //     height: 40,
-    //     longtitle: true,
-    //     theme: 'dark',
-    //     onsuccess: this.onGoogleSignInSuccess,
-    //     onfailure: this.onGoogleSignInFailure,
-    //   });
-    // },
-    // onGoogleSignInSuccess(googleUser) {
-    //   // ดำเนินการเข้าสู่ระบบสำเร็จ
-    //   console.log(googleUser.getBasicProfile());
-    // },
-    // onGoogleSignInFailure(error) {
-    //   // ดำเนินการเข้าสู่ระบบไม่สำเร็จ
-    //   console.error(error);
-    // },
+    initializeGoogleSignIn() {
+      gapi.load('auth2', () => {
+        gapi.auth2.init({
+          client_id: 'YOUR_CLIENT_ID',
+        });
+        this.renderGoogleSignInButton();
+      });
+    },
+    renderGoogleSignInButton() {
+      gapi.signin2.render('google-signin-button', {
+        scope: 'profile email',
+        width: 200,
+        height: 40,
+        longtitle: true,
+        theme: 'dark',
+        onsuccess: this.onGoogleSignInSuccess,
+        onfailure: this.onGoogleSignInFailure,
+      });
+    },
+    onGoogleSignInSuccess(googleUser) {
+      // ดำเนินการเข้าสู่ระบบสำเร็จ
+      console.log(googleUser.getBasicProfile());
+    },
+    onGoogleSignInFailure(error) {
+      // ดำเนินการเข้าสู่ระบบไม่สำเร็จ
+      console.error(error);
+    },
+    
     showPopup() {
       this.LoginModal = true;
     },

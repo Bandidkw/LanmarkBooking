@@ -305,7 +305,7 @@
           <Card
             class="card reserve-box w-full border-2 rounded-2xl h-[350px] shadow-md max-[430px]:w-full max-[430px]:my-4 max-[414px]:w-full max-[414px]:my-4 overflow-y-scroll"
           >
-            <template #title> Mockup Review </template>
+            <template #title> รีวิวที่พัก </template>
             <template #content>
               <div
                 v-for="(item, index) in review"
@@ -391,9 +391,9 @@
         </div>
       </Dialog>
     </div>
-    <!-- <div class="footer-box w-full">
+    <div class="footer-box w-full">
       <Footer/>
-    </div> -->
+    </div>
   </div>
 </template>
 

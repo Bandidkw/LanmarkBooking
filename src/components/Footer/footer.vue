@@ -2,20 +2,20 @@
 <template>
     <div class="flex bg-gray-100 w-full rounded-t-2xl m-0 p-0" style="flex-direction: column;">
         <div class="footer-type flex w-full justify-content-between" style="height: 80%;">
-            <div>
+            <div class="flex" style="flex-direction: column;">
             <p class="footer-text font-semibold">การสนับสนุน</p>
-            <p class="footer-text">ศูนย์ช่วยเหลือ</p>
-            <p class="footer-text">รายงานปัญหา</p>
+            <a href="" class="footer-text">ศูนย์ช่วยเหลือ</a>
+            <a href="" class="footer-text">รายงานปัญหา</a>
             </div>
-            <div>
+            <div class="flex" style="flex-direction: column;">
             <p class="footer-text font-semibold">การให้เช่าที่พัก</p>
             <p class="footer-text">มาพักที่ Lanmark</p>
             <!-- <p class="footer-text"></p> -->
             </div>
-            <div>
+            <div class="flex" style="flex-direction: column;">
             <p class="footer-text font-semibold">Lanmark</p>
-            <p class="footer-text">พาร์ทเนอร์</p>
-            <p class="footer-text">ที่พัก Lanmark.online</p>
+            <a href="" class="footer-text">พาร์ทเนอร์</a>
+            <a href="" class="footer-text">ติดต่อ Lanmark</a>
             </div>
         </div>
         <div class="w-full">
@@ -35,6 +35,10 @@ export default {
     .footer-type{
         padding: 1rem 5rem 0 5rem;
     }
+    .footer-type a {
+        color: black;
+        text-decoration: none;
+    }
     /* Your styles for the footer go here */
     .footer-text{
         margin: 0;
@@ -44,7 +48,7 @@ export default {
         .footer-type{
         padding: 1rem 1rem 0 1rem;
     }
-        .footer-type p{
+        .footer-type p,a{
         font-size: 0.7rem;
     }
     }
