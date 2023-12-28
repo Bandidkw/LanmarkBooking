@@ -1,5 +1,8 @@
 <template>
-  <div class="container flex flex-col px-40 white-container" style="row-gap: 1rem;">
+  <div
+    class="container flex flex-col px-40 white-container"
+    style="row-gap: 1rem"
+  >
     <div
       class="image-box py-2 w-full h-[31.25rem] flex gap-x-2"
       style="position: relative"
@@ -404,7 +407,8 @@ import Footer from "@/components/Footer/footer.vue";
 
 export default {
   components: {
-    Rating,Footer
+    Rating,
+    Footer,
   },
   props: ["id"],
   data() {
@@ -531,6 +535,7 @@ export default {
               }
             );
             if (response) {
+              this.visible = false;
               Swal.fire({
                 icon: "success",
                 title: "จองสำเร็จ",
@@ -539,6 +544,7 @@ export default {
               await this.$router.push("/bookingmember");
             } else {
               // แสดงข้อความผิดพลาด
+              this.visible = false;
               await Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด",
@@ -562,6 +568,7 @@ export default {
               }
             );
             if (response.data.status === true) {
+              this.visible = false;
               Swal.fire({
                 icon: "success",
                 title: "จองสำเร็จ",
@@ -570,6 +577,7 @@ export default {
               await this.$router.push("/bookingmember");
             } else {
               // แสดงข้อความผิดพลาด
+              this.visible = false;
               await Swal.fire({
                 icon: "error",
                 title: "เกิดข้อผิดพลาด",
@@ -579,6 +587,7 @@ export default {
           }
         } else {
           // แสดงข้อความให้ผู้ใช้ล็อคอินก่อนจอง
+          this.visible = false;
           await Swal.fire({
             icon: "error",
             title: "กรุณาล็อคอิน",
@@ -587,6 +596,8 @@ export default {
         }
       } catch (error) {
         // แสดงข้อความผิดพลาด
+        this.visible = false;
+
         await Swal.fire({
           icon: "error",
           title: "เกิดข้อผิดพลาด",
@@ -595,7 +606,6 @@ export default {
       }
     };
 
-    
     // เมื่อ Component ถูกติดตั้ง ให้ดึงข้อมูลห้องและรีวิว
     onMounted(() => {
       getroom();
@@ -721,7 +731,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
-.text-main{
+.text-main {
   font-size: 1.5em;
 }
 .img-grid img {

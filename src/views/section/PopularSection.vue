@@ -249,23 +249,71 @@ export default {
       this.searchTerm = searchTerm;
     },
     handleFilterChange(filterValue) {
-      if (!filterValue || filterValue.beds === 0) {
+      if (!filterValue) {
         this.gridData = [...this.originalGridData];
         return;
       }
-      this.gridData = this.originalGridData.filter((item) => {
-        console.log(item, "sss");
-        return (
-          // item.type.name.toLowerCase() === filterValue.toLowerCase() ||
-          item.type.name === filterValue.roomType ||
-          item.province === filterValue.province ||
-          item.amphure === filterValue.amphure ||
-          item.bed === filterValue.beds ||
-          item.bedroom === filterValue.bedrooms ||
-          item.guests === filterValue.guests ||
-          item.bathroom === filterValue.bathrooms
-        );
-      });
+      if (filterValue.filterType === "icon") {
+        this.gridData = this.originalGridData.filter((item) => {
+          if (filterValue.roomType === "") {
+            return (this.gridData = [...this.originalGridData]);
+          }
+          return item.type.name === filterValue.roomType;
+        });
+      } else if (filterValue.filterType === "highLevel") {
+        this.gridData = this.originalGridData.filter((item) => {
+          if (
+            filterValue.beds === 0 ||
+            filterValue.bedroom === 0 ||
+            filterValue.guests === 0 ||
+            filterValue.bathroom === 0
+          ) {
+            return (this.gridData = [...this.originalGridData]);
+          }
+          const meetsRoomTypeCondition =
+            filterValue.roomType === null ||
+            item.type.name === filterValue.roomType;
+          const meetsGuestsCondition =
+            filterValue.guests === null ||
+            (filterValue.guests === 7
+              ? item.guests >= 7
+              : item.guests === filterValue.guests);
+          const meetsBedroomsCondition =
+            filterValue.bedrooms === null ||
+            (filterValue.bedrooms === 7
+              ? item.bedroom >= 7
+              : item.bedroom === filterValue.bedrooms);
+          const meetsBedsCondition =
+            filterValue.beds === null ||
+            (filterValue.beds === 7
+              ? item.bed >= 7
+              : item.bed === filterValue.beds);
+
+          const meetsBathroomsCondition =
+            filterValue.bathrooms === null ||
+            (filterValue.bathrooms === 7
+              ? item.bathroom >= 7
+              : item.bathroom === filterValue.bathrooms);
+          const meetsProvinceCondition =
+            filterValue.province === null ||
+            item.province === filterValue.province;
+          const meetsAmphureCondition =
+            filterValue.amphure === null ||
+            item.amphure === filterValue.amphure;
+
+          return (
+            meetsRoomTypeCondition &&
+            meetsGuestsCondition &&
+            meetsBedroomsCondition &&
+            meetsBedsCondition &&
+            meetsBathroomsCondition &&
+            meetsProvinceCondition &&
+            meetsAmphureCondition
+          );
+        });
+      } else {
+        this.gridData = [...this.originalGridData];
+      }
     },
   },
   computed: {

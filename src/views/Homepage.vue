@@ -137,7 +137,8 @@
         :style="{ width: '50rem' }"
         :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
       >
-        <div class="flex justify-content-center py-2 gap-4">
+        <!-- for filter narmal and roommate -->
+        <!-- <div class="flex justify-content-center py-2 gap-4">
           <Button
             label="room"
             severity="secondary"
@@ -151,14 +152,15 @@
             text
             raised
             @click="toggleCard('roommate')"
-          />
-        </div>
+          /> 
+        </div>-->
 
-        <Card v-if="activeCard === 'normal'">
-          <template #title> <div class="text-center">Normal</div></template>
+        <!-- <Card v-if="activeCard === 'normal'"> -->
+        <Card>
+          <!-- <template #title> <div class="text-center">Normal</div></template> -->
           <template #content>
             <div class="grid">
-              <div class="col-12 flex justify-content-center gap-4">
+              <!-- <div class="col-12 flex justify-content-center gap-4">
                 <Button
                   class="w-full"
                   label="ทั่วไป"
@@ -173,9 +175,9 @@
                   text
                   raised
                 />
-              </div>
+              </div> -->
               <div class="col-12">
-                <p>TypeRoom :</p>
+                <span>ประเภทห้อง :</span>
                 <div class="flex gap-2 overflow-x-auto">
                   <div
                     v-for="(type, index) in roomtype"
@@ -201,6 +203,7 @@
               <div class="col-12">
                 <div class="flex gap-4">
                   <Dropdown
+                    showClear
                     class="appearance-none w-full text-gray-700 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
                     v-model="clickedButtons.province"
                     :options="provincedropdown.value"
@@ -211,6 +214,7 @@
                     filter
                   />
                   <Dropdown
+                    showClear
                     class="appearance-none w-full text-gray-700 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
                     v-model="clickedButtons.amphure"
                     :options="amphuredropdown.value"
@@ -222,7 +226,7 @@
                   />
                 </div>
               </div>
-              <div class="col-12">
+              <!-- <div class="col-12">
                 <p>ช่วงราคา :</p>
                 <InputText
                   v-model.number="priceRange"
@@ -236,9 +240,9 @@
                   range
                   class="w-full"
                 />
-              </div>
+              </div> -->
               <div class="col-12">
-                <p>จำนวนผู้เข้าพัก :</p>
+                <span>จำนวนผู้เข้าพัก :</span>
                 <div class="flex justify-content-between overflow-x-auto">
                   <div
                     v-for="(type, index) in 8"
@@ -268,7 +272,7 @@
                 </div>
               </div>
               <div class="col-12">
-                <p>ห้องนอน :</p>
+                <span>จำนวนห้องนอน :</span>
                 <div class="flex justify-content-between overflow-x-auto">
                   <div
                     v-for="(type, index) in 8"
@@ -298,7 +302,7 @@
                 </div>
               </div>
               <div class="col-12">
-                <p>เตียง :</p>
+                <span>จำนวนเตียง :</span>
                 <div class="flex justify-content-between overflow-x-auto">
                   <div
                     v-for="(type, index) in 8"
@@ -328,7 +332,7 @@
                 </div>
               </div>
               <div class="col-12">
-                <p>ห้องน้ำ :</p>
+                <span>จำนวนห้องน้ำ :</span>
                 <div class="flex justify-content-between overflow-x-auto">
                   <div
                     v-for="(type, index) in 8"
@@ -368,8 +372,8 @@
             </div>
           </template>
         </Card>
-
-        <Card v-else-if="activeCard === 'roommate'">
+        <!-- for roommate filter -->
+        <!-- <Card v-else-if="activeCard === 'roommate'">
           <template #title> <div class="text-center">RoomMate</div></template>
           <template #content>
             <p class="m-0">
@@ -379,7 +383,7 @@
               culpa ratione quam perferendis esse, cupiditate neque quas!
             </p>
           </template>
-        </Card>
+        </Card> -->
 
         <!-- <Button @click="filterData" label="ค้นหา" severity="secondary" /> -->
       </Dialog>
@@ -387,7 +391,7 @@
 
     <!-------------------------- popular-section --------------------------->
     <div class="poppular-box">
-      <PopularSection :filterValue="selectedValue" />
+      <PopularSection :filterValue="clickedButtons" />
     </div>
     <div class="footer-box w-full">
       <Footer/>
@@ -445,13 +449,12 @@ export default {
     });
     return {
       // isFilterVisible: false,
-      isFilterVisible: true,
+      isFilterVisible: false,
       roomtype: [],
-      priceRange: [],
+      // priceRange: [],
       selectedTypelessor,
       value,
       typelessor,
-      selectedValue: null,
       activeCard: null,
       cities,
       provincedropdown,
@@ -459,9 +462,10 @@ export default {
       tambondropdown,
 
       clickedButtons: {
-        amphure: "",
+        filterType: "",
+        amphure: null,
         // priceRange: null,
-        province: "",
+        province: null,
         roomType: null,
         guests: null,
         bedrooms: null,
@@ -472,15 +476,13 @@ export default {
   },
   methods: {
     filterData() {
-      this.clickedButtons.priceRange = this.priceRange;
-      this.selectedValue = this.clickedButtons;
-      console.log("testsent Value", this.clickedButtons);
-      // this.isFilterVisible = false; // ไม่ต้องการปิด Dialog ทันที
+      // this.clickedButtons.priceRange = this.priceRange;
+      this.clickedButtons.filterType = "highLevel";
+      this.isFilterVisible = false;
     },
 
     handleButtonClick(column, index) {
       console.log(" Value", this.clickedButtons);
-      // this.clickedButtons[column] = index === 0 ? "" : index;
       this.clickedButtons[column] =
         this.clickedButtons[column] === index ? null : index;
     },
@@ -521,22 +523,32 @@ export default {
     },
     showFilter() {
       this.isFilterVisible = true;
+      this.clickedButtons = {
+        ...this.clickedButtons,
+        filterType: "",
+        amphure: null,
+        province: null,
+        roomType: null,
+        guests: null,
+        bedrooms: null,
+        beds: null,
+        bathrooms: null,
+      };
     },
-    // filterData() {
-    //   // this.fetchFilteredData();
-    //   console.log("kim");
-    // },
 
     emitOption(selectedValue) {
-      this.selectedValue = selectedValue;
+      this.clickedButtons.roomType = selectedValue;
+      this.clickedButtons.filterType = "icon";
     },
-    toggleCard(cardType) {
-      if (this.activeCard === cardType) {
-        this.activeCard = null;
-      } else {
-        this.activeCard = cardType;
-      }
-    },
+
+    //// for filter normal and roommate
+    // toggleCard(cardType) {
+    //   if (this.activeCard === cardType) {
+    //     this.activeCard = null;
+    //   } else {
+    //     this.activeCard = cardType;
+    //   }
+    // },
 
     async getamphure(type) {
       try {
@@ -826,7 +838,7 @@ p {
   border: none;
 }
 /*-----------------*/
-@media screen and (max-width:1536px) {
+@media screen and (max-width: 1536px) {
   .room img {
     padding: 0.5em;
     width: 2.6em;
