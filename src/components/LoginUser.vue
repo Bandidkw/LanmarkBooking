@@ -5,7 +5,7 @@
       <p>ให้เช่าที่พักกับ Lanmark</p>
       <div class="login-box" @click="showPopup">
         <i class="bi bi-list"></i>
-        <button type="button" class="log-icon">
+        <button @click="LoginModal = true" type="button" class="log-icon">
           <i class="bi bi-person-fill icon-log"></i>
         </button>
       </div>
@@ -18,7 +18,7 @@
       modal
       header=" เข้าสู่ระบบ"
       :style="{ width: '20rem' }"
-      :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
+      :breakpoints="{ '1199px': '40vw', '575px': '90vw' }"
     >
       <form @submit.prevent="login" class="form-control">
         <label for="telephone">เบอร์โทรศัพท์</label>
@@ -48,6 +48,21 @@
         </div>
 
         <Button
+          class="gap-2"
+          label="Google Login"
+          outlined
+          rounded
+          style="color: #3b82f6"
+        >
+          <template #icon>
+            <img
+              src="https://www.svgrepo.com/show/475656/google-color.svg"
+              alt="Google Icon"
+              style="width: 16px; height: 16px"
+            />
+          </template>
+        </Button>
+        <Button
           label="เข้าสู่ระบบ"
           icon="pi pi-sign-in"
           :loading="loading"
@@ -56,33 +71,38 @@
           class="hover:bg-blue-700"
           style="background-color: #3b82f6"
         />
-        <div>
-    <div id="google-signin-button">googel login</div>
-  </div>
         <span class="flex justify-content-center"
           >ยังไม่มีบัญชี ผู้ใช้งาน
           <a
             href="#"
             style="color: blue; text-decoration: underline"
             @click="registerPage"
-            >สร้างบัญชี</a>
-         </span>
+            >สร้างบัญชี</a
+          >
+        </span>
       </form>
     </Dialog>
   </div>
 </template>
 
-
 <script>
 import axios from "axios";
 import { useToast } from "primevue/usetoast";
-import { ref } from "vue";
-import { gapi } from 'gapi-script';
+import { ref, watchEffect } from "vue";
 
 export default {
-  data() {
+  setup() {
+    const telephone = ref("");
+    const password = ref("");
+    const showPassword = ref(false);
+    const showValidationError = ref(false);
+    const LoginModal = ref(false);
+    const RegisterVisible = ref(false);
     const loading = ref(false);
+    const test = ref(window.location.hostname);
+
     const toast = useToast();
+
     const showSuccess = () => {
       toast.add({
         severity: "success",
@@ -91,6 +111,7 @@ export default {
         life: 3000,
       });
     };
+
     const showError = () => {
       toast.add({
         severity: "error",
@@ -99,134 +120,104 @@ export default {
         life: 3000,
       });
     };
-    return {
-      telephone: "",
-      password: "",
-      showPassword: false,
-      showValidationError: false,
-      LoginModal: false,
-      RegisterVisible: false,
-      showSuccess,
-      showError,
-      loading,
-      test:window.location.hostname,
-    };
-  },
-  mounted() {
-    this.initializeGoogleSignIn();
-  },
-  methods: {
-    initializeGoogleSignIn() {
-      gapi.load('auth2', () => {
-        gapi.auth2.init({
-          client_id: 'YOUR_CLIENT_ID',
-        });
-        this.renderGoogleSignInButton();
-      });
-    },
-    renderGoogleSignInButton() {
-      gapi.signin2.render('google-signin-button', {
-        scope: 'profile email',
-        width: 200,
-        height: 40,
-        longtitle: true,
-        theme: 'dark',
-        onsuccess: this.onGoogleSignInSuccess,
-        onfailure: this.onGoogleSignInFailure,
-      });
-    },
-    onGoogleSignInSuccess(googleUser) {
-      // ดำเนินการเข้าสู่ระบบสำเร็จ
-      console.log(googleUser.getBasicProfile());
-    },
-    onGoogleSignInFailure(error) {
-      // ดำเนินการเข้าสู่ระบบไม่สำเร็จ
-      console.error(error);
-    },
-    
-    showPopup() {
-      this.LoginModal = true;
-    },
 
-    async login() {
-      this.loading = true;
-      if (
-        this.telephone === null ||
-        this.telephone === "" ||
-        this.password === null ||
-        this.password === ""
-      ) {
+    const login = async () => {
+      loading.value = true;
+
+      if (!telephone.value || !password.value) {
         console.log("fail");
-        this.loading = false;
+        loading.value = false;
       } else {
         try {
-           const getip = await axios.get(`https://api64.ipify.org/?format=json`).catch((error)=>{return false})
-           let ip =""
-           if(getip.status===200)
-           {
-              ip = getip.data.ip
-           }
-           else{
-              ip= "ไม่มี"
-           }
-          const res = await axios.post(`${process.env.VUE_APP_API}signin/`, {
-            telephone: this.telephone,
-            password: this.password,
-          },{
-            headers: {
-              ipadress:ip
+          const getip = await axios
+            .get(`https://api64.ipify.org/?format=json`)
+            .catch((error) => {
+              return false;
+            });
+          let ip = "";
+          if (getip.status === 200) {
+            ip = getip.data.ip;
+          } else {
+            ip = "ไม่มี";
+          }
+
+          const res = await axios.post(
+            `${process.env.VUE_APP_API}signin/`,
+            {
+              telephone: telephone.value,
+              password: password.value,
             },
-          });
-          
-          if (res.data.status===true) {
-            this.showSuccess();
+            {
+              headers: {
+                ipadress: ip,
+              },
+            }
+          );
+
+          if (res.data.status === true) {
+            showSuccess();
+            resetForm();
             setTimeout(() => {
               localStorage.setItem("token", res.data.token);
               window.location.assign("/");
               console.log(res.data);
             }, 1500);
           } else {
-            this.$toast.add({
+            resetForm();
+            toast.add({
               severity: "error",
               summary: "ล็อคอินไม่สำเร็จ",
               detail: res.data.message,
               life: 3000,
             });
-            this.loading = false;
+            loading.value = false;
             return console.log("faill");
           }
         } catch (error) {
           console.log(error);
-          this.loading = false;
-          this.showError();
+          loading.value = false;
+          showError();
         }
       }
-    },
-    validateInput() {
-      this.showValidationError = !/^[0-9]+$/.test(this.telephone);
-    },
+    };
 
-    registerPage() {
-      this.LoginModal = false;
-      this.$router.push("/register");
-    },
-    resetForm() {
-      this.telephone = "";
-      this.password = "";
-      this.showValidationError = false;
-    },
-  },
-  watch: {
-    LoginModal(newValue) {
-      if (!newValue) {
-        this.resetForm();
+    const validateInput = () => {
+      showValidationError.value = !/^[0-9]+$/.test(telephone.value);
+    };
+
+    const registerPage = () => {
+      LoginModal.value = false;
+    };
+    const resetForm = () => {
+      telephone.value = "";
+      password.value = "";
+      showValidationError.value = false;
+    };
+
+    watchEffect(() => {
+      if (!LoginModal.value) {
+        resetForm();
       }
-    },
+    });
+
+    return {
+      telephone,
+      password,
+      showPassword,
+      showValidationError,
+      LoginModal,
+      RegisterVisible,
+      loading,
+      test,
+      showSuccess,
+      showError,
+      login,
+      validateInput,
+      registerPage,
+    };
   },
-  components: {},
 };
 </script>
-
 
 <style scope>
 .topweb-right {

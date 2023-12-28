@@ -1,8 +1,8 @@
 <!-- footer.vue -->
 <template>
   <div
-    class="flex bg-gray-100 w-full rounded-t-2xl m-0 p-0"
-    style="flex-direction: column"
+    class="flex bg-gray-100 w-full m-0 p-0"
+    style="flex-direction: column; border-radius: 10px"
   >
     <div
       class="footer-type flex w-full justify-content-between"
