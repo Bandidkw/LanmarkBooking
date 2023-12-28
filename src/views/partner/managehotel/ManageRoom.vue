@@ -19,8 +19,8 @@
           </p>
         </template>
         <template #header>
-          <div class="grid grid-cols-2 justify-content-between">
-            <div class="flex" style="align-items: center">
+          <div class="grid grid-cols-2 justify-content-between top-status">
+            <div class="flex status-btn" style="align-items: center">
               <p class="w-40 text-center text-sm m-0 mr-4">
                 เปิด-ปิดการจองห้องทั้งหมด:
                 {{ reservationEnabled ? "เปิด" : "ปิด" }}
@@ -130,7 +130,7 @@
 
         <Column :exportable="false" style="width: 16%">
           <template #body="item">
-            <div class="flex justify-content-between">
+            <div class="flex justify-content-between manage-box">
               <DialogImage :data="item.data" />
 
               <div class="xl:flex mx-2" v-if="item.data.status === true">
@@ -425,6 +425,12 @@ export default {
 .icon-style:hover {
   color: #3b82f6;
 }
+@media (min-width: 1280px) {
+  .delete-button {
+    margin: 0;
+    display: flex;
+  }
+}
 @media (min-width: 640px) {
   .delete-button {
     margin: 0;
@@ -434,11 +440,13 @@ export default {
     justify-content: center;
   }
 }
-
-@media (min-width: 1280px) {
-  .delete-button {
-    margin: 0;
-    display: flex;
+@media  screen and (max-width:414px) {
+  .manage-box{
+    column-gap: 1rem;
+  }
+  .top-status{
+    width: 100%;
+    justify-content: space-between;
   }
 }
 </style>

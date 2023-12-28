@@ -94,10 +94,7 @@
         </p>
       </div>
     </div>
-    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999; border: none;">
-        <button class="flex pi pi-chevron-circle-up bg-green-300" v-show="showScrollButton" @click="scrollToTop">
-        </button>
-      </div>
+    <button class="flex pi pi-arrow-up bg-blue-300 font-semibold text-blue-600 border-none p-2 cursor-pointer button-hover-effect button-click-animation" style="border-radius: 50%; position: fixed; bottom: 20px; right: 20px; z-index: 1;" v-show="showScrollButton" @click="scrollToTop"></button>
     <!-- <div class="footer-box w-full bg-sky-300">
       <Footer></Footer>
     </div> -->

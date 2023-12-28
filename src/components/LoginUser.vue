@@ -177,6 +177,7 @@ export default {
               ipadress:ip
             },
           });
+          
           if (res.data.status===true) {
             this.showSuccess();
             setTimeout(() => {
@@ -225,6 +226,8 @@ export default {
   components: {},
 };
 </script>
+
+
 <style scope>
 .topweb-right {
   display: flex;
