@@ -103,11 +103,7 @@
         border: none;
       "
     >
-      <button
-        class="flex pi pi-chevron-circle-up bg-green-300"
-        v-show="showScrollButton"
-        @click="scrollToTop"
-      ></button>
+      <button class="flex pi pi-chevron-circle-up bg-blue-300 font-blue-600 border-none" style="border-radius: 50%; padding: 0.5rem;" v-show="showScrollButton" @click="scrollToTop"></button>
     </div>
     <!-- <div class="footer-box w-full bg-sky-300">
       <Footer></Footer>
