@@ -1,6 +1,8 @@
 <!-- popularSection -->
 <template>
-  <div class="grid-container px-4 gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3 md:p-0">
+  <div
+    class="grid-container px-4 gap-2 max-[576px]:grid-cols-2 sm:frid-cols-3 md:p-0"
+  >
     <div
       v-for="(item, index) in filteredGridData"
       :key="index"
@@ -108,7 +110,7 @@ export default {
     Footer,
   },
   props: {
-    filterValue: String,
+    filterValue: Object,
   },
   data() {
     function shuffleArray(array) {
@@ -247,13 +249,22 @@ export default {
       this.searchTerm = searchTerm;
     },
     handleFilterChange(filterValue) {
-      if (!filterValue) {
+      if (!filterValue || filterValue.beds === 0) {
         this.gridData = [...this.originalGridData];
         return;
       }
-
       this.gridData = this.originalGridData.filter((item) => {
-        return item.type.name.toLowerCase() === filterValue.toLowerCase();
+        console.log(item, "sss");
+        return (
+          // item.type.name.toLowerCase() === filterValue.toLowerCase() ||
+          item.type.name === filterValue.roomType ||
+          item.province === filterValue.province ||
+          item.amphure === filterValue.amphure ||
+          item.bed === filterValue.beds ||
+          item.bedroom === filterValue.bedrooms ||
+          item.guests === filterValue.guests ||
+          item.bathroom === filterValue.bathrooms
+        );
       });
     },
   },
@@ -272,8 +283,12 @@ export default {
         console.log("Search term changed:", newTerm);
       },
     },
-    filterValue(newValue) {
-      this.handleFilterChange(newValue);
+    filterValue: {
+      handler(newVal) {
+        console.log("😡", newVal);
+        this.handleFilterChange(newVal);
+      },
+      deep: true,
     },
   },
   beforeUnmount() {
@@ -488,12 +503,12 @@ export default {
 }
 @media screen and (max-width: 321px) {
   .grid-container {
-    grid-template-columns: repeat(1,180px);
+    grid-template-columns: repeat(1, 180px);
   }
   .image-container img {
     width: 100%;
   }
-  .rating{
+  .rating {
     justify-content: center;
   }
 }
