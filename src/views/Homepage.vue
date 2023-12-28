@@ -106,7 +106,7 @@
 
       <!----------------------------------------- Button-box ------------------------------->
 
-      <div class="flex gap-2">
+      <div class="flex gap-2 mb-4">
         <Button
           class="filter filter-mate"
           outlined
@@ -201,7 +201,7 @@
                 </div>
               </div>
               <div class="col-12">
-                <div class="flex gap-4">
+                <div class="flex gap-4 dropdown-filter">
                   <Dropdown
                     showClear
                     class="appearance-none w-full text-gray-700 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
@@ -394,7 +394,7 @@
       <PopularSection :filterValue="clickedButtons" />
     </div>
     <div class="footer-box w-full">
-      <Footer/>
+      <Footer />
     </div>
   </div>
 </template>
@@ -612,7 +612,7 @@ export default {
   display: flex;
   flex-direction: column;
 }
-.poppular-box{
+.poppular-box {
   height: 100%;
 }
 .font-type {
@@ -890,6 +890,9 @@ p {
   .p-inputnumber-input {
     width: 100%;
   }
+  .dropdown-filter {
+    flex-direction: column;
+  }
 }
 @media screen and (max-width: 576px) {
   .p-inputnumber-input {
@@ -923,6 +926,7 @@ p {
     gap: 0.8rem;
   }
   .filter-btn {
+    margin-top: 14px;
     width: 80px;
     padding: 0.3em;
   }
