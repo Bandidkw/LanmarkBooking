@@ -92,14 +92,21 @@
         </p>
       </div>
     </div>
+    <!-- <div class="footer-box w-full bg-sky-300">
+      <Footer></Footer>
+    </div> -->
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import { onMounted, ref } from "vue";
+import Footer from "@/components/Footer/footer.vue";
 
 export default {
+  components:{
+    Footer,
+  },
   props: {
     filterValue: String,
   },

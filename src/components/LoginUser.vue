@@ -56,7 +56,9 @@
           class="hover:bg-blue-700"
           style="background-color: #3b82f6"
         />
-
+        <div>
+    <div id="google-signin-button"></div>
+  </div>
         <span class="flex justify-content-center"
           >ยังไม่มีบัญชี ผู้ใช้งาน
           <a
@@ -69,6 +71,8 @@
     </Dialog>
   </div>
 </template>
+
+
 <script>
 import axios from "axios";
 import { useToast } from "primevue/usetoast";
@@ -106,7 +110,37 @@ export default {
       test:window.location.hostname,
     };
   },
+  mounted() {
+    // this.initializeGoogleSignIn();
+  },
   methods: {
+    // initializeGoogleSignIn() {
+    //   gapi.load('auth2', () => {
+    //     gapi.auth2.init({
+    //       client_id: 'YOUR_CLIENT_ID',
+    //     });
+    //     this.renderGoogleSignInButton();
+    //   });
+    // },
+    // renderGoogleSignInButton() {
+    //   gapi.signin2.render('google-signin-button', {
+    //     scope: 'profile email',
+    //     width: 200,
+    //     height: 40,
+    //     longtitle: true,
+    //     theme: 'dark',
+    //     onsuccess: this.onGoogleSignInSuccess,
+    //     onfailure: this.onGoogleSignInFailure,
+    //   });
+    // },
+    // onGoogleSignInSuccess(googleUser) {
+    //   // ดำเนินการเข้าสู่ระบบสำเร็จ
+    //   console.log(googleUser.getBasicProfile());
+    // },
+    // onGoogleSignInFailure(error) {
+    //   // ดำเนินการเข้าสู่ระบบไม่สำเร็จ
+    //   console.error(error);
+    // },
     showPopup() {
       this.LoginModal = true;
     },

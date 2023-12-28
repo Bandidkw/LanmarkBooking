@@ -36,9 +36,9 @@
         >
       </div>
     </div>
-        <div class="footer-box w-full bg-sky-300">
+        <!-- <div class="footer-box w-full bg-sky-300">
       <Footer></Footer>
-      </div>
+      </div> -->
   </div>
 </template>
 <script>
