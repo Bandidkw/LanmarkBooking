@@ -94,10 +94,21 @@
         </p>
       </div>
     </div>
-    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999; border: none;">
-        <button class="flex pi pi-chevron-circle-up bg-green-300" v-show="showScrollButton" @click="scrollToTop">
-        </button>
-      </div>
+    <div
+      style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 99999;
+        border: none;
+      "
+    >
+      <button
+        class="flex pi pi-chevron-circle-up bg-green-300"
+        v-show="showScrollButton"
+        @click="scrollToTop"
+      ></button>
+    </div>
     <!-- <div class="footer-box w-full bg-sky-300">
       <Footer></Footer>
     </div> -->
@@ -110,21 +121,15 @@ import { onMounted, reactive, ref } from "vue";
 import Footer from "@/components/Footer/footer.vue";
 
 export default {
-  components:{
+  components: {
     Footer,
   },
   props: {
     filterValue: Object,
   },
   data() {
-    const state = reactive({showScrollButton: false,});
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    }
+    // const state = reactive({showScrollButton: false,});
+
     const displayBasic = ref(true);
     const originalGridData = ref([]);
     const gridData = ref([]);
@@ -132,13 +137,15 @@ export default {
     const searchTerm = ref("");
     const getroom = async () => {
       const Response = await axios.get(`${process.env.VUE_APP_API}room/`);
+      console.log(Response.data);
       const filteredstatus = Response.data.filter(
         (item) => item.statusbooking === true && item.status === true
       );
       console.log(filteredstatus);
-      this.originalGridData = shuffleArray(
-        filteredstatus.map((item) => ({ ...item, activeIndex: 0 }))
-      );
+      this.originalGridData = filteredstatus.map((item) => ({
+        ...item,
+        activeIndex: 0,
+      }));
       this.gridData = [...this.originalGridData];
     };
     onMounted(() => {
@@ -165,20 +172,18 @@ export default {
       prev,
       isRightArrowClicked: false,
       originalGridData,
-      shuffleArray,
     };
   },
   methods: {
-
-        scrollToTop() {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      },
-      handleScroll() {
-        this.showScrollButton = window.scrollY > 20;
-      },
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    },
+    handleScroll() {
+      this.showScrollButton = window.scrollY > 20;
+    },
     mounted() {
       window.addEventListener("scroll", this.handleScroll);
     },
