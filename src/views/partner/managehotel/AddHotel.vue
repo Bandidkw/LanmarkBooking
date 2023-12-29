@@ -75,6 +75,7 @@
             >
               ประเภทห้องพัก :
             </label>
+
             <Dropdown
               class="appearance-none w-full text-gray-700 rounded py-1 px-2 mb-2 leading-tight focus:outline-none focus:bg-white"
               v-model="type"
@@ -86,7 +87,7 @@
             />
           </div>
           <div
-            v-show="type === '656aafdbe0452c77321a212d'"
+            v-if="city[0] && city[0]['name'] === 'โรงแรม'"
             class="w-full md:w-1/2 px-4 mb-2"
           >
             <label
@@ -482,6 +483,7 @@ export default {
       getprovince();
     });
     return {
+      city: "",
       cities,
       provincedropdown,
       amphuredropdown,
@@ -565,6 +567,9 @@ export default {
       loading,
       showValidationError: false,
     };
+  },
+  computed: {
+    selectedType() {},
   },
   methods: {
     // addTask() {
@@ -713,6 +718,13 @@ export default {
         this.phone_number.length >= 8 && this.phone_number.length <= 10;
 
       this.showValidationError = !(isValidNumber && isValidLength);
+    },
+  },
+  watch: {
+    type(newValue) {
+      this.city = this.cities.filter(function (value) {
+        return value._id === newValue;
+      });
     },
   },
 };

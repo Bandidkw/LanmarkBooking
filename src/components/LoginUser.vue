@@ -46,7 +46,15 @@
           <input type="checkbox" id="showPassword" v-model="showPassword" />
           <label for="showPassword">แสดงรหัสผ่าน</label>
         </div>
-
+        <Button
+          label="เข้าสู่ระบบ"
+          icon="pi pi-sign-in"
+          :loading="loading"
+          rounded
+          type="submit"
+          class="hover:bg-blue-700"
+          style="background-color: #3b82f6"
+        />
         <Button
           class="gap-2"
           label="Google Login"
@@ -62,15 +70,7 @@
             />
           </template>
         </Button>
-        <Button
-          label="เข้าสู่ระบบ"
-          icon="pi pi-sign-in"
-          :loading="loading"
-          rounded
-          type="submit"
-          class="hover:bg-blue-700"
-          style="background-color: #3b82f6"
-        />
+
         <span class="flex justify-content-center"
           >ยังไม่มีบัญชี ผู้ใช้งาน
           <a
