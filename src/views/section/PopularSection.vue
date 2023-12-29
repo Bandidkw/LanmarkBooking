@@ -101,9 +101,8 @@
         right: 20px;
         z-index: 99999;
         border: none;
-      "
-    >
-      <button class="flex pi pi-chevron-circle-up bg-blue-300 font-blue-600 border-none" style="border-radius: 50%; padding: 0.5rem;" v-show="showScrollButton" @click="scrollToTop"></button>
+      ">
+      <button class="flex pi pi-arrow-up bg-blue-300 text-blue-600 border-solid border-blue-600" style="border-radius: 50%; padding: 0.5rem; z-index: 1; cursor: pointer;" v-show="showScrollButton" @click="scrollToTop"></button>
     </div>
     <!-- <div class="footer-box w-full bg-sky-300">
       <Footer></Footer>
@@ -132,18 +131,48 @@ export default {
     const position = "bottom";
     const searchTerm = ref("");
     const getroom = async () => {
-      const Response = await axios.get(`${process.env.VUE_APP_API}room/`);
-      console.log(Response.data);
-      const filteredstatus = Response.data.filter(
-        (item) => item.statusbooking === true && item.status === true
-      );
-      console.log(filteredstatus);
-      this.originalGridData = filteredstatus.map((item) => ({
-        ...item,
-        activeIndex: 0,
-      }));
-      this.gridData = [...this.originalGridData];
-    };
+  try {
+    // 1. ดึงข้อมูลจาก API โดยใช้ axios
+    const Response = await axios.get(`${process.env.VUE_APP_API}room/`);
+
+    // 2. กรองข้อมูลที่ได้จาก API โดยเลือกเฉพาะห้องที่มีการจองและมีสถานะเป็น true
+    const filteredstatus = Response.data.filter(
+      (item) => item.statusbooking === true && item.status === true
+    );
+
+    // แสดงข้อมูลดาวของทุกห้องที่ผ่านการกรอง
+    console.log("Filtered data - starall:");
+    filteredstatus.forEach((item) => {
+      console.log("จำนวนดาว",item.starall);
+    });
+    
+    // 3. เรียงลำดับตามดาวจากมากไปน้อย
+    filteredstatus.sort((a, b) => b.starall - a.starall);
+    console.log("Sorted data:", filteredstatus);
+
+    // 4. แบ่งข้อมูลเป็น 2 กลุ่ม: ห้องที่มีดาวมากที่สุด 4 ห้อง และห้องที่เหลือ
+    const topRatedRooms = filteredstatus.slice(0, 4);
+    const remainingRooms = filteredstatus.slice(4);
+
+    // แสดงผลข้อมูลห้องที่มีดาวมากที่สุด 4 ห้องและห้องที่เหลือ
+    console.log("Top rated rooms:", topRatedRooms);
+    console.log("Remaining rooms:", remainingRooms);
+
+    // 5. ทำการ map และตั้งค่า activeIndex สำหรับ topRatedRooms
+    this.originalGridData = topRatedRooms.map((item) => ({
+      ...item,
+      activeIndex: 0,
+    }));
+
+    // 6. คัดลอกข้อมูลที่ถูกเรียงลำดับเข้าไปใน gridData
+    this.gridData = [...this.originalGridData, ...remainingRooms];
+    console.log("Final gridData:", this.gridData);
+
+  } catch (error) {
+    // หากมีข้อผิดพลาดในการดึงข้อมูล
+    console.error("Error fetching room data:", error);
+  }
+};
     onMounted(() => {
       getroom();
       this.$bus.on("search-hotels", this.handleSearchHotels);

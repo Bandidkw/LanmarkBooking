@@ -926,7 +926,7 @@ p {
     gap: 0.8rem;
   }
   .filter-btn {
-    margin-top: 14px;
+    margin: 2.5em 0 0 0;
     width: 80px;
     padding: 0.3em;
   }
