@@ -131,48 +131,27 @@ export default {
     const position = "bottom";
     const searchTerm = ref("");
     const getroom = async () => {
-  try {
-    // 1. ดึงข้อมูลจาก API โดยใช้ axios
     const Response = await axios.get(`${process.env.VUE_APP_API}room/`);
+    console.log(Response.data);
 
-    // 2. กรองข้อมูลที่ได้จาก API โดยเลือกเฉพาะห้องที่มีการจองและมีสถานะเป็น true
     const filteredstatus = Response.data.filter(
-      (item) => item.statusbooking === true && item.status === true
+        (item) => item.statusbooking === true && item.status === true && item.starall
     );
+    console.log(filteredstatus);
 
-    // แสดงข้อมูลดาวของทุกห้องที่ผ่านการกรอง
-    console.log("Filtered data - starall:");
-    filteredstatus.forEach((item) => {
-      console.log("จำนวนดาว",item.starall);
-    });
-    
-    // 3. เรียงลำดับตามดาวจากมากไปน้อย
-    filteredstatus.sort((a, b) => b.starall - a.starall);
-    console.log("Sorted data:", filteredstatus);
-
-    // 4. แบ่งข้อมูลเป็น 2 กลุ่ม: ห้องที่มีดาวมากที่สุด 4 ห้อง และห้องที่เหลือ
-    const topRatedRooms = filteredstatus.slice(0, 4);
-    const remainingRooms = filteredstatus.slice(4);
-
-    // แสดงผลข้อมูลห้องที่มีดาวมากที่สุด 4 ห้องและห้องที่เหลือ
-    console.log("Top rated rooms:", topRatedRooms);
-    console.log("Remaining rooms:", remainingRooms);
-
-    // 5. ทำการ map และตั้งค่า activeIndex สำหรับ topRatedRooms
-    this.originalGridData = topRatedRooms.map((item) => ({
-      ...item,
-      activeIndex: 0,
+    // ทำการ map และตั้งค่า activeIndex
+    this.originalGridData = filteredstatus.map((item) => ({
+        ...item,
+        activeIndex: 0,
     }));
 
-    // 6. คัดลอกข้อมูลที่ถูกเรียงลำดับเข้าไปใน gridData
-    this.gridData = [...this.originalGridData, ...remainingRooms];
-    console.log("Final gridData:", this.gridData);
+    // เรียงลำดับตาม starall จากมากไปน้อย
+    this.originalGridData.sort((a, b) => b.starall - a.starall);
 
-  } catch (error) {
-    // หากมีข้อผิดพลาดในการดึงข้อมูล
-    console.error("Error fetching room data:", error);
-  }
+    // คัดลอกข้อมูลที่ถูกเรียงลำดับเข้าไปใน gridData
+    this.gridData = [...this.originalGridData];
 };
+
     onMounted(() => {
       getroom();
       this.$bus.on("search-hotels", this.handleSearchHotels);
