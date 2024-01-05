@@ -61,6 +61,7 @@
           outlined
           rounded
           style="color: #3b82f6"
+          @click="performGoogleSignIn"
         >
           <template #icon>
             <img
@@ -70,6 +71,14 @@
             />
           </template>
         </Button>
+        <!-- <GoogleSigninButton
+          :clientId="gAuthOptions.clientId"
+          :scope="gAuthOptions.scope"
+          :prompt="gAuthOptions.prompt"
+          :fetchBasicProfile="gAuthOptions.fetch_basic_profile"
+          @success="onGoogleSignInSuccess"
+          @error="onGoogleSignInError"
+        /> -->
 
         <span class="flex justify-content-center"
           >ยังไม่มีบัญชี ผู้ใช้งาน
@@ -89,8 +98,14 @@
 import axios from "axios";
 import { useToast } from "primevue/usetoast";
 import { ref, watchEffect } from "vue";
+import { useRouter } from "vue-router";
+// import { GoogleSigninButton } from "vue-google-signin-button";
+import { gapi } from "gapi-script"; // Import gapi directly
 
 export default {
+  components: {
+    // GoogleSigninButton,
+  },
   setup() {
     const telephone = ref("");
     const password = ref("");
@@ -100,6 +115,7 @@ export default {
     const RegisterVisible = ref(false);
     const loading = ref(false);
     const test = ref(window.location.hostname);
+    const router = useRouter();
 
     const toast = useToast();
 
@@ -132,6 +148,7 @@ export default {
           const getip = await axios
             .get(`https://api64.ipify.org/?format=json`)
             .catch((error) => {
+              console.log(error);
               return false;
             });
           let ip = "";
@@ -187,11 +204,31 @@ export default {
 
     const registerPage = () => {
       LoginModal.value = false;
+      router.push("/register");
     };
     const resetForm = () => {
       telephone.value = "";
       password.value = "";
       showValidationError.value = false;
+    };
+    const performGoogleSignIn = async () => {
+      try {
+        const gAuth = gapi.auth2.getAuthInstance();
+
+        gAuth.signIn().then(async (user) => {
+          const profile = user.getBasicProfile();
+
+          const userId = profile.getId();
+          const userEmail = profile.getEmail();
+          const userName = profile.getName() || "Unknown";
+
+          console.log("User ID:", userId);
+          console.log("User Email:", userEmail);
+          console.log("User Name:", userName);
+        });
+      } catch (error) {
+        console.error("Google login failed:", error);
+      }
     };
 
     watchEffect(() => {
@@ -213,7 +250,9 @@ export default {
       showError,
       login,
       validateInput,
+      router,
       registerPage,
+      performGoogleSignIn,
     };
   },
 };

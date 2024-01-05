@@ -115,7 +115,7 @@
               iconDisplay="input"
               dateFormat="dd/mm/yy"
               selectionMode="range"
-              :manualInput="false"
+              :manualInput="true"
               :numberOfMonths="2"
               :minDate="minSelectableDate"
               :disabled-dates="disabledDates"
@@ -180,8 +180,21 @@
             <p>ลองจิจูด :</p>
             <InputText v-model="longitude" name="longitude" class="w-full" />
           </div>
-
-          <div id="map" class="w-full" style="height: 400px"></div>
+          <GMapMap
+            :center="{ lat: parseFloat(latitude), lng: parseFloat(longitude) }"
+            :zoom="7"
+            map-type-id="terrain"
+            class="mt-2"
+            style="height: 400px"
+          >
+            <GMapMarker
+              :position="{
+                lat: parseFloat(latitude),
+                lng: parseFloat(longitude),
+              }"
+              v-if="latitude && longitude"
+            />
+          </GMapMap>
           <div class="col-12 flex justify-content-end text-center mt-2">
             <Button
               label="แก้ไข"
@@ -332,7 +345,7 @@ export default {
       ],
       selectedDate: "",
       minSelectableDate: new Date(),
-      disabledDates: [new Date(2023, 10, 29), new Date(2023, 10, 30)],
+      disabledDates: [new Date(), new Date()],
     };
   },
   methods: {
@@ -496,25 +509,6 @@ export default {
         console.log(error);
       }
     },
-    // initMap() {
-    //   const map = new google.maps.Map(document.getElementById("map"), {
-    //     center: { lat: this.latitude, lng: this.longitude },
-    //     zoom: 8,
-    //   });
-    //   new google.maps.Marker({
-    //     position: { lat: this.latitude, lng: this.longitude },
-    //     map: map,
-    //     title: "Location",
-    //   });
-    // },
   },
-  // watch: {
-  //   latitude() {
-  //     this.initMap();
-  //   },
-  //   longitude() {
-  //     this.initMap();
-  //   },
-  // },
 };
 </script>
