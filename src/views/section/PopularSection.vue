@@ -135,9 +135,9 @@ export default {
     console.log(Response.data);
 
     const filteredstatus = Response.data.filter(
-        (item) => item.statusbooking === true && item.status === true && item.starall
-    );
-    console.log(filteredstatus);
+  (item) => item.statusbooking === true && item.status === true && (item.starall !== undefined && item.starall !== null || item.starall === 0)
+);
+console.log(filteredstatus);
 
     // ทำการ map และตั้งค่า activeIndex
     this.originalGridData = filteredstatus.map((item) => ({
