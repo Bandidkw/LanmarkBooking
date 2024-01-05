@@ -2,6 +2,7 @@ import jwtDecode from "jwt-decode";
 import PrimeVue from "primevue/config";
 import { createApp } from "vue";
 import App from "./App.vue";
+import { createGAuth } from 'vue3-google-oauth2';
 // import html2canvas from 'html2canvas';
 
 // store/index.js
@@ -78,13 +79,19 @@ app.use(VueGoogleMaps, {
   },
 });
 
-app.use(GAuth, {
-  clientId:
-    "508535666294-1btbvdk9ipqdq0779pu8qsp5d1shmn33.apps.googleusercontent.com",
-  scope: "email",
-  prompt: "consent",
+// app.use(GAuth, {
+//   clientId:"508535666294-1btbvdk9ipqdq0779pu8qsp5d1shmn33.apps.googleusercontent.com",
+//   scope: "email",
+//   prompt: "consent",
+//   fetch_basic_profile: false,
+// });
+const gAuthOptions = {
+  clientId: '508535666294-1btbvdk9ipqdq0779pu8qsp5d1shmn33.apps.googleusercontent.com',
+  scope: 'email',
+  prompt: 'consent',
   fetch_basic_profile: false,
-});
+};
+app.use(GAuth, gAuthOptions);
 
 try {
   const token = localStorage.getItem("token");

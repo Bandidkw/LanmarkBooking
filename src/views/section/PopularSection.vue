@@ -102,7 +102,7 @@
         z-index: 99999;
         border: none;
       ">
-      <button class="flex pi pi-arrow-up bg-blue-300 text-blue-600 border-solid border-blue-600" style="border-radius: 50%; padding: 0.5rem; z-index: 1; cursor: pointer;" v-show="showScrollButton" @click="scrollToTop"></button>
+      <button class="flex pi pi-arrow-up bg-white text-gray-600 border-solid border-gray-600" style="border-radius: 50%; padding: 0.5rem; z-index: 1; cursor: pointer;" v-show="showScrollButton" @click="scrollToTop"></button>
     </div>
     <!-- <div class="footer-box w-full bg-sky-300">
       <Footer></Footer>
@@ -123,8 +123,6 @@ export default {
     filterValue: Object,
   },
   data() {
-    // const state = reactive({showScrollButton: false,});
-
     const displayBasic = ref(true);
     const originalGridData = ref([]);
     const gridData = ref([]);
@@ -134,23 +132,29 @@ export default {
     const Response = await axios.get(`${process.env.VUE_APP_API}room/`);
     console.log(Response.data);
 
+    // กรองข้อมูลที่ได้จาก API response
     const filteredstatus = Response.data.filter(
-  (item) => item.statusbooking === true && item.status === true && (item.starall !== undefined && item.starall !== null || item.starall === 0)
-);
-console.log(filteredstatus);
+    (item) => item.statusbooking === true &&
+    item.status === true &&
+    (item.starall !== undefined && item.starall !== null || item.starall === 0 || item.starall === undefined)
+    );
+    console.log(filteredstatus);
 
     // ทำการ map และตั้งค่า activeIndex
     this.originalGridData = filteredstatus.map((item) => ({
-        ...item,
-        activeIndex: 0,
+      ...item,
+      activeIndex: 0,
     }));
 
     // เรียงลำดับตาม starall จากมากไปน้อย
-    this.originalGridData.sort((a, b) => b.starall - a.starall);
+    this.originalGridData.sort((a, b) => {
+      if (a.starall === undefined || a.starall === null) return 1;
+      if (b.starall === undefined || b.starall === null) return -1;
+      return b.starall - a.starall;
+    });
 
     // คัดลอกข้อมูลที่ถูกเรียงลำดับเข้าไปใน gridData
-    this.gridData = [...this.originalGridData];
-};
+    this.gridData = this.originalGridData.slice();};
 
     onMounted(() => {
       getroom();
@@ -178,7 +182,15 @@ console.log(filteredstatus);
       originalGridData,
     };
   },
+  mounted() {
+  window.addEventListener("scroll", this.handleScroll);
+},
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.handleScroll);
+  },
   methods: {
+
+    // เลื่อนขึ้นบนสุด
     scrollToTop() {
       window.scrollTo({
         top: 0,
@@ -186,19 +198,13 @@ console.log(filteredstatus);
       });
     },
     handleScroll() {
-      this.showScrollButton = window.scrollY > 20;
-    },
-    mounted() {
-      window.addEventListener("scroll", this.handleScroll);
-    },
-    beforeDestroy() {
-      window.removeEventListener("scroll", this.handleScroll);
-    },
-
+    this.showScrollButton = window.scrollY > 20;
+  },
     handleTouchStart(event, item) {
       this.touchStartX = event.touches[0].clientX;
     },
 
+    // สไลด์หน้าจอตัวหรองสำหรับจอมือถือ
     handleTouchMove(event, item) {
       this.touchEndX = event.touches[0].clientX;
       const deltaX = this.touchEndX - this.touchStartX;
@@ -210,6 +216,8 @@ console.log(filteredstatus);
         this.next(item);
       }
     },
+
+    //ดาวที่ไม่มีคะแนน
     getStarIconClass(starIndex, starCount) {
       return {
         pi: true,
@@ -217,9 +225,13 @@ console.log(filteredstatus);
         "pi-star text-gray-400": starIndex > starCount,
       };
     },
+
+    //ดาวที่มีคะแนน
     getStarIconStyle(starIndex, starCount) {
       return starIndex <= starCount ? { color: "#fdc500" } : {};
     },
+
+    //ปักหมุดห้องที่สนใจ
     changeFill(index) {
       // ค้นหาองค์ประกอบ SVG ด้วย ID
       const svgElement = document.getElementById(`your-svg-id-${index}`);
@@ -419,10 +431,11 @@ console.log(filteredstatus);
 }
 
 .grid-container {
-  width: 100%;
+  /* width: 100%; */
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 0.5rem;
+  /* height: 100vh; */
 }
 .grid-item {
   padding: 1rem;

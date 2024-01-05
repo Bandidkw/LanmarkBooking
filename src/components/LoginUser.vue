@@ -3,9 +3,9 @@
     <Toast />
     <div class="topweb-right">
       <p>ให้เช่าที่พักกับ Lanmark</p>
-      <div class="login-box" @click="showPopup">
+      <div class="login-box" @click="LoginModal = true">
         <i class="bi bi-list"></i>
-        <button @click="LoginModal = true" type="button" class="log-icon">
+        <button type="button" class="log-icon">
           <i class="bi bi-person-fill icon-log"></i>
         </button>
       </div>
