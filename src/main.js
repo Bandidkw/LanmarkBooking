@@ -15,7 +15,7 @@ import InputNumber from "primevue/inputnumber";
 import InputSwitch from "primevue/inputswitch";
 import Rating from "primevue/rating";
 import mitt from "mitt";
-import { gapi } from 'gapi-script';
+import { gapi } from "gapi-script";
 // import html2pdf from "html2pdf.js";
 
 const bus = mitt();
@@ -58,6 +58,10 @@ import Badge from "primevue/badge";
 import BadgeDirective from "primevue/badgedirective";
 import Slider from "primevue/slider";
 
+// google map api //
+import VueGoogleMaps from "@fawmi/vue-google-maps";
+import * as GAuth from "vue3-google-oauth2";
+
 // Attach EventBus to the app instance
 app.config.globalProperties.$bus = bus;
 
@@ -65,8 +69,22 @@ app.use(PrimeVue);
 app.use(ToastService);
 app.use(ConfirmationService);
 app.use(store);
-
 app.directive("badge", BadgeDirective);
+
+app.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyDqEaHeKU1gJeKG9BZKlWs0iqva4aG_FJc",
+    libraries: "places",
+  },
+});
+
+app.use(GAuth, {
+  clientId:
+    "508535666294-1btbvdk9ipqdq0779pu8qsp5d1shmn33.apps.googleusercontent.com",
+  scope: "email",
+  prompt: "consent",
+  fetch_basic_profile: false,
+});
 
 try {
   const token = localStorage.getItem("token");
