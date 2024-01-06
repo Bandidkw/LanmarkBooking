@@ -94,16 +94,10 @@
         </p>
       </div>
     </div>
-    <div
-      style="
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 99999;
-        border: none;
-      ">
-      <button class="flex pi pi-arrow-up bg-white text-gray-600 border-solid border-gray-600" style="border-radius: 50%; padding: 0.5rem; z-index: 1; cursor: pointer;" v-show="showScrollButton" @click="scrollToTop"></button>
-    </div>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999; border: none;">
+        <button class="flex pi pi-chevron-circle-up bg-green-300" v-show="showScrollButton" @click="scrollToTop">
+        </button>
+      </div>
     <!-- <div class="footer-box w-full bg-sky-300">
       <Footer></Footer>
     </div> -->
@@ -123,6 +117,14 @@ export default {
     filterValue: Object,
   },
   data() {
+    const state = reactive({showScrollButton: false,});
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
     const displayBasic = ref(true);
     const originalGridData = ref([]);
     const gridData = ref([]);
@@ -189,16 +191,23 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
-    // เลื่อนขึ้นบนสุด
-    scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+
+        scrollToTop() {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      },
+      handleScroll() {
+        this.showScrollButton = window.scrollY > 20;
+      },
+    mounted() {
+      window.addEventListener("scroll", this.handleScroll);
     },
-    handleScroll() {
-    this.showScrollButton = window.scrollY > 20;
-  },
+    beforeDestroy() {
+      window.removeEventListener("scroll", this.handleScroll);
+    },
+
     handleTouchStart(event, item) {
       this.touchStartX = event.touches[0].clientX;
     },

@@ -16,7 +16,7 @@ import InputNumber from "primevue/inputnumber";
 import InputSwitch from "primevue/inputswitch";
 import Rating from "primevue/rating";
 import mitt from "mitt";
-import { gapi } from "gapi-script";
+import { gapi } from 'gapi-script';
 // import html2pdf from "html2pdf.js";
 
 const bus = mitt();

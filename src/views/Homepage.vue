@@ -642,7 +642,7 @@ export default {
   display: flex;
   flex-direction: column;
 }
-.poppular-box {
+.poppular-box{
   height: 100%;
 }
 .font-type {

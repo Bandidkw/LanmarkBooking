@@ -3,9 +3,9 @@
     <Toast />
     <div class="topweb-right">
       <p>ให้เช่าที่พักกับ Lanmark</p>
-      <div class="login-box" @click="LoginModal = true">
+      <div class="login-box" @click="showPopup">
         <i class="bi bi-list"></i>
-        <button type="button" class="log-icon">
+        <button @click="LoginModal = true" type="button" class="log-icon">
           <i class="bi bi-person-fill icon-log"></i>
         </button>
       </div>
@@ -79,6 +79,7 @@
           @success="onGoogleSignInSuccess"
           @error="onGoogleSignInError"
         /> -->
+
         <span class="flex justify-content-center"
           >ยังไม่มีบัญชี ผู้ใช้งาน
           <a
