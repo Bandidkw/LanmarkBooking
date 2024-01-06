@@ -44,10 +44,10 @@
 <script>
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import Navbar from "./components/NavbarMain.vue";
-import NavbarAdmin from "./components/NavbarAdmin.vue";
-import NavbarPartner from "./components/NavbarPartner.vue";
-import NavbarMember from "./components/NavbarMember.vue";
+import Navbar from "@/components/NavbarMain.vue";
+import NavbarAdmin from "@/components/NavbarAdmin.vue";
+import NavbarPartner from "@/components/NavbarPartner.vue";
+import NavbarMember from "@/components/NavbarMember.vue";
 import Footer from "@/components/Footer/footer.vue";
 export default {
   data() {
@@ -58,7 +58,6 @@ export default {
   mounted() {
     const isFirstVisit = localStorage.getItem("firstVisit") === null;
     const popupClosed = localStorage.getItem("popupClosed") === "true";
-
     if (isFirstVisit && !popupClosed) {
       this.showPopup = true;
       localStorage.setItem("firstVisit", "true");
@@ -83,13 +82,15 @@ export default {
         })
         .then(async (res) => {
           const decode = jwtDecode(localStorage.getItem("token"));
-          console.log(decode);
+          // console.log("decode",decode);
+          // console.log("res res res ",res);
           const data_login = {
             logedIn: true,
             name: res.data.data.name,
             roles: res.data.data.roles,
             ////
             id: decode._id,
+            // level: decode,
           };
           console.log(data_login);
           this.$store.commit("setLogin", data_login);
@@ -133,11 +134,10 @@ export default {
 
 <style scoped>
 .body-container {
-  row-gap: 1rem;
+  /* row-gap: 1rem; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* width: 100%; */
   margin: 0;
   position: relative;
   z-index: 0;
@@ -197,7 +197,6 @@ export default {
     width: 100%;
   }
 }
-
 @media screen and (max-width: 430px) {
   .nav-bar {
     padding: 0 1rem;

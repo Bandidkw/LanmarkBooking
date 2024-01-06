@@ -96,16 +96,21 @@ app.use(GAuth, gAuthOptions);
 try {
   const token = localStorage.getItem("token");
   const jwt_decode = jwtDecode(token);
+  console.log("jwt_decode:", jwt_decode);  // เพิ่มบรรทัดนี้
+  
   if (jwt_decode.roles == "admin") {
     console.log("admin");
-  } else if (jwt_decode == "partner") {
+  } else if (jwt_decode.roles == "partner") {
     console.log("partner");
-  } else if (jwt_decode == "member") {
+  } else if (jwt_decode.roles == "member") {
     console.log("member");
   } else {
     console.log("ยังไม่ได้ล็อคอิน");
   }
-} catch (err) {}
+} catch (err) {
+  // กรณีที่มีข้อผิดพลาด
+  console.error("Error decoding JWT:", err.message);
+}
 app.use(router);
 //prime flex
 import "primeflex/primeflex.css";

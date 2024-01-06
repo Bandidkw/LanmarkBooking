@@ -114,11 +114,10 @@
           <!-- ปุ่มปิด Popup -->
           <Button
             @click="closeImagePopup"
-            class="top-1 right-1 absolute rounded-[50%] p-1"
+            class="top-1 right-1 absolute rounded-[50%] p-1 text-xl"
             style="width: 1.5rem; height: 1.5rem"
             icon="bi bi-x-circle-fill"
           />
-
           <!-- รูปภาพทั้งหมดใน Popup -->
           <div>
             <img
@@ -273,10 +272,10 @@
                 :disabled-dates="disabledDates"
               >
                 <template #date="slotProps">
-                  <strong
+                  <strong class="p-disabled"
                     v-if="isDateInCombinedRange(slotProps.date)"
-                    style="text-decoration: line-through; color: red"
-                  >
+                    style="text-decoration: line-through; color: red; pointer-events: none; cursor: default;"
+                    >
                     {{ slotProps.date.day }}
                   </strong>
                 </template>
@@ -721,6 +720,13 @@ export default {
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+.p-disabled {
+    text-decoration: line-through;
+    color: #888;
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
 .detail-container {
   padding: 0 5rem;
   width: 100%;

@@ -2,7 +2,7 @@
 <template>
   <nav
     class="nav-bar flex w-full"
-    style="box-shadow: rgba(59, 131, 246, 0.712) 0 1px 10px 1px"
+    style="box-shadow: rgba(59, 131, 246, 0.712) 1px 3px 4px"
   >
     <router-link to="/" class="topweb-left flex">
       <img class="logo-main" src="/logo/lanmark-logo-navbar.png" alt="" />

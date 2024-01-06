@@ -3,11 +3,17 @@
   <div class="invitatain lg:py-0 lg:px-2 sm:px-1" style="row-gap: 1rem">
     <!------------------------------- choose-room ------------------------>
     <div class="choose-room px-4">
+      <div class="scroll-buttons-left">
+        <i class="pi pi-arrow-circle-left bg-white" @click="scrollLeft"></i>
+    </div>
+      <div class="scroll-buttons-right">
+          <i class="pi pi-arrow-circle-right bg-white" @click="scrollRight"></i>
+    </div>
       <div
         class="filter-type overflow-x-auto hide-scrollbar flex gap-5"
         ref="menuContainer"
         style="position: relative; overflow-x: auto"
-      >
+        >
         <div class="room" @click="emitOption('')">
           <img
             src="https://www.svgrepo.com/show/404610/global-globe-planet-space-world.svg"
@@ -485,23 +491,24 @@ export default {
       this.clickedButtons[column] =
         this.clickedButtons[column] === index ? null : index;
     },
-    // เพิ่มฟังก์ชัน scrollLeft
+    //ฟังก์ชัน scrollLeft
     scrollLeft() {
       const container = this.$refs.menuContainer;
       container.scrollBy({
-        left: -100, // ปรับตามความเหมาะสม
+        left: -70, // ปรับตามเหมาะสม
         behavior: "smooth",
       });
     },
 
-    // เพิ่มฟังก์ชัน scrollRight
+    //ฟังก์ชัน scrollRight
     scrollRight() {
       const container = this.$refs.menuContainer;
       container.scrollBy({
-        left: 100, // ปรับตามความเหมาะสม
+        left: 70, // ปรับตามเหมาะสม
         behavior: "smooth",
       });
     },
+
     // ฟังก์ชัน handleScroll
     handleScroll() {
       const container = this.$refs.menuContainer;
@@ -587,6 +594,30 @@ export default {
 </script>
 
 <style scoped>
+.scroll-buttons-left{
+  display: flex;
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 5%;
+  transform: translate(50%,100%);
+  z-index: 2;
+}
+.scroll-buttons-left i {
+  font-size: 1.5rem;
+}
+.scroll-buttons-right i {
+  font-size: 1.5rem;
+}
+.scroll-buttons-right{
+  display: flex;
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  right: 27%;
+  transform: translate(50%,100%);
+  z-index: 2;
+}
 .button-filter-clicked {
   background-color: #3b82f6;
   color: white;
@@ -624,6 +655,7 @@ export default {
   justify-content: center;
 }
 .filter-type {
+  position: relative;
   gap: 1.25rem;
 }
 /*------------------------- search-box-style -------------------------*/
@@ -681,10 +713,17 @@ export default {
   outline: none;
   background-color: #3b82f6;
 }
+.room:hover {
+  color: #000;
+}
+.room:hover::before {
+  transform: scaleX(1);
+}
 
 /*---------------------------- choose-style ------------------------*/
 
 .choose-room {
+  position: relative;
   margin: 1rem;
   padding: 10px;
   display: flex;
@@ -705,11 +744,6 @@ export default {
 .room img {
   width: 1.4rem;
 }
-
-.room:hover {
-  color: #000;
-}
-
 .room::before {
   content: "";
   position: absolute;
@@ -723,11 +757,6 @@ export default {
   transform-origin: top left;
   transition: transform 0.3s ease;
 }
-
-.room:hover::before {
-  transform: scaleX(1);
-}
-
 .room a {
   font-size: 12px;
   padding-bottom: 0.5rem;
@@ -773,6 +802,23 @@ p {
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(1, 300px);
 }
+/*--------filter---------*/
+.button-filter {
+  font-size: 10px;
+  height: 30px;
+  width: 80px;
+  border-radius: 0.5rem;
+  border: none;
+}
+
+.button-filter-child {
+  font-size: 10px;
+  height: 38px;
+  width: 70px;
+  border-radius: 0.5rem;
+  justify-content: center;
+  border: none;
+}
 
 .img-promo .hidden {
   cursor: pointer;
@@ -816,34 +862,17 @@ p {
 .grid-img:hover .hidden {
   opacity: 1;
 }
-@media (max-width: 1440px) {
-  .filter-type {
-    column-gap: 2rem;
-    max-width: 800px;
-  }
-  .room a {
-    font-size: 0.5em;
-  }
-}
-/*--------filter---------*/
-.button-filter {
-  font-size: 10px;
-  height: 30px;
-  width: 80px;
-  border-radius: 0.5rem;
-  border: none;
-}
-
-.button-filter-child {
-  font-size: 10px;
-  height: 38px;
-  width: 70px;
-  border-radius: 0.5rem;
-  justify-content: center;
-  border: none;
-}
 /*-----------------*/
-@media screen and (max-width: 1536px) {
+@media (min-width:1536px) {
+  .scroll-buttons-left{
+  display: none;
+}
+.scroll-buttons-right{
+  display: none;
+}
+  
+}
+@media (max-width:1536px) {
   .room img {
     padding: 0.5em;
     width: 2.6em;
@@ -853,7 +882,40 @@ p {
     font-size: 7px;
   }
 }
-@media screen and (max-width: 1280px) {
+@media (max-width: 1440px) {
+  .scroll-buttons-left{
+  left: 5%;
+  transform: translate(50%,100%);
+}
+.scroll-buttons-right{
+  right: 34%;
+  transform: translate(50%,100%);
+}
+  .filter-type {
+    column-gap: 2rem;
+    max-width: 800px;
+  }
+  .room a {
+    font-size: 0.5em;
+  }
+}
+@media (min-width: 1280px) and (max-width:1439px) {
+  .scroll-buttons-left{
+  left: -1%;
+  transform: translate(50%,100%);
+}
+.scroll-buttons-right{
+  right: 33%;
+  transform: translate(50%,100%);
+}
+}
+@media (max-width: 1280px) {
+  .scroll-buttons-left{
+  display: none;
+}
+.scroll-buttons-right{
+  display: none;
+}
   .search-box-cus {
     display: none;
   }

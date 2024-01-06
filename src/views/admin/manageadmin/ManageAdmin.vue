@@ -111,7 +111,7 @@ export default {
             },
           }
         );
-
+        console.log("admin : ");
         if (productResponse.data && productResponse.data) {
           item_product.value = productResponse.data.data;
           loading.value = false;

@@ -3,7 +3,7 @@
   <nav
     id="header"
     class="w-full z-30 top-10 py-1 bg-white border-b border-black-400"
-    style="box-shadow: rgba(59, 131, 246, 0.377) 0 1px 10px 1px"
+    style="box-shadow: rgba(59, 131, 246, 0.377) 1px 3px 4px"
   >
     <div class="w-full flex items-center justify-between mt-0 px-6 py-2">
       <div>
@@ -73,12 +73,10 @@
                 >
                   {{ item.label }}
                 </router-link>
-                <button
+                <!-- <button
                   @click="triggerDownload"
-                  class="text-normal w-full block px-2 py-2 hover:text-white hover:bg-[#004e98]"
-                >
-                  ดาวน์โหลดสัญญา
-                </button>
+                  class="text-normal w-full block px-2 py-2 hover:text-white hover:bg-[#004e98]">ดาวน์โหลดสัญญา
+                </button> -->
                 <button
                   @click="logout"
                   class="w-full block px-4 py-2 hover:text-white hover:bg-[#dc3545]"

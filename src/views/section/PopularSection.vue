@@ -189,7 +189,6 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
-
     // เลื่อนขึ้นบนสุด
     scrollToTop() {
       window.scrollTo({
@@ -269,14 +268,14 @@ export default {
     },
 
     getPreloadedImages(item) {
-      return (
-        item.image
-          // .slice(0, 5)
-          .map(
-            (imageId) => `https://drive.google.com/uc?export=view&id=${imageId}`
-          )
-      );
-    },
+  const preloadedImages = item.image.map(
+    (imageId) => `https://drive.google.com/uc?export=view&id=${imageId}`
+  );
+
+  console.log('Preloaded Images:', preloadedImages);
+
+  return preloadedImages;
+},
 
     getImage(item) {
       if (typeof item === "string") {

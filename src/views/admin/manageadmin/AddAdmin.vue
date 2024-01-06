@@ -126,6 +126,14 @@ export default {
         });
       } else {
         try {
+          console.log("Sending data to server:", {
+        telephone: this.telephone,
+        password: this.password,
+        name: this.name,
+        roles: "admin",
+        level: this.level.map(item => item.value),
+      });
+      console.log('log log log',this.levelPosition);
           const res = await axios.post(
             `${process.env.VUE_APP_API}signup/admin`,
             {
@@ -133,7 +141,7 @@ export default {
               password: this.password,
               name: this.name,
               roles: "admin",
-              level: this.level.toString(),
+              level: this.levelPosition,
             },
             {
               headers: {
@@ -142,6 +150,7 @@ export default {
             }
           );
           console.log(res, "res res res");
+          console.log("Data from server:", res.data);
           if (res.data) {
             this.loading = false;
             Swal.fire({
@@ -182,5 +191,30 @@ export default {
 <style scoped>
 .addAdmin_btn {
   width: 20%;
+}
+@media screen and (max-width:1280px) {
+  .addAdmin_btn{
+    width: 30%;
+  } 
+}
+@media  screen and (max-width:1024px) {
+  .addAdmin_btn{
+    width: 40%;
+  } 
+}
+@media screen and (max-width:768px) {
+  .addAdmin_btn{
+    width: 40%;
+  } 
+}
+@media screen and (max-width:640px) {
+  .addAdmin_btn{
+    width: 55%;
+  } 
+}
+@media screen and (max-width:538px) {
+  .addAdmin_btn{
+    width: 81%;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <i class="pi pi-pencil cursor-pointer icon-style" @click="getdata" />
+  <i class="pi pi-cog cursor-pointer icon-style" @click="getdata" />
 
   <!--eslint-disable-next-line vue/no-multiple-template-root -->
   <Dialog

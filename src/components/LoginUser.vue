@@ -79,7 +79,6 @@
           @success="onGoogleSignInSuccess"
           @error="onGoogleSignInError"
         /> -->
-
         <span class="flex justify-content-center"
           >ยังไม่มีบัญชี ผู้ใช้งาน
           <a

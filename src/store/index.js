@@ -6,6 +6,7 @@ export default createStore({
     token: localStorage.getItem("token"),
     name: "",
     roles: "",
+    // level: "",
     /// add id ///
     id: "",
   },
@@ -15,7 +16,8 @@ export default createStore({
     token: (state) => state.token,
     name: (state) => state.name,
     roles: (state) => state.roles,
-    id: (state) => state.id
+    level: (state) => state.level,
+    id: (state) => state.id,
   },
   mutations: {
     setLoading(state, item) {
@@ -25,11 +27,13 @@ export default createStore({
       (state.logedIn = item.logedIn),
         (state.name = item.name),
         (state.roles = item.roles),
+        (state.level = item.level),
         (state.id = item.id)
     },
     setAdmin(state, item) {
       state.name = item.name;
       state.roles = item.roles;
+      state.level = item.level;
       state.id = item.id;
 
     },
@@ -41,6 +45,7 @@ export default createStore({
       state.token = "";
       state.name = "";
       state.roles = "";
+      state.level = "";
       state.id = "";
       state.state = false;
       localStorage.clear();
