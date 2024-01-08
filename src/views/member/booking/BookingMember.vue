@@ -155,8 +155,8 @@
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="
                 data.status.slice(-1)[0].statusbooking === 'จองห้องสำเร็จ' &&
-                calculateTimeDifference(data.updatedAt) !==
-                  'เกินกำหนดการชำระ' &&
+                // calculateTimeDifference(data.updatedAt) !==
+                //   'เกินกำหนดการชำระ' &&
                 data.status.slice(-1)[0].statusbooking !== 'รออนุมัติห้อง' &&
                 data.status.slice(-1)[0].statusbooking !== 'รอชำระเงิน'
               "
@@ -203,7 +203,7 @@
             <!-- สิ้นสุดการตรวจสอบเงื่อนไข -->
 
             <!-- หาก calculateTimeDifference(data.updatedAt) เป็น 'เกินกำหนดการชำระ' และสถานะ 'จองห้องสำเร็จ' -->
-            <div
+            <!-- <div
               class="lg:w-10 xl:w-6 bg-green-100 text-green-600 font-normal border-2 border-green-300 text-center"
               style="width: 40%; border-radius: 1rem; padding: 0.5rem"
               v-if="
@@ -217,8 +217,9 @@
               <div>
                 {{ data.status.slice(-1)[0].statusbooking }}
               </div>
-            </div>
+            </div> -->
             <!-- สิ้นสุดการตรวจสอบเงื่อนไข -->
+
             <!-- หาก calculateTimeDifference(data.updatedAt) เป็น 'เกินกำหนดการชำระ' และสถานะ 'ไม่อนุมัติห้อง' -->
             <div
               class="lg:w-10 xl:w-6 bg-red-100 text-red-600 font-normal border-2 border-red-300 text-center"
@@ -530,7 +531,7 @@ console.log(item_product,"sadasd");
 
   if (isBookingSuccessful) {
     // console.log('มีสถานะ "จองห้องสำเร็จ"');
-    return "สำเร็จ"; // ไม่นับเวลาถอยหลัง
+    return "จองสำเร็จ"; // ไม่นับเวลาถอยหลัง
   }
   // ต่อไปคือส่วนที่เหมือนเดิม
   const updatedAtDate = new Date(updatedAt);

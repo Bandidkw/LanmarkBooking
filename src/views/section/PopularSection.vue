@@ -94,10 +94,8 @@
         </p>
       </div>
     </div>
-    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999; border: none;">
-        <button class="flex pi pi-chevron-circle-up bg-green-300" v-show="showScrollButton" @click="scrollToTop">
-        </button>
-      </div>
+        <i class="pi pi-arrow-circle-up text-2xl bg-white ransition-all cursor-pointer" v-show="showScrollButton" @click="scrollToTop" style="position: fixed; bottom: 20px; right: 20px; z-index: 99999; border-radius: 20px;">
+        </i>
     <!-- <div class="footer-box w-full bg-sky-300">
       <Footer></Footer>
     </div> -->
@@ -162,16 +160,23 @@ export default {
       getroom();
       this.$bus.on("search-hotels", this.handleSearchHotels);
     });
+    // next(item) ฟังก์ชันถูกเรียกเมื่อผู้ใช้คลิกที่ลูกศร "ถัดไป" หรือเหตุการณ์ที่บ่งชี้ไปที่ "ถัดไป"
     const next = (item) => {
+      // เพิ่มค่า activeIndex เพื่อแสดงรูปถัดไปในลำดับ
       item.activeIndex = (item.activeIndex + 1) % item.image.length;
+      
+      // ตั้งค่า isRightArrowClicked เป็น false เพื่อระบุว่าปุ่ม "ก่อนหน้า" ไม่ได้ถูกคลิก
       this.isRightArrowClicked = false;
     };
-    const prev = (item) => {
-      item.activeIndex =
-        (item.activeIndex - 1 + item.image.length) % item.image.length;
-      this.isRightArrowClicked = false; // Set isRightArrowClicked to false when clicking the "prev" button
-    };
 
+    // prev(item) ฟังก์ชันถูกเรียกเมื่อผู้ใช้คลิกที่ลูกศร "ก่อนหน้า" หรือเหตุการณ์ที่บ่งชี้ไปที่ "ก่อนหน้า"
+    const prev = (item) => {
+      // ลดค่า activeIndex เพื่อแสดงรูปก่อนหน้าในลำดับ
+      item.activeIndex = (item.activeIndex - 1 + item.image.length) % item.image.length;
+      
+      // ตั้งค่า isRightArrowClicked เป็น false เพื่อระบุว่าปุ่ม "ก่อนหน้า" ได้ถูกคลิก
+      this.isRightArrowClicked = false; // ตั้งค่า isRightArrowClicked เป็น false เมื่อคลิกที่ปุ่ม "ก่อนหน้า"
+    };
     return {
       showScrollButton: false,
       displayBasic,
@@ -199,7 +204,7 @@ export default {
         });
       },
       handleScroll() {
-        this.showScrollButton = window.scrollY > 20;
+        this.showScrollButton = window.scrollY > 60;
       },
     mounted() {
       window.addEventListener("scroll", this.handleScroll);
@@ -375,6 +380,7 @@ export default {
         const lowerCaseSearchTerm = this.searchTerm.toLowerCase();
         return lowerCaseName.includes(lowerCaseSearchTerm);
       });
+      // .slice(0,12);
     },
   },
   watch: {

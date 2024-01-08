@@ -19,6 +19,8 @@
             </div>
         </div>
         <div>
+          <Dialog>
+        <div>
           <span class="font-semibold">อีเมล:</span>
           <span class="ml-2">info@lanmark.online</span>
         </div>
@@ -30,9 +32,9 @@
           <span class="font-semibold">Line:</span>
           <span class="ml-2">@lanmark</span>
         </div>
+      </Dialog>
       </div>
-    </div>
-  </Dialog>
+      </div>
 </template>
 
 <script>
