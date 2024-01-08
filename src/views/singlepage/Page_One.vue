@@ -500,7 +500,6 @@ export default {
         console.error("Error validating date:", error);
       }
     };
-
     // const getReview = async (_id) => {
     //   try {
     //     const res = await axios.get(

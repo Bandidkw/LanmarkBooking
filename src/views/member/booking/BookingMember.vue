@@ -440,8 +440,10 @@ console.log(item_product,"sadasd");
       });
     };
     const updateExpiredStatus = () => {
+      console.log(`--- กำลังอัปเดตสถานะหมดอายุ (${new Date().toLocaleTimeString()}) ---`);
       item_product.value.forEach((item) => {
         // console.log("Item:", item); // ใส่ console.log เพื่อดูข้อมูล item ทั้งหมด
+        console.log("Statusbooking:", item.status.slice(-1)[0].statusbooking);
         if (
           item.status.slice(-1)[0].statusbooking === "รอชำระเงิน" &&
           calculateTimeDifference(item.updatedAt,item.status) === "เกินกำหนดการชำระ"

@@ -61,6 +61,14 @@ export default {
         margin: 0;
         padding: 0.3em 0;
     }
+    @media (max-width:640px) {
+      .footer-type{
+        padding: 1rem 1rem 0 1rem;
+    }
+    .footer-type p,a{
+        font-size: 0.8rem;
+    }
+    }
     @media screen and (max-width:414px) {
         .footer-type{
         padding: 1rem 1rem 0 1rem;

@@ -204,7 +204,8 @@ export default {
         });
       },
       handleScroll() {
-        this.showScrollButton = window.scrollY > 60;
+        // ถ้าค่าตำแหน่งการเลื่อนมากกว่า ...pixel
+        this.showScrollButton = window.scrollY > 120;
       },
     mounted() {
       window.addEventListener("scroll", this.handleScroll);

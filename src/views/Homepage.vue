@@ -638,7 +638,7 @@ export default {
 .invitatain {
   /* height: 100vh; */
   width: 100%;
-  padding: 0 3rem 1rem 3rem;
+  padding: 0 3rem 0 3rem;
   display: flex;
   flex-direction: column;
 }
