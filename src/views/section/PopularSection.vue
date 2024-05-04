@@ -31,7 +31,7 @@
             </template>
           </Galleria>
         </router-link>
-
+        <router-link :to="{ name: 'hotel', params: { id: item._id } }">เข้าชม</router-link>
         <i
           v-if="item.activeIndex > 0 || isRightArrowClicked"
           class="left-arrow bi bi-arrow-left-circle-fill text-white"
