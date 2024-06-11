@@ -387,7 +387,7 @@ export default {
     const getprovince = async () => {
       try {
         const province = await axios.get(
-          `${process.env.VUE_APP_THAILAND}thailand/province`
+          `https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province.json`
         );
         this.provincedropdown.value = province.data;
       } catch (error) {
@@ -511,9 +511,11 @@ export default {
           );
           const id = selectedProvinceObject.id;
           const amphure = await axios.get(
-            `${process.env.VUE_APP_THAILAND}thailand/amphure/by-province-id/${id}`
+            `https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_amphure.json`
           );
-          this.amphuredropdown.value = amphure.data;
+          this.amphuredropdown.value = amphure.data?.filter(
+            (amphure) => amphure.province_id === id
+          );
         }
         if (type === "tambon") {
           const selectedAmphureObject = this.amphuredropdown.value.find(
@@ -521,9 +523,11 @@ export default {
           );
           const id = selectedAmphureObject.id;
           const tambon = await axios.get(
-            `${process.env.VUE_APP_THAILAND}thailand/tambon/by-amphure-id/${id}`
+            `https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_tambon.json`
           );
-          this.tambondropdown.value = tambon.data;
+          this.tambondropdown.value = tambon.data?.filter(
+            (tambon) => tambon.amphure_id === id
+          );
         }
       } catch (error) {
         console.log(error);
